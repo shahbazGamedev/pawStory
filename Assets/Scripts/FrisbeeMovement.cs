@@ -7,6 +7,8 @@ public class FrisbeeMovement : MonoBehaviour {
 	Vector2 swipeEnd;
 	public  float speed;
 	Rigidbody rb;
+	public float curveAmount;
+	public float height;
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody> ();
@@ -14,8 +16,9 @@ public class FrisbeeMovement : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		
+	void FixedUpdate () {
+		Vector3 sideDir = Vector3.Cross(transform.up, rb.velocity).normalized;
+		rb.AddForce(sideDir * curveAmount);
 	}
 	public void OnPointerDown(BaseEventData  data)
 	{
@@ -35,7 +38,7 @@ public class FrisbeeMovement : MonoBehaviour {
 	{
 		Debug.Log ("swiped");
 		Vector2 direction = swipeEnd - swipeBegin;
-		Vector3 newDirection = new Vector3 (direction.x, 0, direction.y);
+		Vector3 newDirection = new Vector3 (direction.x, height, direction.y);
 		Vector3 velocity = newDirection * speed;
 		rb.velocity = velocity;
 	}
