@@ -5,32 +5,42 @@ public class CircuitManager : MonoBehaviour {
 	public float a;
 	public float b;
 	public float alpha;
-	public float cx;
-	public float cy;
+	public float centerX;
+	public float centerY;
 	public float moveSpeed;
-	Vector3 forwardDirection;
-	public float forwardDist;
 
+	public Vector3 focalPoint1;
+	public Vector3 focalPoint2;
+
+	public float forwardDist;
+	public Vector3 forwardDirection;
+
+	public Transform target;
+
+	float x;
+	float y;
 	// Use this for initialization
 	void Start () {
-	
+		target=this.gameObject.transform;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
 		if(alpha>=360)
 			alpha=0;
 		alpha+=Time.deltaTime*moveSpeed;
-		float x = cx + a * Mathf.Cos(alpha/6.28f);
-		float y = cy + b * Mathf.Sin(alpha/6.28f);
+		x = centerX + a * Mathf.Cos(alpha*0.0174f);
+		y = centerY + b * Mathf.Sin(alpha*0.0174f);
 		GetComponent<Rigidbody>().MovePosition(new Vector3(x,0.21f,y));
-		float forwardaAlpha=alpha+forwardDist;
-		if(forwardaAlpha>=360)
-			forwardaAlpha-=360;
-		x = cx + a * Mathf.Cos(forwardaAlpha/6.28f);
-		y = cy + b * Mathf.Sin(forwardaAlpha/6.28f);
-		forwardDirection=new Vector3(x,0.21f,y);
-		transform.rotation= Quaternion.LookRotation(forwardDirection);
+
+		float forwardAlpha=alpha+forwardDist;
+		if(forwardAlpha>=360)
+			forwardAlpha-=360;
+		x = centerX + a * Mathf.Cos(forwardAlpha*0.0174f);
+		y = centerY + b * Mathf.Sin(forwardAlpha*0.0174f);
+		transform.LookAt(new Vector3(x, 0.21f, y));
 
 	}
+
 }

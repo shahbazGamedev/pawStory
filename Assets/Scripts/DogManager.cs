@@ -79,7 +79,7 @@ public class DogManager : MonoBehaviour
 
 		
 		// If there is some axis input...
-		if (horizontal != 0f || vertical != 0f) 
+		if (horizontal != 0f || vertical != 0f || GetComponent<Rigidbody>().velocity.magnitude>0) 
 		{
 			// ... set the players rotation and set the speed parameter to 5.5f.
 			//Rotating (horizontal, vertical);
