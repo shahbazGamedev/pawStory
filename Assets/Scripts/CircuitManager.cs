@@ -16,30 +16,52 @@ public class CircuitManager : MonoBehaviour {
 	public Vector3 forwardDirection;
 
 	public Transform target;
+	DogManager dgManager;
 
 	float x;
 	float y;
+	float xForward;
+	float yForward;
+
 	// Use this for initialization
 	void Start () {
 		target=this.gameObject.transform;
+		dgManager=GetComponent<DogManager>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
+		// Update ellipse angle
 		if(alpha>=360)
 			alpha=0;
 		alpha+=Time.deltaTime*moveSpeed;
+
+		// Calculate current position on ellipse
 		x = centerX + a * Mathf.Cos(alpha*0.0174f);
 		y = centerY + b * Mathf.Sin(alpha*0.0174f);
-		GetComponent<Rigidbody>().MovePosition(new Vector3(x,0.21f,y));
 
+		// Calculate LookAt Position
 		float forwardAlpha=alpha+forwardDist;
 		if(forwardAlpha>=360)
 			forwardAlpha-=360;
-		x = centerX + a * Mathf.Cos(forwardAlpha*0.0174f);
-		y = centerY + b * Mathf.Sin(forwardAlpha*0.0174f);
-		transform.LookAt(new Vector3(x, 0.21f, y));
+		xForward = centerX + a * Mathf.Cos(forwardAlpha*0.0174f);
+		yForward = centerY + b * Mathf.Sin(forwardAlpha*0.0174f);
+
+		if(!dgManager.jump)
+		{
+		
+		GetComponent<Rigidbody>().MovePosition(new Vector3(x,0.21f,y));
+			transform.LookAt(new Vector3(xForward, 0.21f, yForward));
+
+		}
+
+		// Jump implementation
+		else if(dgManager.jump)
+		{
+			Vector3 currentPosition=transform.position;
+			GetComponent<Rigidbody>().MovePosition(new Vector3(x,currentPosition.y,y));
+			//ransform.LookAt(new Vector3(xForward, currentPosition.y, yForward));
+		}
 
 	}
 
