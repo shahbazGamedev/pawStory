@@ -38,6 +38,7 @@ public class DogManager : MonoBehaviour
 	public float jumpForce;
 	public float dragFactor;
 	public bool isGrounded=false;
+	public bool jump;
 	
 	Vector2 swipeBegin;
 	Vector2 swipeEnd;
@@ -71,6 +72,7 @@ public class DogManager : MonoBehaviour
 	 
 		if(CrossPlatformInputManager.GetButtonDown("Jump") && isGrounded==true)
 		{
+			jump=true;
 			Jump ();
 		}
 
@@ -126,11 +128,13 @@ public class DogManager : MonoBehaviour
 	{
 		dogAnim.SetTrigger("Jump");
 		GetComponent<Rigidbody>().AddForce(jumpHeight,ForceMode.Impulse);
+
 	}
 
 	void OnTriggerStay()
 	{
 		isGrounded=true;
+		jump=false;
 	}
 	
 	void OnTriggerExit()
