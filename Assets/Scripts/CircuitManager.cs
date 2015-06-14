@@ -1,7 +1,14 @@
-﻿using UnityEngine;
+﻿/**
+Script Author : Vaikash 
+Description   : Dog circuit movement
+**/
+
+using UnityEngine;
 using System.Collections;
 
-public class CircuitManager : MonoBehaviour {
+public class CircuitManager : MonoBehaviour 
+{
+
 	public float a;
 	public float b;
 	public float alpha;
@@ -18,22 +25,26 @@ public class CircuitManager : MonoBehaviour {
 	public Transform target;
 	DogManager dgManager;
 
+	float forwardAlpha;
 	float x;
 	float y;
 	float xForward;
 	float yForward;
 
 	// Use this for initialization
-	void Start () {
+	void Start () 
+	{
 		target=this.gameObject.transform;
 		dgManager=GetComponent<DogManager>();
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
 		// Update ellipse angle
 		if(alpha>=360)
 			alpha=0;
+
 		alpha+=Time.deltaTime*moveSpeed;
 
 		// Calculate current position on ellipse
@@ -41,9 +52,11 @@ public class CircuitManager : MonoBehaviour {
 		y = centerY + b * Mathf.Sin(alpha*0.0174f);
 
 		// Calculate LookAt Position
-		float forwardAlpha=alpha+forwardDist;
+		forwardAlpha=alpha+forwardDist;
+
 		if(forwardAlpha>=360)
 			forwardAlpha-=360;
+
 		xForward = centerX + a * Mathf.Cos(forwardAlpha*0.0174f);
 		yForward = centerY + b * Mathf.Sin(forwardAlpha*0.0174f);
 
@@ -60,6 +73,8 @@ public class CircuitManager : MonoBehaviour {
 		{
 			Vector3 currentPosition=transform.position;
 			GetComponent<Rigidbody>().MovePosition(new Vector3(x,currentPosition.y,y));
+			transform.LookAt(new Vector3(xForward, 0.21f, yForward)); // Added to make the dog look the circuit while jumping..
+
 			//ransform.LookAt(new Vector3(xForward, currentPosition.y, yForward));
 		}
 

@@ -1,7 +1,16 @@
-﻿using UnityEngine;
+﻿
+/**
+Script Author : Srivatsan 
+Description   : Dog Frisbee movement
+**/
+
+using UnityEngine;
 using System.Collections;
 using UnityEngine.EventSystems;
-public class FrisbeeMovement : MonoBehaviour {
+
+
+public class FrisbeeMovement : MonoBehaviour 
+{
 	
 	Vector2 swipeBegin;		
 	Vector2 swipeEnd;
@@ -9,17 +18,21 @@ public class FrisbeeMovement : MonoBehaviour {
 	Rigidbody rb;
 	public float curveAmount;
 	public float height;
+
 	// Use this for initialization
-	void Start () {
+	void Start () 
+	{
 		rb = GetComponent<Rigidbody> ();
 		
 	}
 	
 	// Update is called once per frame
-	void FixedUpdate () {
+	void FixedUpdate () 
+	{
 		Vector3 sideDir = Vector3.Cross(transform.up, rb.velocity).normalized;
 		rb.AddForce(sideDir * curveAmount);
 	}
+
 	public void OnPointerDown(BaseEventData  data)
 	{
 		Debug.Log("Begins");
@@ -32,9 +45,10 @@ public class FrisbeeMovement : MonoBehaviour {
 		Debug.Log("Ends");
 		PointerEventData e=(PointerEventData) data;
 		swipeEnd=e.position;
-		detectSwipe();
+		DetectSwipe();
 	}
-	void detectSwipe()
+
+	void DetectSwipe()
 	{
 		Debug.Log ("swiped");
 		Vector2 direction = swipeEnd - swipeBegin;
