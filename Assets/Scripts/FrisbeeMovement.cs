@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿/**
+Script Author : Srivatsan 
+Description   : Dog Frisbee movement
+**/
+using UnityEngine;
 using System.Collections;
 
 public class FrisbeeMovement : MonoBehaviour {
@@ -13,7 +17,11 @@ public class FrisbeeMovement : MonoBehaviour {
 	void  Start (){
 		rb = GetComponent<Rigidbody>();
 	}
-	
+
+	void Update()
+	{
+
+	}
 	
 	void  OnMouseDown (){
 		startPos = Input.mousePosition;
@@ -31,12 +39,12 @@ public class FrisbeeMovement : MonoBehaviour {
 		force.Normalize();
 		
 		rb.AddForce(force * power);
-		//ReturnBall();
+		ReturnBall();
 	}
 	
-	// void ReturnBall (){
-	//yield return new WaitForSeconds(4.0f);
-	//transform.position = Vector3.zero;
-	//rb.velocity = Vector3.zero;
-	//}
+	 void ReturnBall (){
+	yield return new WaitForSeconds(4.0f);
+	transform.position = Vector3.zero;
+	rb.velocity = Vector3.zero;
+	}
 }
