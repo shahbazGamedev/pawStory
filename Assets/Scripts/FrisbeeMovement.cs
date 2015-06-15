@@ -14,7 +14,10 @@ public class FrisbeeMovement : MonoBehaviour {
 	public Vector3 force;
 	
 	private Vector3 startPos;
-	void  Start (){
+
+
+	void  Start ()
+	{
 		rb = GetComponent<Rigidbody>();
 	}
 
@@ -23,13 +26,15 @@ public class FrisbeeMovement : MonoBehaviour {
 
 	}
 	
-	void  OnMouseDown (){
+	void  OnMouseDown ()
+	{
 		startPos = Input.mousePosition;
 		startPos.z = transform.position.z - Camera.main.transform.position.z;
 		startPos = Camera.main.ScreenToWorldPoint(startPos);
 	}
 	
-	void  OnMouseUp (){
+	void  OnMouseUp ()
+	{
 		endPos= Input.mousePosition;
 		endPos.z = transform.position.z - Camera.main.transform.position.z;
 		endPos = Camera.main.ScreenToWorldPoint(endPos);
@@ -39,12 +44,15 @@ public class FrisbeeMovement : MonoBehaviour {
 		force.Normalize();
 		
 		rb.AddForce(force * power);
-		ReturnBall();
+		StartCoroutine(  ReturnBall() );
 	}
 	
-	 void ReturnBall (){
-	yield return new WaitForSeconds(4.0f);
-	transform.position = Vector3.zero;
-	rb.velocity = Vector3.zero;
+	IEnumerator ReturnBall ()
+	{
+		yield return new WaitForSeconds(4.0f);
+		Debug.Log("Return Ball");
+		//yield return new WaitForSeconds(4.0f);
+		transform.position = Vector3.zero;
+		rb.velocity = Vector3.zero;
 	}
 }
