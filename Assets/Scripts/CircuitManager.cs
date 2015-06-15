@@ -23,19 +23,22 @@ public class CircuitManager : MonoBehaviour
 	public Vector3 forwardDirection;
 
 	public Transform target;
+	Vector3 currentPosition;
 	DogManager dgManager;
 
-	float forwardAlpha;
 	float x;
 	float y;
+
 	float xForward;
 	float yForward;
+	float forwardAlpha;
 
 	// Use this for initialization
 	void Start () 
 	{
 		target=this.gameObject.transform;
 		dgManager=GetComponent<DogManager>();
+		dgManager.isCircuitRun=true; // Added tp override dog idle animation
 	}
 	
 	// Update is called once per frame
@@ -60,22 +63,23 @@ public class CircuitManager : MonoBehaviour
 		xForward = centerX + a * Mathf.Cos(forwardAlpha*0.0174f);
 		yForward = centerY + b * Mathf.Sin(forwardAlpha*0.0174f);
 
+		currentPosition=transform.position;
+
 		if(!dgManager.jump)
 		{
 		
-		GetComponent<Rigidbody>().MovePosition(new Vector3(x,0.21f,y));
-			transform.LookAt(new Vector3(xForward, 0.21f, yForward));
+			GetComponent<Rigidbody>().MovePosition(new Vector3(x,currentPosition.y,y));
+			transform.LookAt(new Vector3(xForward, currentPosition.y, yForward));
 
 		}
 
 		// Jump implementation
 		else if(dgManager.jump)
 		{
-			Vector3 currentPosition=transform.position;
-			GetComponent<Rigidbody>().MovePosition(new Vector3(x,currentPosition.y,y));
-			transform.LookAt(new Vector3(xForward, 0.21f, yForward)); // Added to make the dog look the circuit while jumping..
 
-			//ransform.LookAt(new Vector3(xForward, currentPosition.y, yForward));
+			GetComponent<Rigidbody>().MovePosition(new Vector3(x,currentPosition.y,y));
+			transform.LookAt(new Vector3(xForward, currentPosition.y, yForward)); // Added to make the dog look the circuit while jumping..
+
 		}
 
 	}
