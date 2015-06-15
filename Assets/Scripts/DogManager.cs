@@ -43,6 +43,8 @@ public class DogManager : MonoBehaviour
 	Vector2 swipeBegin;
 	Vector2 swipeEnd;
 
+	public bool isCircuitRun; // Added to override Run animation during Circuit Run
+
 	void Awake()
 	{
 		dogAnim = dogReference.GetComponent<Animator>();
@@ -81,7 +83,7 @@ public class DogManager : MonoBehaviour
 
 		
 		// If there is some axis input...
-		if (horizontal != 0f || vertical != 0f || GetComponent<Rigidbody>().velocity.magnitude>0) 
+		if (horizontal != 0f || vertical != 0f || isCircuitRun==true) 
 		{
 			// ... set the players rotation and set the speed parameter to 5.5f.
 			//Rotating (horizontal, vertical);
