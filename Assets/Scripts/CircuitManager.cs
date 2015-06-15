@@ -8,16 +8,14 @@ using System.Collections;
 
 public class CircuitManager : MonoBehaviour 
 {
-
-	public float a;
-	public float b;
+	[Tooltip("Ellipse MajorAxis - position.x")] 
+	public Transform a;
+	[Tooltip("Ellipse MinorAxis - position.y")]
+	public Transform b;
 	public float alpha;
 	public float centerX;
 	public float centerY;
 	public float moveSpeed;
-
-	public Vector3 focalPoint1;
-	public Vector3 focalPoint2;
 
 	public float forwardDist;
 	public Vector3 forwardDirection;
@@ -51,8 +49,8 @@ public class CircuitManager : MonoBehaviour
 		alpha+=Time.deltaTime*moveSpeed;
 
 		// Calculate current position on ellipse
-		x = centerX + a * Mathf.Cos(alpha*0.0174f);
-		y = centerY + b * Mathf.Sin(alpha*0.0174f);
+		x = centerX + a.transform.position.x * Mathf.Cos(alpha*0.0174f);
+		y = centerY + b.transform.position.z * Mathf.Sin(alpha*0.0174f);
 
 		// Calculate LookAt Position
 		forwardAlpha=alpha+forwardDist;
@@ -60,28 +58,14 @@ public class CircuitManager : MonoBehaviour
 		if(forwardAlpha>=360)
 			forwardAlpha-=360;
 
-		xForward = centerX + a * Mathf.Cos(forwardAlpha*0.0174f);
-		yForward = centerY + b * Mathf.Sin(forwardAlpha*0.0174f);
+		xForward = centerX + a.transform.position.x * Mathf.Cos(forwardAlpha*0.0174f);
+		yForward = centerY + b.transform.position.z * Mathf.Sin(forwardAlpha*0.0174f);
 
 		currentPosition=transform.position;
 
-		if(!dgManager.jump)
-		{
-		
-			GetComponent<Rigidbody>().MovePosition(new Vector3(x,currentPosition.y,y));
-			transform.LookAt(new Vector3(xForward, currentPosition.y, yForward));
-
-		}
-
-		// Jump implementation
-		else if(dgManager.jump)
-		{
-
-			GetComponent<Rigidbody>().MovePosition(new Vector3(x,currentPosition.y,y));
-			transform.LookAt(new Vector3(xForward, currentPosition.y, yForward)); // Added to make the dog look the circuit while jumping..
-
-		}
-
+		// Dog Movement
+		GetComponent<Rigidbody>().MovePosition(new Vector3(x,currentPosition.y,y));
+		transform.LookAt(new Vector3(xForward, currentPosition.y, yForward));
 	}
 
 }
