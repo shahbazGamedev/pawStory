@@ -6,22 +6,29 @@ using UnityEngine;
 using System.Collections;
 
 public class FrisbeeMovement : MonoBehaviour {
-	
-	
 	private float power= 500.0f;
 	Rigidbody rb;
 	public Vector3 endPos;
 	public Vector3 force;
-	
 	private Vector3 startPos;
 
 
-	void  Start ()
+	void Awake()
+	{
+
+	}
+    void  Start ()
 	{
 		rb = GetComponent<Rigidbody>();
+
 	}
 
 	void Update()
+	{
+
+
+	}
+	void FixedUpdate()
 	{
 
 	}
@@ -44,10 +51,11 @@ public class FrisbeeMovement : MonoBehaviour {
 		force.Normalize();
 		
 		rb.AddForce(force * power);
-		StartCoroutine(  ReturnBall() );
+		StartCoroutine(  ReturnFrisbee() );
+
 	}
 	
-	IEnumerator ReturnBall ()
+	IEnumerator ReturnFrisbee ()
 	{
 		yield return new WaitForSeconds(4.0f);
 		Debug.Log("Return Ball");
@@ -55,4 +63,18 @@ public class FrisbeeMovement : MonoBehaviour {
 		transform.position = Vector3.zero;
 		rb.velocity = Vector3.zero;
 	}
+	void OnCollisionEnter(Collision collision)
+	{
+		if (collision.rigidbody)
+		{
+			Destroy (this.gameObject);
+
+
+
+		}
+	}
 }
+
+
+
+
