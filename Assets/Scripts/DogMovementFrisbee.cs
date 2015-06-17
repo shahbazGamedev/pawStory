@@ -28,15 +28,16 @@ public class DogMovementFrisbee : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		direction = new Vector3 (target.position.x, 0, target.position.z);
-		transform.LookAt (direction);
+		direction = new Vector3 (target.position.x, 0f, target.position.z);
+		if((transform.position-target.position).magnitude>2f)
+			transform.LookAt (direction);
 
 
 	}
 
 
 
-	}
+}
 
 
 

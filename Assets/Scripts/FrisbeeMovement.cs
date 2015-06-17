@@ -60,14 +60,18 @@ public class FrisbeeMovement : MonoBehaviour {
 		yield return new WaitForSeconds(4.0f);
 		Debug.Log("Return Ball");
 		//yield return new WaitForSeconds(4.0f);
+
 		transform.position = Vector3.zero;
 		rb.velocity = Vector3.zero;
+		GetComponent<MeshRenderer>().enabled=true;
+
 	}
 	void OnCollisionEnter(Collision collision)
 	{
 		if (collision.rigidbody)
 		{
-			Destroy (this.gameObject);
+//			Destroy (this.gameObject);
+			GetComponent<MeshRenderer>().enabled=false;
 
 
 
