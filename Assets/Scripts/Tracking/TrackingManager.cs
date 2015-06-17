@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿/**
+Script Author : Vaikash 
+Description   : Tracking path of swipe
+**/
+
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
