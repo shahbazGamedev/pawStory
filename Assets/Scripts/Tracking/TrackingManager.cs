@@ -2,13 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
+using System.Linq;
 
 public class TrackingManager : MonoBehaviour {
-	List<Vector3> dragData;
+	public List<Vector3> dragData;
 	public GameObject lineRenderer;
 	LineRenderer line;
 	string layerName;
 	Vector3 worldPoint;
+	Vector3 potentialSamplePoint;
+	public float minSqrDistance;
+	public float interpolationScale;
  
 	// Use this for initialization
 	void Start () {
@@ -20,21 +24,15 @@ public class TrackingManager : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-
+	void Update () 
+	{
 		if(dragData!=null)
 		{
-
-			line.SetVertexCount(dragData.Count);
-			for(int i=0;i<dragData.Count;i++)
-			{
-				//Debug.Log(dragData.Count);
-				line.SetPosition(i, dragData[i]);
-
-			}
+			// Render Line
+			RenderBezier();
+		}
 	}
-	}
-
+	// Clear previous Swipe on Drag Begin
 	public void OnBeginDrag(BaseEventData Data)
 	{
 		Debug.Log("onDrag");
@@ -48,12 +46,14 @@ public class TrackingManager : MonoBehaviour {
 		Debug.Log("offDrag");
 	}
 
+	// Check dist between drag points and add points that are min dist appart
 	public void OnDrag(BaseEventData Data)
 	{
 		Debug.Log("Dragging");
 		PointerEventData data=(PointerEventData)Data;
 		Vector3 screenPoint = new Vector3(data.position.x, data.position.y, 0f);
 
+		// raycast to find hit point on plane
 		RaycastHit hit;
 		Ray ray = Camera.main.ScreenPointToRay(screenPoint);
 		if (Physics.Raycast(ray, out hit, 200f))
@@ -62,8 +62,48 @@ public class TrackingManager : MonoBehaviour {
 			if(layerName == "Floor")
 			{
 				worldPoint = hit.point+(Vector3.up);
+
+				if(dragData.Count<1) // dragData is empty
+					dragData.Add(worldPoint);
+
+				else if(dragData.Count==1) // dragData has drag start point
+				{
+					dragData.Add(worldPoint);
+					potentialSamplePoint=worldPoint;
+				}
+
+				else // checks for minimum distance between points and adds them if true
+				{
+					if((dragData.Last() - worldPoint).sqrMagnitude >= minSqrDistance)
+					{
+						dragData.Add(potentialSamplePoint);
+					}
+					potentialSamplePoint=worldPoint;
+				}
 			}
-		dragData.Add(worldPoint);
+
+		}
 	}
-}
+	// smooth curve each frame as player swipes/drags on screen 
+	private void RenderBezier()
+	{
+		BezierCurve bezierPath = new BezierCurve();
+
+		bezierPath.Interpolate(dragData, interpolationScale);
+		List<Vector3> drawingPoints = bezierPath.GetDrawingPoints2();
+		
+		SetLinePoints(drawingPoints);
+	}
+
+	// update line renderer with fresh count and positions
+	private void SetLinePoints(List<Vector3> drawingPoints)
+	{
+		line.SetVertexCount(drawingPoints.Count);
+		
+		for (int i = 0; i < drawingPoints.Count; i++)
+		{
+			line.SetPosition(i, drawingPoints[i]);
+		}
+	}
+
 }

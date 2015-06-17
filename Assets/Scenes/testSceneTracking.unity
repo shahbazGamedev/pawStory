@@ -223,7 +223,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Convex: 1
+  m_Convex: 0
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!33 &417668019
 MeshFilter:
@@ -600,7 +600,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 366aad76f3a3d374e9c2de446e691849, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dragData: []
   lineRenderer: {fileID: 1348902425}
+  minSqrDistance: 20
+  interpolationScale: .330000013
 --- !u!114 &1828201168
 MonoBehaviour:
   m_ObjectHideFlags: 0
