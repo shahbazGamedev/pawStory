@@ -1,4 +1,4 @@
-﻿/**
+/**
 Script Author : Srivatsan 
 Description   : Dog Frisbee movement
 **/
@@ -11,6 +11,12 @@ public class FrisbeeMovement : MonoBehaviour {
 	public Vector3 endPos;
 	public Vector3 force;
 	private Vector3 startPos;
+	public GameObject dog;
+	public GameObject frisbee;
+	bool isJumping=false;
+	public Vector3 direction;
+	private float shootingAngle=45f;
+
 
 
 	void Awake()
@@ -26,6 +32,23 @@ public class FrisbeeMovement : MonoBehaviour {
 	void Update()
 	{
 
+
+		if (Vector3.Distance (dog.transform.position, frisbee.transform.position) < 4f && isJumping==false)
+		{
+			direction =   frisbee.transform.position- dog.transform.position;
+			float distance = direction.magnitude;
+			float angleRadians=shootingAngle * Mathf.Deg2Rad;
+			//direction.y = distance * Mathf.Tan(angleRadians);
+			//distance += height / Mathf.Tan(angleRadians);
+			float velocity = Mathf.Sqrt(distance * Physics.gravity.magnitude / Mathf.Sin(2 * angleRadians));
+			Vector3 f = velocity * direction.normalized;
+			dog.GetComponent<DogMovementFrisbee> ().jumping (f);
+			isJumping=true;
+		}
+		Debug.Log ("distance");
+
+	//	float velocity = Mathf.Sqrt(distance * Physics.gravity.magnitude / Mathf.Sin(2 * angleRadians));
+	//	Vector3 f = velocity * direction.normalized;
 
 	}
 	void FixedUpdate()
@@ -64,6 +87,7 @@ public class FrisbeeMovement : MonoBehaviour {
 		transform.position = Vector3.zero;
 		rb.velocity = Vector3.zero;
 		GetComponent<MeshRenderer>().enabled=true;
+		isJumping = false;
 
 	}
 	void OnCollisionEnter(Collision collision)
@@ -77,6 +101,15 @@ public class FrisbeeMovement : MonoBehaviour {
 
 		}
 	}
+	//void OnTriggerEnter()
+	//{
+
+	//	dog.GetComponent<DogMovementFrisbee>().jumping();
+	//
+	//	Debug.Log ("jumping");
+
+//	}
+
 }
 
 

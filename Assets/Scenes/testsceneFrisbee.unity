@@ -332,6 +332,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   endPos: {x: 0, y: 0, z: 0}
   force: {x: 0, y: 0, z: 0}
+  dog: {fileID: 399018158}
+  frisbee: {fileID: 209136824}
+  direction: {x: 0, y: 0, z: 0}
 --- !u!54 &209136830
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -368,9 +371,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 399018159}
   - 54: {fileID: 399018161}
-  - 95: {fileID: 399018163}
   - 65: {fileID: 399018160}
   - 114: {fileID: 399018162}
+  - 95: {fileID: 399018163}
   m_Layer: 0
   m_Name: Dog
   m_TagString: Untagged
@@ -416,7 +419,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &399018162
 MonoBehaviour:
@@ -429,9 +432,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0cfefe59738e354ab8730862705cf0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 100
+  jumpForce: 10
   jumpHeight: {x: 0, y: 0, z: 0}
+  dog: {fileID: 0}
   target: {fileID: 209136828}
+  headRef: {fileID: 399018158}
 --- !u!95 &399018163
 Animator:
   serializedVersion: 3
@@ -441,7 +446,7 @@ Animator:
   m_GameObject: {fileID: 399018158}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 7c43cf603dfc55d4e886b01f9377e76e, type: 3}
-  m_Controller: {fileID: 9100000, guid: f279a18a551fb154dbcfac0a2ad44640, type: 2}
+  m_Controller: {fileID: 9100000, guid: b094491dfc25e2d499fa6c8405a47715, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
