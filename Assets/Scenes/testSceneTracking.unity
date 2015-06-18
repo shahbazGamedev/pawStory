@@ -170,7 +170,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
 --- !u!1 &417668016
 GameObject:
   m_ObjectHideFlags: 0
@@ -511,12 +511,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1221239062}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a51ca4f125e1e8a43ac4ea3bd560535e, type: 3}
+  m_Script: {fileID: 11500000, guid: 58324a18087665f4fba4be9f6105446e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dogRef: {fileID: 1149036254}
-  Target: {x: 0, y: 0, z: 0}
-  moveSpeed: .0500000007
+  target: {x: 0, y: 0, z: 0}
+  reachedPathEnd: 0
+  nodeCount: 0
+  currentNode: 0
+  speedFactor: 0
 --- !u!1 &1348902425
 GameObject:
   m_ObjectHideFlags: 0
@@ -641,7 +644,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
 --- !u!1 &1828201166
 GameObject:
   m_ObjectHideFlags: 0

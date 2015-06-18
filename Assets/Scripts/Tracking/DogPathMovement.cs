@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿/**
+Script Author : Vaikash 
+Description   : Dog Movement on Path
+**/
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +15,13 @@ public class DogPathMovement : MonoBehaviour {
 	Vector3 currentposition;
 	public Vector3 Target;
 	Vector3 forwardTarget;
-	bool reachedPathEnd;
-	public float moveSpeed;
+	public bool reachedPathEnd;
+	public float lerpIncrement;
 
 	private Animator dogAnim;
 
-	int nodeCount;
-	int currentNode;
+	public int nodeCount;
+	public int currentNode;
 
 	// Use this for initialization
 	void Start () 
@@ -30,7 +34,8 @@ public class DogPathMovement : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
+		lerpIncrement+=Time.deltaTime;
 		if(followPath)
 		{
 			currentposition=transform.position;
@@ -63,12 +68,13 @@ public class DogPathMovement : MonoBehaviour {
 			{
 				if((transform.position-Target).sqrMagnitude<1f)
 				{
+					lerpIncrement=0;
 					currentNode+=1;
 					Target=pathData[currentNode];
 					Target.y=currentposition.y;
 					if(currentNode<nodeCount-2)
 					{
-					forwardTarget=pathData[currentNode+2];
+					forwardTarget=pathData[currentNode+1];
 					forwardTarget.y=currentposition.y;
 					}
 					else
@@ -82,16 +88,19 @@ public class DogPathMovement : MonoBehaviour {
 					Target=pathData[currentNode];
 					Target.y=currentposition.y;
 				}
-				GetComponent<Rigidbody>().MovePosition(Vector3.Lerp(transform.position, Target, moveSpeed));
-//				if(currentNode>nodeCount-2)
-//				{
-//
-//				}
-//				else
-					transform.LookAt(forwardTarget);
-			}
 
+			}
+		
 		}
+		lerpIncrement=Mathf.Clamp(lerpIncrement, 0f, 2f);
+
+		GetComponent<Rigidbody>().MovePosition(Vector3.Lerp(transform.position, Target, lerpIncrement/2));
+
+		if(!(Vector3.Distance(transform.position,Target)<1f))
+		{
+			transform.LookAt(forwardTarget);
+		}
+
 		if(reachedPathEnd)
 		{
 			dogAnim.SetFloat ("Speed",0f);
@@ -99,5 +108,9 @@ public class DogPathMovement : MonoBehaviour {
 		}
 		if(reachedPathEnd==false && followPath==true)
 			dogAnim.SetFloat ("Speed",1f);
+		if(Vector3.Distance(pathData[nodeCount-1], transform.position)<0.5f)
+		{
+			reachedPathEnd=true;
+		}
 	}
 }
