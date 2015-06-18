@@ -19,7 +19,6 @@ public class BezierCurve
 	private List<Vector3> controlPoints;
 	private List<Vector3> samplePoints;
 	private Vector3 potentialSamplePoint;
-	
 	private int curveCount; //how many bezier curves in this path?
 	
 	/**
@@ -76,6 +75,7 @@ public class BezierCurve
 		
 		return drawingPoints;
 	}
+
 	List<Vector3> FindDrawingPoints(int curveIndex)
 	{
 		List<Vector3> pointList = new List<Vector3>();
@@ -111,6 +111,7 @@ public class BezierCurve
 
         return CalculateBezierPoint(t, p0, p1, p2, p3);
     }
+
 	 /**
         @returns the number of points added.
     */
@@ -145,7 +146,6 @@ public class BezierCurve
 
         return 0;
     }
-
 	
 	/**
         Sample the given points as a Bezier path.
@@ -187,8 +187,7 @@ public class BezierCurve
 		
 		samplePoints.Push(p1);
 		samplePoints.Push(potentialSamplePoint);
-		
-		
+
 		Interpolate(new List<Vector3>(samplePoints), scale);
 	}
 
@@ -244,7 +243,6 @@ public class BezierCurve
 		
 		curveCount = (controlPoints.Count - 1) / 3;
 	}
-	
 
 	/**
         Caluclates a point on the Bezier curve represented with the four controlpoints given.
