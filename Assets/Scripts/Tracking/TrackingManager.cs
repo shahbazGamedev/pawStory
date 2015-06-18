@@ -24,6 +24,9 @@ public class TrackingManager : MonoBehaviour {
 
 	bool isFirstRun;
 	bool needToPop;
+	bool swipeFinished;
+
+	public GameObject dogRef;
  
 	// Use this for initialization
 	void Start () 
@@ -35,6 +38,7 @@ public class TrackingManager : MonoBehaviour {
 
 		isFirstRun=true;
 		needToPop=false;
+		swipeFinished=false;
 	}
 	
 	// Update is called once per frame
@@ -62,7 +66,7 @@ public class TrackingManager : MonoBehaviour {
 	{
 		Debug.Log("offDrag");
 		addEndPoint(data);
-
+		swipeFinished=true;
 	}
 
 	// Check dist between drag points and add points that are min dist appart
@@ -124,6 +128,12 @@ public class TrackingManager : MonoBehaviour {
 		List<Vector3> drawingPoints = bezierPath.GetDrawingPoints2();
 		
 		SetLinePoints(drawingPoints);
+		if(swipeFinished)
+		{
+			dogRef.GetComponent<DogPathMovement>().SetPathData(drawingPoints);
+			dogRef.GetComponent<DogPathMovement>().EnableDogPathMovement(true);
+			swipeFinished=false;
+		}
 	}
 
 	// update line renderer with fresh count and positions
