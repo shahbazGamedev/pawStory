@@ -130,8 +130,8 @@ public class TrackingManager : MonoBehaviour {
 		SetLinePoints(drawingPoints);
 		if(swipeFinished)
 		{
-			dogRef.GetComponent<TestPathMovement>().SetPathData(drawingPoints);
-			dogRef.GetComponent<TestPathMovement>().EnableDogPathMovement(true);
+			dogRef.GetComponent<DogPathMovement>().SetPathData(drawingPoints);
+			dogRef.GetComponent<DogPathMovement>().EnableDogPathMovement(true);
 			swipeFinished=false;
 		}
 	}

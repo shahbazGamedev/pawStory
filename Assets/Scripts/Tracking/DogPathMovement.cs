@@ -10,13 +10,15 @@ using System.Linq;
 public class DogPathMovement : MonoBehaviour {
 	public GameObject dogRef;
 	List<Vector3> pathData;
-	bool followPath;
+	public bool followPath;
 
 	Vector3 currentposition;
-	public Vector3 Target;
-	Vector3 forwardTarget;
+	public Vector3 target;
+
 	public bool reachedPathEnd;
-	public float lerpIncrement;
+	Vector3 pathEnd;
+	public float dogSpeed;
+
 
 	private Animator dogAnim;
 
@@ -32,10 +34,24 @@ public class DogPathMovement : MonoBehaviour {
 		nodeCount=0;
 		currentNode=0;
 	}
-	
+
+	void Update()
+	{
+		// Animation state update
+		if(reachedPathEnd)
+		{
+			dogAnim.SetFloat("Speed", 0f);
+			followPath=false;
+		}
+		else if(reachedPathEnd==false && followPath==true)
+		{
+			dogAnim.SetFloat("Speed", 1f);
+		}
+	}
+
 	// Update is called once per frame
 	void FixedUpdate () {
-		lerpIncrement+=Time.deltaTime;
+		// Update position if flag set true
 		if(followPath)
 		{
 			currentposition=transform.position;
@@ -43,22 +59,27 @@ public class DogPathMovement : MonoBehaviour {
 		}
 	}
 
+	// Set path data and reset parameter for each swipe
 	public void SetPathData(List<Vector3> data)
 	{
 		pathData=data;
 		nodeCount=data.Count;
 		reachedPathEnd=false;
 		currentNode=0;
+		pathEnd=pathData[nodeCount-1];
 	}
 
+
+	// Set followPath flag
 	public void EnableDogPathMovement(bool enable)
 	{
 		followPath=enable;
 	}
 
+	// Move dog on the set path
 	void FollowPath()
 	{
-		if(currentNode<(nodeCount-1) )
+		if(currentNode<(nodeCount) )
 		{
 			if(nodeCount==0)
 			{
@@ -66,51 +87,31 @@ public class DogPathMovement : MonoBehaviour {
 			}
 			else
 			{
-				if((transform.position-Target).sqrMagnitude<1f)
+				// Update target once target is reached
+				if((transform.position-target).sqrMagnitude<=0.5f)
 				{
-					lerpIncrement=0;
+					target=pathData[currentNode];
+					target.y=currentposition.y;
+					pathEnd.y=currentposition.y;
 					currentNode+=1;
-					Target=pathData[currentNode];
-					Target.y=currentposition.y;
-					if(currentNode<nodeCount-2)
-					{
-					forwardTarget=pathData[currentNode+1];
-					forwardTarget.y=currentposition.y;
-					}
-					else
-					{
-						forwardTarget=(pathData[nodeCount-2]-pathData[nodeCount-1]) * 2;
-						forwardTarget.y=currentposition.y;
-					}
 				}
-				else if(currentNode==0)// yet to start the movement
-				{
-					Target=pathData[currentNode];
-					Target.y=currentposition.y;
-				}
-
 			}
-		
 		}
-		lerpIncrement=Mathf.Clamp(lerpIncrement, 0f, 2f);
 
-		GetComponent<Rigidbody>().MovePosition(Vector3.Lerp(transform.position, Target, lerpIncrement/2));
+		// Update position using rigidbody
+		GetComponent<Rigidbody>().MovePosition(Vector3.MoveTowards(transform.position, target, dogSpeed* Time.deltaTime));
 
-		if(!(Vector3.Distance(transform.position,Target)<1f))
+		// Update dog rotation based on target
+		if(!(Vector3.Distance(transform.position,target)<1f))
 		{
-			transform.LookAt(forwardTarget);
+			transform.LookAt(target);
 		}
 
-		if(reachedPathEnd)
-		{
-			dogAnim.SetFloat ("Speed",0f);
-			followPath=false;
-		}
-		if(reachedPathEnd==false && followPath==true)
-			dogAnim.SetFloat ("Speed",1f);
-		if(Vector3.Distance(pathData[nodeCount-1], transform.position)<0.5f)
+		// Check if dog reached path end
+		if(Vector3.Distance(pathEnd, transform.position)<0.1f)
 		{
 			reachedPathEnd=true;
 		}
 	}
+
 }
