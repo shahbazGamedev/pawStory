@@ -6,7 +6,7 @@ using UnityEngine;
 using System.Collections;
 
 public class DogMovementFrisbee : MonoBehaviour {
-	public float jumpForce=100;
+	public float jumpForce=200f;
 	public Vector3 jumpHeight;
 	public GameObject dog;
 	Rigidbody rb;
@@ -48,7 +48,7 @@ public void jumping(Vector3 force)
 	}
 	IEnumerator ReturnDog ()
 	{
-		yield return new WaitForSeconds(4.0f);
+		yield return new WaitForSeconds(5.0f);
 		transform.position =new Vector3(-0.2f,0.035f,9.1f);
 		rb.velocity = Vector3.zero;
 
