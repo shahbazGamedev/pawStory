@@ -16,6 +16,10 @@ public class FrisbeeMovement : MonoBehaviour {
 	bool isJumping=false;
 	public Vector3 direction;
 	private float shootingAngle=45f;
+	private float distance;
+	private float angleRadians;
+	private float velocity;
+	private Vector3 frisbeeForce;
 
 
 
@@ -36,19 +40,18 @@ public class FrisbeeMovement : MonoBehaviour {
 		if (Vector3.Distance (dog.transform.position, frisbee.transform.position) < 2f && isJumping==false)
 		{
 			direction =   frisbee.transform.position- dog.transform.position;
-			float distance = direction.magnitude;
-			float angleRadians=shootingAngle * Mathf.Deg2Rad;
+			distance = direction.magnitude;
+		 angleRadians=shootingAngle * Mathf.Deg2Rad;
 			//direction.y = distance * Mathf.Tan(angleRadians);
 			//distance += height / Mathf.Tan(angleRadians);
-			float velocity = Mathf.Sqrt(distance * Physics.gravity.magnitude / Mathf.Sin(2 * angleRadians));
-			Vector3 f = velocity * direction.normalized;
-			dog.GetComponent<DogMovementFrisbee> ().jumping (f);
+			velocity = Mathf.Sqrt(distance * Physics.gravity.magnitude / Mathf.Sin(2 * angleRadians));
+			frisbeeForce = velocity * direction.normalized;
+			dog.GetComponent<DogMovementFrisbee> ().jumping (frisbeeForce);
 			isJumping=true;
 		}
-		Debug.Log ("distance");
 
-	//	float velocity = Mathf.Sqrt(distance * Physics.gravity.magnitude / Mathf.Sin(2 * angleRadians));
-	//	Vector3 f = velocity * direction.normalized;
+
+	
 
 	}
 	void FixedUpdate()

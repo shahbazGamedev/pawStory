@@ -14,6 +14,7 @@ public class DogMovementFrisbee : MonoBehaviour {
 	private Animator dogAnim;
 	public GameObject headRef;
 	Vector3 direction;
+	private Vector3 dogPos;
 	//public GameObject frisbee;
 
 
@@ -21,6 +22,7 @@ public class DogMovementFrisbee : MonoBehaviour {
 	{
 		jumpHeight = new Vector3(0 , jumpForce, 0);
 		dogAnim = GetComponent<Animator>();
+		dogPos = new Vector3 (-0.2f, 0.035f, 9.1f);
 
 	}
 	// Use this for initialization
@@ -49,7 +51,7 @@ public void jumping(Vector3 force)
 	IEnumerator ReturnDog ()
 	{
 		yield return new WaitForSeconds(5.0f);
-		transform.position =new Vector3(-0.2f,0.035f,9.1f);
+		transform.position = dogPos;
 		rb.velocity = Vector3.zero;
 
 }
