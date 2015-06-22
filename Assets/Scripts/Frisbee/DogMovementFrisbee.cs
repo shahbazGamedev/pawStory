@@ -48,6 +48,11 @@ public void jumping(Vector3 force)
 		rb.velocity=(force);
 
 	}
+	public void jumpingLeft(Vector3 force)
+	{
+		dogAnim.SetTrigger ("LeftJump");
+		rb.velocity = force;
+	}
 	IEnumerator ReturnDog ()
 	{
 		yield return new WaitForSeconds(5.0f);
@@ -55,6 +60,7 @@ public void jumping(Vector3 force)
 		rb.velocity = Vector3.zero;
 
 }
+
 
 }
 
