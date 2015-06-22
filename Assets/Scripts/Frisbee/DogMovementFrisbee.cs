@@ -36,7 +36,7 @@ public class DogMovementFrisbee : MonoBehaviour {
 		direction = new Vector3 (target.position.x, 0f, target.position.z);
 		if((transform.position-target.position).magnitude>2f)
 			transform.LookAt (direction);
-		StartCoroutine (ReturnDog());
+		//StartCoroutine (ReturnDog());
 
 
 
@@ -51,15 +51,15 @@ public void jumping(Vector3 force)
 	public void jumpingLeft(Vector3 force)
 	{
 		dogAnim.SetTrigger ("LeftJump");
-		rb.velocity = force;
+		rb.velocity = (force);
 	}
-	IEnumerator ReturnDog ()
-	{
-		yield return new WaitForSeconds(5.0f);
-		transform.position = dogPos;
-		rb.velocity = Vector3.zero;
+	//IEnumerator ReturnDog ()
+	//{
+		//yield return new WaitForSeconds(5.0f);
+		//transform.position = dogPos;
+		//rb.velocity = Vector3.zero;
 
-}
+//}
 
 
 }

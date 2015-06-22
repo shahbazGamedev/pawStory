@@ -20,6 +20,8 @@ public class FrisbeeMovement : MonoBehaviour {
 	private float angleRadians;
 	private float velocity;
 	private Vector3 frisbeeForce;
+	private Vector3 currentPosition;
+
 
 
 
@@ -30,6 +32,8 @@ public class FrisbeeMovement : MonoBehaviour {
     void  Start ()
 	{
 		rb = GetComponent<Rigidbody>();
+		currentPosition = new Vector3 (0, .156f, -0.95f);
+
 
 	}
 
@@ -100,7 +104,7 @@ public class FrisbeeMovement : MonoBehaviour {
 		Debug.Log("Return Ball");
 		//yield return new WaitForSeconds(4.0f);
 
-		transform.position = Vector3.zero;
+		transform.position = currentPosition;
 		rb.velocity = Vector3.zero;
 		GetComponent<MeshRenderer>().enabled=true;
 		isJumping = false;
