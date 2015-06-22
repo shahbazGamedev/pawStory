@@ -39,12 +39,9 @@ public class SwipeRecognizer
 	public static bool RecogonizeSwipe (Vector2 startPoint, Vector2 endPoint, List<Vector2> dragData, out TouchPattern pattern)
 	{
 		pattern = TouchPattern.tryAgain;
-		float swipeMinDist = 10.0f;
-		float swipeDelta;
 		float xComponent;
 		float yComponent;
 		float angle;
-		swipeDelta = startPoint.magnitude - endPoint.magnitude;
 		xComponent= (-startPoint.x + endPoint.x);
 		yComponent= (-startPoint.y + endPoint.y);
 		angle = Mathf.Atan2 (yComponent, xComponent) * Mathf.Rad2Deg; // 0 on right, 180 on left, 90 on top and -90 on bottom
@@ -100,5 +97,37 @@ public class SwipeRecognizer
 			return false;
 		else
 			return true;
+	}
+
+	bool RecognizeCircleSwipe (Vector2 startPoint, Vector2 endPoint, List<Vector2> dragData, out TouchPattern pattern)
+	{
+		const float MINIMUM_SQR_DISTANCE = 0.01f;
+		int incrementValue = dragData.Count / 8;
+		Vector2 midPoint = (endPoint - startPoint) * 0.5f;
+		Vector2 currentVector;
+		Vector2 previousVector = startPoint - midPoint;
+		float totalAngle;
+		float deltaAngle;
+		float value;
+		for(int i=0;i<dragData.Count;i+=incrementValue)
+		{
+			currentVector = dragData[i] - midPoint;
+			value = Mathf.Min (1, Vector2.Dot (previousVector, currentVector) / (previousVector.magnitude * currentVector.magnitude));
+			deltaAngle=Mathf.Acos (value);
+			totalAngle += deltaAngle;
+		}
+		if(totalAngle>300 || totalAngle<-300)
+		{
+			if(totalAngle>300)
+			{
+				pattern = TouchPattern.antiClockwiseCircle;
+			}
+			else
+			{
+				pattern = TouchPattern.clockwiseCircle;
+			}
+		}
+
+		return true;
 	}
 }

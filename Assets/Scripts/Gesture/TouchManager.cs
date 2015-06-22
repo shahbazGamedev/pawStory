@@ -34,49 +34,49 @@ public class TouchManager : MonoBehaviour
 		case SwipeRecognizer.TouchPattern.swipeUp:
 			{
 				Debug.Log ("SwipeUp");
-				swipeReset ();
+				SwipeReset ();
 				break;
 			}
 		case SwipeRecognizer.TouchPattern.swipeDown:
 			{
 				Debug.Log ("SwipeDown");
-				swipeReset ();
+				SwipeReset ();
 				break;
 			}
 		case SwipeRecognizer.TouchPattern.swipeLeft:
 			{
 				Debug.Log ("SwipeLeft");
-				swipeReset ();
+				SwipeReset ();
 				break;
 			}
 		case SwipeRecognizer.TouchPattern.swipeRight:
 			{
 				Debug.Log ("SwipeRight");
-				swipeReset ();
+				SwipeReset ();
 				break;
 			}
 		case SwipeRecognizer.TouchPattern.swipeUpLeft:
 			{
 				Debug.Log ("Diagonal - SwipeUpLeft");
-				swipeReset ();
+				SwipeReset ();
 				break;
 			}
 		case SwipeRecognizer.TouchPattern.swipeDownLeft:
 			{
 				Debug.Log ("Diagonal - SwipeDownLeft");
-				swipeReset ();
+				SwipeReset ();
 				break;
 			}
 		case SwipeRecognizer.TouchPattern.swipeUpRight:
 			{
 				Debug.Log ("Diagonal - SwipeUpRight");
-				swipeReset ();
+				SwipeReset ();
 				break;
 			}
 		case SwipeRecognizer.TouchPattern.swipeDownRight:
 			{
 				Debug.Log ("Diagonal - SwipeDownRight");
-				swipeReset ();
+				SwipeReset ();
 				break;
 			}
 		}
@@ -108,7 +108,7 @@ public class TouchManager : MonoBehaviour
 		//Debug.Log (pointData.position);
 	}
 
-	void swipeReset()
+	void SwipeReset()
 	{
 		swipeText.text = pattern.ToString ();
 		pattern = SwipeRecognizer.TouchPattern.reset;
