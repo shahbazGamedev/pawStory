@@ -33,49 +33,66 @@ public class TouchManager : MonoBehaviour
 		{
 		case SwipeRecognizer.TouchPattern.swipeUp:
 			{
-				Debug.Log ("SwipeUp");
+				//Debug.Log ("SwipeUp");
 				SwipeReset ();
 				break;
 			}
 		case SwipeRecognizer.TouchPattern.swipeDown:
 			{
-				Debug.Log ("SwipeDown");
+				//Debug.Log ("SwipeDown");
 				SwipeReset ();
 				break;
 			}
 		case SwipeRecognizer.TouchPattern.swipeLeft:
 			{
-				Debug.Log ("SwipeLeft");
+				//Debug.Log ("SwipeLeft");
 				SwipeReset ();
 				break;
 			}
 		case SwipeRecognizer.TouchPattern.swipeRight:
 			{
-				Debug.Log ("SwipeRight");
+				//Debug.Log ("SwipeRight");
 				SwipeReset ();
 				break;
 			}
 		case SwipeRecognizer.TouchPattern.swipeUpLeft:
 			{
-				Debug.Log ("Diagonal - SwipeUpLeft");
+				//Debug.Log ("Diagonal - SwipeUpLeft");
 				SwipeReset ();
 				break;
 			}
 		case SwipeRecognizer.TouchPattern.swipeDownLeft:
 			{
-				Debug.Log ("Diagonal - SwipeDownLeft");
+				//Debug.Log ("Diagonal - SwipeDownLeft");
 				SwipeReset ();
 				break;
 			}
 		case SwipeRecognizer.TouchPattern.swipeUpRight:
 			{
-				Debug.Log ("Diagonal - SwipeUpRight");
+				//Debug.Log ("Diagonal - SwipeUpRight");
 				SwipeReset ();
 				break;
 			}
 		case SwipeRecognizer.TouchPattern.swipeDownRight:
 			{
-				Debug.Log ("Diagonal - SwipeDownRight");
+				//Debug.Log ("Diagonal - SwipeDownRight");
+				SwipeReset ();
+				break;
+			}
+		case SwipeRecognizer.TouchPattern.clockwiseCircle:
+			{
+				Debug.Log ("ClockwiseCircle");
+				SwipeReset ();
+				break;
+			}
+		case SwipeRecognizer.TouchPattern.antiClockwiseCircle:
+			{
+				Debug.Log ("AntiClockwiseCircle");
+				SwipeReset ();
+				break;
+			}
+		case SwipeRecognizer.TouchPattern.tryAgain:
+			{
 				SwipeReset ();
 				break;
 			}
@@ -105,6 +122,7 @@ public class TouchManager : MonoBehaviour
 	public void OnDrag (BaseEventData data)
 	{
 		PointerEventData pointData = (PointerEventData)data;
+		swipeData.Add(pointData.position);
 		//Debug.Log (pointData.position);
 	}
 
@@ -112,5 +130,6 @@ public class TouchManager : MonoBehaviour
 	{
 		swipeText.text = pattern.ToString ();
 		pattern = SwipeRecognizer.TouchPattern.reset;
+		swipeData.Clear ();
 	}
 }
