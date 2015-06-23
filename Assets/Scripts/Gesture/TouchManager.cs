@@ -81,13 +81,13 @@ public class TouchManager : MonoBehaviour
 			}
 		case SwipeRecognizer.TouchPattern.clockwiseCircle:
 			{
-				Debug.Log ("ClockwiseCircle");
+				//Debug.Log ("ClockwiseCircle");
 				SwipeReset ();
 				break;
 			}
 		case SwipeRecognizer.TouchPattern.antiClockwiseCircle:
 			{
-				Debug.Log ("AntiClockwiseCircle");
+				//Debug.Log ("AntiClockwiseCircle");
 				SwipeReset ();
 				break;
 			}
