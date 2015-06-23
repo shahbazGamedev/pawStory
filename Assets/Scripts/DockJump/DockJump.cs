@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.EventSystems;
 
 public class DockJump : MonoBehaviour {
+	public GameObject dogRef;
 	private Animator dogAnim;
 	public Vector3 jumpHeight;
 	public float moveSpeed=100000000f;
@@ -14,14 +15,14 @@ public class DockJump : MonoBehaviour {
 	Vector2 swipeEnd;
 	void awake()
 	{
-		dogAnim = GetComponent<Animator> ();
-		jumpHeight = new Vector3 (0, jumpForce, 0);
-		rb = GetComponent<Rigidbody> ();
+
 	}
 
 	// Use this for initialization
 	void Start () {
-	
+		dogAnim = dogRef.GetComponent<Animator> ();
+		jumpHeight = new Vector3 (0, jumpForce, 0);
+		rb = GetComponent<Rigidbody> ();
 	}
 	
 	// Update is called once per frame
@@ -42,7 +43,7 @@ public class DockJump : MonoBehaviour {
 	}
 	void running()
 	{
-		dogAnim.SetFloat ("Speed",1f, speedDampTime, Time.deltaTime);
+		dogAnim.SetFloat ("running",1f, speedDampTime, Time.deltaTime);
 		rb.AddForce (transform.forward * moveSpeed);
 
 }
