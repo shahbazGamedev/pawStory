@@ -1,6 +1,6 @@
 ﻿/**
 Script Author : Vaikash 
-Description   : Dog circuit movement
+Description   : Dog circuit movement - Elliptical Path
 **/
 
 using UnityEngine;
@@ -34,7 +34,7 @@ public class CircuitManager : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		target=this.gameObject.transform;
+		target=gameObject.transform;
 		dgManager=GetComponent<DogManager>();
 		dgManager.isCircuitRun=true; // Added tp override dog idle animation
 	}
