@@ -25,6 +25,7 @@ public class FrisbeeMovement : MonoBehaviour {
 
 
 
+
 	void Awake()
 	{
 
@@ -41,31 +42,32 @@ public class FrisbeeMovement : MonoBehaviour {
 	{
 
 
-		if (Vector3.Distance (dog.transform.position, frisbee.transform.position) < -2f && isJumping == false) 
+		if (Vector3.Distance (dog.transform.position, frisbee.transform.position) < 2.5f && isJumping == false) 
 		{
 			direction = frisbee.transform.position - dog.transform.position;
 			distance = direction.magnitude;
-			angleRadians = shootingAngle * Mathf.Deg2Rad;
+		    angleRadians = shootingAngle * Mathf.Deg2Rad;
 			//direction.y = distance * Mathf.Tan(angleRadians);
 			//distance += height / Mathf.Tan(angleRadians);
 			velocity = Mathf.Sqrt (distance * Physics.gravity.magnitude / Mathf.Sin (2 * angleRadians));
 			frisbeeForce = velocity * direction.normalized;
+			if(direction.x<-1f)
+			{
 			dog.GetComponent<DogMovementFrisbee> ().jumpingLeft(frisbeeForce);
 			isJumping = true;
-			Debug.Log("jumping left");
+				Debug.Log("leftjump");
+			}
+			else if(direction.x>0)
+			{
+				dog.GetComponent<DogMovementFrisbee> ().jumping(frisbeeForce);
+				isJumping=true;
+				Debug.Log("jumpright");
+			}
+
+
+
 		}
-		else if (Vector3.Distance (dog.transform.position, frisbee.transform.position) < 2f && isJumping == false) {
-			direction = frisbee.transform.position - dog.transform.position;
-			distance = direction.magnitude;
-			angleRadians = shootingAngle * Mathf.Deg2Rad;
-			//direction.y = distance * Mathf.Tan(angleRadians);
-			//distance += height / Mathf.Tan(angleRadians);
-			velocity = Mathf.Sqrt (distance * Physics.gravity.magnitude / Mathf.Sin (2 * angleRadians));
-			frisbeeForce = velocity * direction.normalized;
-			dog.GetComponent<DogMovementFrisbee> ().jumping(frisbeeForce);
-			isJumping = true;
-			Debug.Log("jumping right");
-		}
+
 
 
 	

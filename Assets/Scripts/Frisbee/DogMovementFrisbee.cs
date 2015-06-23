@@ -43,6 +43,7 @@ public class DogMovementFrisbee : MonoBehaviour {
 	}
 public void jumping(Vector3 force)
 	{
+
 		dogAnim.SetTrigger("Jump");
 
 		rb.velocity=(force);
@@ -50,6 +51,7 @@ public void jumping(Vector3 force)
 	}
 	public void jumpingLeft(Vector3 force)
 	{
+
 		dogAnim.SetTrigger ("LeftJump");
 		rb.velocity = (force);
 	}

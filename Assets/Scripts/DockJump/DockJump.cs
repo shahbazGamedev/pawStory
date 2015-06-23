@@ -29,9 +29,15 @@ public class DockJump : MonoBehaviour {
 
 
 	}
+	void FixedUpdate() 
+	{
+		running ();
+	}
 	void jumping()
 	{
 		dogAnim.SetTrigger ("jump");
+		rb.AddForce(jumpHeight,ForceMode.Impulse);
+
 
 	}
 	void running()
@@ -42,6 +48,7 @@ public class DockJump : MonoBehaviour {
 }
 	void OnTriggerStay()
 	{
+		Debug.Log ("triggered");
 		isJumping = true;
 	}
 	

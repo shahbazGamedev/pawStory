@@ -121,8 +121,13 @@ public class DogManager : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		Jump ();
 	
 	}
+
+
+		
+
 
 	void Jump()
 	{
