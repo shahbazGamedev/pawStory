@@ -26,8 +26,10 @@ public class FrisbeeMovement : MonoBehaviour {
 
 
 
+
 	void Awake()
 	{
+	
 
 	}
     void  Start ()
