@@ -6,13 +6,14 @@ public class DockJump : MonoBehaviour {
 	public GameObject dogRef;
 	private Animator dogAnim;
 	public Vector3 jumpHeight;
-	public float moveSpeed=100000000f;
+	public float moveSpeed;
 	bool isJumping=false;
 	public float jumpForce;
 	public float speedDampTime = 0.1f;
 	Rigidbody rb;
 	Vector2 swipeBegin;
 	Vector2 swipeEnd;
+	public float jumpspeed;
 	void awake()
 	{
 
@@ -21,7 +22,7 @@ public class DockJump : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		dogAnim = dogRef.GetComponent<Animator> ();
-		jumpHeight = new Vector3 (0, jumpForce, 0);
+		jumpHeight = new Vector3 (0, jumpForce, jumpspeed);
 		rb = GetComponent<Rigidbody> ();
 	}
 	
@@ -47,16 +48,16 @@ public class DockJump : MonoBehaviour {
 		rb.AddForce (transform.forward * moveSpeed);
 
 }
-	void OnTriggerStay()
-	{
-		Debug.Log ("triggered");
-		isJumping = true;
-	}
+	//void OnTriggerStay()
+	//{
+		//Debug.Log ("triggered");
+		//isJumping = true;
+//	}
 	
-	void OnTriggerExit()
-	{
-		isJumping = false;
-	}
+	//void OnTriggerExit()
+	//{
+	//	isJumping = false;
+//	}
 	public void OnPointerDown(BaseEventData  data)
 	{
 		Debug.Log("Begins");
@@ -81,10 +82,10 @@ public class DockJump : MonoBehaviour {
 		if(direction.y > 0 &&  direction.x > -0.5f && direction.x < 0.5f)
 		{
 			Debug.Log("up swipe");
-			if(isJumping)
-			{
+			//if(isJumping)
+			//{
 				jumping();
-			}
+		//	}
 				
 			
 		}
