@@ -14,6 +14,7 @@ public class DockJump : MonoBehaviour {
 	Vector2 swipeBegin;
 	Vector2 swipeEnd;
 	public float jumpspeed;
+	public float dragRatio;
 	void awake()
 	{
 
@@ -44,6 +45,7 @@ public class DockJump : MonoBehaviour {
 	}
 	void running()
 	{
+		rb.drag = rb.velocity.magnitude * dragRatio;
 		dogAnim.SetFloat ("running",1f, speedDampTime, Time.deltaTime);
 		rb.AddForce (transform.forward * moveSpeed);
 
