@@ -51,7 +51,7 @@ public class FrisbeeMovement : MonoBehaviour {
 			//distance += height / Mathf.Tan(angleRadians);
 			velocity = Mathf.Sqrt (distance * Physics.gravity.magnitude / Mathf.Sin (2 * angleRadians));
 			frisbeeForce = velocity * direction.normalized;
-			if(direction.x<-1f)
+			if(direction.x<0)
 			{
 			dog.GetComponent<DogMovementFrisbee> ().jumpingLeft(frisbeeForce);
 			isJumping = true;
