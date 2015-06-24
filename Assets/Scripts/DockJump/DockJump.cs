@@ -15,6 +15,7 @@ public class DockJump : MonoBehaviour {
 	Vector2 swipeEnd;
 	public float jumpspeed;
 	public float dragRatio;
+	bool isRunning;
 	void awake()
 	{
 
@@ -25,16 +26,20 @@ public class DockJump : MonoBehaviour {
 		dogAnim = dogRef.GetComponent<Animator> ();
 		jumpHeight = new Vector3 (0, jumpForce, jumpspeed);
 		rb = GetComponent<Rigidbody> ();
+		isRunning=true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
+		detectSwipe();
 
 	}
 	void FixedUpdate() 
 	{
+		if(isRunning)
+		{
 		running ();
+		}
 	}
 	void jumping()
 	{
@@ -45,6 +50,7 @@ public class DockJump : MonoBehaviour {
 	}
 	void running()
 	{
+		//isRunning=true;
 		rb.drag = rb.velocity.magnitude * dragRatio;
 		dogAnim.SetFloat ("running",1f, speedDampTime, Time.deltaTime);
 		rb.AddForce (transform.forward * moveSpeed);
@@ -77,26 +83,34 @@ public class DockJump : MonoBehaviour {
 	
 	void detectSwipe()
 	{
-		Vector2 direction=swipeEnd-swipeBegin;
-		direction.Normalize();
-		
-		//swipe upwards
-		if(direction.y > 0 &&  direction.x > -0.5f && direction.x < 0.5f)
+		if(Input.GetKeyDown(KeyCode.Space))
 		{
-			Debug.Log("up swipe");
-			//if(isJumping)
-			//{
-				jumping();
-		//	}
-				
-			
+			jumping();
+			isRunning=false;
+			dogAnim.SetFloat ("running",1f, speedDampTime, Time.deltaTime);
 		}
-		//swipe down
-		if(direction.y < 0 && direction.x > -0.5f && direction.x < 0.5f)
-		{
-			Debug.Log("down swipe");
-		
-		}
+
+//		Vector2 direction=swipeEnd-swipeBegin;
+//		direction.Normalize();
+//		
+//		//swipe upwards
+//		if(direction.y > 0 &&  direction.x > -0.5f && direction.x < 0.5f)
+//		{
+//			Debug.Log("up swipe");
+//			//if(isJumping)
+//			//{
+//
+//
+//		//	}
+//				
+//			
+//		}
+//		//swipe down
+//		if(direction.y < 0 && direction.x > -0.5f && direction.x < 0.5f)
+//		{
+//			Debug.Log("down swipe");
+//		
+//		}
 		//swipe left
 		//if(direction.x < 0 && direction.y > -0.5f && direction.y < 0.5f)
 		//{
