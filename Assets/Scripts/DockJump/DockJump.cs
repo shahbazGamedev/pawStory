@@ -56,7 +56,7 @@ public class DockJump : MonoBehaviour {
 		rb.AddForce (transform.forward * moveSpeed);
 
 }
-	//void OnTriggerStay()
+	//void OnTriggerStay(collider other)
 	//{
 		//Debug.Log ("triggered");
 		//isJumping = true;
@@ -86,8 +86,8 @@ public class DockJump : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.Space))
 		{
 			jumping();
-			isRunning=false;
-			dogAnim.SetFloat ("running",1f, speedDampTime, Time.deltaTime);
+			isRunning=false; 
+			dogAnim.SetFloat ("running",0f, speedDampTime, Time.deltaTime);
 		}
 
 //		Vector2 direction=swipeEnd-swipeBegin;
