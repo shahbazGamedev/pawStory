@@ -5,16 +5,16 @@ using UnityEngine.EventSystems;
 public class DockJump : MonoBehaviour {
 	public GameObject dogRef;
 	private Animator dogAnim;
-	public Vector3 jumpHeight;
+	private Vector3 jumpHeight;
 	public float moveSpeed;
 	bool isJumping=false;
 	public float jumpForce;
-	public float speedDampTime = 0.1f;
+	private float speedDampTime = 0.1f;
 	Rigidbody rb;
 	Vector2 swipeBegin;
 	Vector2 swipeEnd;
 	public float jumpspeed;
-	public float dragRatio;
+	private float dragRatio;
 	bool isRunning;
 	void awake()
 	{
