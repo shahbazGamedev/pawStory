@@ -48,9 +48,9 @@ public class CircuitManager : MonoBehaviour
 
 		alpha+=Time.deltaTime*moveSpeed;
 
-		// Calculate current position on ellipse
-		x = centerX + a.transform.position.x * Mathf.Cos(alpha*0.0174f);
-		y = centerY + b.transform.position.z * Mathf.Sin(alpha*0.0174f);
+		// Calculate current position on ellipse based on angle(radians)
+		x = centerX + a.transform.position.x * Mathf.Cos (alpha * 0.0174f);
+		y = centerY + b.transform.position.z * Mathf.Sin (alpha * 0.0174f);
 
 		// Calculate LookAt Position
 		forwardAlpha=alpha+forwardDist;
@@ -58,8 +58,8 @@ public class CircuitManager : MonoBehaviour
 		if(forwardAlpha>=360)
 			forwardAlpha-=360;
 
-		xForward = centerX + a.transform.position.x * Mathf.Cos(forwardAlpha*0.0174f);
-		yForward = centerY + b.transform.position.z * Mathf.Sin(forwardAlpha*0.0174f);
+		xForward = centerX + a.transform.position.x * Mathf.Cos (forwardAlpha * 0.0174f);
+		yForward = centerY + b.transform.position.z * Mathf.Sin (forwardAlpha * 0.0174f);
 
 		currentPosition=transform.position;
 
