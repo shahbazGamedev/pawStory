@@ -10,6 +10,8 @@ using AssemblyCSharp;
 
 public class StorageTest : MonoBehaviour
 {
+
+	public List<PuppyDBase> pupDbase;
 		ServiceAPI sp = null;
 		StorageService storageService = null; // Initialising Storage Service.
 		Constant cons = new Constant ();
@@ -18,6 +20,7 @@ public class StorageTest : MonoBehaviour
 		public int offSet = 1;
 		StorageResponse callBack = new StorageResponse ();
 		public string success, box;
+	public JSONClass jsonC = new JSONClass();
 	
 	#if UNITY_EDITOR
 	public static bool Validator (object sender, System.Security.Cryptography.X509Certificates.X509Certificate certificate, System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors)
@@ -29,6 +32,11 @@ public class StorageTest : MonoBehaviour
 		ServicePointManager.ServerCertificateValidationCallback = Validator;
 				#endif
 				sp = new ServiceAPI (cons.apiKey, cons.secretKey);
+
+		jsonC.Add("UserName","pradee");
+		jsonC.Add("PuppyName",pupDbase[0].PuppyName);
+		jsonC.Add("PuppyLevel",pupDbase[0].PuppyLevel);
+		jsonC.Add("PuppyColor",pupDbase[0].PuppyColor);
 		}
 	
 		// Update is called once per frame
@@ -48,7 +56,7 @@ public class StorageTest : MonoBehaviour
 				//===================================**************=========================================
 				if (GUI.Button (new Rect (50, 200, 200, 30), "Insert JsonDoc")) {
 						storageService = sp.BuildStorageService (); // Initializing Storage Service.
-						storageService.InsertJSONDocument (cons.dbName, collectionName, cons.json, callBack);
+						storageService.InsertJSONDocument (cons.dbName, collectionName, jsonC, callBack);
 				}
 		
 				//===================================**************=========================================

@@ -6,10 +6,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Facebook.MiniJSON;
 
-/*using com.shephertz.app42.paas.sdk.csharp;
-using com.shephertz.app42.paas.sdk.csharp.social;*/
+using com.shephertz.app42.paas.sdk.csharp;
+using com.shephertz.app42.paas.sdk.csharp.social;
 using UnityEngine.SocialPlatforms;
-//using AssemblyCSharp;
+using AssemblyCSharp;
 
 
 public class FacebookManager : MonoBehaviour 
@@ -40,9 +40,9 @@ public class FacebookManager : MonoBehaviour
 		instance = this;
 		CallFaceBookInit();
 
-		/*App42Log.SetDebug(true);  
+		App42Log.SetDebug(true);  
 		App42API.Initialize("2c2f08398a4fb2273f474b4dfcc0cc3aa2ff2a78c4db8a0937991080d8b9751f","71444279f46016e07ba2e42a379ab186b7cbd2649491a150223fb96439ad331b");  
-		  */
+		  
 
 	}
 
@@ -62,7 +62,7 @@ public class FacebookManager : MonoBehaviour
 //		}  
 //	}  
 
-	/*public class UnityCallBack : App42CallBack  
+	public class UnityCallBack : App42CallBack  
 	{  
 		public void OnSuccess(object response)  
 		{  
@@ -71,7 +71,7 @@ public class FacebookManager : MonoBehaviour
 			App42Log.Console("status is" + social.GetStatus());   
 
 			App42Log.Console("fb Access Token is" + social.GetFacebookAccessToken());  
-			App42Log.Console("facebookProfileId is : " + social.GetFacebookProfile().GetId());  
+			App42Log.Console("facebookProfileId is : " + social.GetFacebookProfile().GetUsername());//.GetId());  
 			App42Log.Console("facebookProfileName is : " + social.GetFacebookProfile().GetName());     
 			App42Log.Console("facebookProfileImage is : " + social.GetFacebookProfile().GetPicture());   
 						
@@ -80,7 +80,7 @@ public class FacebookManager : MonoBehaviour
 		{  
 			App42Log.Console("Exception : " + e);  
 		}  
-	}  */
+	}  
 	 
 	private void CallFaceBookInit()
 	{
@@ -432,7 +432,7 @@ public class FacebookManager : MonoBehaviour
 	}
 
 
-	/*public void LinkSocialUser()
+	public void LinkSocialUser()
 	{
 		SocialService socialService = App42API.BuildSocialService();   
 		socialService.LinkUserFacebookAccount(userName, accessToken, "1411530505809972","e0ce9a5611a34a53772d26d9bafd85c2", new UnityCallBack()); 
@@ -447,6 +447,6 @@ public class FacebookManager : MonoBehaviour
 //		SocialService socialService = App42API.BuildSocialService();   
 //		 
 //		socialService.UpdateFacebookStatus(userName, "Hi How are u ?", new UnityCallBack());   
-	}*/
+	}
 	 
 }

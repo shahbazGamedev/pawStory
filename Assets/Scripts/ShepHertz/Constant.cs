@@ -16,13 +16,13 @@ namespace AssemblyCSharp
 		public string updateEmailId   ="<Id that has to be upadated>";  // EmailId which has to be updated in user profile.
 		
 		public string dbName="pupDbase";   					// Name of the database for which you have to add json document
-		public string docId  = "<Object id of the User>";	 			// Object id of the json doc for which you have to fetch json doc,
+		public string docId  = "5587e8a0e4b0ecffabc1022f";	 			// Object id of the json doc for which you have to fetch json doc,
 		// update , delete etc..
 		public string scoreId = "<Scoreid of the User>";				// Score id of the user for which you have to edit score , fetch user score etc..
-		public string json = "{\"AppName\":\"devApp\",\"AppId\":\"123hg4bdb\",}"; 			// Json string which you want to save in insert json document
-		public string key = "<Enter_The_Key>"; 							// Key of json doc for fetch the doc details,update doc etc..
-		public string val = "<Enter_The_Value>"; 						// Value of json doc for fetch the doc details , updated doc etc..
-		public string newJson = "{'AppName':'RealeaseApp'}"; 			// json string which you want to update from existing doc.
+		public string json = "{'PuppyName':'Scooby', 'PuppyColor':'Green'}";  //"{\"PuppyName\":\"scoob\",\"PuppyColor\":\"brown\",\"PuppyLevel\":\"2\"}"; 			// Json string which you want to save in insert json document
+		public string key = "PuppyColor"; 							// Key of json doc for fetch the doc details,update doc etc..
+		public string val = "black"; 						// Value of json doc for fetch the doc details , updated doc etc..
+		public string newJson = "{'PuppyName':'Scooby', 'PuppyColor':'Green'}"; 			// json string which you want to update from existing doc.
 		
 		public string channelName  = "<Enter_the_channel_name>"; 		// Enter your ChannelName which you have to subscribe for PushNotification		
 		
