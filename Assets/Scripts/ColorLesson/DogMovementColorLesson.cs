@@ -13,24 +13,67 @@ public class DogMovementColorLesson : MonoBehaviour {
 	public GameObject Yellow;
 	public float distance;
 	public Vector3 direction;
+	public GameObject Target;
+	private bool isTargetEnable;
+
+	Rigidbody rb;
+	public float Speed;
+
 
 
 	// Use this for initialization
 	void Start () {
+		rb=GetComponent<Rigidbody>();
+
 	
 	}
 	
 	// Update is called once per frame
 	void Update () {
+//		if (Vector3.Distance (Dog.transform.position, Red.transform.position) >0f)
+//		direction=Red.transform.position-Dog.transform.position;
+//			transform.LookAt (direction);
+//		rb.AddForce (transform.forward* Speed);
 	
 	}
-	public void OnClick()
+	void FixedUpdate()
 	{
-		if(Vector3.Distance(Dog.transform.position,Red.transform.position)==0f)
+		if(isTargetEnable=true)
 		{
-
-			direction = Red.transform.position - Dog.transform.position;
-			distance = direction.magnitude;
+		Movement();
 		}
 	}
+	public void RedMove()
+	{
+		Target=Red;
+		isTargetEnable=true;
+
+	}
+//	public void BlueMove()
+//	{
+//		
+//
+//	}
+//	public void GreenMove()
+//	{
+//		
+//		
+//	}
+//	public void YellowMove()
+//	{
+//		
+//		
+//	}
+	void Movement()
+	{
+		if (Vector3.Distance (Dog.transform.position, Target.transform.position)>0f)
+			direction=Target.transform.position-Dog.transform.position;
+		transform.LookAt (direction);
+		rb.AddForce (transform.forward* Speed);
+
+
+	}
+
+
 }
+

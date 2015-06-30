@@ -320,12 +320,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 998791078}
-        m_MethodName: 
+      - m_Target: {fileID: 998791081}
+        m_MethodName: RedMove
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -434,7 +434,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 430294371}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 998791081}
+        m_MethodName: YellowMove
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &430294371
@@ -844,7 +855,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 640953736}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 998791081}
+        m_MethodName: GreenMove
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &640953736
@@ -956,6 +978,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 998791079}
   - 65: {fileID: 998791080}
+  - 114: {fileID: 998791081}
+  - 54: {fileID: 998791082}
   m_Layer: 0
   m_Name: Dog
   m_TagString: Untagged
@@ -988,6 +1012,41 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: .0997163355, y: .168133751, z: .282437503}
   m_Center: {x: -6.48647547e-05, y: .0884586498, z: .0658827126}
+--- !u!114 &998791081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 998791078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f6ab496ba4217848b93c1995dc53bca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Dog: {fileID: 998791078}
+  Red: {fileID: 538350215}
+  Blue: {fileID: 1432231097}
+  Green: {fileID: 640953733}
+  Yellow: {fileID: 430294368}
+  distance: 0
+  direction: {x: 0, y: 0, z: 0}
+  Target: {fileID: 0}
+  Speed: 20
+--- !u!54 &998791082
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 998791078}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: .0500000007
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!1 &1081110037
 GameObject:
   m_ObjectHideFlags: 0
@@ -1251,7 +1310,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1432231100}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 998791081}
+        m_MethodName: BlueMove
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1432231100
