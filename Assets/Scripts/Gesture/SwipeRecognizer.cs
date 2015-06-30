@@ -11,8 +11,8 @@ public class SwipeRecognizer
 
 	public enum TouchPattern // Possible gestures
 	{
-		singleTap,//TODO
-		doubleTap,//TODO
+		singleTap,
+		doubleTap,
 		swipeUp,
 		swipeDown,
 		swipeLeft,

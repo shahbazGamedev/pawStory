@@ -40,7 +40,7 @@ public class CircuitManager : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	void Update ()
+	void FixedUpdate ()
 	{
 		// Update ellipse angle
 		if(alpha>=360)
