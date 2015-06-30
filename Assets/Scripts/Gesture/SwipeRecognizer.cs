@@ -11,6 +11,8 @@ public class SwipeRecognizer
 
 	public enum TouchPattern // Possible gestures
 	{
+		singleTap,//TODO
+		doubleTap,//TODO
 		swipeUp,
 		swipeDown,
 		swipeLeft,
@@ -32,6 +34,7 @@ public class SwipeRecognizer
 		public Vector2 swipeStartPos;
 		public Vector2 swipeEndPos;
 		public float swipeAngle;
+		public float swipeLength;
 		public TouchPattern pattern;
 	};
 
@@ -41,7 +44,7 @@ public class SwipeRecognizer
 	/// <returns><c>true</c>, if swipe was recogonized, <c>false</c> otherwise.</returns>
 	/// <param name="startPoint">Start point.</param>
 	/// <param name="endPoint">End point.</param>
-	/// <param name="dragData">Drag data.</param>
+	/// <param name="swipeData">Drag data.</param>
 	/// <param name="pattern">Returns predefined TouchPattern if successful else tryAgain .</param>
 	// Called at end of drag to recogonize the gesture
 	public static bool RecogonizeSwipe (Vector2 startPoint, Vector2 endPoint, List<Vector2> swipeData, out TouchPattern pattern)
@@ -193,6 +196,7 @@ public class SwipeRecognizer
 	{
 		TouchPattern pattern = TouchPattern.tryAgain;
 		TouchPattern patternLocal;
+		Vector2 transformedVector;
 
 		float xComponent;
 		float yComponent;
@@ -267,7 +271,13 @@ public class SwipeRecognizer
 		swipe.pattern = pattern;
 		swipe.swipeStartPos = startPoint;
 		swipe.swipeEndPos = endPoint;
-		swipe.swipeAngle = Vector2.Angle (Vector2.up, endPoint-startPoint);
+		transformedVector = endPoint - startPoint;
+		swipe.swipeAngle = Vector2.Angle (Vector2.up, transformedVector);
+		swipe.swipeAngle *= transformedVector.x * Vector2.up.y - transformedVector.y * Vector2.up.x > 0 ? 1 : -1;
+		if (swipe.swipeAngle < 0)
+			swipe.swipeAngle += 360;
+		Debug.Log (swipe.swipeAngle);
+		swipe.swipeLength = Vector2.Distance (startPoint, endPoint);
 
 		// Return false if none recognized
 		if (pattern == TouchPattern.tryAgain)

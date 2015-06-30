@@ -44,16 +44,11 @@ public class DogManager : MonoBehaviour
 
 	public bool isCircuitRun; // Added to override Run animation during Circuit Run
 
-	void Awake()
-	{
-		dogAnim = dogReference.GetComponent<Animator>();
-		jumpHeight = new Vector3(0 , jumpForce, 0);
-	}
-
 	// Use this for initialization
 	void Start ()
 	{
-
+		dogAnim = dogReference.GetComponent<Animator>();
+		jumpHeight = new Vector3(0 , jumpForce, 0);
 	}
 
 	 
@@ -78,8 +73,6 @@ public class DogManager : MonoBehaviour
 
 		moveDirection =  new Vector3(horizontal, 0, vertical);
 
-
-		
 		// If there is some axis input...
 		if (horizontal != 0f || vertical != 0f || isCircuitRun==true) 
 		{
@@ -89,8 +82,6 @@ public class DogManager : MonoBehaviour
 			dogAnim.SetFloat ("Speed",1f, speedDampTime, Time.deltaTime);
 			//GetComponent<Rigidbody> ().AddForce(transform.forward * moveSpeed );
 
-
-			 
 		} 
 		else
 			// Otherwise set the speed parameter to 0.
@@ -103,36 +94,25 @@ public class DogManager : MonoBehaviour
 	}
 	
 
-//	void Rotating (float horizontal, float vertical)
-//	{
-//		// Create a new vector of the horizontal and vertical inputs.
-//		Vector3 targetDirection = new Vector3 (horizontal, 0f, vertical);
-//		
-//		// Create a rotation based on this new vector assuming that up is the global y axis.
-//		Quaternion targetRotation = Quaternion.LookRotation (targetDirection, Vector3.up);
-//		
-//		// Create a rotation that is an increment closer to the target rotation from the player's rotation.
-//		Quaternion newRotation = Quaternion.Lerp (GetComponent<Rigidbody> ().rotation, targetRotation, turnSmoothing * Time.deltaTime);
-//		
-//		// Change the players rotation to this new rotation.
-//		GetComponent<Rigidbody> ().MoveRotation (newRotation);
-//	}
-	
 	// Update is called once per frame
 	void Update ()
 	{
 
 	
 	}
-
-
 		
-
-
-	void Jump()
+	public void Jump()
 	{
 		dogAnim.SetTrigger("Jump");
 		GetComponent<Rigidbody>().AddForce(jumpHeight,ForceMode.Impulse);
+
+	}
+
+	// Overloading for JumpAndShoot Module
+	public void Jump(Vector3 direction)
+	{
+		dogAnim.SetTrigger("Jump");
+		GetComponent<Rigidbody>().AddForce(direction,ForceMode.Impulse);
 
 	}
 
