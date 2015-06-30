@@ -9,13 +9,9 @@ using System.Collections.Generic;
 
 public class ShootManager : MonoBehaviour {
 
-	//public Text swipeText;
 	Vector2 startPoint;
 	Vector2 endPoint;
 	List<Vector2> swipeData;
-
-	int touchBeginID;
-	int touchEndID;
 
 	SwipeRecognizer.Swipe swipe;
 	DogManager dogManager;
@@ -47,6 +43,8 @@ public class ShootManager : MonoBehaviour {
 		if (tap)
 		{
 			tap = false;
+
+			// if dog has the ball then shoot
 			if(hasBall)
 				shoot = true;
 		}
@@ -57,6 +55,7 @@ public class ShootManager : MonoBehaviour {
 	{
 		if(jump)
 		{
+			// check if dog is on ground
 			if(dogManager.isGrounded)
 			{
 				// Jump Code Here
@@ -66,15 +65,18 @@ public class ShootManager : MonoBehaviour {
 				jump = false;
 			}
 		}
+
+		// dog can shoot only if it has already jumped
 		if(!dogManager.isGrounded)
 		{
 			if(shoot)
 			{
 				// Shoot Code Here
-//				Debug.Log ("shoot!");
 				var thisInstance = (Transform)Instantiate (ballPrefab, spawnPoint.position, Quaternion.identity);
 				thisInstance.root.GetComponent <Rigidbody> ().AddForce (jumpForce / ballSpeedFactor, ForceMode.Impulse);
 				thisInstance.parent = ballHolder;
+
+				// dog has shot the ball
 				hasBall = false;
 			}
 		}
@@ -83,18 +85,14 @@ public class ShootManager : MonoBehaviour {
 
 	public void OnBeginDrag (BaseEventData data)
 	{
-//		Debug.Log ("Begin");
 		var pointData = (PointerEventData)data;
-		touchBeginID = pointData.pointerId;
 		startPoint = pointData.position;
 		swipe.pattern = SwipeRecognizer.TouchPattern.reset;
 	}
 
 	public void OnEndDrag (BaseEventData data)
 	{
-//		Debug.Log ("End");
 		var pointData = (PointerEventData)data;
-		touchEndID = pointData.pointerId;
 		endPoint = pointData.position;
 
 		// Recognize swipe

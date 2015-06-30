@@ -267,16 +267,20 @@ public class SwipeRecognizer
 			}
 		}
 
-
+		// fill the out argument - Swipe struct
 		swipe.pattern = pattern;
 		swipe.swipeStartPos = startPoint;
 		swipe.swipeEndPos = endPoint;
+
+		// calculate swipe angle as required for quateranion.eulers
 		transformedVector = endPoint - startPoint;
 		swipe.swipeAngle = Vector2.Angle (Vector2.up, transformedVector);
 		swipe.swipeAngle *= transformedVector.x * Vector2.up.y - transformedVector.y * Vector2.up.x > 0 ? 1 : -1;
+
 		if (swipe.swipeAngle < 0)
 			swipe.swipeAngle += 360;
-		Debug.Log (swipe.swipeAngle);
+
+		// calculate swipe length to be used as force factor for dog jump (jump and shoot module)
 		swipe.swipeLength = Vector2.Distance (startPoint, endPoint);
 
 		// Return false if none recognized
@@ -290,7 +294,6 @@ public class SwipeRecognizer
 	// Calculate angle between two vectors
 	static float AngleBetweenVectors(Vector2 previousVector, Vector2 currentVector)
 	{
-
 		float deltaAngle = Vector2.Angle (previousVector, currentVector) ;
 		return deltaAngle;
 	}
