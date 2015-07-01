@@ -7,69 +7,73 @@ using System.Collections;
 
 public class DogMovementColorLesson : MonoBehaviour {
 	public GameObject Dog;
-	public GameObject Red;
-	public GameObject Blue;
-	public GameObject Green;
-	public GameObject Yellow;
-	public float distance;
-	public Vector3 direction;
-	public GameObject Target;
-	private bool isTargetEnable;
-
+	public Transform Target;
 	Rigidbody rb;
+	public bool isTargetRed;
+	private Vector3 direction;
 	public float Speed;
-
+	private Animator dogAnim;
+	public float speedDampTime;
 
 
 	// Use this for initialization
 	void Start () {
 		rb=GetComponent<Rigidbody>();
+		isTargetRed=false;
+		dogAnim = GetComponent<Animator>();
+
 
 	
 	}
 	
 	// Update is called once per frame
 	void Update () {
-//		if (Vector3.Distance (Dog.transform.position, Red.transform.position) >0f)
-//		direction=Red.transform.position-Dog.transform.position;
-//			transform.LookAt (direction);
-//		rb.AddForce (transform.forward* Speed);
+
 	
 	}
 	void FixedUpdate()
 	{
-		if(isTargetEnable=true)
-		{
-		Movement();
+		if(isTargetRed==true)
+		   {
+			Debug.Log("working");
+		
+			Movement();
+		
+			dogAnim.SetFloat ("Walk",1f, speedDampTime, Time.deltaTime);
+
 		}
+	
 	}
 	public void RedMove()
 	{
-		Target=Red;
-		isTargetEnable=true;
+
+
+		isTargetRed=true;
+		
+			
 
 	}
-//	public void BlueMove()
-//	{
-//		
-//
+	//public void BlueMove()
+	//{
+	
+
 //	}
 //	public void GreenMove()
 //	{
-//		
-//		
 //	}
 //	public void YellowMove()
 //	{
 //		
-//		
 //	}
 	void Movement()
 	{
-		if (Vector3.Distance (Dog.transform.position, Target.transform.position)>0f)
+		if(Vector3.Distance(Dog.transform.position,Target.transform.position)>0f && isTargetRed==true)
 			direction=Target.transform.position-Dog.transform.position;
-		transform.LookAt (direction);
-		rb.AddForce (transform.forward* Speed);
+
+		     transform.LookAt (Target);
+		//rb.AddForce(transform.forward*Speed);
+		rb.MovePosition(Vector3.MoveTowards (transform.position, Target.position, Speed* Time.deltaTime));
+		
 
 
 	}

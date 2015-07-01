@@ -240,7 +240,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 346280495}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: .649999976, z: -1.09000003}
+  m_LocalPosition: {x: 0, y: .829999983, z: -2.41000009}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -776,7 +776,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 538350215}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.28799999, y: .0480000004, z: 1.449}
+  m_LocalPosition: {x: 2.375, y: .0270000007, z: .819000006}
   m_LocalScale: {x: .198783442, y: .0677600726, z: .169594169}
   m_Children: []
   m_Father: {fileID: 0}
@@ -980,6 +980,7 @@ GameObject:
   - 65: {fileID: 998791080}
   - 114: {fileID: 998791081}
   - 54: {fileID: 998791082}
+  - 95: {fileID: 998791083}
   m_Layer: 0
   m_Name: Dog
   m_TagString: Untagged
@@ -994,7 +995,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 998791078}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: .00300000003, z: 0}
+  m_LocalPosition: {x: 0, y: .00300000003, z: -.970000029}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1209856799}
@@ -1024,14 +1025,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Dog: {fileID: 998791078}
-  Red: {fileID: 538350215}
-  Blue: {fileID: 1432231097}
-  Green: {fileID: 640953733}
-  Yellow: {fileID: 430294368}
-  distance: 0
-  direction: {x: 0, y: 0, z: 0}
-  Target: {fileID: 0}
-  Speed: 20
+  Target: {fileID: 538350219}
+  isTargetRed: 0
+  Speed: 1.59000003
+  speedDampTime: 0
 --- !u!54 &998791082
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1047,6 +1044,23 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!95 &998791083
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 998791078}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: b55ad10048c7e420bbeca23d93b35397, type: 3}
+  m_Controller: {fileID: 9100000, guid: 217ec829e14ab254590a298b782e86aa, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &1081110037
 GameObject:
   m_ObjectHideFlags: 0
@@ -1229,7 +1243,12 @@ Prefab:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 217ec829e14ab254590a298b782e86aa, type: 2}
-    m_RemovedComponents: []
+    - target: {fileID: 9500000, guid: b55ad10048c7e420bbeca23d93b35397, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 9500000, guid: b55ad10048c7e420bbeca23d93b35397, type: 3}
   m_ParentPrefab: {fileID: 100100000, guid: b55ad10048c7e420bbeca23d93b35397, type: 3}
   m_IsPrefabParent: 0
 --- !u!4 &1209856799 stripped
