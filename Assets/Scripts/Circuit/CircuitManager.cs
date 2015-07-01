@@ -16,11 +16,12 @@ public class CircuitManager : MonoBehaviour
 	public float centerX;
 	public float centerY;
 	public float moveSpeed;
+	public float alphaFactor;
 
 	public float forwardDist;
 	public Vector3 forwardDirection;
 
-	public Transform target;
+	Vector3 target;
 	Vector3 currentPosition;
 	DogManager dgManager;
 
@@ -34,7 +35,7 @@ public class CircuitManager : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		target=gameObject.transform;
+		target=gameObject.transform.position;
 		dgManager=GetComponent<DogManager>();
 		dgManager.isCircuitRun=true; // Added tp override dog idle animation
 	}
@@ -43,10 +44,10 @@ public class CircuitManager : MonoBehaviour
 	void FixedUpdate ()
 	{
 		// Update ellipse angle
+		alpha += Time.deltaTime * alphaFactor;
+
 		if(alpha>=360)
 			alpha=0;
-
-		alpha+=Time.deltaTime*moveSpeed;
 
 		// Calculate current position on ellipse based on angle(radians)
 		x = centerX + a.transform.position.x * Mathf.Cos (alpha * 0.0174f);
@@ -62,10 +63,12 @@ public class CircuitManager : MonoBehaviour
 		yForward = centerY + b.transform.position.z * Mathf.Sin (forwardAlpha * 0.0174f);
 
 		currentPosition=transform.position;
+		target=new Vector3(x, currentPosition.y, y);
+		forwardDirection=new Vector3(xForward, currentPosition.y, yForward);
 
 		// Dog Movement
-		GetComponent<Rigidbody>().MovePosition(new Vector3(x,currentPosition.y,y));
-		transform.LookAt(new Vector3(xForward, currentPosition.y, yForward));
+		GetComponent<Rigidbody>().MovePosition (Vector3.MoveTowards (transform.position, target, moveSpeed * Time.deltaTime));
+		transform.LookAt(forwardDirection);
 	}
 
 }
