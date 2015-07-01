@@ -22,11 +22,16 @@ public class ShootManager : MonoBehaviour {
 	public bool hasBall;
 	public float jumpFactor;
 	public float ballSpeedFactor;
+	public Vector3 ballVelocity;
+	Vector3 startPosition;
 
-	Vector3 jumpForce;
+	public Vector3 jumpForce;
 	public Transform spawnPoint;
 	public Transform ballPrefab;
 	public Transform ballHolder;
+	public float horizontalDistance;
+	public float distance;
+	float progress;
 
 	// Use this for initialization
 	void Start () {
@@ -53,8 +58,13 @@ public class ShootManager : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () 
 	{
+		// distance of dog from start point of dog
+		distance = (transform.position - startPosition).magnitude;
+
 		if(jump)
 		{
+			startPosition = transform.position;
+
 			// check if dog is on ground
 			if(dogManager.isGrounded)
 			{
@@ -63,6 +73,7 @@ public class ShootManager : MonoBehaviour {
 				jumpForce = Quaternion.Euler (0, swipe.swipeAngle, 0) * (new Vector3 (0f, 1f, 0.8f) * swipe.swipeLength * jumpFactor);
 				dogManager.Jump (jumpForce);
 				jump = false;
+				StartCoroutine (calcDist ());
 			}
 		}
 
@@ -73,7 +84,12 @@ public class ShootManager : MonoBehaviour {
 			{
 				// Shoot Code Here
 				var thisInstance = (Transform)Instantiate (ballPrefab, spawnPoint.position, Quaternion.identity);
-				thisInstance.root.GetComponent <Rigidbody> ().AddForce (jumpForce / ballSpeedFactor, ForceMode.Impulse);
+
+				// Calc ball velocity based on angle of dog
+				ballVelocity = GetComponent <Rigidbody> ().velocity;
+				ballVelocity.y = calcBallForceRatio ();
+
+				thisInstance.root.GetComponent <Rigidbody> ().velocity = ballVelocity;
 				thisInstance.parent = ballHolder;
 
 				// dog has shot the ball
@@ -118,11 +134,26 @@ public class ShootManager : MonoBehaviour {
 		// check for tap 
 		if (swipeData.Count <= 1)
 		{
-			// check for double tap
-			if (pointData.clickCount > 1)
-				Debug.Log ("More than single tap");
-			else
 				tap=true;
 		}
+	}
+
+	IEnumerator calcDist()
+	{
+		// Fix for caculating velocity of dog correctly
+		yield return new WaitForEndOfFrame ();
+		horizontalDistance = ( GetComponent <Rigidbody> ().velocity.sqrMagnitude) / -Physics.gravity.y;
+	}
+
+	// calculates the ratio based on progress of dog jump
+	float calcBallForceRatio()
+	{
+		progress = distance / horizontalDistance;
+
+		// Max ball velocity at midpoint of jump
+		if (progress <= 0.5)
+			return  (3 * (progress / 0.5f));
+		else
+			return  1 - progress;
 	}
 }
