@@ -14,6 +14,11 @@ public class DogMovementColorLesson : MonoBehaviour {
 	public float Speed;
 	private Animator dogAnim;
 	public float speedDampTime;
+	public Transform red;
+		public Transform blue;
+	public Transform green;
+	public Transform yellow;
+	public Transform ReturnPos;
 
 
 	// Use this for initialization
@@ -46,25 +51,30 @@ public class DogMovementColorLesson : MonoBehaviour {
 	}
 	public void RedMove()
 	{
-
+		Target=red;
 
 		isTargetRed=true;
 		
 			
 
 	}
-	//public void BlueMove()
-	//{
+	public void BlueMove()
+	{
+		Target=blue;
+		isTargetRed=true;
 	
 
-//	}
-//	public void GreenMove()
-//	{
-//	}
-//	public void YellowMove()
-//	{
-//		
-//	}
+	}
+	public void GreenMove()
+	{
+		Target=green;
+		isTargetRed=true;
+	}
+	public void YellowMove()
+	{
+	Target=yellow;
+		isTargetRed=true;
+	}
 	void Movement()
 	{
 		if(Vector3.Distance(Dog.transform.position,Target.transform.position)>0f && isTargetRed==true)
@@ -73,11 +83,18 @@ public class DogMovementColorLesson : MonoBehaviour {
 		     transform.LookAt (Target);
 		//rb.AddForce(transform.forward*Speed);
 		rb.MovePosition(Vector3.MoveTowards (transform.position, Target.position, Speed* Time.deltaTime));
-		
+		 
 
 
 	}
+	void ReturnBack()
+	{
+		if(Vector3.Distance(Dog.transform.position,Target.transform.position)<0.3f )
+			direction=ReturnPos.transform.position-Dog.transform.position;
+		transform.LookAt (ReturnPos);
+		rb.MovePosition(Vector3.MoveTowards (transform.position, ReturnPos.position, Speed* Time.deltaTime));
 
+	}
 
 }
 
