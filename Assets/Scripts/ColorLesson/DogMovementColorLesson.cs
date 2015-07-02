@@ -19,12 +19,14 @@ public class DogMovementColorLesson : MonoBehaviour {
 	public Transform green;
 	public Transform yellow;
 	public Transform ReturnPos;
+	public bool isReturn;
 
 
 	// Use this for initialization
 	void Start () {
 		rb=GetComponent<Rigidbody>();
 		isTargetRed=false;
+		isReturn=false;
 		dogAnim = GetComponent<Animator>();
 
 
@@ -40,15 +42,22 @@ public class DogMovementColorLesson : MonoBehaviour {
 	{
 		if(isTargetRed==true)
 		   {
-			Debug.Log("working");
+			//Debug.Log("working");
+			dogAnim.SetFloat ("Walk",1f, speedDampTime, Time.deltaTime);
 		
 			Movement();
-		
-			dogAnim.SetFloat ("Walk",1f, speedDampTime, Time.deltaTime);
-
 		}
-	
+		
+		if(isReturn==true)
+		{
+			isTargetRed=false;
+			ReturnBack();
+		}
+			
 	}
+
+	
+
 	public void RedMove()
 	{
 		Target=red;
@@ -77,24 +86,38 @@ public class DogMovementColorLesson : MonoBehaviour {
 	}
 	void Movement()
 	{
-		if(Vector3.Distance(Dog.transform.position,Target.transform.position)>0f && isTargetRed==true)
+		if(Vector3.Distance(Dog.transform.position,Target.transform.position)>0.5f && isTargetRed==true)
+		{
 			direction=Target.transform.position-Dog.transform.position;
 
 		     transform.LookAt (Target);
 		//rb.AddForce(transform.forward*Speed);
 		rb.MovePosition(Vector3.MoveTowards (transform.position, Target.position, Speed* Time.deltaTime));
+		}
+		else
+		{
+
+			isReturn=true;
+		}
 		 
 
 
 	}
 	void ReturnBack()
 	{
-		if(Vector3.Distance(Dog.transform.position,Target.transform.position)<0.3f )
-			direction=ReturnPos.transform.position-Dog.transform.position;
+		if(Vector3.Distance(Dog.transform.position,ReturnPos.transform.position)>.5f)
+		{
+			Debug.Log ("tes");
+		
+		direction=ReturnPos.transform.position-Dog.transform.position;
 		transform.LookAt (ReturnPos);
 		rb.MovePosition(Vector3.MoveTowards (transform.position, ReturnPos.position, Speed* Time.deltaTime));
+		}
+
 
 	}
-
 }
+	
+
+
 
