@@ -32,12 +32,14 @@ public class DogManager : MonoBehaviour
 	private Animator dogAnim;
 
 	public float moveSpeed;
+	public float rotationSpeed;
 
 	public Vector3 moveDirection;
 	Vector3 jumpHeight;
 	public float jumpForce;
 	public float dragFactor;
 	public bool isGrounded=false;
+	public bool isCoroutineOn;
 	
 	Vector2 swipeBegin;
 	Vector2 swipeEnd;
@@ -169,5 +171,31 @@ public class DogManager : MonoBehaviour
 		{
 			Debug.Log("right swipe");
 		}
+	}
+		
+	/// <summary>
+	/// Moves the dog to target position using coroutine.
+	/// </summary>
+	/// <param name="targetPosition">Target position.</param>
+	/// <param name="targetRotation">Target rotation.</param>
+	public IEnumerator MoveToPosition(Vector3 targetPosition, Quaternion targetRotation)
+	{
+		isCircuitRun=true;
+		isCoroutineOn = true;
+		while (transform.position != targetPosition)
+		{
+			
+			targetPosition.y = transform.position.y;
+			transform.position = Vector3.MoveTowards (transform.position, targetPosition, moveSpeed * Time.deltaTime);
+			transform.LookAt (targetPosition);
+			yield return new WaitForFixedUpdate ();
+		}
+		isCircuitRun=false;
+		while (transform.rotation != targetRotation) {
+			transform.rotation = Quaternion.RotateTowards (transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+			yield return new WaitForFixedUpdate ();
+		}
+		isCoroutineOn = false;
+		yield return null;
 	}
 }

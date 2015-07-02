@@ -1,6 +1,6 @@
 ﻿/**
 Script Author : Vaikash 
-Description   : Swipe Recognizer
+Description   : Dog Shoot
 **/
 using UnityEngine;
 using System.Collections;
@@ -73,7 +73,7 @@ public class ShootManager : MonoBehaviour {
 				jumpForce = Quaternion.Euler (0, swipe.swipeAngle, 0) * (new Vector3 (0f, 1f, 0.8f) * swipe.swipeLength * jumpFactor);
 				dogManager.Jump (jumpForce);
 				jump = false;
-				StartCoroutine (calcDist ());
+				StartCoroutine (CalcDistance ());
 			}
 		}
 
@@ -87,7 +87,7 @@ public class ShootManager : MonoBehaviour {
 
 				// Calc ball velocity based on angle of dog
 				ballVelocity = GetComponent <Rigidbody> ().velocity;
-				ballVelocity.y = calcBallForceRatio ();
+				ballVelocity.y = CalcBallForceRatio ();
 
 				thisInstance.root.GetComponent <Rigidbody> ().velocity = ballVelocity;
 				thisInstance.parent = ballHolder;
@@ -138,15 +138,15 @@ public class ShootManager : MonoBehaviour {
 		}
 	}
 
-	IEnumerator calcDist()
+	// Fix for caculating velocity of dog correctly
+	IEnumerator CalcDistance()
 	{
-		// Fix for caculating velocity of dog correctly
 		yield return new WaitForEndOfFrame ();
 		horizontalDistance = ( GetComponent <Rigidbody> ().velocity.sqrMagnitude) / -Physics.gravity.y;
 	}
 
 	// calculates the ratio based on progress of dog jump
-	float calcBallForceRatio()
+	float CalcBallForceRatio()
 	{
 		progress = distance / horizontalDistance;
 
