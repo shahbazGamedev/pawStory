@@ -69,6 +69,7 @@ public class CircuitManager : MonoBehaviour
 		// Dog Movement
 		GetComponent<Rigidbody>().MovePosition (Vector3.MoveTowards (transform.position, target, moveSpeed * Time.deltaTime));
 		transform.LookAt(forwardDirection);
+
 	}
 
 }

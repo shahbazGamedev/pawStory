@@ -21,17 +21,19 @@ public class ShootManager : MonoBehaviour {
 	bool shoot;
 	public bool hasBall;
 	public float jumpFactor;
-	public float ballSpeedFactor;
-	public Vector3 ballVelocity;
+	Vector3 ballVelocity;
 	Vector3 startPosition;
 
 	public Vector3 jumpForce;
 	public Transform spawnPoint;
 	public Transform ballPrefab;
 	public Transform ballHolder;
-	public float horizontalDistance;
 	public float distance;
+	public float actualDistance;
 	float progress;
+
+	public float boostRange;
+	public float forceFactor;
 
 	// Use this for initialization
 	void Start () {
@@ -59,7 +61,7 @@ public class ShootManager : MonoBehaviour {
 	void FixedUpdate () 
 	{
 		// distance of dog from start point of dog
-		distance = (transform.position - startPosition).magnitude;
+		actualDistance = (transform.position - startPosition).magnitude;
 
 		if(jump)
 		{
@@ -129,7 +131,7 @@ public class ShootManager : MonoBehaviour {
 
 	public void OnClick(BaseEventData data)
 	{
-		var pointData = (PointerEventData)data;
+		//var pointData = (PointerEventData)data;
 
 		// check for tap 
 		if (swipeData.Count <= 1)
@@ -142,18 +144,18 @@ public class ShootManager : MonoBehaviour {
 	IEnumerator CalcDistance()
 	{
 		yield return new WaitForEndOfFrame ();
-		horizontalDistance = ( GetComponent <Rigidbody> ().velocity.sqrMagnitude) / -Physics.gravity.y;
+		distance = ( GetComponent <Rigidbody> ().velocity.sqrMagnitude) / -Physics.gravity.y;
 	}
 
 	// calculates the ratio based on progress of dog jump
 	float CalcBallForceRatio()
 	{
-		progress = distance / horizontalDistance;
+		progress = actualDistance / distance;
 
-		// Max ball velocity at midpoint of jump
-		if (progress <= 0.5)
-			return  (3 * (progress / 0.5f));
+		// Max ball velocity at boostRange % of jump
+		if (progress <= boostRange)
+			return  (forceFactor * progress);
 		else
-			return  1 - progress;
+			return  2.5f * (1 - progress);
 	}
 }

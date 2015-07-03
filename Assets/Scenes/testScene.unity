@@ -65,7 +65,7 @@ LightmapSettings:
     m_Padding: 2
     m_CompAOExponent: 0
     m_LightmapParameters: {fileID: 0}
-    m_TextureCompression: 1
+    m_TextureCompression: 0
     m_FinalGather: 0
     m_FinalGatherRayCount: 1024
   m_LightmapSnapshot: {fileID: 0}
@@ -160,7 +160,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
 --- !u!1 &381651866 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100094, guid: 27dbd15e55dbfdd4ebd342dadda28b1f, type: 3}
@@ -764,10 +764,11 @@ MonoBehaviour:
   turnSmoothing: 15
   speedDampTime: .100000001
   moveSpeed: 4
-  moveDirection: {x: 0, y: 0, z: 0}
+  rotationSpeed: 0
   jumpForce: 6
   dragFactor: 1
   isGrounded: 0
+  isCoroutineOn: 0
   isCircuitRun: 0
 --- !u!65 &986618452
 BoxCollider:
@@ -1080,7 +1081,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1550338647
 Transform:
@@ -1140,7 +1141,7 @@ Prefab:
       objectReference: {fileID: 986618450}
     - target: {fileID: 11400000, guid: baec086904791744185aaa07a6cf55c2, type: 2}
       propertyPath: m_FollowVelocity
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: baec086904791744185aaa07a6cf55c2, type: 2}
       propertyPath: m_MoveSpeed
@@ -1152,7 +1153,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: baec086904791744185aaa07a6cf55c2, type: 2}
       propertyPath: m_SmoothTurnTime
-      value: .100000001
+      value: .300000012
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: baec086904791744185aaa07a6cf55c2, type: 2}
       propertyPath: m_SpinTurnLimit
@@ -1182,6 +1183,10 @@ Prefab:
       propertyPath: m_TargetVelocityLowerLimit
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: baec086904791744185aaa07a6cf55c2, type: 2}
+      propertyPath: m_UpdateType
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: baec086904791744185aaa07a6cf55c2, type: 2}
   m_IsPrefabParent: 0
@@ -1210,7 +1215,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1806825623
 Transform:

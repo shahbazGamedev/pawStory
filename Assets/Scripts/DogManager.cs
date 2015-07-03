@@ -29,12 +29,12 @@ public class DogManager : MonoBehaviour
 	public float turnSmoothing = 15f;   // A smoothing value for turning the player.
 	public float speedDampTime = 0.1f;  // The damping for the speed parameter
 
-	private Animator dogAnim;
+	Animator dogAnim;
 
 	public float moveSpeed;
 	public float rotationSpeed;
 
-	public Vector3 moveDirection;
+	Vector3 moveDirection;
 	Vector3 jumpHeight;
 	public float jumpForce;
 	public float dragFactor;
