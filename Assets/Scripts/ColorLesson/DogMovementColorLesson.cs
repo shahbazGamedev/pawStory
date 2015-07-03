@@ -9,7 +9,7 @@ public class DogMovementColorLesson : MonoBehaviour {
 	public GameObject Dog;
 	public Transform Target;
 	Rigidbody rb;
-	public bool isTargetRed;
+	bool isTargetRed;
 	private Vector3 direction;
 	public float Speed;
 	private Animator dogAnim;
@@ -18,15 +18,15 @@ public class DogMovementColorLesson : MonoBehaviour {
 		public Transform blue;
 	public Transform green;
 	public Transform yellow;
-	public Transform ReturnPos;
-	public bool isReturn;
+	//public Transform ReturnPos;
+	//public bool isReturn;
 
 
 	// Use this for initialization
 	void Start () {
 		rb=GetComponent<Rigidbody>();
 		isTargetRed=false;
-		isReturn=false;
+		//isReturn=false;
 		dogAnim = GetComponent<Animator>();
 
 
@@ -48,11 +48,11 @@ public class DogMovementColorLesson : MonoBehaviour {
 			Movement();
 		}
 		
-		if(isReturn==true)
-		{
-			isTargetRed=false;
-			ReturnBack();
-		}
+//		if(isReturn==true)
+//		{
+//			isTargetRed=false;
+//			ReturnBack();
+//		}
 			
 	}
 
@@ -62,6 +62,7 @@ public class DogMovementColorLesson : MonoBehaviour {
 	{
 		Target=red;
 
+
 		isTargetRed=true;
 		
 			
@@ -70,6 +71,7 @@ public class DogMovementColorLesson : MonoBehaviour {
 	public void BlueMove()
 	{
 		Target=blue;
+
 		isTargetRed=true;
 	
 
@@ -77,6 +79,7 @@ public class DogMovementColorLesson : MonoBehaviour {
 	public void GreenMove()
 	{
 		Target=green;
+
 		isTargetRed=true;
 	}
 	public void YellowMove()
@@ -97,25 +100,26 @@ public class DogMovementColorLesson : MonoBehaviour {
 		else
 		{
 
-			isReturn=true;
+			//isReturn=true;
+			dogAnim.SetFloat ("Walk",0f, speedDampTime, Time.deltaTime);
 		}
 		 
 
 
 	}
-	void ReturnBack()
-	{
-		if(Vector3.Distance(Dog.transform.position,ReturnPos.transform.position)>.5f)
-		{
-			Debug.Log ("tes");
-		
-		direction=ReturnPos.transform.position-Dog.transform.position;
-		transform.LookAt (ReturnPos);
-		rb.MovePosition(Vector3.MoveTowards (transform.position, ReturnPos.position, Speed* Time.deltaTime));
-		}
-
-
-	}
+//	void ReturnBack()
+//	{
+//		if(Vector3.Distance(Dog.transform.position,ReturnPos.transform.position)>.5f)
+//		{
+//			Debug.Log ("tes");
+//		
+//		direction=ReturnPos.transform.position-Dog.transform.position;
+//		transform.LookAt (ReturnPos);
+//		rb.MovePosition(Vector3.MoveTowards (transform.position, ReturnPos.position, Speed* Time.deltaTime));
+//		}
+//
+//
+//	}
 }
 	
 
