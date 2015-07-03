@@ -133,7 +133,7 @@ public class PuppyWorld_FBManager : MonoBehaviour
 		}
 		
 		var dict= Json.Deserialize(get_data) as IDictionary;
-		PuppyWorld_GameConstant.instance.userName = dict["first_name"].ToString();
+		PuppyWorld_GlobalVariables.instance.userName = dict["first_name"].ToString();
 		userName  = dict["first_name"].ToString();
 		
 		/*userNameText.text = userName;*/
@@ -152,7 +152,7 @@ public class PuppyWorld_FBManager : MonoBehaviour
 			}
 			
 			userImageURL = Util.DeserializePictureURLString(result.Text);
-			PuppyWorld_GameConstant.instance.userProfilImageURL = userImageURL;
+			PuppyWorld_GlobalVariables.instance.userProfilImageURL = userImageURL;
 			Debug.Log(userImageURL);
 		 
 		});
@@ -164,14 +164,14 @@ public class PuppyWorld_FBManager : MonoBehaviour
 	{
 		accessToken =  FB.AccessToken;
 
-		PuppyWorld_GameConstant.instance.userFBAccessToken = FB.AccessToken; 
+		PuppyWorld_GlobalVariables.instance.userFBAccessToken = FB.AccessToken; 
 		Debug.Log("Access Token "+ accessToken);
 	}
 	
 	void GetUserId()
 	{
 		CallFBActivateApp();
-		PuppyWorld_GameConstant.instance.userFBID = FB.UserId;
+		PuppyWorld_GlobalVariables.instance.userFBID = FB.UserId;
 		userID = FB.UserId;
 		Debug.Log("User ID "+ userID);
  
@@ -184,7 +184,7 @@ public class PuppyWorld_FBManager : MonoBehaviour
 	}
 
 
-	#region CallPublishAction  // to be called when sharing is done... 
+#region CallPublishAction  // to be called when sharing is done... 
 	
 	
 	void GetFBPublishAction()
@@ -220,7 +220,7 @@ public class PuppyWorld_FBManager : MonoBehaviour
 		Debug.Log(lastResponse);
 	}
 	
-	#endregion  
+#endregion  
 	
 	// Update is called once per frame
 	void Update () 
