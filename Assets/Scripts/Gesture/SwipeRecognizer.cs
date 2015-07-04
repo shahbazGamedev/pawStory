@@ -282,7 +282,7 @@ public class SwipeRecognizer
 
 		// calculate swipe length to be used as force factor for dog jump (jump and shoot module)
 		swipe.swipeLength = Vector2.Distance (startPoint, endPoint)/Screen.dpi;
-		swipe.swipeLength *= 220;
+		swipe.swipeLength *= 240;
 
 		// Return false if none recognized
 		if (pattern == TouchPattern.tryAgain)

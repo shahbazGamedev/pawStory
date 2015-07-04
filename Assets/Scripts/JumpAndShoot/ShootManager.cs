@@ -35,6 +35,10 @@ public class ShootManager : MonoBehaviour {
 	public float boostRange;
 	public float forceFactor;
 
+	float swipeLength;
+	public bool slowMotionOn;
+	public float timeScale;
+
 	// Use this for initialization
 	void Start () {
 		swipeData = new List<Vector2> ();	
@@ -65,6 +69,8 @@ public class ShootManager : MonoBehaviour {
 
 		if(jump)
 		{
+			// Limit dog jump force to make it realistic
+			swipeLength = Mathf.Clamp (swipe.swipeLength, 0, 420);
 			startPosition = transform.position;
 
 			// check if dog is on ground
@@ -72,10 +78,14 @@ public class ShootManager : MonoBehaviour {
 			{
 				// Jump Code Here
 				transform.rotation = Quaternion.Euler (0, swipe.swipeAngle, 0);
-				jumpForce = Quaternion.Euler (0, swipe.swipeAngle, 0) * (new Vector3 (0f, 1f, 0.8f) * swipe.swipeLength * jumpFactor);
+				jumpForce = Quaternion.Euler (0, swipe.swipeAngle, 0) * (new Vector3 (0f, 1f, 0.8f) * swipeLength * jumpFactor);
 				dogManager.Jump (jumpForce);
 				jump = false;
 				StartCoroutine (CalcDistance ());
+				slowMotionOn = true;
+
+				// Starts slowmotion effect
+				StartCoroutine (SlowMotion ());
 			}
 		}
 
@@ -157,5 +167,26 @@ public class ShootManager : MonoBehaviour {
 			return  (forceFactor * progress);
 		else
 			return  2.5f * (1 - progress);
+	}
+
+	// Resets slowdown flag when dog hits ground or has shot the ball
+	IEnumerator SlowMotion()
+	{
+		Time.timeScale = timeScale;
+
+		// Fix for prventing flag reset before jumping
+		yield return new WaitForFixedUpdate ();
+
+		while (slowMotionOn) {
+			if(dogManager.isGrounded || !hasBall)
+			{
+				slowMotionOn = false;
+			}
+
+			// Waits for next fixed update cycle
+			yield return new WaitForFixedUpdate ();
+		}
+		Time.timeScale = 1f;
+		yield return null;
 	}
 }
