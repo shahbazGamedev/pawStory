@@ -6,15 +6,16 @@ using UnityEngine;
 using System.Collections;
 
 public class Basket : MonoBehaviour {
+	BasketSpawner spawnerRef;
 
 	// Use this for initialization
 	void Start () {
-	
+		spawnerRef = GameObject.FindObjectOfType <BasketSpawner> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+
 	}
 
 	void OnCollisionEnter(Collision other)
@@ -22,7 +23,8 @@ public class Basket : MonoBehaviour {
 		// Destroy Basket on Collision
 		if(other.gameObject.tag=="Ball")
 		{
-			Debug.Log ("Yay");
+//			Debug.Log ("Yay");
+			spawnerRef.score += 1;
 			Destroy (this.gameObject);
 		}
 	}

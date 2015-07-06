@@ -19,6 +19,7 @@ public class ShootManager : MonoBehaviour {
 	bool tap;
 	bool jump;
 	bool shoot;
+
 	public bool hasBall;
 	public float jumpFactor;
 	Vector3 ballVelocity;
@@ -35,7 +36,7 @@ public class ShootManager : MonoBehaviour {
 	public float boostRange;
 	public float forceFactor;
 
-	float swipeLength;
+	public float swipeLength;
 	public bool slowMotionOn;
 	public float timeScale;
 
@@ -70,22 +71,25 @@ public class ShootManager : MonoBehaviour {
 		if(jump)
 		{
 			// Limit dog jump force to make it realistic
-			swipeLength = Mathf.Clamp (swipe.swipeLength, 0, 420);
+			swipeLength = Mathf.Clamp (swipe.swipeLength, 250, 420);
 			startPosition = transform.position;
 
 			// check if dog is on ground
 			if(dogManager.isGrounded)
 			{
-				// Jump Code Here
-				transform.rotation = Quaternion.Euler (0, swipe.swipeAngle, 0);
-				jumpForce = Quaternion.Euler (0, swipe.swipeAngle, 0) * (new Vector3 (0f, 1f, 0.8f) * swipeLength * jumpFactor);
-				dogManager.Jump (jumpForce);
-				jump = false;
-				StartCoroutine (CalcDistance ());
-				slowMotionOn = true;
+				// Jump only in forward direction
+				if(swipe.swipeAngle <= 90 || swipe.swipeAngle >= 275)
+				{
+					transform.rotation = Quaternion.Euler (0, swipe.swipeAngle, 0);
+					jumpForce = Quaternion.Euler (0, swipe.swipeAngle, 0) * (new Vector3 (0f, 1f, 0.8f) * swipeLength * jumpFactor);
+					dogManager.Jump (jumpForce);
+					jump = false;
+					StartCoroutine (CalcDistance ());
+					slowMotionOn = true;
 
-				// Starts slowmotion effect
-				StartCoroutine (SlowMotion ());
+					// Starts slowmotion effect
+					StartCoroutine (SlowMotion ());
+				}
 			}
 		}
 
@@ -130,7 +134,6 @@ public class ShootManager : MonoBehaviour {
 
 		// clear swipe data
 		swipeData.Clear ();
-
 	}
 
 	public void OnDrag (BaseEventData data)
@@ -141,8 +144,6 @@ public class ShootManager : MonoBehaviour {
 
 	public void OnClick(BaseEventData data)
 	{
-		//var pointData = (PointerEventData)data;
-
 		// check for tap 
 		if (swipeData.Count <= 1)
 		{
@@ -154,7 +155,7 @@ public class ShootManager : MonoBehaviour {
 	IEnumerator CalcDistance()
 	{
 		yield return new WaitForEndOfFrame ();
-		distance = ( GetComponent <Rigidbody> ().velocity.sqrMagnitude) / -Physics.gravity.y;
+		distance = (GetComponent <Rigidbody> ().velocity.sqrMagnitude) / -Physics.gravity.y;
 	}
 
 	// calculates the ratio based on progress of dog jump

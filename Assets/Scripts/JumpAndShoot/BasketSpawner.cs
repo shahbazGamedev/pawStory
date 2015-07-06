@@ -6,6 +6,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.UI;
 
 public class BasketSpawner : MonoBehaviour {
 	public GameObject basketPrefab;
@@ -16,6 +17,9 @@ public class BasketSpawner : MonoBehaviour {
 	DogManager dogManager;
 	SpawnPts[] spawnPointList;
 	public Transform basketHolder;
+
+	public int score;
+	public Text scoreText;
 
 	public enum gameState
 	{
@@ -74,21 +78,24 @@ public class BasketSpawner : MonoBehaviour {
 				break;
 			}
 		}
+		scoreText.text = "Score: " + score;
 	}
 
 	// Resets dog position onClick - reset button
 	public void ResetDog()
 	{
-		resetInProgress = true;
+		if(!resetInProgress) {
+			resetInProgress = true;
 
-		// Resets ball status in ShootManager
-		dogRef.GetComponent <ShootManager> ().hasBall = true;
+			// Resets ball status in ShootManager
+			dogRef.GetComponent <ShootManager> ().hasBall = true;
 
-		StartCoroutine (dogManager.MoveToPosition (startPosition, startRotation));
-		Destroyer ("Ball");
-		Destroyer ("Basket");
+			StartCoroutine (dogManager.MoveToPosition (startPosition, startRotation));
+			Destroyer ("Ball");
+			Destroyer ("Basket");
 
-		StartCoroutine (SetSpawnFlag ());
+			StartCoroutine (SetSpawnFlag ());
+		}
 	}
 
 	// Waits for dog to come to initial position to spawn basket
