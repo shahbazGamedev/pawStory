@@ -151,6 +151,7 @@ public class PuppyWorld_FBManager : MonoBehaviour
 		/*userNameText.text = userName;*/
  
 		Debug.Log("Player Name " +dict["first_name"].ToString());// userName); 
+		//PuppyWorld_FileManager.instance.CheckForFile();
 	}
 
 	void GetPictureUrl(string url)

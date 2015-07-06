@@ -12,8 +12,8 @@ public class PuppyWorld_GlobalVariables : MonoBehaviour
 	public string 	userFBID;
 	public string 	userFBAccessToken;
 	public string 	userProfilImageURL;
-
-	public bool isFBLoggedIn;
+	public string 	dbName, collectionName;
+	public bool 	isFBLoggedIn;
 
 	//public string	
 	

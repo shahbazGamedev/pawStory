@@ -25,6 +25,7 @@ public class PuppyWorld_GameManager : MonoBehaviour
 	{
 		App42Log.SetDebug(true); 
 		App42API.Initialize(PuppyWorld_GlobalVariables.instance.APIKEY,PuppyWorld_GlobalVariables.instance.SECRETKEY);  
+		Debug.Log("App42 Registered");
 	}
 	
 	// Update is called once per frame
