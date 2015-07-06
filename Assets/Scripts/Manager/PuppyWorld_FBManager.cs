@@ -22,6 +22,8 @@ public class PuppyWorld_FBManager : MonoBehaviour
 	private string userImageURL;
 
 
+	public GameObject loadingScreen, fbLoginButton;
+
 	void Awake()
 	{
 		CallFaceBookInit();
@@ -31,6 +33,16 @@ public class PuppyWorld_FBManager : MonoBehaviour
 	void Start () 
 	{
 		
+	}
+
+	void ShowLoadingScreen()
+	{
+
+	}
+
+	void ShowFbLoginButton()
+	{
+
 	}
 
 	private void CallFaceBookInit()
@@ -157,7 +169,7 @@ public class PuppyWorld_FBManager : MonoBehaviour
 		 
 		});
 		
-		 
+		//GetFBPublishAction();
 	}
 
 	void GetAccessToken()
@@ -175,12 +187,14 @@ public class PuppyWorld_FBManager : MonoBehaviour
 		userID = FB.UserId;
 		Debug.Log("User ID "+ userID);
  
+
 	}
 
 	private void CallFBActivateApp()
 	{
 		FB.ActivateApp();
 		Debug.Log("Check Insights section for your app in the App Dashboard under \"Mobile App Installs\"");
+
 	}
 
 
