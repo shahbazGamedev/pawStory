@@ -1,12 +1,16 @@
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 public sealed class InteractiveConsole : ConsoleBase
 {
+
+	public RawImage screenShotImage;
     #region FB.ActivateApp() example
+
 
     private void CallFBActivateApp()
     {
@@ -475,12 +479,13 @@ public sealed class InteractiveConsole : ConsoleBase
         tex.ReadPixels(new Rect(0, 0, width, height), 0, 0);
         tex.Apply();
         byte[] screenshot = tex.EncodeToPNG();
-
-        var wwwForm = new WWWForm();
+		screenShotImage.texture = tex;
+		 
+       /* var wwwForm = new WWWForm();
         wwwForm.AddBinaryData("image", screenshot, "InteractiveConsole.png");
         wwwForm.AddField("message", "herp derp.  I did a thing!  Did I do this right?");
 
-        FB.API("me/photos", Facebook.HttpMethod.POST, Callback, wwwForm);
+        FB.API("me/photos", Facebook.HttpMethod.POST, Callback, wwwForm);*/
     }
 
     #endregion

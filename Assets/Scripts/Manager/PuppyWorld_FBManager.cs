@@ -167,10 +167,13 @@ public class PuppyWorld_FBManager : MonoBehaviour
 			userImageURL = Util.DeserializePictureURLString(result.Text);
 			PuppyWorld_GlobalVariables.instance.userProfilImageURL = userImageURL;
 			Debug.Log(userImageURL);
+
+			GetFBPublishAction();
+			Debug.Log("clling publish actions");
 		 
 		});
 		
-		//GetFBPublishAction();
+
 	}
 
 	void GetAccessToken()
@@ -233,8 +236,9 @@ public class PuppyWorld_FBManager : MonoBehaviour
 			lastResponse = "Publish permission succesfull";
 		}
 		Debug.Log(lastResponse);
+
 	}
-	
+
 #endregion  
 	
 	// Update is called once per frame
