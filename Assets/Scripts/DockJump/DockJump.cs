@@ -56,16 +56,16 @@ public class DockJump : MonoBehaviour {
 		rb.AddForce (transform.forward * moveSpeed);
 
 }
-	//void OnTriggerStay(collider other)
-	//{
-		//Debug.Log ("triggered");
-		//isJumping = true;
-//	}
+	void OnTriggerStay()
+	{
+		Debug.Log ("triggered");
+		isJumping = true;
+	}
 	
-	//void OnTriggerExit()
-	//{
-	//	isJumping = false;
-//	}
+	void OnTriggerExit()
+	{
+		isJumping = false;
+	}
 	public void OnPointerDown(BaseEventData  data)
 	{
 		Debug.Log("Begins");
@@ -83,7 +83,7 @@ public class DockJump : MonoBehaviour {
 	
 	void detectSwipe()
 	{
-		if(Input.GetKeyDown(KeyCode.Space))
+		if(Input.GetKeyDown(KeyCode.Space)&& isJumping==true)
 		{
 			jumping();
 			isRunning=false; 
