@@ -128,7 +128,7 @@ public class TouchManager : MonoBehaviour
 
 	void SwipeReset()
 	{
-		swipeText.text = pattern.ToString ();
+		//swipeText.text = pattern.ToString ();
 		pattern = SwipeRecognizer.TouchPattern.reset;
 		swipeData.Clear ();
 	}
