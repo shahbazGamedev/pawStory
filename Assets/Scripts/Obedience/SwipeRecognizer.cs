@@ -25,6 +25,10 @@ public class SwipeRecognizer
 
 		clockwiseCircle,
 		antiClockwiseCircle,
+
+		move,
+		hold,
+
 		tryAgain,
 		reset
 	};
