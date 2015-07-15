@@ -72,6 +72,7 @@ public class HudMgr : MonoBehaviour
 
 	void OnLevelWasLoaded(int val)
 	{
+
 		string curScene = GameMgr.instance.GetCurScene ();
 		OnSceneLoaded (curScene);
 	}
@@ -97,6 +98,7 @@ public class HudMgr : MonoBehaviour
 
 	void OnGamePause()
 	{
+		Btn_01_Back.SetActive (false);
 		Btn_01_Pause.SetActive (false);
 		Btn_01_Resume.SetActive (true);
 	}
@@ -104,6 +106,7 @@ public class HudMgr : MonoBehaviour
 
 	void OnGameResume()
 	{
+		Btn_01_Back.SetActive (false);
 		Btn_01_Pause.SetActive (true);
 		Btn_01_Resume.SetActive (false);
 	}
