@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameMgr : MonoBehaviour {
-
+public class GameMgr : MonoBehaviour 
+{
 	private static GameMgr _instance = null;
 	public static GameMgr instance
 	{
@@ -18,9 +18,10 @@ public class GameMgr : MonoBehaviour {
 	}
 
 	// Scene Managements
-	public static string Scene_LoadingScene = "LoadingScene";
-	public static string Scene_MainMenu = "MainMenu";
-	public static string Scene_TournamentSelection = "TournamentSelection";
+	string prevScene = GlobalConst.Scene_LoadingScene;
+	string curScene = GlobalConst.Scene_LoadingScene;
+
+	bool isPaused = false;
 
 	void Awake()
 	{
@@ -37,8 +38,19 @@ public class GameMgr : MonoBehaviour {
 	}
 
 
-	void Init()
+	void OnEnable()
 	{
+		EventMgr.SceneLoaded += OnSceneLoaded;
+		EventMgr.GamePause += OnGamePause;
+		EventMgr.GameResume += OnGameResume;
+	}
+	
+	
+	void OnDisable()
+	{
+		EventMgr.SceneLoaded += OnSceneLoaded;
+		EventMgr.GamePause -= OnGamePause;
+		EventMgr.GameResume -= OnGameResume;
 	}
 
 
@@ -49,11 +61,31 @@ public class GameMgr : MonoBehaviour {
 
 	void Update ()
 	{
+		if (Input.GetKeyDown (KeyCode.Escape)) 
+		{
+			if(isPaused)
+			{
+				EventMgr.OnGameResume();
+				isPaused = false;
+			}
+			else
+			{
+				EventMgr.OnGamePause();
+				isPaused = true;
+			}
+		}
 	}
 
 
+	void Init()
+	{
+	}
+	
+	#region SceneManagement
 	public void LoadScene(string newScene)
 	{
+		prevScene = curScene;
+		curScene = newScene;
 		Application.LoadLevel(newScene);
 	}
 
@@ -67,6 +99,43 @@ public class GameMgr : MonoBehaviour {
 	IEnumerator LoadSceneAfter(string newScene, float waitTime)
 	{
 		yield return new WaitForSeconds (waitTime);
+		prevScene = curScene;
+		curScene = newScene;
 		Application.LoadLevel(newScene);
 	}
+
+
+	public string GetCurScene()
+	{
+		return curScene;
+	}
+
+	void OnSceneLoaded(string newScene)
+	{
+		if (!curScene.Equals (newScene)) 
+		{
+			prevScene = curScene;
+			curScene = newScene;
+		}
+	}
+	#endregion SceneManagement
+
+
+	public bool IsGamePaused()
+	{
+		return isPaused;
+	}
+
+
+	void OnGamePause()
+	{
+		isPaused = true;
+	}
+
+
+	void OnGameResume()
+	{
+		isPaused = false;
+	}
 }
+

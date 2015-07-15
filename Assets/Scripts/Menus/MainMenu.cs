@@ -13,7 +13,7 @@ public class MainMenu : MonoBehaviour {
 
 	public void OnPlayBtn()
 	{
-		GameMgr.instance.LoadScene (GameMgr.Scene_TournamentSelection);
+		GameMgr.instance.LoadScene (GlobalConst.Scene_TournamentSelection);
 	}
 }
 		

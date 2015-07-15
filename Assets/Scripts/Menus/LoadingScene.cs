@@ -21,7 +21,7 @@ public class LoadingScene : MonoBehaviour {
 			curScreen++;
 			if(curScreen >= Screens.Count)
 			{
-				GameMgr.instance.LoadScene (GameMgr.Scene_MainMenu);
+				GameMgr.instance.LoadScene (GlobalConst.Scene_MainMenu);
 			}
 			else
 			{
