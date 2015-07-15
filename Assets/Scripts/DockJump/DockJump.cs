@@ -16,8 +16,10 @@ public class DockJump : MonoBehaviour {
 	public float jumpspeed;
 	private float dragRatio;
 	bool isRunning;
-	public int chances =3;
+	public int chances;
 	private Vector3 dogPos;
+	bool isCoroutine;
+
 
 	void awake()
 	{
@@ -37,7 +39,11 @@ public class DockJump : MonoBehaviour {
 	void Update () {
 		movement();
 		//detectSwipe();
-		StartCoroutine(ReturnDog());
+
+		if(chances==0)
+		{
+			GameOver();
+		}
 
 
 	}
@@ -46,13 +52,13 @@ public class DockJump : MonoBehaviour {
 
 		if(isRunning==true)
 		{
-		running ();
+		running();
 		}
 	}
 	void jumping()
 	{
 		isRunning=false; 
-		dogAnim.SetTrigger ("jump");
+		dogAnim.SetTrigger ("Jump");
 		Debug.Log("WORKING FINE");
 		rb.AddForce(jumpHeight,ForceMode.Impulse);
 
@@ -64,7 +70,7 @@ public class DockJump : MonoBehaviour {
 	{
 		//if(isRunning=true)
 		rb.drag = rb.velocity.magnitude * dragRatio;
-		dogAnim.SetFloat ("running",1f, speedDampTime, Time.deltaTime);
+		dogAnim.SetFloat ("Speed",1f, speedDampTime, Time.deltaTime);
 		rb.AddForce (transform.forward * moveSpeed);
 
 }
@@ -72,9 +78,12 @@ public class DockJump : MonoBehaviour {
 
 		IEnumerator ReturnDog ()
 		{
-		yield return new WaitForSeconds(7.0f);
+		isCoroutine=true;
+		yield return new WaitForSeconds(3.0f);
 		transform.position = dogPos;
 		rb.velocity = Vector3.zero;
+		isCoroutine=false;
+
 	
 
 
@@ -108,7 +117,7 @@ public class DockJump : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.Space)&& isJumping==true)
 		{
 			jumping();
-
+			//dogAnim.SetFloat ("Speed",0f, speedDampTime, Time.deltaTime);
 			Debug.Log("WORKING");
 
 		}
@@ -157,23 +166,32 @@ public class DockJump : MonoBehaviour {
 		if(collision.rigidbody)
 		{
 			chances=chances-1;
-			dogAnim.SetFloat ("running",0f, speedDampTime, Time.deltaTime);
+			dogAnim.SetFloat ("Speed",0f);
+			if(!isCoroutine)
+				StartCoroutine(ReturnDog());
+
+
+
 		}
 	}
 	private void gameStart()
 	{
 		isRunning=true;
 
+
 	}
+
 	private void GameOver()
 	{
-		if(chances==0)
-		{
-			//Application.LoadLevel("gameover");
+
+		Application.LoadLevel("MainMenu");
+
+			Debug.Log ("gameover");
+
 		}
 	
 
 	
 
 	}
-}
+
