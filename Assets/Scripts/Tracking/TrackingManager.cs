@@ -8,9 +8,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using System.Linq;
+using UnityEngine.UI;
 
 public class TrackingManager : MonoBehaviour {
 
+	public Slider dogCapacity;
 	public List<Vector3> dragData;
 	public GameObject lineRenderer;
 	LineRenderer line;
@@ -27,24 +29,31 @@ public class TrackingManager : MonoBehaviour {
 	bool swipeFinished;
 
 	public GameObject dogRef;
+
+	public float maxTrackingCapacity;
+	float distanceCovered;
+	float remainingCapacity;
+	bool isGameOn;
+	Vector3 previousPosition;
  
 	// Use this for initialization
 	void Start () 
 	{
 		dragData=new List<Vector3>();
 		line = lineRenderer.GetComponent<LineRenderer>(); 
-		line.SetWidth(0.4F, 0.4F);
-		line.sortingLayerName = "Foreground";
+		dogCapacity.maxValue = maxTrackingCapacity;
 
 		isFirstRun=true;
 		needToPop=false;
 		swipeFinished=false;
+		isGameOn = true;
+		StartCoroutine (UpdateSlider ());
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		if(dragData!=null)
+		if(dragData.Count>1)
 		{
 			// Render Line
 			RenderBezier();
@@ -54,69 +63,77 @@ public class TrackingManager : MonoBehaviour {
 	// Clear previous Swipe on Drag Begin
 	public void OnBeginDrag(BaseEventData Data)
 	{
-		Debug.Log("onDrag");
-		PointerEventData data=(PointerEventData)Data;
-		if(dragData!=null)
-			dragData.Clear();
+		//Debug.Log("onDrag");
+		var data=(PointerEventData)Data;
+		dragData.Clear();
 		isFirstRun=true;
 	}
 
 	// Add end point
 	public void OnEndDrag(BaseEventData data)
 	{
-		Debug.Log("offDrag");
-		addEndPoint(data);
+		//Debug.Log("offDrag");
+		if(isGameOn)
+			addEndPoint(data);
 		swipeFinished=true;
 	}
 
 	// Check dist between drag points and add points that are min dist appart
 	public void OnDrag(BaseEventData Data)
 	{
-		Debug.Log("Dragging");
+		//Debug.Log("Dragging");
 		PointerEventData data=(PointerEventData)Data;
 		Vector3 screenPoint = new Vector3(data.position.x, data.position.y, 0f);
-
-		// raycast to find hit point on plane
-		RaycastHit hit;
-		Ray ray = Camera.main.ScreenPointToRay(screenPoint);
-		if (Physics.Raycast(ray, out hit, 200f))
+		if(isGameOn)
 		{
-			layerName = LayerMask.LayerToName(hit.collider.gameObject.layer);
-			if(layerName == "Floor")
+			// raycast to find hit point on plane
+			RaycastHit hit;
+			Ray ray = Camera.main.ScreenPointToRay(screenPoint);
+			if (Physics.Raycast(ray, out hit, 200f))
 			{
-				worldPoint = hit.point+(Vector3.up);
-
-				if(dragData.Count<2) // dragData is empty
-					dragData.Add(worldPoint);
-
-				else if(dragData.Count==2 && isFirstRun==true ) // dragData has drag start point
+				layerName = LayerMask.LayerToName(hit.collider.gameObject.layer);
+				if(layerName == "Floor")
 				{
-					//dragData.Add(worldPoint);
-					potentialSamplePoint=worldPoint;
-					isFirstRun=false;
-				}
+					worldPoint = hit.point + (Vector3.up * 0.01f);
 
-				else // checks for minimum distance between points and adds them if true
-				{
-					if(needToPop)
+					if(dragData.Count<2) // dragData is empty
 					{
-						dragData.RemoveAt(dragData.Count-1);
-						needToPop=false;
+						dragData.Add (worldPoint);
+						previousPosition = worldPoint;
 					}
-					if((dragData.Last() - worldPoint).sqrMagnitude >= minSqrDistance) 
+
+					else if(dragData.Count==2 && isFirstRun) // dragData has drag start point
 					{
-						dragData.Add(potentialSamplePoint);
+						//dragData.Add(worldPoint);
+						potentialSamplePoint=worldPoint;
+						isFirstRun=false;
 					}
-					else // added to prevent visual lag - removed @ next frame
+
+					else // checks for minimum distance between points and adds them if true
 					{
-						dragData.Add(worldPoint);
-						needToPop=true;
+						if(needToPop)
+						{
+							dragData.RemoveAt(dragData.Count-1);
+							needToPop=false;
+						}
+						if((dragData.Last() - worldPoint).sqrMagnitude >= minSqrDistance) 
+						{
+							dragData.Add(potentialSamplePoint);
+						}
+						else // added to prevent visual lag - removed @ next frame
+						{
+							dragData.Add(worldPoint);
+							needToPop=true;
+						}
+						potentialSamplePoint=worldPoint;
 					}
-					potentialSamplePoint=worldPoint;
 				}
+				distanceCovered += Vector3.Distance (worldPoint, previousPosition);
+				previousPosition = worldPoint;
+
 			}
-
 		}
+
 	}
 
 	// smooth and render curve each frame as player swipes/drags on screen 
@@ -159,10 +176,23 @@ public class TrackingManager : MonoBehaviour {
 			layerName = LayerMask.LayerToName(hit.collider.gameObject.layer);
 			if(layerName == "Floor")
 			{
-				worldPoint = hit.point+(Vector3.up);
+				worldPoint = hit.point + (Vector3.up * 0.01f);
 				dragData.Add(worldPoint);
 			}
 		}
+	}
+
+	IEnumerator UpdateSlider()
+	{
+		while(isGameOn)
+		{
+			yield return new WaitForFixedUpdate ();
+			remainingCapacity = maxTrackingCapacity - distanceCovered;
+			dogCapacity.value = remainingCapacity;
+			if (remainingCapacity <= 0)
+				isGameOn = false;
+		}
+		yield return null;
 	}
 
 }

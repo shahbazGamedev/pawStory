@@ -25,6 +25,8 @@ public class DogPathMovement : MonoBehaviour {
 	public int nodeCount;
 	public int currentNode;
 
+	public float minDistToReach;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -88,7 +90,7 @@ public class DogPathMovement : MonoBehaviour {
 			else
 			{
 				// Update target once target is reached
-				if((transform.position-target).sqrMagnitude<=0.5f)
+				if((transform.position-target).sqrMagnitude<=minDistToReach)
 				{
 					target=pathData[currentNode];
 					target.y=currentposition.y;
@@ -102,13 +104,13 @@ public class DogPathMovement : MonoBehaviour {
 		GetComponent<Rigidbody>().MovePosition(Vector3.MoveTowards(transform.position, target, dogSpeed* Time.deltaTime));
 
 		// Update dog rotation based on target
-		if(!(Vector3.Distance(transform.position,target)<1f))
+		if(!(Vector3.Distance(transform.position,target)<0.01f))
 		{
 			transform.LookAt(target);
 		}
 
 		// Check if dog reached path end
-		if(Vector3.Distance(pathEnd, transform.position)<0.1f)
+		if(Vector3.Distance(pathEnd, transform.position)<0.001f)
 		{
 			reachedPathEnd=true;
 		}
