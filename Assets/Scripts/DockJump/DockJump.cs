@@ -5,28 +5,40 @@ using UnityEngine.UI;
 
 public class DockJump : MonoBehaviour {
 	public GameObject dogRef;
-	private Animator dogAnim;
-	private Vector3 jumpHeight;
+	public GameObject MenuBtn;
+	public GameObject RestartBtn;
+	public GameObject PlayBtn;
+	public GameObject Try1;
+	public GameObject Try2;
+	public GameObject Try3;
+	public GameObject Stage;
+	public GameObject Pool;
+	public GameObject Floor;
 	public float moveSpeed;
-	bool isJumping=false;
 	public float jumpForce;
-	private float speedDampTime = 0.1f;
-	Rigidbody rb;
-	Vector2 swipeBegin;
-	Vector2 swipeEnd;
 	public float jumpspeed;
-	private float dragRatio;
-	bool isRunning;
-	public int chances;
-	private Vector3 dogPos;
-	bool isCoroutine;
-	public Transform target;
-	private float dist;
 	public Text chance1;
 	public Text chance2;
 	public Text chance3;
+	public Text gameOver;
+	public int chances;
+	public Transform target;
+	private Animator dogAnim;
+	private Vector3 jumpHeight;
+	private Vector3 dogPos;
+	private float speedDampTime = 0.1f;
+	private float dragRatio;
+	private float dist;
+	Vector2 swipeBegin;
+	Vector2 swipeEnd;
+	Rigidbody rb;
+	bool isJumping=false;
+	bool isRunning;
+	bool isCoroutine;
 
-		void awake()
+
+
+	void awake()
 	{
 
 	}
@@ -38,6 +50,12 @@ public class DockJump : MonoBehaviour {
 		jumpHeight = new Vector3 (0, jumpForce, jumpspeed);
 		rb = GetComponent<Rigidbody> ();
 	    dogPos=new Vector3(0.16f,1.285f,4.67f);
+		MenuBtn.SetActive(false);
+		RestartBtn.SetActive(false);
+		Try1.SetActive(false);
+		Try2.SetActive(false);
+		Try3.SetActive(false);
+
 	}
 	
 	// Update is called once per frame
@@ -47,11 +65,14 @@ public class DockJump : MonoBehaviour {
 
 		if(chances==0)
 		{
+			 
 			GameOver();
 		}
 
 		//distance();
 	}
+
+
 	void FixedUpdate() 
 	{
 
@@ -60,6 +81,8 @@ public class DockJump : MonoBehaviour {
 		running();
 		}
 	}
+
+
 	void jumping()
 	{
 		isRunning=false; 
@@ -71,6 +94,8 @@ public class DockJump : MonoBehaviour {
 
 
 	}
+
+
 	void running()
 	{
 		//if(isRunning=true)
@@ -88,21 +113,22 @@ public class DockJump : MonoBehaviour {
 		transform.position = dogPos;
 		rb.velocity = Vector3.zero;
 		isCoroutine=false;
+		}
 
-	
 
-
-	}
 	void OnTriggerStay()
 	{
 		Debug.Log ("triggered");
 		isJumping = true;
 	}
-	
+
+
 	void OnTriggerExit()
 	{
 		isJumping = false;
 	}
+
+
 //	public void OnPointerDown(BaseEventData  data)
 //	{
 //		Debug.Log("Begins");
@@ -117,6 +143,8 @@ public class DockJump : MonoBehaviour {
 //		swipeEnd=e.position;
 //		detectSwipe();
 //	}
+
+
 	void movement()
 	{
 		if(Input.GetKeyDown(KeyCode.Space)&& isJumping==true)
@@ -124,11 +152,10 @@ public class DockJump : MonoBehaviour {
 			jumping();
 			//dogAnim.SetFloat ("Speed",0f, speedDampTime, Time.deltaTime);
 			Debug.Log("WORKING");
-
-		}
-
+			}
 	}
-	
+
+
 //	void detectSwipe()
 //	{
 
@@ -166,24 +193,22 @@ public class DockJump : MonoBehaviour {
 		//}
 
 	//}
+
+
 	void OnCollisionEnter(Collision collision)
 	{
 		if(collision.rigidbody)
 		{
-			chances=chances-1;
+			chances-=1;
 			dogAnim.SetFloat ("Speed",0f);
 			ScoreSystem();
 
 			if(!isCoroutine)
 				StartCoroutine(ReturnDog());
-
-
-
-
-		}
-	
-
+			}
 	}
+
+
 	private void gameStart()
 	{
 		isRunning=true;
@@ -191,13 +216,24 @@ public class DockJump : MonoBehaviour {
 
 	}
 
+
 	private void GameOver()
 	{
-
-		//Application.LoadLevel("MainMenu");
-
+	//Application.LoadLevel("MainMenu");
+	gameOver.text="Game over";
 			Debug.Log ("gameover");
+		MenuBtn.SetActive(true);
+		RestartBtn.SetActive(true);
+		PlayBtn.SetActive(false);
 
+		isRunning=false;
+		Try1.SetActive(true);
+		Try2.SetActive(true);
+		Try3.SetActive(true);
+		Stage.SetActive(false);
+		Pool.SetActive(false);
+		Floor.SetActive(false);
+		dogRef.SetActive(false);
 		}
 	void distance()
 	{
@@ -205,26 +241,44 @@ public class DockJump : MonoBehaviour {
 		print("Jumping Distance: " + dist);
 
 	}
+
+
 	void ScoreSystem()
 	{
 		if(chances==4)
 		{
 			distance();
 			chance1.text="Chance 1:"+dist;
+			Try1.SetActive(true);
 		}
 		if(chances==2)
 		{
 			distance();
 			chance2.text="Chance 2:"+dist;
+			Try2.SetActive(true);
+			Try1.SetActive(false);
 		}
 		if(chances==0)
 		{
 			distance();
-			chance3.text="Chance 3:"+dist;
+		    chance3.text="Chance 3:"+dist;
+			Try3.SetActive(true);
+			Try2.SetActive(false);
 		}
 
 	}
 
+
+	public void restart()
+	{
+		Application.LoadLevel("testSceneDockJump");
+	}
+
+
+	public void menu()
+	{
+		Application.LoadLevel("MainMenu");
+	}
 	
 
 	}
