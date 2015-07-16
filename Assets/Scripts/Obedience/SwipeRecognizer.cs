@@ -8,7 +8,6 @@ using System.Collections.Generic;
 
 public class SwipeRecognizer
 {
-
 	public enum TouchPattern // Possible gestures
 	{
 		singleTap,
@@ -138,7 +137,7 @@ public class SwipeRecognizer
 		float deltaAngle=0f;
 
 		// Sample the swipe data into multiple segments and find midpoint
-		int incrementValue = swipeData.Count / 6;
+		int incrementValue = swipeData.Count / 5;
 		Vector2 midPoint = (swipeData[swipeData.Count/2]+endPoint) * 0.5f;
 
 		Vector2 currentVector;
@@ -147,7 +146,7 @@ public class SwipeRecognizer
 		previousVector = startPoint - midPoint; // Transform the vector from screen origin to calculated midpoint
 
 		// Preliminery check to avoid unwanted calculations
-		if(AngleBetweenVectors (previousVector,(swipeData[swipeData.Count/6]-midPoint))>25)
+		if(AngleBetweenVectors (previousVector,(swipeData[swipeData.Count/5]-midPoint))>25)
 		{
 			
 			// Calculate angle for each sample and find total angle
@@ -298,6 +297,90 @@ public class SwipeRecognizer
 		else
 			return true;
 	}
+
+	/// <summary>
+	/// Recogonizes the swipe - Adopted for Obedience Module.
+	/// </summary>
+	/// <returns><c>true</c>, if swipe was recogonized, <c>false</c> otherwise.</returns>
+	/// <param name="swipeData">Swipe data - Struct.</param>
+	/// <param name="pattern">Pattern.</param>
+	public static bool RecogonizeSwipe (ObedienceManager.SwipeDataCollection swipeData, out TouchPattern pattern) 
+	{
+		pattern = TouchPattern.tryAgain;
+		TouchPattern patternLocal;
+
+		float xComponent;
+		float yComponent;
+		float angle;
+
+		xComponent= (-swipeData.startPoint.x + swipeData.endPoint.x);
+		yComponent = (-swipeData.startPoint.y + swipeData.endPoint.y);
+
+		// returns 0 on right, 180 on left, 90 on top and -90 on bottom
+		angle = Mathf.Atan2 (yComponent, xComponent) * Mathf.Rad2Deg;
+
+		// Mapping angle to 8 directions 0 - 180
+		if(angle>0)
+		{
+			if(angle > 75 && angle <= 105)
+			{
+				pattern = TouchPattern.swipeUp;
+			}
+			else if(angle > 15 && angle <= 75)
+			{
+				pattern = TouchPattern.swipeUpRight;
+			}
+			else if(angle >= 0 && angle <= 15)
+			{
+				pattern = TouchPattern.swipeRight;
+			}
+			else if(angle > 105 && angle <= 165)
+			{
+				pattern = TouchPattern.swipeUpLeft;
+			}
+			else
+			{
+				pattern = TouchPattern.swipeLeft;
+			}
+		}
+
+		// Mapping angle to 8 directions 0 - -180
+		else
+		{
+			if(angle < -75 && angle >= -105)
+			{
+				pattern = TouchPattern.swipeDown;
+			}
+			else if(angle < -15 && angle >= -75)
+			{
+				pattern = TouchPattern.swipeDownRight;
+			}
+			else if(angle <= 0 && angle >= -15)
+			{
+				pattern = TouchPattern.swipeRight;
+			}
+			else if(angle < -105 && angle >= -165)
+			{
+				pattern = TouchPattern.swipeDownLeft;
+			}
+			else
+			{
+				pattern = TouchPattern.swipeLeft;
+			}
+		}
+
+		// Check if gesture is circle
+		if (RecognizeCircleSwipe (swipeData.startPoint, swipeData.endPoint, swipeData.swipeData, out patternLocal))
+			pattern = patternLocal;
+
+		// Return false if none recognized
+		if (pattern == TouchPattern.tryAgain)
+			return false;
+
+		else
+			return true;
+	}
+
 
 	// Calculate angle between two vectors
 	static float AngleBetweenVectors(Vector2 previousVector, Vector2 currentVector)

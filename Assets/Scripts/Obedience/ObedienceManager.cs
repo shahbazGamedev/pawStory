@@ -18,7 +18,7 @@ public class ObedienceManager : MonoBehaviour {
 	bool combo;
 	bool isCoroutineON;
 	bool isPointerDown;
-	public float holdTime;
+	//public float holdTime;
 	float swipeDelta;
 
 	int chance;
@@ -27,9 +27,9 @@ public class ObedienceManager : MonoBehaviour {
 	public int scoreIncrement;
 
 
-	Vector2 startPoint;
-	Vector2 endPoint;
-	List<Vector2> swipeData;
+//	Vector2 startPoint;
+//	Vector2 endPoint;
+//	List<Vector2> swipeData;
 
 	SwipeRecognizer.TouchPattern pattern;
 	SwipeRecognizer.TouchPattern presentGesture;
@@ -47,11 +47,24 @@ public class ObedienceManager : MonoBehaviour {
 
 	public GestureCollection[] gestureCollection;
 
+	[System.Serializable]
+	public struct SwipeDataCollection {
+		public string name;
+		public int touchID;
+		public bool isActive;
+		public float holdTime;
+		public Vector2 startPoint;
+		public Vector2 endPoint;
+		public List<Vector2> swipeData;
+	}
+
+	public SwipeDataCollection[] swipeDataCollection;
+
 	// Use this for initialization
 	void Start () {
 		dogRef = GameObject.FindGameObjectWithTag ("Player");
 		dogManager = dogRef.GetComponent <DogManager> ();
-		swipeData = new List<Vector2> ();	
+		//swipeData = new List<Vector2> ();	
 		pattern = SwipeRecognizer.TouchPattern.reset;
 		gameOn = true;
 		startPosition = dogRef.transform.position;
@@ -72,78 +85,94 @@ public class ObedienceManager : MonoBehaviour {
 		}
 
 		// Touch Timer for hold down gesture
-		if (isPointerDown)
-			holdTime += Time.deltaTime;
+		if (swipeDataCollection [1].isActive)
+			swipeDataCollection [1].holdTime += Time.deltaTime;
+		if (swipeDataCollection [2].isActive)
+			swipeDataCollection [2].holdTime += Time.deltaTime;
 		
 		SyncAnimation ();
 	}
 
+	// Event trigger - BeginDrag
 	public void OnBeginDrag (BaseEventData data)
 	{
 		var pointData = (PointerEventData)data;
-		if(pointData.pointerId==-1)
-			startPoint = pointData.position;
+		//swipeDataCollection [-pointData.pointerId].isActive = true;
+		swipeDataCollection [-pointData.pointerId].startPoint= pointData.position;
+
+//		if(pointData.pointerId==-1)
+//			startPoint = pointData.position;
 	}
 
+	// Event trigger - EndDrag
 	public void OnEndDrag (BaseEventData data)
 	{
 		var pointData = (PointerEventData)data;
-		if(pointData.pointerId==-1) {
-			endPoint = pointData.position;
+		//swipeDataCollection [-pointData.pointerId].isActive = false;
+		swipeDataCollection [-pointData.pointerId].endPoint= pointData.position;
+
+		if(pointData.pointerId==-1 && !swipeDataCollection [2].isActive) 
+		{
+//			endPoint = pointData.position;
 			if (!combo) {
-				SwipeRecognizer.RecogonizeSwipe (startPoint, endPoint, swipeData, out pattern);
+				SwipeRecognizer.RecogonizeSwipe (swipeDataCollection [-pointData.pointerId], out pattern);
 			}
-			swipeData.Clear ();
+//			swipeData.Clear ();
 		}
+		dataReset (-pointData.pointerId);
 	}
 
+	// Event trigger - Drag
 	public void OnDrag (BaseEventData data)
 	{
 		var pointData = (PointerEventData)data;
-		if(pointData.pointerId==-1)
-		{
-			swipeData.Add(pointData.position);
-			//swipeDelta += (Vector2.Distance (startPoint, pointData.position) / Screen.dpi) * 160;	
-		}
-	}
+		swipeDataCollection [-pointData.pointerId].swipeData.Add (pointData.position);
 
-	void SwipeReset()
-	{
-		pattern = SwipeRecognizer.TouchPattern.reset;
+//		if(pointData.pointerId==-1)
+//		{
+//			swipeData.Add(pointData.position);
+//			//swipeDelta += (Vector2.Distance (startPoint, pointData.position) / Screen.dpi) * 160;	
+//		}
 	}
-
+		
+	// Event trigger - Pointer Click
 	public void OnClickEnd(BaseEventData data)
 	{
 		var pointData = (PointerEventData)data;
-
-		// check for tap 
-		if (swipeData.Count <= 1)
+		if (pointData.pointerId == -1 && !swipeDataCollection [2].isActive) 
 		{
-			// check for double tap
-			if (pointData.clickCount == 2) 
+			// check for tap 
+			if (swipeDataCollection [-pointData.pointerId].swipeData.Count <= 1) 
 			{
-				pattern = SwipeRecognizer.TouchPattern.doubleTap;
-				//Debug.Log ("dTap");
-			}
-			else 
-			{
-				pattern = SwipeRecognizer.TouchPattern.singleTap;
-				//Debug.Log ("sTap");
+				// check for double tap
+				if (pointData.clickCount == 2) 
+				{
+					pattern = SwipeRecognizer.TouchPattern.doubleTap;
+					//Debug.Log ("dTap");
+				} 
+				else 
+				{
+					pattern = SwipeRecognizer.TouchPattern.singleTap;
+					//Debug.Log ("sTap");
+				}
 			}
 		}
 	}
 
+	// Event Trigger - Pointer Down
 	public void OnPointerDown(BaseEventData data)
 	{
 		var pointData = (PointerEventData)data;
-		isPointerDown = true;
+		swipeDataCollection [-pointData.pointerId].isActive = true;
 		//Debug.Log (pointData.pointerId);
 	}
 
+	// Event Trigger - Pointer Up
 	public void OnPointerUp(BaseEventData data)
 	{
-		isPointerDown = false;
-		holdTime = 0;
+		var pointData = (PointerEventData)data;
+		swipeDataCollection [-pointData.pointerId].isActive = false;
+		swipeDataCollection [-pointData.pointerId].holdTime = 0;
 	}
 
 	// Checks non combo conditions
@@ -168,7 +197,7 @@ public class ObedienceManager : MonoBehaviour {
 				DeactivateGestureMat ();
 			}
 		} 
-		else if (!isCoroutineON) 
+		else if (!isCoroutineON) // Prevent stacking of coroutine
 		{
 			isCoroutineON = true;
 			StartCoroutine (CatchCombos ());
@@ -180,7 +209,7 @@ public class ObedienceManager : MonoBehaviour {
 	{
 		while (catchUserInput)
 		{
-			yield return new WaitForFixedUpdate ();
+			yield return new WaitForFixedUpdate (); // Wait for fixed update
 			if (pattern != SwipeRecognizer.TouchPattern.reset)
 			{
 				if (combo) 
@@ -234,12 +263,12 @@ public class ObedienceManager : MonoBehaviour {
 				DeactivateGestureMat ();
 				gameOn = false;
 				gameOverPannel.SetActive (true);
-				instructions.text = "Score: " + points;
+				instructions.text = "Score: " + points + " / " + maxChances;
 			}
 			else  // else put a random instruction
 			{
 				randomNumber = Random.Range (0, range);
-				//randomNumber = 4;
+				//randomNumber = 7;
 				presentGesture = gestureCollection [randomNumber].value1;
 				instructions.text = gestureCollection [randomNumber].key;
 
@@ -247,7 +276,11 @@ public class ObedienceManager : MonoBehaviour {
 				catchUserInput = true;
 
 				gestureMat.SetActive (true); // Turn on user input if off
-				holdTime = 0; // reset hold time
+
+				// reset hold time
+				swipeDataCollection [1].holdTime = 0; 
+				swipeDataCollection [2].holdTime = 0;
+
 				yield return new WaitForSeconds (instructionWaitTime);
 			}
 
@@ -262,15 +295,15 @@ public class ObedienceManager : MonoBehaviour {
 		while (catchUserInput) 
 		{
 			yield return new WaitForFixedUpdate ();
-			if(isPointerDown)
+			if(swipeDataCollection [1].isActive && !swipeDataCollection [2].isActive)
 			{
 				// Min. hold time of 1 sec
-				if(holdTime>1 && swipeData.Count<1)
+				if(swipeDataCollection [1].holdTime>1 && swipeDataCollection [1].swipeData.Count<1)
 				{
 					pattern = SwipeRecognizer.TouchPattern.hold;
-					holdTime = 0;
+					swipeDataCollection [1].holdTime = 0;
 				}
-				else if(swipeData.Count>1)
+				else if(swipeDataCollection [1].swipeData.Count>1)
 				{
 					pattern = SwipeRecognizer.TouchPattern.move;
 				}
@@ -290,8 +323,23 @@ public class ObedienceManager : MonoBehaviour {
 	public void DeactivateGestureMat()
 	{
 		catchUserInput = false;
+		isPointerDown = false;
 		gestureMat.SetActive (false);
 		SwipeReset ();
+	}
+
+	// Reset previous touch input
+	void SwipeReset()
+	{
+		pattern = SwipeRecognizer.TouchPattern.reset;
+	}
+
+
+	// Reset particular swipe data
+	void dataReset(int pointerID)
+	{
+		swipeDataCollection [pointerID].swipeData.Clear ();
+
 	}
 
 	// Back button
