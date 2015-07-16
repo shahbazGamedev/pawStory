@@ -10,6 +10,7 @@ public class EventMgr
 	public static event VoidVoid GamePause;
 	public static event VoidVoid GameResume;
 
+
 	public static void OnSceneLoaded(string val)
 	{
 		if (SceneLoaded != null) 

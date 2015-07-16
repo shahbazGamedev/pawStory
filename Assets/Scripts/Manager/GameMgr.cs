@@ -130,12 +130,14 @@ public class GameMgr : MonoBehaviour
 	void OnGamePause()
 	{
 		isPaused = true;
+		Time.timeScale = 0;
 	}
 
 
 	void OnGameResume()
 	{
 		isPaused = false;
+		Time.timeScale = 1;
 	}
 }
 

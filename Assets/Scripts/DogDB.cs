@@ -27,6 +27,10 @@ public class Dog
 	public float WalkSpeed;
 	public float RunSpeed;
 
+	public float Mass;
+	public float JumpForce;
+	public float Drag;
+
 	public Dog ()
 	{
 	}
@@ -58,5 +62,8 @@ public class DogDB
 
 		curDog.WalkSpeed = 10;
 		curDog.RunSpeed = 10;
+
+		curDog.Mass = 1;
+		curDog.JumpForce = 1.5f;
 	}
 }
