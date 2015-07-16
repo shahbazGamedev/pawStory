@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class DockJump : MonoBehaviour {
 	public GameObject dogRef;
@@ -19,9 +20,13 @@ public class DockJump : MonoBehaviour {
 	public int chances;
 	private Vector3 dogPos;
 	bool isCoroutine;
+	public Transform target;
+	private float dist;
+	public Text chance1;
+	public Text chance2;
+	public Text chance3;
 
-
-	void awake()
+		void awake()
 	{
 
 	}
@@ -45,7 +50,7 @@ public class DockJump : MonoBehaviour {
 			GameOver();
 		}
 
-
+		//distance();
 	}
 	void FixedUpdate() 
 	{
@@ -167,12 +172,17 @@ public class DockJump : MonoBehaviour {
 		{
 			chances=chances-1;
 			dogAnim.SetFloat ("Speed",0f);
+			ScoreSystem();
+
 			if(!isCoroutine)
 				StartCoroutine(ReturnDog());
 
 
 
+
 		}
+	
+
 	}
 	private void gameStart()
 	{
@@ -184,12 +194,36 @@ public class DockJump : MonoBehaviour {
 	private void GameOver()
 	{
 
-		Application.LoadLevel("MainMenu");
+		//Application.LoadLevel("MainMenu");
 
 			Debug.Log ("gameover");
 
 		}
-	
+	void distance()
+	{
+		dist=Vector3.Distance(target.position,transform.position);
+		print("Jumping Distance: " + dist);
+
+	}
+	void ScoreSystem()
+	{
+		if(chances==4)
+		{
+			distance();
+			chance1.text="Chance 1:"+dist;
+		}
+		if(chances==2)
+		{
+			distance();
+			chance2.text="Chance 2:"+dist;
+		}
+		if(chances==0)
+		{
+			distance();
+			chance3.text="Chance 3:"+dist;
+		}
+
+	}
 
 	
 
