@@ -81,7 +81,7 @@ public class DogManager : MonoBehaviour
 			// ... set the players rotation and set the speed parameter to 5.5f.
 			//Rotating (horizontal, vertical);
 			 
-			dogAnim.SetFloat ("Speed",1f, speedDampTime, Time.deltaTime);
+			dogAnim.SetFloat ("Speed",1f, 0f, Time.deltaTime);
 			//GetComponent<Rigidbody> ().AddForce(transform.forward * moveSpeed );
 
 		} 

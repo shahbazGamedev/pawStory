@@ -17,7 +17,7 @@ public class ObedienceManager : MonoBehaviour {
 	public float instructionWaitTime;
 	bool combo;
 	bool isCoroutineON;
-	bool isPointerDown;
+	//bool isPointerDown;
 	//public float holdTime;
 	float swipeDelta;
 
@@ -323,7 +323,7 @@ public class ObedienceManager : MonoBehaviour {
 	public void DeactivateGestureMat()
 	{
 		catchUserInput = false;
-		isPointerDown = false;
+		//isPointerDown = false;
 		gestureMat.SetActive (false);
 		SwipeReset ();
 	}

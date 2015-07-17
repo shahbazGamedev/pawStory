@@ -5,7 +5,6 @@ Description   : Dog Movement on Path
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 public class DogPathMovement : MonoBehaviour {
 	public GameObject dogRef;
@@ -18,14 +17,15 @@ public class DogPathMovement : MonoBehaviour {
 	public bool reachedPathEnd;
 	Vector3 pathEnd;
 	public float dogSpeed;
+	public bool reachedTarget;
 
-
-	private Animator dogAnim;
+	Animator dogAnim;
 
 	public int nodeCount;
 	public int currentNode;
 
 	public float minDistToReach;
+	TrackingManager trackingManagerRef;
 
 	// Use this for initialization
 	void Start () 
@@ -35,6 +35,7 @@ public class DogPathMovement : MonoBehaviour {
 		reachedPathEnd=false;
 		nodeCount=0;
 		currentNode=0;
+		trackingManagerRef = FindObjectOfType<TrackingManager> ();
 	}
 
 	void Update()
@@ -45,7 +46,7 @@ public class DogPathMovement : MonoBehaviour {
 			dogAnim.SetFloat("Speed", 0f);
 			followPath=false;
 		}
-		else if(reachedPathEnd==false && followPath==true)
+		else if(!reachedPathEnd && followPath)
 		{
 			dogAnim.SetFloat("Speed", 1f);
 		}
@@ -64,11 +65,11 @@ public class DogPathMovement : MonoBehaviour {
 	// Set path data and reset parameter for each swipe
 	public void SetPathData(List<Vector3> data)
 	{
-		pathData=data;
-		nodeCount=data.Count;
-		reachedPathEnd=false;
-		currentNode=0;
-		pathEnd=pathData[nodeCount-1];
+		pathData = data;
+		nodeCount = data.Count;
+		reachedPathEnd = false;
+		currentNode = 0;
+		pathEnd = pathData [nodeCount - 1];
 	}
 
 
@@ -76,6 +77,8 @@ public class DogPathMovement : MonoBehaviour {
 	public void EnableDogPathMovement(bool enable)
 	{
 		followPath=enable;
+		target = pathData [0];
+		target.y = transform.position.y;
 	}
 
 	// Move dog on the set path
@@ -92,10 +95,10 @@ public class DogPathMovement : MonoBehaviour {
 				// Update target once target is reached
 				if((transform.position-target).sqrMagnitude<=minDistToReach)
 				{
-					target=pathData[currentNode];
-					target.y=currentposition.y;
-					pathEnd.y=currentposition.y;
-					currentNode+=1;
+					target = pathData [currentNode];
+					target.y = currentposition.y;
+					pathEnd.y = currentposition.y;
+					currentNode += 1;
 				}
 			}
 		}
@@ -113,6 +116,18 @@ public class DogPathMovement : MonoBehaviour {
 		if(Vector3.Distance(pathEnd, transform.position)<0.001f)
 		{
 			reachedPathEnd=true;
+		}
+	}
+
+	void OnCollisionEnter(Collision other)
+	{
+		if(other.transform.tag=="Finish") 
+		{
+			followPath = false;
+			reachedTarget = true;
+			trackingManagerRef.points += 1;
+			trackingManagerRef.roundComplete = true;
+			Debug.Log ("Reached Target");
 		}
 	}
 
