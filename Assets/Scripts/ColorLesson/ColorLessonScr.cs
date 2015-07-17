@@ -5,13 +5,16 @@ using System.Collections.Generic;
 public class ColorLessonScr : MonoBehaviour
 {
 	public GameObject DogObj;
+	public Transform StartPos;
 	public List<GameObject> BlockList;
 	public List<GameObject> PickupList;
 	public GameObject PickupsParentObj;
 	public Text ScoreText;
 	public GameObject GameOverScreenObj;
+	public Text GameOverText;
 
-	int dogSpeed = 1;
+	int dogSpeed = 10;
+	float startZPos = 10.0f;
 	int curLane = 2;
 	int TotalLanes = 3;
 	int TotalQuestions = 10;
@@ -43,11 +46,14 @@ public class ColorLessonScr : MonoBehaviour
 			ScoreVal++;
 		}
 		ScoreText.text = ScoreVal + " / "  + TotalQuestions;
-		curQuestion++;
+		if(!other.name.Contains("Trigger"))
+			curQuestion++;
+
 		if (curQuestion >= TotalQuestions) 
 		{
 			isGameOver = true;
 			GameOverScreenObj.SetActive(true);
+			GameOverText.text = "Collected " + ScoreVal +  " out of " + TotalQuestions;
 		}
 	}
 
@@ -69,7 +75,7 @@ public class ColorLessonScr : MonoBehaviour
 
 			int newLane = Random.Range(0, TotalLanes);
 			GameObject curObj = GameObject.Instantiate(PickupList[newQuestion]) as GameObject;
-			curObj.transform.position = new Vector3(newLane, 0.9f, i * pickupGap);
+			curObj.transform.position = new Vector3(newLane, 0.9f, startZPos + i * pickupGap);
 			curObj.transform.localScale = new Vector3(1f, 1f, 1f);
 			curObj.transform.parent = PickupsParentObj.transform;
 			curObj.name = PickupList[newQuestion].name + "_" + i + "_1" + "Ans";
@@ -78,7 +84,7 @@ public class ColorLessonScr : MonoBehaviour
 				newLane = 0;
 
 			curObj = GameObject.Instantiate(PickupList[prevQuestion]) as GameObject;
-			curObj.transform.position = new Vector3(newLane, 0.9f, i * pickupGap);
+			curObj.transform.position = new Vector3(newLane, 0.9f, startZPos + i * pickupGap);
 			curObj.transform.parent = PickupsParentObj.transform;
 			curObj.name = PickupList[prevQuestion].name + "_" + i + "_2";
 			newLane++;
@@ -86,7 +92,7 @@ public class ColorLessonScr : MonoBehaviour
 				newLane = 0;
 
 			curObj = GameObject.Instantiate(PickupList[nextQuestion]) as GameObject;
-			curObj.transform.position = new Vector3(newLane, 0.9f, i * pickupGap);
+			curObj.transform.position = new Vector3(newLane, 0.9f, startZPos + i * pickupGap);
 			curObj.transform.parent = PickupsParentObj.transform;
 			curObj.name = PickupList[nextQuestion].name + "_" + i + "_3";
 
@@ -117,7 +123,8 @@ public class ColorLessonScr : MonoBehaviour
 
 	public void OnRestartGame()
 	{
-		dogSpeed = 1;
+		dogSpeed = 5;
+		startZPos = 10.0f;
 		curLane = 2;
 		TotalLanes = 3;
 		TotalQuestions = 10;
@@ -126,10 +133,15 @@ public class ColorLessonScr : MonoBehaviour
 		pickupGap = 5.0f;
 		isGameOver = false;
 
+		foreach (Transform child in PickupsParentObj.transform) 
+			GameObject.Destroy(child.gameObject);
+
 		LoadPickups ();
 
 		GameOverScreenObj.SetActive(false);
 		ScoreText.text = ScoreVal + " / "  + TotalQuestions;
+
+		DogObj.transform.position = StartPos.position;
 	}
 
 

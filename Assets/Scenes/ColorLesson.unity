@@ -631,7 +631,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 382368552}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
@@ -894,6 +894,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1378988419}
+  - {fileID: 773566362}
   m_Father: {fileID: 1369313726}
   m_RootOrder: 5
 --- !u!1 &500548961 stripped
@@ -916,6 +917,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DogObj: {fileID: 500548961}
+  StartPos: {fileID: 382368553}
   BlockList:
   - {fileID: 69401322}
   - {fileID: 1331477637}
@@ -925,9 +927,10 @@ MonoBehaviour:
   - {fileID: 830870088}
   - {fileID: 785381669}
   - {fileID: 109143173}
-  PickupsParentObj: {fileID: 496970533}
+  PickupsParentObj: {fileID: 773566361}
   ScoreText: {fileID: 469564445}
   GameOverScreenObj: {fileID: 1923198348}
+  GameOverText: {fileID: 1863632274}
 --- !u!1 &507817936
 GameObject:
   m_ObjectHideFlags: 0
@@ -1189,6 +1192,33 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 745915124}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &773566361
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 773566362}
+  m_Layer: 0
+  m_Name: PickupsDyanmic
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &773566362
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 773566361}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 496970534}
+  m_RootOrder: 1
 --- !u!1 &785381669
 GameObject:
   m_ObjectHideFlags: 0
@@ -1865,14 +1895,6 @@ Prefab:
       propertyPath: m_Pivot.y
       value: .5
       objectReference: {fileID: 0}
-    - target: {fileID: 146842, guid: 223a9d338d97efa4fab0c00d1e70471e, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 128558, guid: 223a9d338d97efa4fab0c00d1e70471e, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 223a9d338d97efa4fab0c00d1e70471e, type: 2}
   m_IsPrefabParent: 0
@@ -2519,7 +2541,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Collected 5 out of 10
+  m_Text: Collected
 --- !u!222 &1863632275
 CanvasRenderer:
   m_ObjectHideFlags: 0
