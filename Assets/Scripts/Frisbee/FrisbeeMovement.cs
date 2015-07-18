@@ -27,6 +27,7 @@ public class FrisbeeMovement : MonoBehaviour {
 
 
 
+
 	void Awake()
 	{
 	
@@ -61,7 +62,7 @@ public class FrisbeeMovement : MonoBehaviour {
 			}
 			else if(direction.x>0)
 			{
-				dog.GetComponent<DogMovementFrisbee> ().jumping(frisbeeForce);
+				dog.GetComponent<DogMovementFrisbee> ().jumpingRight(frisbeeForce);
 				isJumping=true;
 				Debug.Log("jumpright");
 			}
@@ -120,7 +121,7 @@ public class FrisbeeMovement : MonoBehaviour {
 		{
 //			Destroy (this.gameObject);
 			GetComponent<MeshRenderer>().enabled=false;
-
+			dog.GetComponent<DogMovementFrisbee> ().Score++;
 
 
 		}
