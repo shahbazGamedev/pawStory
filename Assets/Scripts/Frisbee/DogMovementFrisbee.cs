@@ -11,14 +11,16 @@ public class DogMovementFrisbee : MonoBehaviour {
 	public GameObject dog;
 	public GameObject headRef;
 	public Transform target;
-	private Animator dogAnim;
-	private Vector3 direction;
-	private Vector3 dogPos;
-	Rigidbody rb;
+	public GameObject MenuBtn;
+	public GameObject RestartBtn;
 	public int Score;
+	public GameObject Floor;
 	public Transform movePosition1;
 	public Transform movePosition2;
 	public Transform movePosition3;
+	private Animator dogAnim;
+	private Vector3 direction;
+	private Vector3 dogPos;
 	private float Pos1;
 	private float Pos2;
 	private float Pos3;
@@ -29,6 +31,7 @@ public class DogMovementFrisbee : MonoBehaviour {
 	private Vector3 direction3;
 	public bool isMoving;
 	bool isCatching;
+	Rigidbody rb;
 	//public GameObject frisbee;
 
 
@@ -41,20 +44,27 @@ public class DogMovementFrisbee : MonoBehaviour {
 
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
+		isMoving=true;
+	    MenuBtn.SetActive(false);
+		RestartBtn.SetActive(false);
 		rb = GetComponent<Rigidbody> ();
 		}
 
 
 	// Update is called once per frame
-	void Update () {
+	void Update () 
+	{
+
 		MovePosition();
+
 		if(isCatching)
 		{
 			Debug.Log("nowcatching");
 		FrisebeeCatch();
-         }
 
+         }
 	}
 
 	void FixedUpdate()
@@ -88,38 +98,61 @@ public void jumpingRight(Vector3 force)
 
 	void MovePosition()
 	{
-		if(Score==0)
+		if(Score==0 && isMoving==true )
 		{
-			isMoving=true;
+
 			Debug.Log ("pos1");
 			Pos1=Vector3.Distance(movePosition1.position,transform.position);
 			direction1=new Vector3(movePosition1.position.x,0,movePosition1.position.z);
 			transform.LookAt(direction1);
 			dogAnim.SetFloat("Walk",1f);
 			rb.MovePosition(Vector3.MoveTowards (transform.position, movePosition1.position, speed* Time.deltaTime));
+		
+		if(Pos1<0.5f)
+			{
+				isMoving=false;
+				transform.LookAt(target);
+				dogAnim.SetFloat("Walk",0f);
+
+			}
 		}
-		if(Score==1)
+
+		if(Score==1 && isMoving==true)
 		{
-			isMoving=true;
+			//isMoving=true;
 			Debug.Log ("pos2");
 			Pos2=Vector3.Distance(movePosition2.position,transform.position);
 			direction2=new Vector3(movePosition2.position.x,0,movePosition2.position.z);
 			transform.LookAt(direction2);
 			dogAnim.SetFloat("Walk",1f);
 			rb.MovePosition(Vector3.MoveTowards (transform.position, movePosition2.position, speed* Time.deltaTime));
+		
+			if(Pos2<0.5f)
+			{
+				isMoving=false;
+				transform.LookAt(target);
+				dogAnim.SetFloat("Walk",0f);
+			}
 		}
-		if(Score>2)
+		if(Score>=2 && isMoving==true)
 		{
-			isMoving=true;
+
 			Debug.Log ("pos3");
 			Pos3=Vector3.Distance(movePosition3.position,transform.position);
 			direction3=new Vector3(movePosition3.position.x,0,movePosition3.position.z);
 			transform.LookAt(direction3);
 			dogAnim.SetFloat("Walk",1f);
 			rb.MovePosition(Vector3.MoveTowards (transform.position, movePosition3.position, speed* Time.deltaTime));
+		
+		if(Pos3<0.5f)
+		{
+			isMoving=false;
+			transform.LookAt(target);
+			dogAnim.SetFloat("Walk",0f);
 		}
 	}
-	 
+	}
+	
 
 //	void movement()
 //	{
@@ -129,7 +162,7 @@ public void jumpingRight(Vector3 force)
 //			direction=movePosition1.transform.position-Dog.transform.position;
 //			dogAnim.SetFloat("Walk",1f);
 //			transform.LookAt (movePosition1);
-//			//rb.AddForce(transform.forward*Speed);
+//		//rb.AddForce(transform.forward*Speed);
 //			rb.MovePosition(Vector3.MoveTowards (transform.position, movePosition1.position, speed));
 //		}
 //	}
@@ -143,28 +176,12 @@ public void jumpingRight(Vector3 force)
 
 
 	}
+}
 
 
-	void OnCollisionEnter(Collision collision)
-	{
-	if(collision.gameObject.tag=="MovePoints")
-		{
-			Debug.Log ("collided");
-
-			isMoving=false;
-			if(isMoving==false)
-			{
-				Debug.Log ("itcomeshere");
-			//	dogAnim.SetFloat("Walk",0f);
-				isCatching=true;
-			}
-
-
-		}
-	}
 		
 
-}
+
 
 
 

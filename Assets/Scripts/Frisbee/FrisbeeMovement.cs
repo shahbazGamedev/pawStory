@@ -122,6 +122,7 @@ public class FrisbeeMovement : MonoBehaviour {
 //			Destroy (this.gameObject);
 			GetComponent<MeshRenderer>().enabled=false;
 			dog.GetComponent<DogMovementFrisbee> ().Score++;
+			dog.GetComponent<DogMovementFrisbee>().isMoving=true;
 
 
 		}
