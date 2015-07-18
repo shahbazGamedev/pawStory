@@ -17,22 +17,21 @@ public class ObedienceManager : MonoBehaviour {
 	public float instructionWaitTime;
 	bool combo;
 	bool isCoroutineON;
-	//bool isPointerDown;
-	//public float holdTime;
-	float swipeDelta;
 
 	int chance;
 	public int maxChances;
 	int points;
 	public int scoreIncrement;
 
+	Animator dogAnim;
 
 //	Vector2 startPoint;
 //	Vector2 endPoint;
-//	List<Vector2> swipeData;
 
 	SwipeRecognizer.TouchPattern pattern;
 	SwipeRecognizer.TouchPattern presentGesture;
+	SwipeRecognizer.TouchPattern gestureCache;
+
 	GameObject dogRef;
 	DogManager dogManager;
 	Vector3 startPosition;
@@ -71,6 +70,7 @@ public class ObedienceManager : MonoBehaviour {
 		startRotation = transform.rotation;
 		StartCoroutine (Instruct ());
 		combo = false;
+		dogAnim = dogRef.GetComponentInChildren<Animator> ();
 	}
 	
 	// Update is called once per frame
@@ -91,95 +91,15 @@ public class ObedienceManager : MonoBehaviour {
 			swipeDataCollection [2].holdTime += Time.deltaTime;
 		
 		SyncAnimation ();
-	}
 
-	// Event trigger - BeginDrag
-	public void OnBeginDrag (BaseEventData data)
-	{
-		var pointData = (PointerEventData)data;
-		//swipeDataCollection [-pointData.pointerId].isActive = true;
-		swipeDataCollection [-pointData.pointerId].startPoint= pointData.position;
-
-//		if(pointData.pointerId==-1)
-//			startPoint = pointData.position;
-	}
-
-	// Event trigger - EndDrag
-	public void OnEndDrag (BaseEventData data)
-	{
-		var pointData = (PointerEventData)data;
-		//swipeDataCollection [-pointData.pointerId].isActive = false;
-		swipeDataCollection [-pointData.pointerId].endPoint= pointData.position;
-
-		if(pointData.pointerId==-1 && !swipeDataCollection [2].isActive) 
-		{
-//			endPoint = pointData.position;
-			if (!combo) {
-				SwipeRecognizer.RecogonizeSwipe (swipeDataCollection [-pointData.pointerId], out pattern);
-			}
-//			swipeData.Clear ();
-		}
-		dataReset (-pointData.pointerId);
-	}
-
-	// Event trigger - Drag
-	public void OnDrag (BaseEventData data)
-	{
-		var pointData = (PointerEventData)data;
-		swipeDataCollection [-pointData.pointerId].swipeData.Add (pointData.position);
-
-//		if(pointData.pointerId==-1)
-//		{
-//			swipeData.Add(pointData.position);
-//			//swipeDelta += (Vector2.Distance (startPoint, pointData.position) / Screen.dpi) * 160;	
-//		}
-	}
-		
-	// Event trigger - Pointer Click
-	public void OnClickEnd(BaseEventData data)
-	{
-		var pointData = (PointerEventData)data;
-		if (pointData.pointerId == -1 && !swipeDataCollection [2].isActive) 
-		{
-			// check for tap 
-			if (swipeDataCollection [-pointData.pointerId].swipeData.Count <= 1) 
-			{
-				// check for double tap
-				if (pointData.clickCount == 2) 
-				{
-					pattern = SwipeRecognizer.TouchPattern.doubleTap;
-					//Debug.Log ("dTap");
-				} 
-				else 
-				{
-					pattern = SwipeRecognizer.TouchPattern.singleTap;
-					//Debug.Log ("sTap");
-				}
-			}
-		}
-	}
-
-	// Event Trigger - Pointer Down
-	public void OnPointerDown(BaseEventData data)
-	{
-		var pointData = (PointerEventData)data;
-		swipeDataCollection [-pointData.pointerId].isActive = true;
-		//Debug.Log (pointData.pointerId);
-	}
-
-	// Event Trigger - Pointer Up
-	public void OnPointerUp(BaseEventData data)
-	{
-		var pointData = (PointerEventData)data;
-		swipeDataCollection [-pointData.pointerId].isActive = false;
-		swipeDataCollection [-pointData.pointerId].holdTime = 0;
 	}
 
 	// Checks non combo conditions
 	void CheckUserInput()
 	{
 		// Seperate routines for combos and non combos!
-		if (randomNumber != 2 && randomNumber != 3 && randomNumber != 4 && randomNumber != 5) 
+		//if (randomNumber != 2 && randomNumber != 3 && randomNumber != 4 && randomNumber != 5) 
+		if (randomNumber != 10) 
 		{
 			if (pattern == presentGesture)
 			{
@@ -187,11 +107,17 @@ public class ObedienceManager : MonoBehaviour {
 				instructions.text="Excellent";
 				catchUserInput = false;
 				points += scoreIncrement;
+				gestureCache = pattern;
 				DeactivateGestureMat ();
 				//StartCoroutine (dogManager.MoveToPosition (startPosition, startRotation));
 			} 
 			else // if wrong gesture
 			{
+				if(randomNumber==4)
+				{
+					if (pattern == SwipeRecognizer.TouchPattern.singleTap)
+						return;
+				}
 				Debug.Log (pattern);
 				instructions.text="Wrong";
 				DeactivateGestureMat ();
@@ -204,6 +130,97 @@ public class ObedienceManager : MonoBehaviour {
 		}
 	}
 
+	// Sync animation of dog based on player input
+	void SyncAnimation()
+	{
+		switch(gestureCache)
+		{
+		case SwipeRecognizer.TouchPattern.reset:
+			{
+				break;
+			}
+		case SwipeRecognizer.TouchPattern.swipeUp:
+			{
+				dogAnim.SetTrigger ("Stand");
+				gestureCache = SwipeRecognizer.TouchPattern.reset;
+				break;
+			}
+		case SwipeRecognizer.TouchPattern.swipeDown:
+			{
+				dogAnim.SetTrigger ("Sit");
+				gestureCache = SwipeRecognizer.TouchPattern.reset;
+				break;
+			}
+		case SwipeRecognizer.TouchPattern.swipeUpLeft:
+			{
+				dogAnim.SetTrigger ("Jump");
+				gestureCache = SwipeRecognizer.TouchPattern.reset;
+				break;
+			}
+		case SwipeRecognizer.TouchPattern.swipeUpRight:
+			{
+				dogAnim.SetTrigger ("Jump");
+				gestureCache = SwipeRecognizer.TouchPattern.reset;
+				break;
+			}
+		case SwipeRecognizer.TouchPattern.clockwiseCircle:
+			{
+				dogAnim.SetTrigger ("ClockWise");
+				gestureCache = SwipeRecognizer.TouchPattern.reset;
+				break;
+			}
+		case SwipeRecognizer.TouchPattern.antiClockwiseCircle:
+			{
+				dogAnim.SetTrigger ("AntiClockWise");
+				gestureCache = SwipeRecognizer.TouchPattern.reset;
+				break;
+			}
+		case SwipeRecognizer.TouchPattern.doubleCircle:
+			{
+				dogAnim.SetTrigger ("TailChase");
+				gestureCache = SwipeRecognizer.TouchPattern.reset;
+				break;
+			}
+		case SwipeRecognizer.TouchPattern.doubleTap:
+			{
+				dogAnim.SetBool ("StandOn", true);
+				StartCoroutine (ResetAnimBool ("StandOn", 2));
+				gestureCache = SwipeRecognizer.TouchPattern.reset;
+				break;
+			}
+		case SwipeRecognizer.TouchPattern.hold:
+			{
+				dogAnim.SetTrigger ("Jump");
+				gestureCache = SwipeRecognizer.TouchPattern.reset;
+				break;
+			}
+		}
+	}
+
+	// Disable touchInput
+	public void DeactivateGestureMat()
+	{
+		catchUserInput = false;
+		//isPointerDown = false;
+		gestureMat.SetActive (false);
+		SwipeReset ();
+	}
+
+	// Reset previous touch input
+	void SwipeReset()
+	{
+		pattern = SwipeRecognizer.TouchPattern.reset;
+	}
+
+
+	// Reset particular swipe data
+	void dataReset(int pointerID)
+	{
+		swipeDataCollection [pointerID].swipeData.Clear ();
+
+	}
+
+	#region Coroutines
 	//  Checks combo conditions
 	IEnumerator CatchCombos()
 	{
@@ -250,7 +267,7 @@ public class ObedienceManager : MonoBehaviour {
 		isCoroutineON = false;
 		yield return null;
 	}
-		
+
 	// Sets random instruction at fixed intervals 
 	IEnumerator Instruct()
 	{
@@ -268,7 +285,7 @@ public class ObedienceManager : MonoBehaviour {
 			else  // else put a random instruction
 			{
 				randomNumber = Random.Range (0, range);
-				//randomNumber = 7;
+				//randomNumber = 8;
 				presentGesture = gestureCollection [randomNumber].value1;
 				instructions.text = gestureCollection [randomNumber].key;
 
@@ -280,6 +297,11 @@ public class ObedienceManager : MonoBehaviour {
 				// reset hold time
 				swipeDataCollection [1].holdTime = 0; 
 				swipeDataCollection [2].holdTime = 0;
+
+				if(randomNumber==5)
+				{
+					StartCoroutine (DetectHold ());
+				}
 
 				yield return new WaitForSeconds (instructionWaitTime);
 			}
@@ -313,35 +335,100 @@ public class ObedienceManager : MonoBehaviour {
 		yield return null;
 	}
 
-	// Sync animation of dog based on player input
-	void SyncAnimation()
+	// Resets animation state after wait time
+	IEnumerator ResetAnimBool(string animName, int wait)
 	{
-		
+		yield return new WaitForSeconds (wait);
+		dogAnim.SetBool (animName, false);
+	}
+	#endregion
+
+	#region EventTriggers
+	// Event trigger - BeginDrag
+	public void OnBeginDrag (BaseEventData data)
+	{
+		var pointData = (PointerEventData)data;
+		//swipeDataCollection [-pointData.pointerId].isActive = true;
+		swipeDataCollection [-pointData.pointerId].startPoint= pointData.position;
+
+		//		if(pointData.pointerId==-1)
+		//			startPoint = pointData.position;
 	}
 
-	// Disable touchInput
-	public void DeactivateGestureMat()
+	// Event trigger - EndDrag
+	public void OnEndDrag (BaseEventData data)
 	{
-		catchUserInput = false;
-		//isPointerDown = false;
-		gestureMat.SetActive (false);
-		SwipeReset ();
+		var pointData = (PointerEventData)data;
+		//swipeDataCollection [-pointData.pointerId].isActive = false;
+		swipeDataCollection [-pointData.pointerId].endPoint= pointData.position;
+
+		if(pointData.pointerId==-1 && !swipeDataCollection [2].isActive) 
+		{
+			//			endPoint = pointData.position;
+			if (!combo) 
+			{
+				SwipeRecognizer.RecogonizeSwipe (swipeDataCollection [-pointData.pointerId], out pattern);
+			}
+			//			swipeData.Clear ();
+		}
+		dataReset (-pointData.pointerId);
 	}
 
-	// Reset previous touch input
-	void SwipeReset()
+	// Event trigger - Drag
+	public void OnDrag (BaseEventData data)
 	{
-		pattern = SwipeRecognizer.TouchPattern.reset;
+		var pointData = (PointerEventData)data;
+		swipeDataCollection [-pointData.pointerId].swipeData.Add (pointData.position);
+
+		//		if(pointData.pointerId==-1)
+		//		{
+		//			swipeData.Add(pointData.position);
+		//			//swipeDelta += (Vector2.Distance (startPoint, pointData.position) / Screen.dpi) * 160;	
+		//		}
 	}
 
-
-	// Reset particular swipe data
-	void dataReset(int pointerID)
+	// Event trigger - Pointer Click
+	public void OnClickEnd(BaseEventData data)
 	{
-		swipeDataCollection [pointerID].swipeData.Clear ();
-
+		var pointData = (PointerEventData)data;
+		if (pointData.pointerId == -1 && !swipeDataCollection [2].isActive) 
+		{
+			// check for tap 
+			if (swipeDataCollection [-pointData.pointerId].swipeData.Count <= 1) 
+			{
+				// check for double tap
+				if (pointData.clickCount == 2) 
+				{
+					pattern = SwipeRecognizer.TouchPattern.doubleTap;
+					//Debug.Log ("dTap");
+				} 
+				else 
+				{
+					pattern = SwipeRecognizer.TouchPattern.singleTap;
+					//Debug.Log ("sTap");
+				}
+			}
+		}
 	}
 
+	// Event Trigger - Pointer Down
+	public void OnPointerDown(BaseEventData data)
+	{
+		var pointData = (PointerEventData)data;
+		swipeDataCollection [-pointData.pointerId].isActive = true;
+		//Debug.Log (pointData.pointerId);
+	}
+
+	// Event Trigger - Pointer Up
+	public void OnPointerUp(BaseEventData data)
+	{
+		var pointData = (PointerEventData)data;
+		swipeDataCollection [-pointData.pointerId].isActive = false;
+		swipeDataCollection [-pointData.pointerId].holdTime = 0;
+	}
+	#endregion
+
+	#region ButtonCallbacks
 	// Back button
 	public void GoBack()
 	{
@@ -353,4 +440,5 @@ public class ObedienceManager : MonoBehaviour {
 	{
 		Application.LoadLevel (Application.loadedLevel);
 	}
+	#endregion
 }

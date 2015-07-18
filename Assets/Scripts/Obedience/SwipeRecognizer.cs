@@ -24,14 +24,16 @@ public class SwipeRecognizer
 
 		clockwiseCircle,
 		antiClockwiseCircle,
+		doubleCircle,
 
 		move,
 		hold,
 
 		pinchOut,
 
-		tryAgain,
-		reset
+		reset,
+		tryAgain
+
 	};
 
 	public struct Swipe
@@ -135,31 +137,42 @@ public class SwipeRecognizer
 
 		float totalAngle=0f;
 		float deltaAngle=0f;
-		int denominator;
+		int incrementValue;
+
+		Vector2 currentVector;
+		Vector2 previousVector;
+		Vector2 midPoint;
+
 		if(swipeData.Count<6)
 		{
 			return false;
 		}
 
+		// Sample the swipe data into multiple segments - lag fix
 		if (swipeData.Count < 12)
-			denominator = 2;
-		else if (swipeData.Count < 18)
-			denominator = 3;
+			incrementValue = 1;
+		else if (swipeData.Count < 48)
+			incrementValue = 4;
 		else
-			denominator = 6;
-		// Sample the swipe data into multiple segments and find midpoint
-		int incrementValue = swipeData.Count / denominator;
-		Vector2 midPoint = (swipeData[swipeData.Count/2]+endPoint) * 0.5f;
+			incrementValue = swipeData.Count/12;
 
-		Vector2 currentVector;
-		Vector2 previousVector;
+		// Sets midpoint based on circle or double circle
+		if(Vector2.Distance (endPoint,swipeData[swipeData.Count/2])>Vector2.Distance (endPoint,swipeData[swipeData.Count/4]))
+		{
+			midPoint = (swipeData[swipeData.Count/2]+endPoint) * 0.5f;
+		}
+		else
+		{
+			midPoint = (swipeData[swipeData.Count/4]+endPoint) * 0.5f;
+		}
 
 		previousVector = startPoint - midPoint; // Transform the vector from screen origin to calculated midpoint
 
+
 		// Preliminery check to avoid unwanted calculations
-		if(AngleBetweenVectors (previousVector,(swipeData[swipeData.Count/3]-midPoint))>60)
+		if(AngleBetweenVectors (previousVector,(swipeData[swipeData.Count/3]-midPoint))>25)
 		{
-			
+			//Debug.Log ("totalAngle");
 			// Calculate angle for each sample and find total angle
 			for(int i=0;i<swipeData.Count;i+=incrementValue)
 			{
@@ -180,6 +193,13 @@ public class SwipeRecognizer
 				//float angle = Mathf.Atan2 (currentVector.y-previousVector.y, currentVector.x-previousVector.x) * Mathf.Rad2Deg;
 				float angle = currentVector.x * previousVector.y - currentVector.y * previousVector.x > 0 ? -1 : 1;
 
+				//Debug.Log (totalAngle);
+				if (totalAngle > 600) 
+				{
+					pattern = TouchPattern.doubleCircle;
+					return true;
+				}
+				
 				if(angle>=0)
 				{
 					pattern = TouchPattern.antiClockwiseCircle;
