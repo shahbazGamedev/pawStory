@@ -4,15 +4,17 @@ Description   : Dog Frisbee movement
 **/
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class DogMovementFrisbee : MonoBehaviour {
 	public float jumpForce=200f;
 	public Transform Dog;
 	public GameObject dog;
-	public GameObject headRef;
 	public Transform target;
 	public GameObject MenuBtn;
 	public GameObject RestartBtn;
+	public GameObject Frisbee;
+	public GameObject gameOver;
 	public int Score;
 	public GameObject Floor;
 	public Transform movePosition1;
@@ -46,6 +48,7 @@ public class DogMovementFrisbee : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
+		gameOver.SetActive(false);
 		isMoving=true;
 	    MenuBtn.SetActive(false);
 		RestartBtn.SetActive(false);
@@ -56,7 +59,7 @@ public class DogMovementFrisbee : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-
+		GameOver();
 		MovePosition();
 
 		if(isCatching)
@@ -111,7 +114,7 @@ public void jumpingRight(Vector3 force)
 		if(Pos1<0.5f)
 			{
 				isMoving=false;
-				transform.LookAt(target);
+				transform.LookAt(direction);
 				dogAnim.SetFloat("Walk",0f);
 
 			}
@@ -130,7 +133,7 @@ public void jumpingRight(Vector3 force)
 			if(Pos2<0.5f)
 			{
 				isMoving=false;
-				transform.LookAt(target);
+				transform.LookAt(direction);
 				dogAnim.SetFloat("Walk",0f);
 			}
 		}
@@ -147,7 +150,7 @@ public void jumpingRight(Vector3 force)
 		if(Pos3<0.5f)
 		{
 			isMoving=false;
-			transform.LookAt(target);
+			transform.LookAt(direction);
 			dogAnim.SetFloat("Walk",0f);
 		}
 	}
@@ -175,6 +178,20 @@ public void jumpingRight(Vector3 force)
 			transform.LookAt (direction);
 
 
+	}
+
+	void GameOver()
+	{
+		if(Score>=3)
+		{
+			gameOver.SetActive(true);
+			dog.SetActive(false);
+			Floor.SetActive(false);
+			Frisbee.SetActive(false);
+			RestartBtn.SetActive(true);
+			MenuBtn.SetActive(true);
+
+		}
 	}
 }
 
