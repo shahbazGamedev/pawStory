@@ -135,9 +135,20 @@ public class SwipeRecognizer
 
 		float totalAngle=0f;
 		float deltaAngle=0f;
+		int denominator;
+		if(swipeData.Count<6)
+		{
+			return false;
+		}
 
+		if (swipeData.Count < 12)
+			denominator = 2;
+		else if (swipeData.Count < 18)
+			denominator = 3;
+		else
+			denominator = 6;
 		// Sample the swipe data into multiple segments and find midpoint
-		int incrementValue = swipeData.Count / 5;
+		int incrementValue = swipeData.Count / denominator;
 		Vector2 midPoint = (swipeData[swipeData.Count/2]+endPoint) * 0.5f;
 
 		Vector2 currentVector;
@@ -146,7 +157,7 @@ public class SwipeRecognizer
 		previousVector = startPoint - midPoint; // Transform the vector from screen origin to calculated midpoint
 
 		// Preliminery check to avoid unwanted calculations
-		if(AngleBetweenVectors (previousVector,(swipeData[swipeData.Count/5]-midPoint))>25)
+		if(AngleBetweenVectors (previousVector,(swipeData[swipeData.Count/3]-midPoint))>60)
 		{
 			
 			// Calculate angle for each sample and find total angle

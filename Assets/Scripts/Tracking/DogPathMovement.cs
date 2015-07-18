@@ -41,14 +41,14 @@ public class DogPathMovement : MonoBehaviour {
 	void Update()
 	{
 		// Animation state update
-		if(reachedPathEnd)
+		if(reachedPathEnd || reachedTarget)
 		{
-			dogAnim.SetFloat("Speed", 0f);
+			dogAnim.SetBool("Sniff", false);
 			followPath=false;
 		}
 		else if(!reachedPathEnd && followPath)
 		{
-			dogAnim.SetFloat("Speed", 1f);
+			dogAnim.SetBool("Sniff", true);
 		}
 	}
 
@@ -68,6 +68,7 @@ public class DogPathMovement : MonoBehaviour {
 		pathData = data;
 		nodeCount = data.Count;
 		reachedPathEnd = false;
+		reachedTarget = false;
 		currentNode = 0;
 		pathEnd = pathData [nodeCount - 1];
 	}

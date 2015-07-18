@@ -184,16 +184,16 @@ public class DogManager : MonoBehaviour
 		isCoroutineOn = true;
 		while (transform.position != targetPosition)
 		{
-			
+			yield return new WaitForFixedUpdate ();
 			targetPosition.y = transform.position.y;
 			transform.position = Vector3.MoveTowards (transform.position, targetPosition, moveSpeed * Time.deltaTime);
 			transform.LookAt (targetPosition);
-			yield return new WaitForFixedUpdate ();
 		}
 		isCircuitRun=false;
-		while (transform.rotation != targetRotation) {
-			transform.rotation = Quaternion.RotateTowards (transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+		while (transform.rotation != targetRotation)
+		{
 			yield return new WaitForFixedUpdate ();
+			transform.rotation = Quaternion.RotateTowards (transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 		}
 		isCoroutineOn = false;
 		yield return null;
