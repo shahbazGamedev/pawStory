@@ -13,6 +13,8 @@ using UnityEngine.UI;
 public class TrackingManager : MonoBehaviour {
 	
 	public Text instructions;
+	public Text score;
+	public GameObject marker;
 	public GameObject gameOverPannel;
 	public Slider dogCapacity;
 	public GameObject lineRenderer;
@@ -148,7 +150,7 @@ public class TrackingManager : MonoBehaviour {
 	// Add end point OnDragEnd
 	void addEndPoint(BaseEventData Data)
 	{
-		PointerEventData data=(PointerEventData)Data;
+		var data=(PointerEventData)Data;
 		Vector3 screenPoint = new Vector3(data.position.x, data.position.y, 0f);
 		RaycastHit hit;
 		Ray ray = Camera.main.ScreenPointToRay(screenPoint);
@@ -173,6 +175,7 @@ public class TrackingManager : MonoBehaviour {
 		{
 			live.SetActive (false);
 		}
+		score.gameObject.SetActive (false);
 		gameOver = false;
 	}
 
@@ -186,9 +189,11 @@ public class TrackingManager : MonoBehaviour {
 		round += 1;
 		StartCoroutine (FillDogCapacity ());
 		StartCoroutine (UpdateRoundInfoDisplay ());
+		score.text = points + " / " + maxRounds;
 		if (round >= maxRounds)
 			return;
 		pathEnable = true;
+
 
 	}
 		
@@ -228,9 +233,9 @@ public class TrackingManager : MonoBehaviour {
 	IEnumerator UpdateRoundInfoDisplay()
 	{
 		if (round <= maxRounds) {
-			roundInfoDisplay.text = "Round " + round;
+			instructions.text = "Round " + round;
 			yield return new WaitForSeconds (1.5f);
-			roundInfoDisplay.text = "";
+			//roundInfoDisplay.text = "";
 		}
 	}
 
@@ -253,6 +258,7 @@ public class TrackingManager : MonoBehaviour {
 		{
 			if ((!isGameOn || pathEnable) && !reset) 
 			{
+				marker.gameObject.SetActive (false);
 				Vector3 screenPoint = new Vector3(data.position.x, data.position.y, 0f);
 				RaycastHit hit;
 				Ray ray = Camera.main.ScreenPointToRay(screenPoint);
@@ -293,7 +299,7 @@ public class TrackingManager : MonoBehaviour {
 	public void OnDrag(BaseEventData Data)
 	{
 		//Debug.Log("Dragging");
-		PointerEventData data=(PointerEventData)Data;
+		var data=(PointerEventData)Data;
 		Vector3 screenPoint = new Vector3(data.position.x, data.position.y, 0f);
 		if(isGameOn)
 		{

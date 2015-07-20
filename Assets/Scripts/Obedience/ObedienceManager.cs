@@ -7,10 +7,12 @@ using UnityEngine.EventSystems;
 public class ObedienceManager : MonoBehaviour {
 	
 	public Text instructions;
+	public Text timerNotification;
 	public GameObject gameOverPannel;
 	public GameObject gestureMat;
 	public GameObject[] directionRef;
 
+	float timer;
 	public int range;
 	bool gameOn;
 	bool catchUserInput;
@@ -94,7 +96,7 @@ public class ObedienceManager : MonoBehaviour {
 			swipeDataCollection [2].holdTime += Time.deltaTime;
 		
 		SyncAnimation ();
-
+		Timer ();
 	}
 
 	// Checks non combo conditions
@@ -226,6 +228,19 @@ public class ObedienceManager : MonoBehaviour {
 
 	}
 
+	void Timer()
+	{
+		if (gameOn)
+		{
+			timer += Time.deltaTime;
+		}
+		else
+		{
+			timerNotification.gameObject.SetActive (false);
+		}
+		timerNotification.text = (int)timer + " / " + instructionWaitTime;
+	}
+
 	#region Coroutines
 	//  Checks combo conditions
 	IEnumerator CatchCombos()
@@ -297,6 +312,7 @@ public class ObedienceManager : MonoBehaviour {
 
 				SwipeReset (); // reset previous swipe data
 				catchUserInput = true;
+				timer = 0;
 
 				gestureMat.SetActive (true); // Turn on user input if off
 
@@ -380,7 +396,7 @@ public class ObedienceManager : MonoBehaviour {
 		StartCoroutine (dogManager.MoveToPosition (startPosition, startRotation)); 
 		yield return null;
 	}
-
+		
 	#endregion
 
 	#region EventTriggers
