@@ -9,6 +9,7 @@ public class ObedienceManager : MonoBehaviour {
 	public Text instructions;
 	public GameObject gameOverPannel;
 	public GameObject gestureMat;
+	public GameObject[] directionRef;
 
 	public int range;
 	bool gameOn;
@@ -19,11 +20,13 @@ public class ObedienceManager : MonoBehaviour {
 	bool isCoroutineON;
 
 	int chance;
-	public int maxChances;
 	int points;
+	public int maxChances;
 	public int scoreIncrement;
 
 	Animator dogAnim;
+	public float angularVelocity;
+	public float jumpForce;
 
 //	Vector2 startPoint;
 //	Vector2 endPoint;
@@ -67,7 +70,7 @@ public class ObedienceManager : MonoBehaviour {
 		pattern = SwipeRecognizer.TouchPattern.reset;
 		gameOn = true;
 		startPosition = dogRef.transform.position;
-		startRotation = transform.rotation;
+		startRotation = dogRef.transform.rotation;
 		StartCoroutine (Instruct ());
 		combo = false;
 		dogAnim = dogRef.GetComponentInChildren<Animator> ();
@@ -153,13 +156,15 @@ public class ObedienceManager : MonoBehaviour {
 			}
 		case SwipeRecognizer.TouchPattern.swipeUpLeft:
 			{
-				dogAnim.SetTrigger ("Jump");
+				//dogAnim.SetTrigger ("Jump");
+				StartCoroutine (DogJump (gestureCache));
 				gestureCache = SwipeRecognizer.TouchPattern.reset;
 				break;
 			}
 		case SwipeRecognizer.TouchPattern.swipeUpRight:
 			{
-				dogAnim.SetTrigger ("Jump");
+				//dogAnim.SetTrigger ("Jump");
+				StartCoroutine (DogJump (gestureCache));
 				gestureCache = SwipeRecognizer.TouchPattern.reset;
 				break;
 			}
@@ -191,6 +196,7 @@ public class ObedienceManager : MonoBehaviour {
 		case SwipeRecognizer.TouchPattern.hold:
 			{
 				dogAnim.SetTrigger ("Jump");
+				dogRef.GetComponent <Rigidbody> ().AddForce (new Vector3 (0f, 1f, 0f) * jumpForce, ForceMode.Impulse);
 				gestureCache = SwipeRecognizer.TouchPattern.reset;
 				break;
 			}
@@ -285,7 +291,7 @@ public class ObedienceManager : MonoBehaviour {
 			else  // else put a random instruction
 			{
 				randomNumber = Random.Range (0, range);
-				//randomNumber = 8;
+				//randomNumber = 5;
 				presentGesture = gestureCollection [randomNumber].value1;
 				instructions.text = gestureCollection [randomNumber].key;
 
@@ -341,6 +347,40 @@ public class ObedienceManager : MonoBehaviour {
 		yield return new WaitForSeconds (wait);
 		dogAnim.SetBool (animName, false);
 	}
+
+	// Makes the dog jump in the desired direction
+	IEnumerator DogJump(SwipeRecognizer.TouchPattern touchPattern)
+	{
+		if(touchPattern==SwipeRecognizer.TouchPattern.swipeUpLeft) // Left Jump
+		{
+			Quaternion targetRotation = directionRef [0].transform.rotation;
+			while (dogRef.transform.rotation != targetRotation)
+			{
+				yield return new WaitForFixedUpdate ();
+				Quaternion deltaRotation= Quaternion.RotateTowards (dogRef.transform.rotation, targetRotation, angularVelocity * Time.deltaTime);
+				dogRef.transform.rotation = deltaRotation;
+			}
+			dogAnim.SetTrigger ("Jump");
+			dogRef.GetComponent <Rigidbody> ().AddForce (targetRotation * (new Vector3 (0f, 1f, 1f)) * jumpForce, ForceMode.Impulse);
+		}
+		else // Right Jump
+		{
+			Quaternion targetRotation = directionRef [1].transform.rotation;
+			while (dogRef.transform.rotation != targetRotation)
+			{
+				yield return new WaitForFixedUpdate ();
+				Quaternion deltaRotation= Quaternion.RotateTowards (dogRef.transform.rotation, targetRotation, angularVelocity * Time.deltaTime);
+				dogRef.transform.rotation = deltaRotation;
+			}
+			dogAnim.SetTrigger ("Jump");
+			dogRef.GetComponent <Rigidbody> ().AddForce (targetRotation * (new Vector3 (0f, 1f, 0.7f)) * jumpForce, ForceMode.Impulse);
+		}
+		yield return new WaitForSeconds (2);
+		// Returns the dog to starting position
+		StartCoroutine (dogManager.MoveToPosition (startPosition, startRotation)); 
+		yield return null;
+	}
+
 	#endregion
 
 	#region EventTriggers

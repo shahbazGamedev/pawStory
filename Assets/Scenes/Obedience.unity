@@ -435,10 +435,15 @@ MonoBehaviour:
   instructions: {fileID: 1949095875}
   gameOverPannel: {fileID: 1311281878}
   gestureMat: {fileID: 1208918083}
+  directionRef:
+  - {fileID: 1384015467}
+  - {fileID: 1471840665}
   range: 8
   instructionWaitTime: 5
   maxChances: 5
   scoreIncrement: 1
+  angularVelocity: 1000
+  jumpForce: 3
   gestureCollection:
   - key: Sit Down
     value1: 3
@@ -505,7 +510,9 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.19641519, y: .567404747, z: .342669964}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1384015468}
+  - {fileID: 1471840666}
   m_Father: {fileID: 0}
   m_RootOrder: 6
 --- !u!1001 &782371127
@@ -909,7 +916,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
 --- !u!1 &1208918083
 GameObject:
   m_ObjectHideFlags: 0
@@ -1169,6 +1176,33 @@ Transform:
   - {fileID: 897732734}
   m_Father: {fileID: 1414622071}
   m_RootOrder: 2
+--- !u!1 &1384015467
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1384015468}
+  m_Layer: 0
+  m_Name: Right
+  m_TagString: Untagged
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1384015468
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1384015467}
+  m_LocalRotation: {x: 0, y: -.707106829, z: 0, w: .707106709}
+  m_LocalPosition: {x: .915415168, y: -.57640475, z: 1.33232999}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 388781958}
+  m_RootOrder: 0
 --- !u!1 &1395240468
 GameObject:
   m_ObjectHideFlags: 0
@@ -1248,8 +1282,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1395240468}
-  m_LocalRotation: {x: 0, y: -.382683754, z: 0, w: .923879445}
-  m_LocalPosition: {x: .73299998, y: .280000001, z: -1.01300001}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: -1.62920685e-07}
+  m_LocalPosition: {x: .159999996, y: .280000001, z: 2.6500001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1347,6 +1381,33 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
+--- !u!1 &1471840665
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1471840666}
+  m_Layer: 0
+  m_Name: Left
+  m_TagString: Untagged
+  m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1471840666
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1471840665}
+  m_LocalRotation: {x: 0, y: .707106829, z: 0, w: .707106709}
+  m_LocalPosition: {x: 1.81541514, y: -.57640475, z: 1.33232999}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 388781958}
+  m_RootOrder: 1
 --- !u!1 &1582125749
 GameObject:
   m_ObjectHideFlags: 0
@@ -1430,7 +1491,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400022, guid: fc007e23158f31140bc767ff63784d4a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -.0199999996
       objectReference: {fileID: 0}
     - target: {fileID: 400022, guid: fc007e23158f31140bc767ff63784d4a, type: 3}
       propertyPath: m_LocalRotation.x
@@ -2118,8 +2179,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1996009489}
-  m_LocalRotation: {x: 0, y: .942593515, z: 0, w: .333942384}
-  m_LocalPosition: {x: .169, y: -.00899999589, z: -.418000013}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: .169, y: -.00899999589, z: 1.78699994}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1615443282}
@@ -2163,8 +2224,8 @@ MonoBehaviour:
     _FoodLevel: 0
   turnSmoothing: 15
   speedDampTime: .100000001
-  moveSpeed: 2
-  rotationSpeed: 0
+  moveSpeed: 1
+  rotationSpeed: 1000
   jumpForce: 3
   dragFactor: 1
   isGrounded: 0
