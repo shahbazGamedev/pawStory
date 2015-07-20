@@ -113,6 +113,13 @@ public class TrackingManager : MonoBehaviour {
 			roundComplete = true;
 			dogRef.GetComponent<DogPathMovement> ().reachedPathEnd = false;
 		}
+
+		// bark if target found
+		if(dogRef.GetComponent<DogPathMovement> ().reachedTarget)
+		{
+			dogRef.GetComponent<DogPathMovement> ().reachedTarget = false;
+			StartCoroutine (TargetFound ());
+		}
 	}
 
 	#region BezierInterface
@@ -225,6 +232,14 @@ public class TrackingManager : MonoBehaviour {
 			yield return new WaitForSeconds (1.5f);
 			roundInfoDisplay.text = "";
 		}
+	}
+
+	// Dog has tracked the target successfully
+	IEnumerator TargetFound()
+	{
+		// add success animation //TODO
+		yield return new WaitForSeconds (3);
+		roundComplete = true;
 	}
 	#endregion
 
