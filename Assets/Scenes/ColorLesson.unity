@@ -243,7 +243,7 @@ Transform:
   - {fileID: 1892754983}
   - {fileID: 1127250684}
   m_Father: {fileID: 1369313726}
-  m_RootOrder: 2
+  m_RootOrder: 3
 --- !u!1 &82224524
 GameObject:
   m_ObjectHideFlags: 0
@@ -454,6 +454,66 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 133153353}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &160142677
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 160142678}
+  - 33: {fileID: 160142680}
+  - 23: {fileID: 160142679}
+  m_Layer: 0
+  m_Name: StartPosOfCam
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &160142678
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 160142677}
+  m_LocalRotation: {x: -.326505691, y: .627211213, z: -.326505512, w: -.627211511}
+  m_LocalPosition: {x: 5.25, y: 8, z: 20}
+  m_LocalScale: {x: .5, y: .5, z: .5}
+  m_Children: []
+  m_Father: {fileID: 1369313726}
+  m_RootOrder: 2
+--- !u!23 &160142679
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 160142677}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 1
+  m_ReflectionProbeUsage: 1
+  m_ProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 1
+  m_ImportantGI: 0
+  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!33 &160142680
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 160142677}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &164907804
 GameObject:
   m_ObjectHideFlags: 0
@@ -471,7 +531,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &164907805
 RectTransform:
   m_ObjectHideFlags: 0
@@ -726,7 +786,7 @@ GameObject:
   - 33: {fileID: 382368555}
   - 23: {fileID: 382368554}
   m_Layer: 0
-  m_Name: StartPos
+  m_Name: StartPosOfDog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1076,7 +1136,7 @@ Transform:
   - {fileID: 1378988419}
   - {fileID: 773566362}
   m_Father: {fileID: 1369313726}
-  m_RootOrder: 5
+  m_RootOrder: 6
 --- !u!114 &500548964 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 11442212, guid: 2453dbe4e744b2949ba6f048db0bb7d5,
@@ -1173,7 +1233,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &508660598
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1476,7 +1536,7 @@ Transform:
   - {fileID: 1527483856}
   - {fileID: 868447955}
   m_Father: {fileID: 1369313726}
-  m_RootOrder: 4
+  m_RootOrder: 5
 --- !u!1 &830870088
 GameObject:
   m_ObjectHideFlags: 0
@@ -2125,11 +2185,11 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1191887328}
-  m_LocalRotation: {x: .324715704, y: -.628139913, z: .324715793, w: .628139853}
-  m_LocalPosition: {x: 4.36000013, y: 7.55000019, z: 4.19000053}
+  m_LocalRotation: {x: -.326505691, y: .627211213, z: -.326505512, w: -.627211511}
+  m_LocalPosition: {x: 5.25, y: 8, z: 20}
   m_LocalScale: {x: .5, y: .5, z: .5}
   m_Children: []
-  m_Father: {fileID: 1648188544}
+  m_Father: {fileID: 0}
   m_RootOrder: 2
 --- !u!1001 &1283818399
 Prefab:
@@ -2212,7 +2272,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 146842, guid: 223a9d338d97efa4fab0c00d1e70471e, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 137140, guid: 223a9d338d97efa4fab0c00d1e70471e, type: 2}
       propertyPath: m_IsActive
@@ -2331,7 +2391,7 @@ Transform:
   - {fileID: 507817937}
   - {fileID: 51551971}
   m_Father: {fileID: 1369313726}
-  m_RootOrder: 3
+  m_RootOrder: 4
 --- !u!1 &1369313725
 GameObject:
   m_ObjectHideFlags: 0
@@ -2359,12 +2419,13 @@ Transform:
   m_Children:
   - {fileID: 1396245466}
   - {fileID: 382368553}
+  - {fileID: 160142678}
   - {fileID: 69401323}
   - {fileID: 1331477638}
   - {fileID: 790238512}
   - {fileID: 496970534}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
 --- !u!1 &1378988418
 GameObject:
   m_ObjectHideFlags: 0
@@ -2636,7 +2697,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 421474, guid: 2453dbe4e744b2949ba6f048db0bb7d5, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 11442212, guid: 2453dbe4e744b2949ba6f048db0bb7d5, type: 2}
       propertyPath: StartPos
@@ -2718,13 +2779,17 @@ Prefab:
       propertyPath: QuestionImg
       value: 
       objectReference: {fileID: 1130837828}
+    - target: {fileID: 11442212, guid: 2453dbe4e744b2949ba6f048db0bb7d5, type: 2}
+      propertyPath: StartPosOfDog
+      value: 
+      objectReference: {fileID: 382368553}
+    - target: {fileID: 11442212, guid: 2453dbe4e744b2949ba6f048db0bb7d5, type: 2}
+      propertyPath: StartPosOfCam
+      value: 
+      objectReference: {fileID: 160142678}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2453dbe4e744b2949ba6f048db0bb7d5, type: 2}
   m_IsPrefabParent: 0
---- !u!4 &1648188544 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 421474, guid: 2453dbe4e744b2949ba6f048db0bb7d5, type: 2}
-  m_PrefabInternal: {fileID: 1648188543}
 --- !u!1 &1803418553
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,8 +10,8 @@ public class GlobalConst
 	public static string Scene_MainMenu = "MainMenu";
 	public static string Scene_TournamentSelection = "TournamentSelection";
 
-	public static string Scene_DiscDogs = "testsceneFrisbee";
-	public static string Scene_DockJump = "testSceneDockJump";
+	public static string Scene_DiscDogs = "DiscDogs";
+	public static string Scene_DockJump = "DockJump";
 	public static string Scene_Tracking = "testSceneTracking";
 	public static string Scene_Obedience = "Obedience";
 	public static string Scene_ColorLesson = "ColorLesson";

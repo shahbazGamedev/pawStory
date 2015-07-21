@@ -5,7 +5,8 @@ using System.Collections.Generic;
 public class ColorLessonScr : MonoBehaviour
 {
 	public GameObject DogObj;
-	public Transform StartPos;
+	public Transform StartPosOfDog;
+	public Transform StartPosOfCam;
 	public List<GameObject> BlockList;
 	public List<GameObject> PickupList;
 	public GameObject PickupsParentObj;
@@ -15,7 +16,7 @@ public class ColorLessonScr : MonoBehaviour
 	public GameObject GameOverScreenObj;
 	public GameObject GameHudObj;
 	public Image QuestionImg;
-	public List<Sprite> QuestionList; 
+	public List<Sprite> QuestionList;
 
 	int dogSpeed = 10;
 	float pickupStartPos = 10.0f;
@@ -29,6 +30,13 @@ public class ColorLessonScr : MonoBehaviour
 	int ScoreVal = 0;
 	float pickupGap = 5.0f;
 	bool isGameOver = false;
+	Vector3 dogMoveOffset = Vector3.zero;
+
+	// Swipe
+	private Vector3 firstPos;
+	private Vector3 lastPos;
+	private float dragDistance;  //minimum distance for a swipe to be registered
+	private List<Vector3> touchPositions = new List<Vector3>();
 
 	void Start ()
 	{
@@ -38,26 +46,93 @@ public class ColorLessonScr : MonoBehaviour
 
 	void Update ()
 	{
-		if(!isGameOver)
-			DogObj.transform.position += new Vector3(0, 0, Time.deltaTime * dogSpeed);
+		if (!isGameOver)
+		{
+			// restrict to two touches
+			for(int i = 0; i < 2 && i < Input.touchCount; i++)
+			{ 
+				Touch touch = Input.touches[i];
+			    if (touch.phase == TouchPhase.Moved)
+				{
+					touchPositions.Add(touch.position);
+				}
+				if (touch.phase == TouchPhase.Ended)
+				{
+			        firstPos =  touchPositions[0]; 
+			        lastPos =  touchPositions[touchPositions.Count-1]; 
+
+					if (Mathf.Abs(lastPos.x - firstPos.x) > dragDistance || Mathf.Abs(lastPos.y - firstPos.y) > dragDistance)
+			        {
+						if (Mathf.Abs(lastPos.y - firstPos.y) > Mathf.Abs(lastPos.x - firstPos.x))
+			            {   //the vertical movement 
+							if (lastPos.y>firstPos.y)
+			                 {   
+								//Up swipe
+								Debug.Log("Up Swipe");
+								OnLeft();
+			                 }
+			                 else
+			                 {   
+								//Down swipe
+								Debug.Log("Down Swipe");
+								OnRight();
+							}
+						}
+						else
+						{
+							if ((lastPos.x>firstPos.x))
+							{   //Right swipe
+								Debug.Log("Right Swipe");
+							}
+							else
+							{   //Left swipe
+								Debug.Log("Left Swipe");
+							}
+						}
+					}
+					touchPositions.Clear();
+				}
+			}
+
+			if(Input.GetKeyDown(KeyCode.UpArrow))
+			{
+				OnLeft();
+			}
+			else if(Input.GetKeyDown(KeyCode.DownArrow))
+			{
+				OnRight();
+			}
+
+			// move the dog
+			dogMoveOffset = new Vector3 (0, 0, Time.deltaTime * dogSpeed);
+			DogObj.transform.position += dogMoveOffset;
+		}
+	}
+
+
+	private void LateUpdate()
+	{
+		if (!isGameOver) {
+			Camera.main.transform.position += dogMoveOffset;
+		}
 	}
 
 
 	void OnTriggerEnter(Collider other)
 	{
-		if (other.name.Contains ("Trigger")) 
+		if (other.name.Contains ("Trigger"))
 		{
-			// level load trigger
+			// dunamic level load trigger
 		}
 		else
 		{
-			if (other.name.Contains ("Ans")) 
+			if (other.name.Contains ("Ans"))
 			{
 				ScoreVal++;
 			}
 			ScoreText.text = ScoreVal + " / "  + TotalQuestions;
 			curQuestion++;
-			if (curQuestion >= TotalQuestions) 
+			if (curQuestion >= TotalQuestions)
 			{
 				isGameOver = true;
 				GameOverScreenObj.SetActive(true);
@@ -67,11 +142,10 @@ public class ColorLessonScr : MonoBehaviour
 			else
 			{
 				QuestionImg.sprite = QuestionList[Questions[curQuestion]];
-				QuestionText.text = "Item to collect : " + Questions[curQuestion] + QuestionList[Questions[curQuestion]].name;
+				QuestionText.text = "Item to collect : ";// + Questions[curQuestion] + QuestionList[Questions[curQuestion]].name;
 				Debug.Log("curQuestion :  " + curQuestion);
 			}
 		}
-
 	}
 
 
@@ -80,7 +154,7 @@ public class ColorLessonScr : MonoBehaviour
 		int i = 0;
 		Questions = new List<int> ();
 
-		pickupStartPos = StartPos.transform.position.z + pickupStartPos;
+		pickupStartPos = StartPosOfDog.transform.position.z + pickupStartPos;
 
 		while ( i < TotalQuestions)
 		{
@@ -95,7 +169,7 @@ public class ColorLessonScr : MonoBehaviour
 
 			int newLane = Random.Range(0, TotalLanes);
 			GameObject curObj = GameObject.Instantiate(PickupList[newQuestion]) as GameObject;
-			curObj.transform.position = new Vector3(lanePostion[newLane].x, 
+			curObj.transform.position = new Vector3(lanePostion[newLane].x,
 			                                        lanePostion[newLane].y + 0.5f,
 			                                        pickupStartPos + i * pickupGap);
 			curObj.transform.localScale = new Vector3(1f, 1f, 1f);
@@ -116,7 +190,7 @@ public class ColorLessonScr : MonoBehaviour
 				newLane = 0;
 
 			curObj = GameObject.Instantiate(PickupList[nextQuestion]) as GameObject;
-			curObj.transform.position = new Vector3(lanePostion[newLane].x, 
+			curObj.transform.position = new Vector3(lanePostion[newLane].x,
 			                                        lanePostion[newLane].y + 0.5f,
 			                                        pickupStartPos + i * pickupGap);
 			curObj.transform.parent = PickupsParentObj.transform;
@@ -129,24 +203,24 @@ public class ColorLessonScr : MonoBehaviour
 
 	public void OnLeft()
 	{
-		if (curLane > 0) 
+		if (curLane > 0)
 		{
 			curLane--;
-			DogObj.transform.position = 
-				new Vector3(lanePostion[curLane].x, 
+			DogObj.transform.position =
+				new Vector3(lanePostion[curLane].x,
 				            lanePostion[curLane].y,
 				            DogObj.transform.position.z);
 		}
 	}
-	
-	
+
+
 	public void OnRight()
 	{
-		if (curLane < TotalLanes-1) 
+		if (curLane < TotalLanes-1)
 		{
 			curLane++;
-			DogObj.transform.position = 
-				new Vector3(lanePostion[curLane].x, 
+			DogObj.transform.position =
+				new Vector3(lanePostion[curLane].x,
 				            lanePostion[curLane].y,
 				            DogObj.transform.position.z);
 		}
@@ -166,7 +240,7 @@ public class ColorLessonScr : MonoBehaviour
 		pickupStartPos = pickupGap;
 		isGameOver = false;
 
-		foreach (Transform child in PickupsParentObj.transform) 
+		foreach (Transform child in PickupsParentObj.transform)
 			GameObject.Destroy(child.gameObject);
 
 		lanePostion = new List<Vector3> ();
@@ -179,10 +253,14 @@ public class ColorLessonScr : MonoBehaviour
 		GameOverScreenObj.SetActive(false);
 		GameHudObj.SetActive(true);
 
+		Camera.main.transform.position = StartPosOfCam.position;
+
 		QuestionImg.sprite = QuestionList[Questions[curQuestion]];
 		ScoreText.text = ScoreVal + " / "  + TotalQuestions;
 
-		DogObj.transform.position = StartPos.position;
+		DogObj.transform.position = StartPosOfDog.position;
+
+		dragDistance = Screen.height * 0.1f;
 	}
 
 
