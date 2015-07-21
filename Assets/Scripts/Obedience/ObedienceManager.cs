@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 public class ObedienceManager : MonoBehaviour {
 	
 	public Text instructions;
+	public Text roundInfo;
 	public Text timerNotification;
 	public GameObject gameOverPannel;
 	public GameObject gestureMat;
@@ -324,7 +325,7 @@ public class ObedienceManager : MonoBehaviour {
 				{
 					StartCoroutine (DetectHold ());
 				}
-
+				roundInfo.text = chance + " / " + maxChances;
 				yield return new WaitForSeconds (instructionWaitTime);
 			}
 
