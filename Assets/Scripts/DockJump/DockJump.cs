@@ -35,6 +35,7 @@ public class DockJump : MonoBehaviour {
 	bool isJumping=false;
 	bool isRunning;
 	bool isCoroutine;
+	bool isGameOver;
 
 
 
@@ -46,6 +47,7 @@ public class DockJump : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		isRunning=false;
+		isGameOver=false;
 		dogAnim = dogRef.GetComponent<Animator> ();
 		jumpHeight = new Vector3 (0, jumpForce, jumpspeed);
 		rb = GetComponent<Rigidbody> ();
@@ -60,22 +62,18 @@ public class DockJump : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		movement();
-		//detectSwipe();
-
-		if(chances==0)
+		if(isGameOver==true)
 		{
-			 
 			GameOver();
 		}
-
+		movement();
+		//detectSwipe();
 		//distance();
 	}
 
 
 	void FixedUpdate() 
 	{
-
 		if(isRunning==true)
 		{
 		running();
@@ -89,11 +87,7 @@ public class DockJump : MonoBehaviour {
 		dogAnim.SetTrigger ("Jump");
 		Debug.Log("WORKING FINE");
 		rb.AddForce(jumpHeight,ForceMode.Impulse);
-
-
-
-
-	}
+		}
 
 
 	void running()
@@ -206,15 +200,17 @@ public class DockJump : MonoBehaviour {
 			if(!isCoroutine)
 				StartCoroutine(ReturnDog());
 			}
+		if(chances==0)
+		{
+			StartCoroutine(EndGame());
+			}
 	}
 
 
 	private void gameStart()
 	{
 		isRunning=true;
-
-
-	}
+		}
 
 
 	private void GameOver()
@@ -235,12 +231,13 @@ public class DockJump : MonoBehaviour {
 		Floor.SetActive(false);
 		dogRef.SetActive(false);
 		}
+
+
 	void distance()
 	{
 		dist=Vector3.Distance(target.position,transform.position);
 		print("Jumping Distance: " + dist);
-
-	}
+		}
 
 
 	void ScoreSystem()
@@ -279,7 +276,13 @@ public class DockJump : MonoBehaviour {
 	{
 		Application.LoadLevel("MainMenu");
 	}
-	
+
+
+	IEnumerator EndGame()
+	{
+		yield return new WaitForSeconds(3.0f);
+		isGameOver=true;
+	}
 
 	}
 
