@@ -109,9 +109,11 @@ public void jumpingRight(Vector3 force)
 			direction1=new Vector3(movePosition1.position.x,0,movePosition1.position.z);
 			transform.LookAt(direction1);
 			dogAnim.SetFloat("Walk",1f);
-			rb.MovePosition(Vector3.MoveTowards (transform.position, movePosition1.position, speed* Time.deltaTime));
+			float step=speed*Time.deltaTime;
+			rb.MovePosition(Vector3.MoveTowards (transform.position, movePosition1.position, step));
 		
-		if(Pos1<0.5f)
+		
+		if(Pos1<1f)
 			{
 				isMoving=false;
 				transform.LookAt(direction);
@@ -130,7 +132,7 @@ public void jumpingRight(Vector3 force)
 			dogAnim.SetFloat("Walk",1f);
 			rb.MovePosition(Vector3.MoveTowards (transform.position, movePosition2.position, speed* Time.deltaTime));
 		
-			if(Pos2<0.5f)
+			if(Pos2<1f)
 			{
 				isMoving=false;
 				transform.LookAt(direction);
@@ -147,7 +149,7 @@ public void jumpingRight(Vector3 force)
 			dogAnim.SetFloat("Walk",1f);
 			rb.MovePosition(Vector3.MoveTowards (transform.position, movePosition3.position, speed* Time.deltaTime));
 		
-		if(Pos3<0.5f)
+		if(Pos3<1f)
 		{
 			isMoving=false;
 			transform.LookAt(direction);
