@@ -496,6 +496,14 @@ public class ObedienceManager : MonoBehaviour {
 	public void PlayAgain()
 	{
 		Application.LoadLevel (Application.loadedLevel);
+//		pattern = SwipeRecognizer.TouchPattern.reset;
+//		gameOn = true;
+//		chance = 0;
+//		points = 0;
+//		StartCoroutine (Instruct ());
+//		combo = false;
+//		gameOverPannel.SetActive (false);
+//		timerNotification.gameObject.SetActive (true);
 	}
 	#endregion
 }

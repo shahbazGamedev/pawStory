@@ -15,7 +15,8 @@ public class TrackingManager : MonoBehaviour {
 	public Text instructions;
 	public Text score;
 	public GameObject marker;
-	public GameObject gameOverPannel;
+	public GameObject gameOverPanel;
+	public GameObject touchMat;
 	public Slider dogCapacity;
 	public GameObject lineRenderer;
 	public GameObject dogRef;
@@ -169,13 +170,14 @@ public class TrackingManager : MonoBehaviour {
 	// Activates the gameOver Panel
 	void GameOver()
 	{
-		gameOverPannel.SetActive (true);
+		gameOverPanel.SetActive (true);
 		instructions.text = "Score: " + points + " / " + maxRounds;
 		foreach(var live in life) // Destroys remaining resets / lives
 		{
 			live.SetActive (false);
 		}
 		score.gameObject.SetActive (false);
+		touchMat.SetActive (false);
 		gameOver = false;
 	}
 
@@ -246,18 +248,44 @@ public class TrackingManager : MonoBehaviour {
 		yield return new WaitForSeconds (3);
 		roundComplete = true;
 	}
+
+	// Reload Level
+	IEnumerator Reload()
+	{
+		Application.LoadLevel (Application.loadedLevel);
+//		//bezierPath = new BezierCurve();
+//		isFirstRun = true;
+//		needToPop = false;
+//		swipeFinished = false;
+//		pathEnable = true;
+//		round = 0;
+//		resetChances = 3;
+//		points = 0;
+//		//marker.SetActive (true);
+//		score.gameObject.SetActive (true);
+//		touchMat.SetActive (true);
+//		roundComplete = true;
+//		gameOverPanel.SetActive(false);
+//		foreach(var live in life)
+//		{
+//			live.SetActive (true);
+//		}
+		yield return null;
+	}
 	#endregion
 
 	#region EventTriggers
 	// Clear previous Swipe on Drag Begin
 	public void OnBeginDrag(BaseEventData Data)
 	{
-		//Debug.Log("onDrag");
+		
 		var data=(PointerEventData)Data;
 		if (resetChances >= 0) 
 		{
+			
 			if ((!isGameOn || pathEnable) && !reset) 
 			{
+				
 				marker.gameObject.SetActive (false);
 				Vector3 screenPoint = new Vector3(data.position.x, data.position.y, 0f);
 				RaycastHit hit;
@@ -266,12 +294,13 @@ public class TrackingManager : MonoBehaviour {
 					layerName = LayerMask.LayerToName (hit.collider.gameObject.layer);
 					if (layerName == "Floor") {
 						touchStartPosition = hit.point + (Vector3.up * 0.01f);
+						Debug.Log("onDrag");
 					}
 				}
 
-				if (Vector3.Distance (startPosition, touchStartPosition) < 0.4f)
+				if (Vector3.Distance (startPosition, touchStartPosition) < 0.3f)
 				{
-					//Debug.Log ("Working");
+					Debug.Log ("Working");
 					pathEnable = false;
 					isGameOn = true;
 					//StartCoroutine (UpdateSlider ());
@@ -292,6 +321,11 @@ public class TrackingManager : MonoBehaviour {
 		if(isGameOn) {
 			addEndPoint (data);
 			isGameOn = false;
+			if(dragData.Count>1)
+			{
+				// Render Line
+				RenderBezier();
+			}
 		}
 	}
 
@@ -370,7 +404,8 @@ public class TrackingManager : MonoBehaviour {
 	// Replay button
 	public void PlayAgain()
 	{
-		Application.LoadLevel (Application.loadedLevel);
+		StartCoroutine (Reload ());
+
 	}
 
 	// Reset Path button
