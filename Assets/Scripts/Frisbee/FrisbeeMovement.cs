@@ -101,7 +101,9 @@ public class FrisbeeMovement : MonoBehaviour {
 		
 		rb.AddForce(force * power);
 		dog.GetComponent<DogMovementFrisbee>().chances= dog.GetComponent<DogMovementFrisbee>().chances+1;
+
 		StartCoroutine(  ReturnFrisbee() );
+
 
 	}
 	
@@ -124,7 +126,12 @@ public class FrisbeeMovement : MonoBehaviour {
 //			Destroy (this.gameObject);
 			GetComponent<MeshRenderer>().enabled=false;
 			dog.GetComponent<DogMovementFrisbee> ().Score++;
-			dog.GetComponent<DogMovementFrisbee>().isMoving=true;
+			StartCoroutine(Dogmovement());
+			if(dog.GetComponent<DogMovementFrisbee>().Score==3)
+			{
+				Debug.Log ("gameover");
+				StartCoroutine(EndGame());
+			}
 
 
 		}
@@ -137,6 +144,18 @@ public class FrisbeeMovement : MonoBehaviour {
 	//	Debug.Log ("jumping");
 
 //	}
+	IEnumerator Dogmovement()
+	{
+		yield return new WaitForSeconds(1.5f);
+			dog.GetComponent<DogMovementFrisbee>().isMoving=true;
+
+	}
+	IEnumerator EndGame()
+	{
+		yield return new WaitForSeconds(3.0f);
+		dog.GetComponent<DogMovementFrisbee>().isGameover=true;
+		
+	}
 
 }
 

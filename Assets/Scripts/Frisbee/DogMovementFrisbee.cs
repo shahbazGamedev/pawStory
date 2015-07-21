@@ -32,6 +32,7 @@ public class DogMovementFrisbee : MonoBehaviour {
 	private Vector3 direction2;
 	private Vector3 direction3;
 	public bool isMoving;
+	public bool isGameover;
 	bool isCatching;
 	Rigidbody rb;
 	public Text chance;
@@ -55,13 +56,17 @@ public class DogMovementFrisbee : MonoBehaviour {
 	    MenuBtn.SetActive(false);
 		RestartBtn.SetActive(false);
 		rb = GetComponent<Rigidbody> ();
+		isGameover=false;
 		}
 
 
 	// Update is called once per frame
 	void Update () 
 	{
+		if(isGameover==true)
+		{
 		GameOver();
+		}
 		MovePosition();
 
 		if(isCatching)
@@ -141,7 +146,7 @@ public void jumpingRight(Vector3 force)
 				dogAnim.SetFloat("Walk",0f);
 			}
 		}
-		if(Score>=2 && isMoving==true)
+		if(Score==2 && isMoving==true)
 		{
 
 			Debug.Log ("pos3");
@@ -184,10 +189,10 @@ public void jumpingRight(Vector3 force)
 
 	}
 
-	void GameOver()
+	public void GameOver()
 	{
-		if(Score>=3)
-		{
+		//if(Score>=3)
+		//{
 			gameOver.SetActive(true);
 			dog.SetActive(false);
 			Floor.SetActive(false);
@@ -196,7 +201,17 @@ public void jumpingRight(Vector3 force)
 			MenuBtn.SetActive(true);
 			chance.text="Total Number Of Chances:"+chances;
 
-		}
+		//}
+	}
+	public void Restart()
+	{
+		Application.LoadLevel("DiscDogs");
+	}
+
+
+	public void Menu()
+	{
+		Application.LoadLevel("MainMenu");
 	}
 }
 
