@@ -13,7 +13,7 @@ public class FrisbeeMovement : MonoBehaviour {
 	private Vector3 startPos;
 	public GameObject dog;
 	public GameObject frisbee;
-	bool isJumping=false;
+	//public int chances;
 	public Vector3 direction;
 	private float shootingAngle=45f;
 	private float distance;
@@ -21,6 +21,7 @@ public class FrisbeeMovement : MonoBehaviour {
 	private float velocity;
 	private Vector3 frisbeeForce;
 	private Vector3 currentPosition;
+	bool isJumping=false;
 
 
 
@@ -99,6 +100,7 @@ public class FrisbeeMovement : MonoBehaviour {
 		force.Normalize();
 		
 		rb.AddForce(force * power);
+		dog.GetComponent<DogMovementFrisbee>().chances= dog.GetComponent<DogMovementFrisbee>().chances+1;
 		StartCoroutine(  ReturnFrisbee() );
 
 	}

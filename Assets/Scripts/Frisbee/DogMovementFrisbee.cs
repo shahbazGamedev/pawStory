@@ -34,6 +34,8 @@ public class DogMovementFrisbee : MonoBehaviour {
 	public bool isMoving;
 	bool isCatching;
 	Rigidbody rb;
+	public Text chance;
+	public int chances;
 	//public GameObject frisbee;
 
 
@@ -192,6 +194,7 @@ public void jumpingRight(Vector3 force)
 			Frisbee.SetActive(false);
 			RestartBtn.SetActive(true);
 			MenuBtn.SetActive(true);
+			chance.text="Total Number Of Chances:"+chances;
 
 		}
 	}
