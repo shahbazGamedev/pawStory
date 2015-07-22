@@ -16,7 +16,34 @@ public class AudioMgr : MonoBehaviour {
 			return _instance;
 		}
 	}
-	
+
+
+	bool isSFXOn = true;
+	public bool IsSFXOn
+	{
+		get
+		{
+			return isSFXOn;
+		}
+		set
+		{
+			isSFXOn = value;
+		}
+	};
+	bool isMusicOn = true;
+	public bool IsMusicOn
+	{
+		get
+		{
+			return isMusicOn;
+		}
+		set
+		{
+			isMusicOn = value;
+		}
+	};
+
+
 	void Awake() 
 	{
 		if(_instance == null)
@@ -30,16 +57,37 @@ public class AudioMgr : MonoBehaviour {
 				Destroy(this.gameObject);
 		}
 	}
+
 	
 	void Init()
-	{	
+	{
 	}
-	
+
+
 	void Start () 
 	{
 	}
-	
+
+
 	void Update () 
 	{
+	}
+
+
+	void PlaySFX()
+	{
+		if (IsSFXOn) 
+		{
+
+		}
+	}
+
+
+	void PlayMusic()
+	{
+		if (IsMusicOn) 
+		{
+
+		}
 	}
 }

@@ -116,6 +116,7 @@ public class GameMgr : MonoBehaviour
 		return curScene;
 	}
 
+
 	void OnSceneLoaded(string newScene)
 	{
 		if (!curScene.Equals (newScene)) 
@@ -127,6 +128,7 @@ public class GameMgr : MonoBehaviour
 	#endregion SceneManagement
 
 
+	#region GameHandles
 	public bool IsGamePaused()
 	{
 		return isPaused;
@@ -152,5 +154,6 @@ public class GameMgr : MonoBehaviour
 		if(isPaused)
 			OnGameResume ();
 	}
+	#endregion GameHandles
 }
 
