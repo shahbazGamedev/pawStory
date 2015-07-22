@@ -38,6 +38,18 @@ public class ColorLessonScr : MonoBehaviour
 	private float dragDistance;  //minimum distance for a swipe to be registered
 	private List<Vector3> touchPositions = new List<Vector3>();
 
+	void OnEnable()
+	{
+		EventMgr.GameRestart += OnRestartGame;
+	}
+	
+	
+	void OnDisable()
+	{
+		EventMgr.GameRestart -= OnRestartGame;
+	}
+
+
 	void Start ()
 	{
 		OnRestartGame ();

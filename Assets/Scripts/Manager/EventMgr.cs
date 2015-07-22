@@ -9,6 +9,7 @@ public class EventMgr
 	public static event VoidString SceneLoaded;
 	public static event VoidVoid GamePause;
 	public static event VoidVoid GameResume;
+	public static event VoidVoid GameRestart;
 
 
 	public static void OnSceneLoaded(string val)
@@ -36,4 +37,15 @@ public class EventMgr
 			GameResume();
 		}
 	}
+
+
+
+	public static void OnGameRestart()
+	{
+		if (GameRestart != null) 
+		{
+			GameRestart();
+		}
+	}
+
 }

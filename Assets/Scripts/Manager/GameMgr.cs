@@ -43,6 +43,7 @@ public class GameMgr : MonoBehaviour
 		EventMgr.SceneLoaded += OnSceneLoaded;
 		EventMgr.GamePause += OnGamePause;
 		EventMgr.GameResume += OnGameResume;
+		EventMgr.GameRestart += OnRestartGame;
 	}
 	
 	
@@ -51,6 +52,7 @@ public class GameMgr : MonoBehaviour
 		EventMgr.SceneLoaded += OnSceneLoaded;
 		EventMgr.GamePause -= OnGamePause;
 		EventMgr.GameResume -= OnGameResume;
+		EventMgr.GameRestart -= OnRestartGame;
 	}
 
 
@@ -84,6 +86,8 @@ public class GameMgr : MonoBehaviour
 	#region SceneManagement
 	public void LoadScene(string newScene)
 	{
+		if(isPaused)
+			OnGameResume ();
 		prevScene = curScene;
 		curScene = newScene;
 		Application.LoadLevel(newScene);
@@ -99,6 +103,8 @@ public class GameMgr : MonoBehaviour
 	IEnumerator LoadSceneAfter(string newScene, float waitTime)
 	{
 		yield return new WaitForSeconds (waitTime);
+		if(isPaused)
+			OnGameResume ();
 		prevScene = curScene;
 		curScene = newScene;
 		Application.LoadLevel(newScene);
@@ -138,6 +144,13 @@ public class GameMgr : MonoBehaviour
 	{
 		isPaused = false;
 		Time.timeScale = 1;
+	}
+
+
+	void OnRestartGame()
+	{
+		if(isPaused)
+			OnGameResume ();
 	}
 }
 

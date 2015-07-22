@@ -176,12 +176,14 @@ public class HudMgr : MonoBehaviour
 
 	public void OnRestart()
 	{
-		
+		OnGameResume ();
+		EventMgr.OnGameRestart ();
 	}
 
 
 	public void OnHome()
 	{
+		OnGameResume ();
 		GameMgr.instance.LoadScene (GlobalConst.Scene_MainMenu);
 	}
 	#endregion BottomPanel
