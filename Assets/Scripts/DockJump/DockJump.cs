@@ -51,7 +51,7 @@ public class DockJump : MonoBehaviour {
 		dogAnim = dogRef.GetComponent<Animator> ();
 		jumpHeight = new Vector3 (0, jumpForce, jumpspeed);
 		rb = GetComponent<Rigidbody> ();
-	    dogPos=new Vector3(0.16f,1.285f,4.67f);
+	    dogPos=new Vector3(1.19f,2.84f,-15.35f);
 		MenuBtn.SetActive(false);
 		RestartBtn.SetActive(false);
 		Try1.SetActive(false);
@@ -193,6 +193,7 @@ public class DockJump : MonoBehaviour {
 	{
 		if(collision.rigidbody)
 		{
+			Debug.Log("new");
 			chances-=1;
 			dogAnim.SetFloat ("Speed",0f);
 			ScoreSystem();
