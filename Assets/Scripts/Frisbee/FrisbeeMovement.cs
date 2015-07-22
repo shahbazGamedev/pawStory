@@ -4,6 +4,7 @@ Description   : Dog Frisbee movement
 **/
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class FrisbeeMovement : MonoBehaviour {
 	private float power= 500.0f;
@@ -37,7 +38,8 @@ public class FrisbeeMovement : MonoBehaviour {
     void  Start ()
 	{
 		rb = GetComponent<Rigidbody>();
-		currentPosition = new Vector3 (0, .156f, -0.95f);
+		currentPosition = new Vector3 (0, .156f, 0.65f);
+
 
 
 	}

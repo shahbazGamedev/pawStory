@@ -37,6 +37,7 @@ public class DogMovementFrisbee : MonoBehaviour {
 	Rigidbody rb;
 	public Text chance;
 	public int chances;
+	public Text ChanceUi;
 	//public GameObject frisbee;
 
 
@@ -75,6 +76,7 @@ public class DogMovementFrisbee : MonoBehaviour {
 		FrisebeeCatch();
 
          }
+		ChanceUi.text="No Of Chances:"+chances;
 	}
 
 	void FixedUpdate()
@@ -185,6 +187,7 @@ public void jumpingRight(Vector3 force)
 		direction = new Vector3 (target.position.x, 0f, target.position.z);
 		if((transform.position-target.position).magnitude>2f)
 			transform.LookAt (direction);
+		ChanceUi.text="No Of Chances:"+chances;
 
 
 	}
