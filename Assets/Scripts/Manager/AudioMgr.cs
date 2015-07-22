@@ -29,7 +29,7 @@ public class AudioMgr : MonoBehaviour {
 		{
 			isSFXOn = value;
 		}
-	};
+	}
 	bool isMusicOn = true;
 	public bool IsMusicOn
 	{
@@ -41,7 +41,7 @@ public class AudioMgr : MonoBehaviour {
 		{
 			isMusicOn = value;
 		}
-	};
+	}
 
 
 	void Awake() 
