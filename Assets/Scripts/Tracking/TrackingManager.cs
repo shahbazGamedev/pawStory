@@ -252,24 +252,24 @@ public class TrackingManager : MonoBehaviour {
 	// Reload Level
 	IEnumerator Reload()
 	{
-		Application.LoadLevel (Application.loadedLevel);
-//		//bezierPath = new BezierCurve();
-//		isFirstRun = true;
-//		needToPop = false;
-//		swipeFinished = false;
-//		pathEnable = true;
-//		round = 0;
-//		resetChances = 3;
-//		points = 0;
-//		//marker.SetActive (true);
-//		score.gameObject.SetActive (true);
-//		touchMat.SetActive (true);
-//		roundComplete = true;
-//		gameOverPanel.SetActive(false);
-//		foreach(var live in life)
-//		{
-//			live.SetActive (true);
-//		}
+		//Application.LoadLevel (Application.loadedLevel);
+		//bezierPath = new BezierCurve();
+		isFirstRun = true;
+		needToPop = false;
+		swipeFinished = false;
+		pathEnable = true;
+		round = 0;
+		resetChances = 3;
+		points = 0;
+		//marker.SetActive (true);
+		score.gameObject.SetActive (true);
+		touchMat.SetActive (true);
+		roundComplete = true;
+		gameOverPanel.SetActive(false);
+		foreach(var live in life)
+		{
+			live.SetActive (true);
+		}
 		yield return null;
 	}
 	#endregion

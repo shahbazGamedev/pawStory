@@ -46,6 +46,9 @@ public class DogManager : MonoBehaviour
 
 	public bool isCircuitRun; // Added to override Run animation during Circuit Run
 
+	public delegate void DogReset();
+	public event DogReset ResetComplete;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -196,6 +199,8 @@ public class DogManager : MonoBehaviour
 			transform.rotation = Quaternion.RotateTowards (transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 		}
 		isCoroutineOn = false;
+		ResetComplete ();
 		yield return null;
 	}
+
 }
