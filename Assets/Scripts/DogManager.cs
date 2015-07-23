@@ -46,6 +46,7 @@ public class DogManager : MonoBehaviour
 
 	public bool isCircuitRun; // Added to override Run animation during Circuit Run
 
+	// Event to broadcast reset complete to listeners
 	public delegate void DogReset();
 	public event DogReset ResetComplete;
 
@@ -199,8 +200,11 @@ public class DogManager : MonoBehaviour
 			transform.rotation = Quaternion.RotateTowards (transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 		}
 		isCoroutineOn = false;
-		if(ResetComplete != null)
-			ResetComplete ();
+
+		// Trigger Event if it has listeners
+		if(ResetComplete != null) 
+			ResetComplete (); 
+		
 		yield return null;
 	}
 

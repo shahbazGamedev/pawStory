@@ -48,9 +48,9 @@ public class TrackingManager : MonoBehaviour {
 	bool gameOver;
 	bool startTracking;
 	bool pathEnable;
-	bool reset;
+	bool reset; // Prevents the user from drawing path when dog capacity slider is filling up
 	bool lineRendererActive;
-	bool canReset;
+	bool canReset; // Allows the user to reset path if true
 	public bool roundComplete;
 
 	float distanceCovered;
@@ -79,7 +79,6 @@ public class TrackingManager : MonoBehaviour {
 		startPosition = dogRef.transform.position;
 		startRotation = dogRef.transform.rotation;
 		pathMove = dogRef.GetComponent <DogPathMovement> ();
-		pathMove.DisableReset += ListenerForDisableReset;
 	}
 	
 	// Update is called once per frame
@@ -202,24 +201,6 @@ public class TrackingManager : MonoBehaviour {
 			return;
 		pathEnable = true;
 	}
-		
-	// Decouple event
-	void OnDisable()
-	{
-		pathMove.DisableReset -= ListenerForDisableReset;
-	}
-
-	// Decouple event
-	void OnDestroy() 
-	{
-		pathMove.DisableReset -= ListenerForDisableReset;
-	}
-
-	// Listen to dogPathMovement for event Trigger
-	void ListenerForDisableReset()
-	{
-		canReset = false;
-	}
 	#region Coroutines
 
 	// Fills the dog capacity bar over time
@@ -315,16 +296,13 @@ public class TrackingManager : MonoBehaviour {
 					layerName = LayerMask.LayerToName (hit.collider.gameObject.layer);
 					if (layerName == "Floor") {
 						touchStartPosition = hit.point + (Vector3.up * 0.01f);
-						//Debug.Log("onDrag");
 					}
 				}
 
 				if (Vector3.Distance (startPosition, touchStartPosition) < 0.3f)
 				{
-					//Debug.Log ("Working");
 					pathEnable = false;
 					isGameOn = true;
-					//StartCoroutine (UpdateSlider ());
 				}
 			}
 		}
@@ -338,7 +316,6 @@ public class TrackingManager : MonoBehaviour {
 	public void OnEndDrag(BaseEventData data)
 	{
 		swipeFinished = true;
-		//Debug.Log("offDrag");
 		if(isGameOn) {
 			addEndPoint (data);
 			isGameOn = false;
@@ -438,11 +415,12 @@ public class TrackingManager : MonoBehaviour {
 		resetChances -= 1;
 		if (resetChances >= 0) 
 		{
-//			if()
 			line.SetVertexCount (0);
 			lineRendererActive=false;
-			StartCoroutine (FillDogCapacity ());
+			StartCoroutine (FillDogCapacity ()); // Fills the dog capacity
 			life [resetChances].SetActive (false);
+			dragData.Clear ();
+			
 		} 
 		else
 			resetChances = 0;
@@ -458,8 +436,9 @@ public class TrackingManager : MonoBehaviour {
 		}
 		else
 		{
-			if (swipeFinished) {
-				canReset = false;
+			if (swipeFinished) 
+			{
+				canReset = false; // Disable reset button once tracking is started
 				startTracking = true;
 			}
 		}

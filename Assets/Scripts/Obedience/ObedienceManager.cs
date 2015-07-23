@@ -10,18 +10,18 @@ public class ObedienceManager : MonoBehaviour {
 	public Text roundInfo;
 	public Text timerNotification;
 	public GameObject gameOverPannel;
-	public GameObject gestureMat;
+	public GameObject gestureMat; // Image UI element on which event triggers are attached
 	public GameObject[] directionRef;
 
 	float timer;
 	public int range;
 	bool gameOn;
-	bool catchUserInput;
+	bool catchUserInput; // Bool for catchUserInput coroutine
 	int randomNumber;
 	public float instructionWaitTime;
 	bool combo;
-	bool isCoroutineON;
-	public bool registerAnimEvent;
+	bool isCoroutineON; // True when catchCombos coroutine is running
+	public bool registerAnimEvent; // If true listenes for trigger from idle animation
 	public bool nextInstruct;
 
 	int chance;
@@ -32,9 +32,6 @@ public class ObedienceManager : MonoBehaviour {
 	Animator dogAnim;
 	public float angularVelocity;
 	public float jumpForce;
-
-//	Vector2 startPoint;
-//	Vector2 endPoint;
 
 	SwipeRecognizer.TouchPattern pattern;
 	SwipeRecognizer.TouchPattern presentGesture;
@@ -52,6 +49,7 @@ public class ObedienceManager : MonoBehaviour {
 		public SwipeRecognizer.TouchPattern value2;
 	}
 
+	// Emulates hashtable in editor
 	public GestureCollection[] gestureCollection;
 
 	[System.Serializable]
@@ -65,6 +63,7 @@ public class ObedienceManager : MonoBehaviour {
 		public List<Vector2> swipeData;
 	}
 
+	// Emulates hashtable in editor
 	public SwipeDataCollection[] swipeDataCollection;
 
 	// Use this for initialization
@@ -72,7 +71,6 @@ public class ObedienceManager : MonoBehaviour {
 		dogRef = GameObject.FindGameObjectWithTag ("Player");
 		dogManager = dogRef.GetComponent <DogManager> ();
 		randomNumber = 2;
-		//swipeData = new List<Vector2> ();	
 		pattern = SwipeRecognizer.TouchPattern.reset;
 		gameOn = true;
 		startPosition = dogRef.transform.position;
@@ -81,6 +79,8 @@ public class ObedienceManager : MonoBehaviour {
 		StartCoroutine (Instruct ());
 		combo = false;
 		dogAnim = dogRef.GetComponentInChildren<Animator> ();
+
+		// Add listener to reset complete event
 		dogManager.ResetComplete += GotoNextInstruction;
 	}
 	
@@ -109,18 +109,15 @@ public class ObedienceManager : MonoBehaviour {
 	void CheckUserInput()
 	{
 		// Seperate routines for combos and non combos!
-		//if (randomNumber != 2 && randomNumber != 3 && randomNumber != 4 && randomNumber != 5) 
 		if (randomNumber != 10) 
 		{
 			if (pattern == presentGesture)
 			{
-				//Debug.Log ("Success!!");
 				instructions.text="Excellent";
 				catchUserInput = false;
 				points += scoreIncrement;
 				gestureCache = pattern;
 				DeactivateGestureMat ();
-				//StartCoroutine (dogManager.MoveToPosition (startPosition, startRotation));
 			} 
 			else // if wrong gesture
 			{
@@ -129,7 +126,6 @@ public class ObedienceManager : MonoBehaviour {
 					if (pattern == SwipeRecognizer.TouchPattern.singleTap)
 						return;
 				}
-				//Debug.Log (pattern);
 				gestureCache = pattern;
 				catchUserInput = false;
 				instructions.text = "Wrong";
@@ -235,7 +231,6 @@ public class ObedienceManager : MonoBehaviour {
 	public void DeactivateGestureMat()
 	{
 		catchUserInput = false;
-		//isPointerDown = false;
 		gestureMat.SetActive (false);
 		SwipeReset ();
 	}
@@ -279,20 +274,12 @@ public class ObedienceManager : MonoBehaviour {
 		Debug.Log ("Fired");
 	}
 
-	// Decouple event
+	// Decouple listener from event
 	void OnDisable()
 	{
 		dogManager.ResetComplete -= GotoNextInstruction;
 	}
-
-	// Decouple event
-	void OnDestroy() 
-	{
-		dogManager.ResetComplete -= GotoNextInstruction;
-	}
 		
-
-
 	#region Coroutines
 	//  Checks combo conditions
 	IEnumerator CatchCombos()
@@ -306,7 +293,6 @@ public class ObedienceManager : MonoBehaviour {
 				{
 					if (pattern == gestureCollection [randomNumber].value2) 
 					{
-						//Debug.Log ("Combo Success");
 						instructions.text = "2x Combo Success";
 						points += scoreIncrement;
 						catchUserInput = false;
@@ -346,8 +332,6 @@ public class ObedienceManager : MonoBehaviour {
 	{
 		while(gameOn) 
 		{
-			
-
 			if (chance == maxChances) // if chances depleted gameOver
 			{
 
@@ -363,7 +347,10 @@ public class ObedienceManager : MonoBehaviour {
 				{
 					nextInstruct = true;
 				}
+
+				// Wait till animation is complete
 				yield return StartCoroutine (WailTillIdleAnimation ());
+
 				chance += 1;
 				if(randomNumber==0)
 				{
@@ -372,6 +359,7 @@ public class ObedienceManager : MonoBehaviour {
 				else
 				{
 					int prevRandomvalue = randomNumber;
+					// Generate random number that is not same as previous or 1 (prevent instruction stand before sit)
 					while(randomNumber==prevRandomvalue || randomNumber==1)
 					{
 						randomNumber = Random.Range (0, range);
@@ -392,7 +380,8 @@ public class ObedienceManager : MonoBehaviour {
 				swipeDataCollection [1].holdTime = 0; 
 				swipeDataCollection [2].holdTime = 0;
 
-				if (randomNumber == 5) {
+				if (randomNumber == 5) // Change condition to check hold gesture if need arises
+				{
 					StartCoroutine (DetectHold ());
 				}
 				roundInfo.text = chance + " / " + maxChances;
@@ -407,7 +396,7 @@ public class ObedienceManager : MonoBehaviour {
 	// Checks for touch pattern hold and move - only when combo is true
 	IEnumerator DetectHold()
 	{
-		//Debug.Log ("i m alive");
+
 		while (catchUserInput) 
 		{
 			yield return new WaitForFixedUpdate ();
@@ -425,7 +414,6 @@ public class ObedienceManager : MonoBehaviour {
 				}
 			}
 		}
-		//Debug.Log ("i m dead");
 		yield return null;
 	}
 
@@ -464,12 +452,13 @@ public class ObedienceManager : MonoBehaviour {
 			dogRef.GetComponent <Rigidbody> ().AddForce (targetRotation * (new Vector3 (0f, 1f, 0.7f)) * jumpForce, ForceMode.Impulse);
 		}
 		yield return new WaitForSeconds (2);
+
 		// Returns the dog to starting position
 		StartCoroutine (dogManager.MoveToPosition (startPosition, startRotation)); 
 		yield return null;
 	}
 		
-	// check for idle animation
+	// check for idle animation start - Animation Event listener
 	IEnumerator WailTillIdleAnimation()
 	{
 		while(!nextInstruct)
@@ -478,7 +467,6 @@ public class ObedienceManager : MonoBehaviour {
 		}
 		yield return null;
 	}
-
 	#endregion
 
 	#region EventTriggers
@@ -486,11 +474,7 @@ public class ObedienceManager : MonoBehaviour {
 	public void OnBeginDrag (BaseEventData data)
 	{
 		var pointData = (PointerEventData)data;
-		//swipeDataCollection [-pointData.pointerId].isActive = true;
 		swipeDataCollection [-pointData.pointerId].startPoint= pointData.position;
-
-		//		if(pointData.pointerId==-1)
-		//			startPoint = pointData.position;
 	}
 
 	// Event trigger - EndDrag
@@ -498,17 +482,14 @@ public class ObedienceManager : MonoBehaviour {
 	public void OnEndDrag (BaseEventData data)
 	{
 		var pointData = (PointerEventData)data;
-		//swipeDataCollection [-pointData.pointerId].isActive = false;
 		swipeDataCollection [-pointData.pointerId].endPoint= pointData.position;
 
 		if(pointData.pointerId==-1 && !swipeDataCollection [2].isActive) 
 		{
-			//			endPoint = pointData.position;
 			if (!combo) 
 			{
 				SwipeRecognizer.RecogonizeSwipe (swipeDataCollection [-pointData.pointerId], out pattern);
 			}
-			//			swipeData.Clear ();
 		}
 		dataReset (-pointData.pointerId);
 	}
@@ -518,12 +499,6 @@ public class ObedienceManager : MonoBehaviour {
 	{
 		var pointData = (PointerEventData)data;
 		swipeDataCollection [-pointData.pointerId].swipeData.Add (pointData.position);
-
-		//		if(pointData.pointerId==-1)
-		//		{
-		//			swipeData.Add(pointData.position);
-		//			//swipeDelta += (Vector2.Distance (startPoint, pointData.position) / Screen.dpi) * 160;	
-		//		}
 	}
 
 	// Event trigger - Pointer Click
@@ -555,7 +530,6 @@ public class ObedienceManager : MonoBehaviour {
 	{
 		var pointData = (PointerEventData)data;
 		swipeDataCollection [-pointData.pointerId].isActive = true;
-		//Debug.Log (pointData.pointerId);
 	}
 
 	// Event Trigger - Pointer Up

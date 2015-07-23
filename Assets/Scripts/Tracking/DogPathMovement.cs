@@ -27,9 +27,6 @@ public class DogPathMovement : MonoBehaviour {
 	public float minDistToReach;
 	TrackingManager trackingManagerRef;
 
-	public delegate void DogPathMove();
-	public event DogPathMove DisableReset;
-
 	// Use this for initialization
 	void Start () 
 	{
@@ -120,11 +117,10 @@ public class DogPathMovement : MonoBehaviour {
 		if(Vector3.Distance(pathEnd, transform.position)<0.001f)
 		{
 			reachedPathEnd=true;
-			if(DisableReset != null)
-				DisableReset ();
 		}
 	}
 
+	// Update score if dog collides with the target and stop
 	void OnCollisionEnter(Collision other)
 	{
 		if(other.transform.tag=="Finish") 
@@ -132,10 +128,7 @@ public class DogPathMovement : MonoBehaviour {
 			followPath = false;
 			reachedTarget = true;
 			trackingManagerRef.points += 1;
-			if(DisableReset != null)
-				DisableReset ();
-			//trackingManagerRef.roundComplete = true;
-			Debug.Log ("Reached Target");
+//			Debug.Log ("Reached Target");
 		}
 	}
 
