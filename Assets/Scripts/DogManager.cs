@@ -199,9 +199,9 @@ public class DogManager : MonoBehaviour
 			transform.rotation = Quaternion.RotateTowards (transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 		}
 		isCoroutineOn = false;
-		if(ResetComplete != null)
-			ResetComplete ();
+		ResetComplete ();
 		yield return null;
 	}
 
+ 
 }

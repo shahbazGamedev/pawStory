@@ -1125,7 +1125,6 @@ GameObject:
   - 114: {fileID: 912596047}
   - 65: {fileID: 912596046}
   - 114: {fileID: 912596050}
-  - 95: {fileID: 912596051}
   m_Layer: 2
   m_Name: Dog
   m_TagString: Player
@@ -1169,7 +1168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e89a655b9a1654eb38a69191fb21b6bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dogReference: {fileID: 912596044}
+  dogReference: {fileID: 1634283980}
   dogProps:
     _Id: 0
     _WeeksOld: 0
@@ -1184,7 +1183,7 @@ MonoBehaviour:
     _FoodLevel: 0
   turnSmoothing: 15
   speedDampTime: .100000001
-  moveSpeed: 1
+  moveSpeed: .5
   rotationSpeed: 5000
   jumpForce: 3
   dragFactor: 1
@@ -1229,7 +1228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a51ca4f125e1e8a43ac4ea3bd560535e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dogRef: {fileID: 912596044}
+  dogRef: {fileID: 1634283980}
   followPath: 0
   target: {x: 0, y: 0, z: 0}
   reachedPathEnd: 0
@@ -1238,23 +1237,6 @@ MonoBehaviour:
   nodeCount: 0
   currentNode: 0
   minDistToReach: .00100000005
---- !u!95 &912596051
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 912596044}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: fc007e23158f31140bc767ff63784d4a, type: 3}
-  m_Controller: {fileID: 9100000, guid: 10fa8706188d26640827bcf7ca58fd44, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &941735212
 GameObject:
   m_ObjectHideFlags: 0
@@ -2171,12 +2153,7 @@ Prefab:
       propertyPath: m_Layer
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 9500000, guid: fc007e23158f31140bc767ff63784d4a, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 9500000, guid: fc007e23158f31140bc767ff63784d4a, type: 3}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fc007e23158f31140bc767ff63784d4a, type: 3}
   m_IsPrefabParent: 0
 --- !u!1 &1246245123
@@ -2980,6 +2957,10 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 743ae5bcdfb94455eb0457ff367ff921, type: 3}
   m_IsPrefabParent: 0
+--- !u!1 &1634283980 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100022, guid: fc007e23158f31140bc767ff63784d4a, type: 3}
+  m_PrefabInternal: {fileID: 1238858659}
 --- !u!4 &1634283981 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400022, guid: fc007e23158f31140bc767ff63784d4a, type: 3}
