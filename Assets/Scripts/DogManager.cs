@@ -203,8 +203,5 @@ public class DogManager : MonoBehaviour
 		yield return null;
 	}
 
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
+ 
 }
