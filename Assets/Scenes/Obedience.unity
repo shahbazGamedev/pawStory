@@ -448,7 +448,7 @@ MonoBehaviour:
   - {fileID: 1471840665}
   - {fileID: 1384015467}
   range: 9
-  instructionWaitTime: 5
+  instructionWaitTime: 5.5
   registerAnimEvent: 0
   nextInstruct: 0
   maxChances: 5
@@ -563,7 +563,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 490432, guid: e0b273d01e96d0f43a061de5ac918b31, type: 2}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e0b273d01e96d0f43a061de5ac918b31, type: 2}
@@ -1552,7 +1552,8 @@ Prefab:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 6b89be7ff219d3c4089dae46fe3bc8d5, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9500000, guid: fc007e23158f31140bc767ff63784d4a, type: 3}
   m_ParentPrefab: {fileID: 100100000, guid: fc007e23158f31140bc767ff63784d4a, type: 3}
   m_IsPrefabParent: 0
 --- !u!4 &1615443282 stripped
@@ -1777,7 +1778,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 743ae5bcdfb94455eb0457ff367ff921, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 743ae5bcdfb94455eb0457ff367ff921, type: 3}
       propertyPath: m_LocalScale.x
@@ -2294,6 +2295,8 @@ GameObject:
   - 65: {fileID: 1996009493}
   - 114: {fileID: 1996009492}
   - 65: {fileID: 1996009491}
+  - 95: {fileID: 1996009496}
+  - 114: {fileID: 1996009495}
   m_Layer: 0
   m_Name: Dog
   m_TagString: Player
@@ -2337,7 +2340,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e89a655b9a1654eb38a69191fb21b6bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dogReference: {fileID: 2011815597}
+  dogReference: {fileID: 1996009489}
   dogProps:
     _Id: 0
     _WeeksOld: 0
@@ -2386,22 +2389,35 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!1 &2011815597 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 100022, guid: fc007e23158f31140bc767ff63784d4a, type: 3}
-  m_PrefabInternal: {fileID: 1615443281}
---- !u!114 &2011815599
+--- !u!114 &1996009495
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2011815597}
+  m_GameObject: {fileID: 1996009489}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aec648b55cf482c4c8183ab26e0cea9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Manager: {fileID: 388781956}
+--- !u!95 &1996009496
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1996009489}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: fc007e23158f31140bc767ff63784d4a, type: 3}
+  m_Controller: {fileID: 9100000, guid: 6b89be7ff219d3c4089dae46fe3bc8d5, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &2082004458
 GameObject:
   m_ObjectHideFlags: 0
