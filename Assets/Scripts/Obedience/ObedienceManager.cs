@@ -269,7 +269,7 @@ public class ObedienceManager : MonoBehaviour {
 		{
 			timerNotification.gameObject.SetActive (false);
 		}
-		timerNotification.text = (int)timer + " / " + instructionWaitTime;
+		timerNotification.text = (int)timer + " / " + (int)instructionWaitTime;
 	}
 
 	// Flag for issuing next instruction
