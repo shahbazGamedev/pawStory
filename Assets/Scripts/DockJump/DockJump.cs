@@ -33,7 +33,7 @@ public class DockJump : MonoBehaviour {
 	Vector2 swipeEnd;
 	Rigidbody rb;
 	bool isJumping=false;
-	bool isRunning;
+	public bool isRunning;
 	bool isCoroutine;
 	bool isGameOver;
 	public bool isCameraMove;
@@ -71,6 +71,7 @@ public class DockJump : MonoBehaviour {
 			GameOver();
 		}
 		movement();
+
 		//detectSwipe();
 		//distance();
 	}
@@ -119,30 +120,35 @@ public class DockJump : MonoBehaviour {
 		Debug.Log ("triggered");
 		camera.GetComponent<CameraMovement>().cameraMove();
 		isJumping = true;
+
 	}
 
 
 	void OnTriggerExit()
 	{
 		isJumping = false;
-		isCameraMove=true;
+		isRunning=false;
 	}
 
 
-//	public void OnPointerDown(BaseEventData  data)
-//	{
-//		Debug.Log("Begins");
-//		PointerEventData e=(PointerEventData) data;
-//		swipeBegin=e.position;
-//	}
-//	
-//	public void OnPointerUp(BaseEventData  data)
-//	{
-//		//Debug.Log("Ends");
-//		PointerEventData e=(PointerEventData) data;
-//		swipeEnd=e.position;
-//		detectSwipe();
-//	}
+	public void OnPointerDown(BaseEventData  data)
+	{
+		Debug.Log("Begins");
+		PointerEventData e=(PointerEventData) data;
+		swipeBegin=e.position;
+		if(isJumping==true)
+		{
+		jumping();
+		}
+	}
+	
+	public void OnPointerUp(BaseEventData  data)
+	{
+		//Debug.Log("Ends");
+		PointerEventData e=(PointerEventData) data;
+		swipeEnd=e.position;
+
+	}
 
 
 	void movement()
@@ -292,6 +298,8 @@ public class DockJump : MonoBehaviour {
 		yield return new WaitForSeconds(3.0f);
 		isGameOver=true;
 	}
+
+
 	}
 
 	
