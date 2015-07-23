@@ -14,6 +14,8 @@ public class DockJump : MonoBehaviour {
 	public GameObject Stage;
 	public GameObject Pool;
 	public GameObject Floor;
+	public GameObject Bg;
+	public GameObject TouchMat;
 	public float moveSpeed;
 	public float jumpForce;
 	public float jumpspeed;
@@ -61,6 +63,8 @@ public class DockJump : MonoBehaviour {
 		Try1.SetActive(false);
 		Try2.SetActive(false);
 		Try3.SetActive(false);
+		Bg.SetActive(false);
+
 
 	}
 	
@@ -245,6 +249,8 @@ public class DockJump : MonoBehaviour {
 		Pool.SetActive(false);
 		Floor.SetActive(false);
 		dogRef.SetActive(false);
+		Bg.SetActive(true);
+		TouchMat.SetActive(false);
 		}
 
 
