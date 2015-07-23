@@ -289,7 +289,7 @@ public class DockJump : MonoBehaviour {
 
 	public void restart()
 	{
-		Application.LoadLevel("testSceneDockJump");
+		Application.LoadLevel("DockJump");
 	}
 
 
