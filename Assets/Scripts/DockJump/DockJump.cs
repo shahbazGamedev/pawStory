@@ -36,7 +36,9 @@ public class DockJump : MonoBehaviour {
 	bool isRunning;
 	bool isCoroutine;
 	bool isGameOver;
-
+	public bool isCameraMove;
+	public GameObject camera;
+	public bool isCamReturn;
 
 
 	void awake()
@@ -46,6 +48,8 @@ public class DockJump : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		isCamReturn=false;
+		isCameraMove=true;
 		isRunning=false;
 		isGameOver=false;
 		dogAnim = dogRef.GetComponent<Animator> ();
@@ -113,6 +117,7 @@ public class DockJump : MonoBehaviour {
 	void OnTriggerStay()
 	{
 		Debug.Log ("triggered");
+		camera.GetComponent<CameraMovement>().cameraMove();
 		isJumping = true;
 	}
 
@@ -120,6 +125,7 @@ public class DockJump : MonoBehaviour {
 	void OnTriggerExit()
 	{
 		isJumping = false;
+		isCameraMove=true;
 	}
 
 
@@ -193,6 +199,7 @@ public class DockJump : MonoBehaviour {
 	{
 		if(collision.rigidbody)
 		{
+			isCamReturn=true;
 			Debug.Log("new");
 			chances-=1;
 			dogAnim.SetFloat ("Speed",0f);
@@ -211,6 +218,7 @@ public class DockJump : MonoBehaviour {
 	private void gameStart()
 	{
 		isRunning=true;
+
 		}
 
 
@@ -284,6 +292,7 @@ public class DockJump : MonoBehaviour {
 		yield return new WaitForSeconds(3.0f);
 		isGameOver=true;
 	}
-
 	}
+
+	
 
