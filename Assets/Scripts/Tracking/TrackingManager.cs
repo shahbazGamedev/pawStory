@@ -22,6 +22,7 @@ public class TrackingManager : MonoBehaviour {
 	public GameObject dogRef;
 	public GameObject[] life;
 	public Text roundInfoDisplay;
+	DogPathMovement pathMove;
 
 	LineRenderer line;
 	string layerName;
@@ -49,6 +50,7 @@ public class TrackingManager : MonoBehaviour {
 	bool pathEnable;
 	bool reset;
 	bool lineRendererActive;
+	bool canReset;
 	public bool roundComplete;
 
 	float distanceCovered;
@@ -65,6 +67,7 @@ public class TrackingManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
+		dogRef = GameObject.FindGameObjectWithTag ("Player");
 		line = lineRenderer.GetComponent<LineRenderer>(); 
 		dogCapacity.maxValue = maxTrackingCapacity;
 		bezierPath = new BezierCurve();
@@ -75,6 +78,8 @@ public class TrackingManager : MonoBehaviour {
 		StartCoroutine (UpdateSlider ());
 		startPosition = dogRef.transform.position;
 		startRotation = dogRef.transform.rotation;
+		pathMove = dogRef.GetComponent <DogPathMovement> ();
+		pathMove.DisableReset += ListenerForDisableReset;
 	}
 	
 	// Update is called once per frame
@@ -185,7 +190,8 @@ public class TrackingManager : MonoBehaviour {
 	void StartNextRound()
 	{
 		dragData.Clear ();
-		StartCoroutine (dogRef.GetComponent <DogManager> ().MoveToPosition (startPosition, startRotation));
+		if(round>=1)
+			StartCoroutine (dogRef.GetComponent <DogManager> ().MoveToPosition (startPosition, startRotation));
 		line.SetVertexCount (0);
 		lineRendererActive = false;
 		round += 1;
@@ -195,10 +201,25 @@ public class TrackingManager : MonoBehaviour {
 		if (round >= maxRounds)
 			return;
 		pathEnable = true;
-
-
 	}
 		
+	// Decouple event
+	void OnDisable()
+	{
+		pathMove.DisableReset -= ListenerForDisableReset;
+	}
+
+	// Decouple event
+	void OnDestroy() 
+	{
+		pathMove.DisableReset -= ListenerForDisableReset;
+	}
+
+	// Listen to dogPathMovement for event Trigger
+	void ListenerForDisableReset()
+	{
+		canReset = false;
+	}
 	#region Coroutines
 
 	// Fills the dog capacity bar over time
@@ -294,13 +315,13 @@ public class TrackingManager : MonoBehaviour {
 					layerName = LayerMask.LayerToName (hit.collider.gameObject.layer);
 					if (layerName == "Floor") {
 						touchStartPosition = hit.point + (Vector3.up * 0.01f);
-						Debug.Log("onDrag");
+						//Debug.Log("onDrag");
 					}
 				}
 
 				if (Vector3.Distance (startPosition, touchStartPosition) < 0.3f)
 				{
-					Debug.Log ("Working");
+					//Debug.Log ("Working");
 					pathEnable = false;
 					isGameOn = true;
 					//StartCoroutine (UpdateSlider ());
@@ -388,6 +409,7 @@ public class TrackingManager : MonoBehaviour {
 			{
 				// Render Line
 				RenderBezier();
+				canReset = true;
 			}
 		}
 	}
@@ -411,11 +433,12 @@ public class TrackingManager : MonoBehaviour {
 	// Reset Path button
 	public void ResetPathBtn()
 	{
-		if(!dogRef.GetComponent <DogPathMovement>().followPath && !dogRef.GetComponent <DogManager>().isCoroutineOn && lineRendererActive)
+		if(lineRendererActive && canReset)
 		{
 		resetChances -= 1;
 		if (resetChances >= 0) 
-			{
+		{
+//			if()
 			line.SetVertexCount (0);
 			lineRendererActive=false;
 			StartCoroutine (FillDogCapacity ());
@@ -435,8 +458,10 @@ public class TrackingManager : MonoBehaviour {
 		}
 		else
 		{
-			if (swipeFinished)
+			if (swipeFinished) {
+				canReset = false;
 				startTracking = true;
+			}
 		}
 	}
 	#endregion
