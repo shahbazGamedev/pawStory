@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class SkippingManager : MonoBehaviour
@@ -9,7 +10,11 @@ public class SkippingManager : MonoBehaviour
 	private Animator dogAnimator;
 	private Rigidbody dogRigidBody;
 	
-	
+	// UI components 
+
+	public Slider slider;
+	public float sliderSpeed;
+
 	void Awake()
 	{
 		dogAnimator =  dogRef.GetComponent<Animator>();
@@ -31,9 +36,17 @@ public class SkippingManager : MonoBehaviour
 		}
 	}
 
+
+	void SliderFunction()
+	{
+		slider.value =  Mathf.PingPong(Time.time *sliderSpeed * 2,1);
+	}
+
+
 	// Update is called once per frame
 	void Update () 
 	{
+		SliderFunction();
 		PlaySkipping();
 	}
 }
