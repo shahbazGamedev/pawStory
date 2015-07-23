@@ -12,7 +12,7 @@ public class GlobalConst
 
 	public static string Scene_DiscDogs = "DiscDogs";
 	public static string Scene_DockJump = "DockJump";
-	public static string Scene_Tracking = "testSceneTracking";
+	public static string Scene_Tracking = "Tracking";
 	public static string Scene_Obedience = "Obedience";
 	public static string Scene_ColorLesson = "ColorLesson";
 
