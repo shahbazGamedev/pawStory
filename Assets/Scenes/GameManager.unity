@@ -236,8 +236,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2132096773}
-        m_MethodName: RetrieveData
+      - m_Target: {fileID: 2132096771}
+        m_MethodName: RetrieveFile
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -286,6 +286,7 @@ GameObject:
   - 4: {fileID: 483403913}
   - 114: {fileID: 483403912}
   - 114: {fileID: 483403911}
+  - 114: {fileID: 483403914}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -331,6 +332,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
+--- !u!114 &483403914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 483403910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4c2b4701761849258fb08888d50b4d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  APIKEY: 
+  SECRETKEY: 
+  userName: pradeeepUser
+  userFBID: 1111
+  userFBAccessToken: 
+  userProfilImageURL: 
+  dbName: 
+  collectionName: 
+  isFBLoggedIn: 0
 --- !u!1 &577161390
 GameObject:
   m_ObjectHideFlags: 0
@@ -966,8 +987,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2132096773}
-        m_MethodName: InsertData
+      - m_Target: {fileID: 2132096771}
+        m_MethodName: AddToFile
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1015,6 +1036,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 2132096772}
   - 114: {fileID: 2132096773}
+  - 114: {fileID: 2132096771}
   m_Layer: 0
   m_Name: shepHertz
   m_TagString: Untagged
@@ -1022,6 +1044,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &2132096771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2132096770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e3d578f802ad44e2907df511ef2ea30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  puppyDBase:
+  - PuppyName: pradeep
+    PuppyLevel: 23
+    PuppyColor: black
+  successDase: []
 --- !u!4 &2132096772
 Transform:
   m_ObjectHideFlags: 0
@@ -1045,10 +1083,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e0fb5bc1d55a41d8afa817ad3d07bdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  userName: 
-  dbname: pupDbase
-  collectionName: PupCollection
-  puppyDBase:
-  - PuppyName: mani
-    PuppyLevel: 3
-    PuppyColor: b

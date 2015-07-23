@@ -8,8 +8,8 @@ public class PuppyWorld_GlobalVariables : MonoBehaviour
 	public static PuppyWorld_GlobalVariables instance = null;
 	
 	public string	APIKEY , SECRETKEY;
-	public string	userName;
-	public string 	userFBID;
+	public string	userName = "pradeeepUser";
+	public string 	userFBID="1111";
 	public string 	userFBAccessToken;
 	public string 	userProfilImageURL;
 	public string 	dbName, collectionName;
