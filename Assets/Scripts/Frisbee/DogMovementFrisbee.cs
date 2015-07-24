@@ -110,7 +110,7 @@ public void jumpingRight(Vector3 force)
 
 	void MovePosition()
 	{
-		if(Score==0 && isMoving==true )
+		if(Score==0&& isMoving==true )
 		{
 
 			Debug.Log ("pos1");

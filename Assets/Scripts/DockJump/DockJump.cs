@@ -19,11 +19,8 @@ public class DockJump : MonoBehaviour {
 	public float moveSpeed;
 	public float jumpForce;
 	public float jumpspeed;
-	public Text chance1;
-	public Text chance2;
-	public Text chance3;
 	public Text gameOver;
-	public int chances;
+	public float chances;
 	public Transform target;
 	private Animator dogAnim;
 	private Vector3 jumpHeight;
@@ -41,6 +38,9 @@ public class DockJump : MonoBehaviour {
 	public bool isCameraMove;
 	public GameObject camera;
 	public bool isCamReturn;
+	public Text Score;
+	public Text chance;
+	public int maxChances;
 
 
 	void awake()
@@ -64,6 +64,8 @@ public class DockJump : MonoBehaviour {
 		Try2.SetActive(false);
 		Try3.SetActive(false);
 		Bg.SetActive(false);
+		chance.text="Chances: "+chances+ " / "+maxChances;
+		Score.text="Distace: " + (int)dist;
 
 
 	}
@@ -116,6 +118,9 @@ public class DockJump : MonoBehaviour {
 		transform.position = dogPos;
 		rb.velocity = Vector3.zero;
 		isCoroutine=false;
+		chance.text="Chances: "+chances+ " / "+maxChances;
+		isCameraMove=true;
+
 		}
 
 
@@ -211,14 +216,14 @@ public class DockJump : MonoBehaviour {
 		{
 			isCamReturn=true;
 			Debug.Log("new");
-			chances-=1;
+			chances+=0.5f;
 			dogAnim.SetFloat ("Speed",0f);
 			ScoreSystem();
 
 			if(!isCoroutine)
 				StartCoroutine(ReturnDog());
 			}
-		if(chances==0)
+		if(chances>maxChances)
 		{
 			StartCoroutine(EndGame());
 			}
@@ -263,26 +268,13 @@ public class DockJump : MonoBehaviour {
 
 	void ScoreSystem()
 	{
-		if(chances==4)
-		{
+		//if(chances==4)
+	//	{
 			distance();
-			chance1.text="Chance 1:"+dist;
-			Try1.SetActive(true);
-		}
-		if(chances==2)
-		{
-			distance();
-			chance2.text="Chance 2:"+dist;
-			Try2.SetActive(true);
-			Try1.SetActive(false);
-		}
-		if(chances==0)
-		{
-			distance();
-		    chance3.text="Chance 3:"+dist;
-			Try3.SetActive(true);
-			Try2.SetActive(false);
-		}
+			Score.text="Distace: " + (int)dist/2+ " ft ";
+
+	//	}
+	
 
 	}
 
