@@ -13,6 +13,7 @@ public class DockJump : MonoBehaviour {
 	public GameObject Floor;
 	public GameObject Bg;
 	public GameObject TouchMat;
+	public GameObject gameScreen;
 	public float moveSpeed;
 	public float jumpForce;
 	public float jumpspeed;
@@ -124,7 +125,7 @@ public class DockJump : MonoBehaviour {
 		isCameraMove=true;
 		GetComponent<Rigidbody>().detectCollisions=true;
 		scoreUpdate=true;
-
+		isFoulJump=true;
 		}
 
 
@@ -264,6 +265,7 @@ public class DockJump : MonoBehaviour {
 		dogRef.SetActive(false);
 		Bg.SetActive(true);
 		TouchMat.SetActive(false);
+		gameScreen.SetActive(false);
 		if(scoreSystem[1]>scoreSystem[2])
 		{
 			if(scoreSystem[1]>scoreSystem[3])
