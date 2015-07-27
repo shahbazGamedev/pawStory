@@ -27,6 +27,7 @@ public class DogMovementFrisbee : MonoBehaviour {
 	public int spawnValue=0;
 	public bool isSpawn;
 	public GameObject FrisbeeAttached;
+	public GameObject EndPanel;
 	public int MaxChances;
 	public int Life;
 	public Text score;
@@ -42,6 +43,7 @@ public class DogMovementFrisbee : MonoBehaviour {
 	bool isCatching;
 	Rigidbody rb;
 	Vector3 position;
+	bool isRestart;
 
 
 
@@ -57,6 +59,9 @@ public class DogMovementFrisbee : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
+//		if(isRestart)
+//		{OnRestart();
+//		}
 		startPanel.SetActive(true);
 		FrisbeeAttached.SetActive(false);
 		SpawnValueReset();
@@ -269,7 +274,26 @@ public void jumpingRight(Vector3 force)
 		spawnValue=Random.Range(0,3);
 		targetMove=spawnPoint[spawnValue];
 	}
-
+//	public void OnRestart()
+//	{
+//		isMoving=true;
+//		transform.position=dogPos;
+//		Score=0;
+//		chances=0;
+//		MaxChances=10;
+//		Life=3;
+//		isGameover=false;
+//		startPanel.SetActive(true);
+//		dog.SetActive(true);
+//		Frisbee.SetActive(true);
+//		EndPanel.SetActive(false);
+//		isRestart=false;
+//		if(isGameover==true)
+//		{
+//			GameOver();
+//			gameOver.SetActive(true);
+//		}
+//	}
 }
 
 
