@@ -23,7 +23,7 @@ public class FrisbeeMovement : MonoBehaviour {
 	private Vector3 frisbeeForce;
 	private Vector3 currentPosition;
 	bool isJumping=false;
-
+	bool detectLife;
 
 
 
@@ -93,6 +93,7 @@ public class FrisbeeMovement : MonoBehaviour {
 	
 	void  OnMouseUp ()
 	{
+
 		endPos= Input.mousePosition;
 		endPos.z = transform.position.z - Camera.main.transform.position.z;
 		endPos = Camera.main.ScreenToWorldPoint(endPos);
@@ -103,8 +104,13 @@ public class FrisbeeMovement : MonoBehaviour {
 		
 		rb.AddForce(force * power);
 		dog.GetComponent<DogMovementFrisbee>().chances= dog.GetComponent<DogMovementFrisbee>().chances+1;
+		detectLife=true;
+
 
 		StartCoroutine(  ReturnFrisbee() );
+		isJumping=false;
+	
+
 
 
 	}
@@ -118,7 +124,14 @@ public class FrisbeeMovement : MonoBehaviour {
 		transform.position = currentPosition;
 		rb.velocity = Vector3.zero;
 		GetComponent<MeshRenderer>().enabled=true;
+		//GetComponent<Collider>().enabled=true;
+		//GetComponent<Rigidbody>().detectCollisions=true;
 		isJumping = false;
+		dog.GetComponent<DogMovementFrisbee>().isMoving=true;
+		dog.GetComponent<DogMovementFrisbee>().FrisbeeAttached.SetActive(false);
+		GetComponent<Rigidbody>().detectCollisions=true;
+		detectLife=false;
+
 
 	}
 	void OnCollisionEnter(Collision collision)
@@ -127,15 +140,29 @@ public class FrisbeeMovement : MonoBehaviour {
 		{
 //			Destroy (this.gameObject);
 			GetComponent<MeshRenderer>().enabled=false;
+			//GetComponent<Collider>().enabled=true;
+			GetComponent<Rigidbody>().detectCollisions=false;
 			dog.GetComponent<DogMovementFrisbee> ().Score++;
+			//dog.GetComponent<DogMovementFrisbee>().score.text="Score:"+dog.GetComponent<DogMovementFrisbee>().Score;
 			StartCoroutine(Dogmovement());
-			if(dog.GetComponent<DogMovementFrisbee>().Score==3)
+			if(dog.GetComponent<DogMovementFrisbee>().chances==dog.GetComponent<DogMovementFrisbee>().MaxChances || dog.GetComponent<DogMovementFrisbee>().Life==0)
 			{
 				Debug.Log ("gameover");
 				StartCoroutine(EndGame());
 			}
-
-
+			dog.GetComponent<DogMovementFrisbee>().isSpawn=true;
+			dog.GetComponent<DogMovementFrisbee>().FrisbeeAttached.SetActive(true);
+		}
+		if (collision.gameObject.tag=="floor" && detectLife==true)
+		{
+			Debug.Log("coming here");
+			dog.GetComponent<DogMovementFrisbee>().Life--;
+			//dog.GetComponent<DogMovementFrisbee>().life.text="Life:"+dog.GetComponent<DogMovementFrisbee>().Life;
+			if(dog.GetComponent<DogMovementFrisbee>().chances==dog.GetComponent<DogMovementFrisbee>().MaxChances || dog.GetComponent<DogMovementFrisbee>().Life==0)
+			{
+				Debug.Log ("gameover");
+				StartCoroutine(EndGame());
+			}
 		}
 	}
 	//void OnTriggerEnter()

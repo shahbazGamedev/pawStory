@@ -8,9 +8,6 @@ public class DockJump : MonoBehaviour {
 	public GameObject MenuBtn;
 	public GameObject RestartBtn;
 	public GameObject PlayBtn;
-	public GameObject Try1;
-	public GameObject Try2;
-	public GameObject Try3;
 	public GameObject Stage;
 	public GameObject Pool;
 	public GameObject Floor;
@@ -20,14 +17,14 @@ public class DockJump : MonoBehaviour {
 	public float jumpForce;
 	public float jumpspeed;
 	public Text gameOver;
-	public float chances;
+	public int chances;
 	public Transform target;
 	private Animator dogAnim;
 	private Vector3 jumpHeight;
 	private Vector3 dogPos;
 	private float speedDampTime = 0.1f;
 	private float dragRatio;
-	private float dist;
+	private float distance;
 	Vector2 swipeBegin;
 	Vector2 swipeEnd;
 	Rigidbody rb;
@@ -41,7 +38,11 @@ public class DockJump : MonoBehaviour {
 	public Text Score;
 	public Text chance;
 	public int maxChances;
-
+	public float[] scoreSystem;
+	public int highScore;
+	public int score;
+	bool scoreUpdate;
+	public Text highScoreTxt;
 
 	void awake()
 	{
@@ -50,6 +51,7 @@ public class DockJump : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		scoreUpdate=true;
 		isCamReturn=false;
 		isCameraMove=true;
 		isRunning=false;
@@ -60,12 +62,9 @@ public class DockJump : MonoBehaviour {
 	    dogPos=new Vector3(1.19f,2.84f,-15.35f);
 		MenuBtn.SetActive(false);
 		RestartBtn.SetActive(false);
-		Try1.SetActive(false);
-		Try2.SetActive(false);
-		Try3.SetActive(false);
 		Bg.SetActive(false);
 		chance.text="Chances: "+chances+ " / "+maxChances;
-		Score.text="Distace: " + (int)dist;
+		Score.text="Distace: " + distance;
 
 
 	}
@@ -120,6 +119,8 @@ public class DockJump : MonoBehaviour {
 		isCoroutine=false;
 		chance.text="Chances: "+chances+ " / "+maxChances;
 		isCameraMove=true;
+		GetComponent<Rigidbody>().detectCollisions=true;
+		scoreUpdate=true;
 
 		}
 
@@ -212,18 +213,24 @@ public class DockJump : MonoBehaviour {
 
 	void OnCollisionEnter(Collision collision)
 	{
-		if(collision.rigidbody)
+		if(collision.gameObject.tag=="floor")
 		{
-			isCamReturn=true;
-			Debug.Log("new");
-			chances+=0.5f;
-			dogAnim.SetFloat ("Speed",0f);
+
+			if(scoreUpdate)
+			{
+				isCamReturn=true;
+				Debug.Log("new");
+				chances+=1;
+				dogAnim.SetFloat ("Speed",0f);
+				GetComponent<Rigidbody>().detectCollisions=false;
 			ScoreSystem();
+				scoreUpdate=false;
+			}
 
 			if(!isCoroutine)
 				StartCoroutine(ReturnDog());
 			}
-		if(chances>maxChances)
+		if(chances>=maxChances)
 		{
 			StartCoroutine(EndGame());
 			}
@@ -247,22 +254,39 @@ public class DockJump : MonoBehaviour {
 		PlayBtn.SetActive(false);
 
 		isRunning=false;
-		Try1.SetActive(true);
-		Try2.SetActive(true);
-		Try3.SetActive(true);
 		Stage.SetActive(false);
 		Pool.SetActive(false);
 		Floor.SetActive(false);
 		dogRef.SetActive(false);
 		Bg.SetActive(true);
 		TouchMat.SetActive(false);
+		if(scoreSystem[1]>scoreSystem[2])
+		{
+			if(scoreSystem[1]>scoreSystem[3])
+			{
+				highScoreTxt.text="Longest Jump : "+(int)scoreSystem[1]+" ft ";
+			}
+			else
+				highScoreTxt.text="Longest Jump : "+(int)scoreSystem[3]+" ft ";
+		}
+		else
+		{
+			if(scoreSystem[2]>scoreSystem[3])
+			{
+				highScoreTxt.text="Longest Jump : "+(int)scoreSystem[2]+" ft ";
+			}
+			else
+				highScoreTxt.text="Longest Jump : "+(int)scoreSystem[3]+" ft ";
 		}
 
 
-	void distance()
+		}
+
+
+	void Distance()
 	{
-		dist=Vector3.Distance(target.position,transform.position);
-		print("Jumping Distance: " + dist);
+		distance=Vector3.Distance(target.position,transform.position);
+		//print("Jumping Distance: " + distance);
 		}
 
 
@@ -270,8 +294,11 @@ public class DockJump : MonoBehaviour {
 	{
 		//if(chances==4)
 	//	{
-			distance();
-			Score.text="Distace: " + (int)dist/2+ " ft ";
+		Debug.Log("hello");
+			Distance();
+			Score.text="Distace: " + (int)distance+ " ft ";
+		scoreSystem[chances]=distance;
+
 
 	//	}
 	
@@ -293,7 +320,7 @@ public class DockJump : MonoBehaviour {
 
 	IEnumerator EndGame()
 	{
-		yield return new WaitForSeconds(3.0f);
+		yield return new WaitForSeconds(3f);
 		isGameOver=true;
 	}
 
