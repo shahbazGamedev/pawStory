@@ -269,12 +269,7 @@ public void jumpingRight(Vector3 force)
 		spawnValue=Random.Range(0,3);
 		targetMove=spawnPoint[spawnValue];
 	}
-	public void OnRestart()
-	{
-		Score=0;
-		chances=0
-	    
-	}
+
 }
 
 
