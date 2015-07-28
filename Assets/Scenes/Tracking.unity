@@ -1179,7 +1179,7 @@ MonoBehaviour:
     _FoodLevel: 0
   turnSmoothing: 15
   speedDampTime: .100000001
-  moveSpeed: 1
+  moveSpeed: 1.20000005
   rotationSpeed: 5000
   jumpForce: 3
   dragFactor: 1
@@ -1365,7 +1365,7 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 941735212}
---- !u!1001 &978905370
+--- !u!1001 &1038378092
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1541,11 +1541,6 @@ RectTransform:
   m_AnchoredPosition: {x: 1.14440918e-05, y: 0}
   m_SizeDelta: {x: 3.05180001e-05, y: 0}
   m_Pivot: {x: .5, y: .5}
---- !u!224 &1140394500 stripped
-RectTransform:
-  m_PrefabParentObject: {fileID: 22475416, guid: 223a9d338d97efa4fab0c00d1e70471e,
-    type: 2}
-  m_PrefabInternal: {fileID: 978905370}
 --- !u!1 &1204648477
 GameObject:
   m_ObjectHideFlags: 0
@@ -3463,7 +3458,7 @@ RectTransform:
   - {fileID: 1216393887}
   - {fileID: 941735213}
   - {fileID: 141228057}
-  - {fileID: 1140394500}
+  - {fileID: 1844108189}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_AnchorMin: {x: 0, y: 0}
@@ -3471,6 +3466,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!224 &1844108189 stripped
+RectTransform:
+  m_PrefabParentObject: {fileID: 22475416, guid: 223a9d338d97efa4fab0c00d1e70471e,
+    type: 2}
+  m_PrefabInternal: {fileID: 1038378092}
 --- !u!1 &1852210270
 GameObject:
   m_ObjectHideFlags: 0
