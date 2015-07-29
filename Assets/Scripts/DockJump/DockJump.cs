@@ -7,7 +7,7 @@ public class DockJump : MonoBehaviour {
 	public GameObject dogRef;
 	public GameObject MenuBtn;
 	public GameObject RestartBtn;
-	public GameObject PlayBtn;
+	//public GameObject PlayBtn;
 	public GameObject Stage;
 	public GameObject Pool;
 	public GameObject Floor;
@@ -45,6 +45,7 @@ public class DockJump : MonoBehaviour {
 	bool scoreUpdate;
 	public Text highScoreTxt;
 	public bool isFoulJump;
+	public bool isgameStart;
 
 	void awake()
 	{
@@ -52,7 +53,9 @@ public class DockJump : MonoBehaviour {
 	}
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
+	    isgameStart=false;
 		isFoulJump=true;
 		scoreUpdate=true;
 		isCamReturn=false;
@@ -79,7 +82,7 @@ public class DockJump : MonoBehaviour {
 			GameOver();
 		}
 		movement();
-
+	
 		//detectSwipe();
 		//distance();
 	}
@@ -126,6 +129,8 @@ public class DockJump : MonoBehaviour {
 		GetComponent<Rigidbody>().detectCollisions=true;
 		scoreUpdate=true;
 		isFoulJump=true;
+
+
 		}
 
 
@@ -154,6 +159,7 @@ public class DockJump : MonoBehaviour {
 		{
 		jumping();
 		}
+	isRunning=true;
 
 	}
 	
@@ -220,10 +226,11 @@ public class DockJump : MonoBehaviour {
 	{
 		if(collision.gameObject.tag=="floor")
 		{
-
+			StartCoroutine(ReturnCamera());
+		
 			if(scoreUpdate)
 			{
-				isCamReturn=true;
+
 				Debug.Log("new");
 				chances+=1;
 				dogAnim.SetFloat ("Speed",0f);
@@ -239,6 +246,8 @@ public class DockJump : MonoBehaviour {
 		{
 			StartCoroutine(EndGame());
 			}
+
+
 	}
 
 
@@ -256,7 +265,7 @@ public class DockJump : MonoBehaviour {
 			Debug.Log ("gameover");
 		MenuBtn.SetActive(true);
 		RestartBtn.SetActive(true);
-		PlayBtn.SetActive(false);
+//		PlayBtn.SetActive(false);
 
 		isRunning=false;
 		Stage.SetActive(false);
@@ -333,7 +342,11 @@ public class DockJump : MonoBehaviour {
 		yield return new WaitForSeconds(3f);
 		isGameOver=true;
 	}
-
+	IEnumerator ReturnCamera()
+	{
+		yield return new WaitForSeconds(3f);
+		isCamReturn=true;
+	}
 
 	}
 

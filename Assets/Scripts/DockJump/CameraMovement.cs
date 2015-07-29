@@ -18,8 +18,12 @@ public class CameraMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		ReturnCam();
-	
+		if(dog.GetComponent<DockJump>().isCamReturn==true)
+		{
+	ReturnCam();
+			dog.GetComponent<DockJump>().isCamReturn=false;
+
+		}
 	}
 
 	public IEnumerator Transition()
@@ -46,7 +50,7 @@ public class CameraMovement : MonoBehaviour {
 	}
 	public void ReturnCam()
 	{
-		if(dog.GetComponent<DockJump>().isCamReturn==true)
+
 			Debug.Log("returncam");
 		camera.transform.position=StartPos.transform.position;
 	}

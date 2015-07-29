@@ -7,7 +7,7 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class FrisbeeMovement : MonoBehaviour {
-	private float power= 500.0f;
+	private float power= 550.0f;
 	Rigidbody rb;
 	public Vector3 endPos;
 	public Vector3 force;
