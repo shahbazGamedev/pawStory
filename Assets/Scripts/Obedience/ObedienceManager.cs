@@ -23,6 +23,7 @@ public class ObedienceManager : MonoBehaviour {
 	bool isCoroutineON; // True when catchCombos coroutine is running
 	public bool registerAnimEvent; // If true listenes for trigger from idle animation
 	public bool nextInstruct;
+	bool isDogSiting;
 
 	int chance;
 	int points;
@@ -161,6 +162,7 @@ public class ObedienceManager : MonoBehaviour {
 				nextInstruct = true;
 				//registerAnimEvent = true;
 				dogAnim.SetTrigger ("Sit");
+				isDogSiting = true;
 				gestureCache = SwipeRecognizer.TouchPattern.reset;
 				break;
 			}
@@ -211,7 +213,7 @@ public class ObedienceManager : MonoBehaviour {
 				nextInstruct = false;
 				registerAnimEvent = true;
 				dogAnim.SetBool ("StandOn", true);
-				StartCoroutine (ResetAnimBool ("StandOn", 2));
+				StartCoroutine (ResetAnimBool ("StandOn", 5));
 				gestureCache = SwipeRecognizer.TouchPattern.reset;
 				break;
 			}
@@ -352,9 +354,10 @@ public class ObedienceManager : MonoBehaviour {
 				yield return StartCoroutine (WailTillIdleAnimation ());
 
 				chance += 1;
-				if(randomNumber==0)
+				if(randomNumber==0 && isDogSiting)
 				{
 					randomNumber = 1;
+					isDogSiting = false;
 				}
 				else
 				{
@@ -366,7 +369,7 @@ public class ObedienceManager : MonoBehaviour {
 					}
 				}
 					
-				//randomNumber = 5;
+				//randomNumber = 8;
 				presentGesture = gestureCollection [randomNumber].value1;
 				instructions.text = gestureCollection [randomNumber].key;
 
@@ -407,10 +410,12 @@ public class ObedienceManager : MonoBehaviour {
 				{
 					pattern = SwipeRecognizer.TouchPattern.hold;
 					swipeDataCollection [1].holdTime = 0;
+					swipeDataCollection [1].isActive = false;
 				}
 				else if(swipeDataCollection [1].swipeData.Count>1)
 				{
 					pattern = SwipeRecognizer.TouchPattern.move;
+					swipeDataCollection [1].isActive = false;
 				}
 			}
 		}
