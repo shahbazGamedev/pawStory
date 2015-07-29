@@ -127,7 +127,7 @@ public class DogPathMovement : MonoBehaviour {
 		{
 			followPath = false;
 			reachedTarget = true;
-			trackingManagerRef.points += 1;
+			//trackingManagerRef.points += 1;
 //			Debug.Log ("Reached Target");
 		}
 	}

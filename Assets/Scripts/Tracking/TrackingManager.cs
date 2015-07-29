@@ -53,6 +53,7 @@ public class TrackingManager : MonoBehaviour {
 	bool canReset; // Allows the user to reset path if true
 	public bool roundComplete;
 	bool trackCheck;
+	//public int scoreIncrement;
 
 	float distanceCovered;
 	float remainingCapacity;
@@ -112,8 +113,10 @@ public class TrackingManager : MonoBehaviour {
 		}
 
 		// updates gameover bool based on maxRounds
-		if (round > maxRounds && !gameOver)
+		if (round > maxRounds && !gameOver) {
 			gameOver = true;
+			points += resetChances * 10;
+		}
 
 		// checks if dog has reached the set path and intiates next round
 		if (dogRef.GetComponent<DogPathMovement> ().reachedPathEnd)
@@ -126,6 +129,7 @@ public class TrackingManager : MonoBehaviour {
 		if(dogRef.GetComponent<DogPathMovement> ().reachedTarget)
 		{
 			dogRef.GetComponent<DogPathMovement> ().reachedTarget = false;
+			points += scoreIncrement + (int)dogCapacity.value;
 			StartCoroutine (TargetFound ());
 		}
 	}
@@ -176,7 +180,7 @@ public class TrackingManager : MonoBehaviour {
 	void GameOver()
 	{
 		gameOverPanel.SetActive (true);
-		instructions.text = "Score: " + points + " / " + maxRounds;
+		instructions.text = "Score: " + points + " Points." ;
 		foreach(var live in life) // Destroys remaining resets / lives
 		{
 			live.SetActive (false);
@@ -197,7 +201,7 @@ public class TrackingManager : MonoBehaviour {
 		round += 1;
 		StartCoroutine (FillDogCapacity ());
 		StartCoroutine (UpdateRoundInfoDisplay ());
-		score.text = points + " / " + maxRounds;
+		//score.text = points + " / " + maxRounds;
 		if (round > maxRounds)
 			return;
 		pathEnable = true;
