@@ -454,7 +454,7 @@ MonoBehaviour:
   maxChances: 5
   scoreIncrement: 1
   angularVelocity: 1000
-  jumpForce: 1.5
+  jumpForce: 3.5
   gestureCollection:
   - key: Sit Down
     value1: 3
@@ -987,7 +987,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400022, guid: f583c1e9ea9846442b60aba57d71c8fd, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f583c1e9ea9846442b60aba57d71c8fd, type: 3}
@@ -1273,7 +1273,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1384015467}
   m_LocalRotation: {x: 0, y: -.707106829, z: 0, w: .707106709}
-  m_LocalPosition: {x: .915415168, y: -.57640475, z: 1.33232999}
+  m_LocalPosition: {x: -1.21000004, y: -.57640475, z: 1.33232999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 388781958}
@@ -1358,7 +1358,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1395240468}
   m_LocalRotation: {x: -2.05604263e-08, y: -.992004991, z: .126198992, w: -1.61618132e-07}
-  m_LocalPosition: {x: .159999996, y: .296000004, z: 2.38899994}
+  m_LocalPosition: {x: .159999996, y: 2.3900001, z: 7.09000015}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1480,7 +1480,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1471840665}
   m_LocalRotation: {x: 0, y: .707106829, z: 0, w: .707106709}
-  m_LocalPosition: {x: 1.81541514, y: -.57640475, z: 1.33232999}
+  m_LocalPosition: {x: 4, y: -.57640475, z: 1.33232999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 388781958}
@@ -1753,7 +1753,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 743ae5bcdfb94455eb0457ff367ff921, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.34000015
+      value: -9.25
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 743ae5bcdfb94455eb0457ff367ff921, type: 3}
       propertyPath: m_LocalRotation.x
@@ -1777,15 +1777,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 743ae5bcdfb94455eb0457ff367ff921, type: 3}
       propertyPath: m_LocalScale.x
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 743ae5bcdfb94455eb0457ff367ff921, type: 3}
       propertyPath: m_LocalScale.y
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 743ae5bcdfb94455eb0457ff367ff921, type: 3}
       propertyPath: m_LocalScale.z
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 100182, guid: 743ae5bcdfb94455eb0457ff367ff921, type: 3}
       propertyPath: m_IsActive
@@ -2287,11 +2287,11 @@ GameObject:
   m_Component:
   - 4: {fileID: 1996009490}
   - 54: {fileID: 1996009494}
-  - 65: {fileID: 1996009493}
   - 114: {fileID: 1996009492}
-  - 65: {fileID: 1996009491}
   - 95: {fileID: 1996009496}
   - 114: {fileID: 1996009495}
+  - 65: {fileID: 1996009491}
+  - 65: {fileID: 1996009493}
   m_Layer: 0
   m_Name: Dog
   m_TagString: Player
@@ -2306,7 +2306,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1996009489}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .169, y: -.00899999589, z: 1.78699994}
+  m_LocalPosition: {x: .159999996, y: -.0638209879, z: 2.94000006}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2062120173}
@@ -2319,11 +2319,11 @@ BoxCollider:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1996009489}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: .0900000036, y: .119999997, z: .200000003}
-  m_Center: {x: 0, y: .0579999983, z: 0}
+  m_Size: {x: .699999988, y: 1.20000005, z: 2}
+  m_Center: {x: 0, y: .600000024, z: .5}
 --- !u!114 &1996009492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2350,10 +2350,10 @@ MonoBehaviour:
     _FoodLevel: 0
   turnSmoothing: 15
   speedDampTime: .100000001
-  moveSpeed: .5
+  moveSpeed: 2
   rotationSpeed: 1000
   jumpForce: 3
-  dragFactor: 1
+  dragFactor: .100000001
   isGrounded: 0
   isCoroutineOn: 0
   isCircuitRun: 0
@@ -2364,11 +2364,11 @@ BoxCollider:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1996009489}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: .0900000036, y: .119999997, z: .200000003}
-  m_Center: {x: 0, y: .0599999987, z: 0}
+  m_Size: {x: .699999988, y: 1.20000005, z: 2}
+  m_Center: {x: 0, y: .600000024, z: .5}
 --- !u!54 &1996009494
 Rigidbody:
   m_ObjectHideFlags: 0
