@@ -213,7 +213,7 @@ public class ObedienceManager : MonoBehaviour {
 				nextInstruct = false;
 				registerAnimEvent = true;
 				dogAnim.SetBool ("StandOn", true);
-				StartCoroutine (ResetAnimBool ("StandOn", 5));
+				StartCoroutine (ResetAnimBool ("StandOn", 4));
 				gestureCache = SwipeRecognizer.TouchPattern.reset;
 				break;
 			}
