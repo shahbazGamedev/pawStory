@@ -90,7 +90,7 @@ public class TrackingManager : MonoBehaviour {
 		{
 			RenderBezier ();
 			//Debug.Log ("Done");
-			drawingPoints = bezierPath.GetDrawingPoints2();
+			drawingPoints = bezierPath.GetDrawingPoints1();
 			dogRef.GetComponent<DogPathMovement>().SetPathData(drawingPoints);
 			dogRef.GetComponent<DogPathMovement>().EnableDogPathMovement(true);
 			swipeFinished = false;
@@ -137,7 +137,7 @@ public class TrackingManager : MonoBehaviour {
 	{
 		//bezierPath = new BezierCurve();
 		bezierPath.Interpolate(dragData, interpolationScale);
-		drawingPoints = bezierPath.GetDrawingPoints2();
+		drawingPoints = bezierPath.GetDrawingPoints1();
 		SetLinePoints(drawingPoints);
 		lineRendererActive = true;
 	}

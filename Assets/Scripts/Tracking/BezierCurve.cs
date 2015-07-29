@@ -10,7 +10,7 @@ using System.Linq;
 
 public class BezierCurve
 {
-	private const int SEGMENTS_PER_CURVE = 10;
+	private const int SEGMENTS_PER_CURVE = 20;
 	private const float MINIMUM_SQR_DISTANCE = 0.01f;
 	
 	// This corresponds to about 172 degrees, 8 degrees from a traight line
@@ -51,6 +51,64 @@ public class BezierCurve
 		return controlPoints;
 	}
 
+	/**
+        Gets the drawing points. This implementation simply calculates a certain number
+        of points per curve.
+    */
+	public List<Vector3> GetDrawingPoints0()
+	{
+		List<Vector3> drawingPoints = new List<Vector3>();
+
+		for (int curveIndex = 0; curveIndex < curveCount; curveIndex++)
+		{
+			if (curveIndex == 0) //Only do this for the first end point. 
+				//When i != 0, this coincides with the 
+				//end point of the previous segment,
+			{
+				drawingPoints.Add(CalculateBezierPoint(curveIndex, 0));
+			}
+
+			for (int j = 1; j <= SEGMENTS_PER_CURVE; j++)
+			{
+				float t = j / (float)SEGMENTS_PER_CURVE;
+				drawingPoints.Add(CalculateBezierPoint(curveIndex, t));
+			}
+		}
+
+		return drawingPoints;
+	}
+
+	/**
+        Gets the drawing points. This implementation simply calculates a certain number
+        of points per curve.
+
+        This is a lsightly different inplementation from the one above.
+    */
+	public List<Vector3> GetDrawingPoints1()
+	{
+		List<Vector3> drawingPoints = new List<Vector3>();
+
+		for (int i = 0; i < controlPoints.Count - 3; i += 3)
+		{
+			Vector3 p0 = controlPoints[i];
+			Vector3 p1 = controlPoints[i + 1];
+			Vector3 p2 = controlPoints[i + 2];
+			Vector3 p3 = controlPoints[i + 3];
+
+			if (i == 0) //only do this for the first end point. When i != 0, this coincides with the end point of the previous segment,
+			{
+				drawingPoints.Add(CalculateBezierPoint(0, p0, p1, p2, p3));
+			}
+
+			for (int j = 1; j <= SEGMENTS_PER_CURVE; j++)
+			{
+				float t = j / (float)SEGMENTS_PER_CURVE;
+				drawingPoints.Add(CalculateBezierPoint(t, p0, p1, p2, p3));
+			}
+		}
+
+		return drawingPoints;
+	}
 
 	/**
         This gets the drawing points of a bezier curve, using recursive division,
