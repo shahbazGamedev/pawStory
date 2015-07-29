@@ -48,7 +48,7 @@ public class FrisbeeMovement : MonoBehaviour {
 	{
 
 
-		if (Vector3.Distance (dog.transform.position, frisbee.transform.position) < 2f && isJumping == false) 
+		if (Vector3.Distance (dog.transform.position, frisbee.transform.position) < 2.5f && isJumping == false) 
 		{
 			direction = frisbee.transform.position - dog.transform.position;
 			distance = direction.magnitude;
