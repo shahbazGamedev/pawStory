@@ -33,6 +33,9 @@ public class DogMovementFrisbee : MonoBehaviour {
 	public Text score;
 	public Text life;
 	public GameObject startPanel;
+	public GameObject flagRed;
+	public GameObject flagGreen;
+	public GameObject flagYellow;
 	private Animator dogAnim;
 	private Vector3 frisbeedirection;
 	private Vector3 dogPos;
@@ -62,6 +65,9 @@ public class DogMovementFrisbee : MonoBehaviour {
 //		if(isRestart)
 //		{OnRestart();
 //		}
+		flagYellow.SetActive(false);
+		flagGreen.SetActive(false);
+		flagRed.SetActive(false);
 		startPanel.SetActive(true);
 		FrisbeeAttached.SetActive(false);
 		SpawnValueReset();
@@ -78,6 +84,7 @@ public class DogMovementFrisbee : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
+		TempFlag();
 		if(isGameover==true)
 		{
 		GameOver();
@@ -273,6 +280,29 @@ public void jumpingRight(Vector3 force)
 	{
 		spawnValue=Random.Range(0,3);
 		targetMove=spawnPoint[spawnValue];
+	}
+
+	void TempFlag()
+	{
+		if(targetMove==spawnPoint[1])
+		{
+			flagRed.SetActive(true);
+			flagYellow.SetActive(false);
+			flagGreen.SetActive(false);
+		}
+		if(targetMove==spawnPoint[2])
+		{
+			flagGreen.SetActive(true);
+			flagRed.SetActive(false);
+			flagYellow.SetActive(false);
+		}
+		if(targetMove==spawnPoint[0])
+		{
+			flagGreen.SetActive(false);
+			flagRed.SetActive(false);
+			flagYellow.SetActive(true);
+		}
+
 	}
 //	public void OnRestart()
 //	{
