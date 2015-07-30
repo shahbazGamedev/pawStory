@@ -129,6 +129,7 @@ public class DockJump : MonoBehaviour {
 		GetComponent<Rigidbody>().detectCollisions=true;
 		scoreUpdate=true;
 		isFoulJump=true;
+		rb.isKinematic=false;
 
 
 		}
@@ -224,6 +225,7 @@ public class DockJump : MonoBehaviour {
 
 	void OnCollisionEnter(Collision collision)
 	{
+
 		if(collision.gameObject.tag=="floor")
 		{
 			StartCoroutine(ReturnCamera());
@@ -234,6 +236,7 @@ public class DockJump : MonoBehaviour {
 				Debug.Log("new");
 				chances+=1;
 				dogAnim.SetFloat ("Speed",0f);
+				rb.isKinematic=true;
 				GetComponent<Rigidbody>().detectCollisions=false;
 			ScoreSystem();
 				scoreUpdate=false;
