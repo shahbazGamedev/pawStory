@@ -336,11 +336,11 @@ public class ObedienceManager : MonoBehaviour {
 		{
 			if (chance == maxChances) // if chances depleted gameOver
 			{
-
-					DeactivateGestureMat ();
-					gameOn = false;
-					gameOverPannel.SetActive (true);
-					instructions.text = "Score: " + points + " / " + maxChances;
+				yield return new WaitForSeconds (2);
+				DeactivateGestureMat ();
+				gameOn = false;
+				gameOverPannel.SetActive (true);
+				instructions.text = "Score: " + points + " / " + maxChances;
 
 			}
 			else  // else put a random instruction

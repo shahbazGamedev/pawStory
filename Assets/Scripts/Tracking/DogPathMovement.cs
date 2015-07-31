@@ -108,13 +108,13 @@ public class DogPathMovement : MonoBehaviour {
 		GetComponent<Rigidbody>().MovePosition(Vector3.MoveTowards(transform.position, target, dogSpeed* Time.deltaTime));
 
 		// Update dog rotation based on target
-		if(!(Vector3.Distance(transform.position,target)<0.01f))
+		if(!(Vector3.Distance(transform.position,target)<0.025f))
 		{
 			transform.LookAt(target);
 		}
 
 		// Check if dog reached path end
-		if(Vector3.Distance(pathEnd, transform.position)<0.001f)
+		if(Vector3.Distance(pathEnd, transform.position)<0.005f)
 		{
 			reachedPathEnd=true;
 		}
