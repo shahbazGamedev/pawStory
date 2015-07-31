@@ -46,6 +46,8 @@ public class DockJump : MonoBehaviour {
 	public Text highScoreTxt;
 	public bool isFoulJump;
 	public bool isgameStart;
+	bool canJump;
+
 
 	void awake()
 	{
@@ -55,6 +57,7 @@ public class DockJump : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
+		canJump=true;
 	    isgameStart=false;
 		isFoulJump=true;
 		scoreUpdate=true;
@@ -99,6 +102,7 @@ public class DockJump : MonoBehaviour {
 
 	void jumping()
 	{
+		canJump=false;
 		isFoulJump=false;
 		isRunning=false; 
 		dogAnim.SetTrigger ("Jump");
@@ -130,6 +134,7 @@ public class DockJump : MonoBehaviour {
 		scoreUpdate=true;
 		isFoulJump=true;
 		rb.isKinematic=false;
+		canJump=true;
 
 
 		}
@@ -139,7 +144,15 @@ public class DockJump : MonoBehaviour {
 	{
 		Debug.Log ("triggered");
 		camera.GetComponent<CameraMovement>().cameraMove();
+//		if(canJump)
+//		{
 		isJumping = true;
+
+			Debug.Log ("trigger");
+		//}
+
+
+
 
 	}
 
@@ -156,10 +169,15 @@ public class DockJump : MonoBehaviour {
 		Debug.Log("Begins");
 		PointerEventData e=(PointerEventData) data;
 		swipeBegin=e.position;
-		if(isJumping==true)
+		if(isJumping && canJump)
 		{
+
 		jumping();
+
+
 		}
+
+
 	isRunning=true;
 
 	}
@@ -318,7 +336,7 @@ public class DockJump : MonoBehaviour {
 		scoreSystem[chances]=distance;
 		if(isFoulJump)
 		{
-			Score.text="Distace: FOUL JUMP";
+			Score.text="Distace: Foul";
 		}
 
 

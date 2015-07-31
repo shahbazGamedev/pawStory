@@ -33,9 +33,9 @@ public class CameraMovement : MonoBehaviour {
 		Vector3 startingPos = transform.position;
 		while (t < 1.0f) 
 		{ 
-		
+
 			t += Time.deltaTime * (Time.timeScale/transitionDuration);
-			transform.position = Vector3.Lerp(startingPos, target.position, t);
+			transform.position = Vector3.Slerp(startingPos, target.position, t);
 			yield return null;
 		}
 	}
