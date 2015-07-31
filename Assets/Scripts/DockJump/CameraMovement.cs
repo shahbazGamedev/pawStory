@@ -7,6 +7,7 @@ public class CameraMovement : MonoBehaviour {
 	public GameObject dog;
 	public Transform StartPos;
 	public Transform camera;
+	public float speed;
 
 
 
@@ -35,7 +36,7 @@ public class CameraMovement : MonoBehaviour {
 		{ 
 
 			t += Time.deltaTime * (Time.timeScale/transitionDuration);
-			transform.position = Vector3.Slerp(startingPos, target.position, t);
+			transform.position = Vector3.MoveTowards(startingPos, target.position, t*speed);
 			yield return null;
 		}
 	}
