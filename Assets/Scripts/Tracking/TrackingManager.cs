@@ -289,7 +289,7 @@ public class TrackingManager : MonoBehaviour {
 					}
 				}
 
-				if (Vector3.Distance (startPosition, touchStartPosition) < 0.3f && isFirstRun)
+				if (Vector3.Distance (startPosition, touchStartPosition) < 0.18f && isFirstRun)
 				{
 					pathEnable = false;
 					isGameOn = true;
