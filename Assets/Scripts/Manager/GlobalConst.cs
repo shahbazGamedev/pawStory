@@ -16,4 +16,9 @@ public class GlobalConst
 	public static string Scene_Obedience = "Obedience";
 	public static string Scene_ColorLesson = "ColorLesson";
 
+	public static string Scene_Skipping = "Skipping";
+	public static string Scene_Tugofwar = "tugOfWar";
+	public static string Scene_Agility = "Agility";
+	public static string Scene_Bubble = "Bubble";
+
 }
