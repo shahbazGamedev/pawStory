@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class CameraMovement : MonoBehaviour {
-	public float transitionDuration =3f;
+	public float transitionDuration =2f;
 	public Transform target;
 	public GameObject dog;
 	public Transform StartPos;
