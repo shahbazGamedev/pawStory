@@ -6,12 +6,15 @@ Description   : Dog circuit movement - Elliptical Path
 using UnityEngine;
 using System.Collections;
 
-public class CircuitManager : MonoBehaviour 
+public class EllipseMovement : MonoBehaviour 
 {
+	#region Variables
+
 	[Tooltip("Ellipse MajorAxis - position.x")] 
 	public Transform a;
 	[Tooltip("Ellipse MinorAxis - position.y")]
 	public Transform b;
+	public bool updatePos;
 	public float alpha;
 	public float centerX;
 	public float centerY;
@@ -24,6 +27,7 @@ public class CircuitManager : MonoBehaviour
 	Vector3 target;
 	Vector3 currentPosition;
 	DogManager dgManager;
+	Animator dogAnim;
 
 	float x;
 	float y;
@@ -32,16 +36,33 @@ public class CircuitManager : MonoBehaviour
 	float yForward;
 	float forwardAlpha;
 
+	#endregion
+
 	// Use this for initialization
 	void Start () 
 	{
 		target=gameObject.transform.position;
-		dgManager=GetComponent<DogManager>();
-		dgManager.isCircuitRun=true; // Added tp override dog idle animation
+		dgManager = GetComponent<DogManager> ();
+		dogAnim = GetComponent<Animator> ();
+//		dgManager.isCircuitRun=true; // Added tp override dog idle animation
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate ()
+	{
+		if (updatePos) 
+		{
+			dogAnim.SetFloat ("Speed", 1);
+			DogTrackMove ();
+		}
+		else
+		{
+			dogAnim.SetFloat ("Speed", 0);
+		}
+	}
+
+	// Update dog position in a elliptical path
+	void DogTrackMove()
 	{
 		// Update ellipse angle
 		alpha += Time.deltaTime * alphaFactor;
@@ -69,7 +90,6 @@ public class CircuitManager : MonoBehaviour
 		// Dog Movement
 		GetComponent<Rigidbody>().MovePosition (Vector3.MoveTowards (transform.position, target, moveSpeed * Time.deltaTime));
 		transform.LookAt(forwardDirection);
-
+		//Debug.Log (transform.rotation.eulerAngles);
 	}
-
 }
