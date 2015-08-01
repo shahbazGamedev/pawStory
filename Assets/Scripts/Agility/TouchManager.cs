@@ -23,7 +23,7 @@ public class TouchManager : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-
+		pattern = SwipeRecognizer.TouchPattern.reset;
 	}
 
 	// Update is called once per frame
@@ -34,7 +34,7 @@ public class TouchManager : MonoBehaviour
 			if (patternRecognized != null)
 				patternRecognized (pattern);
 			gestureCache = pattern;
-			Debug.Log (gestureCache);
+			//Debug.Log (gestureCache);
 			pattern = SwipeRecognizer.TouchPattern.reset;
 		}
 	}
