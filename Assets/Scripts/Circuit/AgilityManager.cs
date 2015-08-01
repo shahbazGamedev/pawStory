@@ -1,6 +1,12 @@
-﻿using UnityEngine;
+﻿/**
+Script Author : Vaikash 
+Description   : Agility Game Manager
+**/
+
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class AgilityManager : MonoBehaviour {
 	
@@ -28,7 +34,7 @@ public class AgilityManager : MonoBehaviour {
 	bool spawnObstacle;
 	bool spawnCollectible;
 
-	// Emulates hashtable in editor
+	// Emulates hashtable in editor - PowerUp
 	[System.Serializable]
 	public struct PowerUpCollection {
 		public PowerUp key;
@@ -115,5 +121,6 @@ public class AgilityManager : MonoBehaviour {
 		StartCoroutine (GameStart ());
 	}
 		
+
 	#endregion
 }

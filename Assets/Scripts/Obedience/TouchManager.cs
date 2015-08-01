@@ -2,134 +2,124 @@
 Script Author : Vaikash 
 Description   : Process Touch Input
 **/
+
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public class TouchManager : MonoBehaviour
 {
-	public Text swipeText;
-	Vector2 startPoint;
-	Vector2 endPoint;
-	List<Vector2> swipeData;
-	int touchBeginID;
-	int touchEndID;
+
+	public GameObject touchMat;
+	public SwipeRecognizer.TouchDataCollection[] touchDataCollection;
+
 	SwipeRecognizer.TouchPattern pattern;
+	SwipeRecognizer.TouchPattern gestureCache;
+
+	public delegate void touchEventBroadcastSystem(SwipeRecognizer.TouchPattern touchPattern);
+	public event touchEventBroadcastSystem patternRecognized;
 
 	// Use this for initialization
 	void Start ()
 	{
-		swipeData = new List<Vector2> ();	
-		pattern = SwipeRecognizer.TouchPattern.reset;
+
 	}
 
 	// Update is called once per frame
 	void Update ()
 	{
-		
-		switch(pattern)
+		if(pattern!=SwipeRecognizer.TouchPattern.reset)
 		{
-		case SwipeRecognizer.TouchPattern.swipeUp:
-			{
-				//Debug.Log ("SwipeUp");
-				SwipeReset ();
-				break;
-			}
-		case SwipeRecognizer.TouchPattern.swipeDown:
-			{
-				//Debug.Log ("SwipeDown");
-				SwipeReset ();
-				break;
-			}
-		case SwipeRecognizer.TouchPattern.swipeLeft:
-			{
-				//Debug.Log ("SwipeLeft");
-				SwipeReset ();
-				break;
-			}
-		case SwipeRecognizer.TouchPattern.swipeRight:
-			{
-				//Debug.Log ("SwipeRight");
-				SwipeReset ();
-				break;
-			}
-		case SwipeRecognizer.TouchPattern.swipeUpLeft:
-			{
-				//Debug.Log ("Diagonal - SwipeUpLeft");
-				SwipeReset ();
-				break;
-			}
-		case SwipeRecognizer.TouchPattern.swipeDownLeft:
-			{
-				//Debug.Log ("Diagonal - SwipeDownLeft");
-				SwipeReset ();
-				break;
-			}
-		case SwipeRecognizer.TouchPattern.swipeUpRight:
-			{
-				//Debug.Log ("Diagonal - SwipeUpRight");
-				SwipeReset ();
-				break;
-			}
-		case SwipeRecognizer.TouchPattern.swipeDownRight:
-			{
-				//Debug.Log ("Diagonal - SwipeDownRight");
-				SwipeReset ();
-				break;
-			}
-		case SwipeRecognizer.TouchPattern.clockwiseCircle:
-			{
-				//Debug.Log ("ClockwiseCircle");
-				SwipeReset ();
-				break;
-			}
-		case SwipeRecognizer.TouchPattern.antiClockwiseCircle:
-			{
-				//Debug.Log ("AntiClockwiseCircle");
-				SwipeReset ();
-				break;
-			}
-		case SwipeRecognizer.TouchPattern.tryAgain:
-			{
-				SwipeReset ();
-				break;
-			}
+			if (patternRecognized != null)
+				patternRecognized (pattern);
+			gestureCache = pattern;
+			Debug.Log (gestureCache);
+			pattern = SwipeRecognizer.TouchPattern.reset;
 		}
-
 	}
 
+	// Reset previous touch input
+	void SwipeReset()
+	{
+		pattern = SwipeRecognizer.TouchPattern.reset;
+	}
+
+
+	// Reset particular swipe data
+	void dataReset(int pointerID)
+	{
+		touchDataCollection [pointerID].swipeData.Clear ();
+	}
+
+	#region EventTriggers
+
+	// Event trigger - BeginDrag
 	public void OnBeginDrag (BaseEventData data)
 	{
-		//Debug.Log ("Begin");
-		PointerEventData pointData = (PointerEventData)data;
-		touchBeginID = pointData.pointerId;
-		startPoint = pointData.position;
-		swipeData.Clear ();
+		var pointData = (PointerEventData)data;
+		touchDataCollection [-pointData.pointerId].startPoint= pointData.position;
 	}
+
+	// Event trigger - EndDrag
 
 	public void OnEndDrag (BaseEventData data)
 	{
-		//Debug.Log ("End");
-		PointerEventData pointData = (PointerEventData)data;
-		touchEndID = pointData.pointerId;
-		endPoint = pointData.position;
-		if(touchBeginID==touchEndID)
-			SwipeRecognizer.RecogonizeSwipe (startPoint, endPoint, swipeData, out pattern);
+		var pointData = (PointerEventData)data;
+		touchDataCollection [-pointData.pointerId].endPoint= pointData.position;
+
+		if(pointData.pointerId==-1 && !touchDataCollection [2].isActive) 
+		{
+			SwipeRecognizer.RecogonizeSwipe (touchDataCollection [-pointData.pointerId], out pattern, false);
+		}
+		dataReset (-pointData.pointerId);
 	}
 
+	// Event trigger - Drag
 	public void OnDrag (BaseEventData data)
 	{
-		PointerEventData pointData = (PointerEventData)data;
-		swipeData.Add(pointData.position);
-		//Debug.Log (pointData.position);
+		var pointData = (PointerEventData)data;
+		touchDataCollection [-pointData.pointerId].swipeData.Add (pointData.position);
 	}
 
-	void SwipeReset()
+	// Event trigger - Pointer Click
+	public void OnClickEnd(BaseEventData data)
 	{
-		//swipeText.text = pattern.ToString ();
-		pattern = SwipeRecognizer.TouchPattern.reset;
-		swipeData.Clear ();
+		var pointData = (PointerEventData)data;
+		if (pointData.pointerId == -1 && !touchDataCollection [2].isActive) 
+		{
+			// check for tap 
+			if (touchDataCollection [-pointData.pointerId].swipeData.Count <= 1) 
+			{
+				// check for double tap
+				if (pointData.clickCount == 2) 
+				{
+					pattern = SwipeRecognizer.TouchPattern.doubleTap;
+					//Debug.Log ("dTap");
+				} 
+				else 
+				{
+					pattern = SwipeRecognizer.TouchPattern.singleTap;
+					//Debug.Log ("sTap");
+				}
+			}
+		}
 	}
+
+	// Event Trigger - Pointer Down
+	public void OnPointerDown(BaseEventData data)
+	{
+		var pointData = (PointerEventData)data;
+		touchDataCollection [-pointData.pointerId].isActive = true;
+	}
+
+	// Event Trigger - Pointer Up
+	public void OnPointerUp(BaseEventData data)
+	{
+		var pointData = (PointerEventData)data;
+		touchDataCollection [-pointData.pointerId].isActive = false;
+		touchDataCollection [-pointData.pointerId].holdTime = 0;
+	}
+
+	#endregion
 }
