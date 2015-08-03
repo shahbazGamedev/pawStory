@@ -20,8 +20,9 @@ public class EllipseMovement : MonoBehaviour
 	public float centerY;
 	public float moveSpeed;
 	public float alphaFactor;
-
+	public bool isGrounded;
 	public float forwardDist;
+
 	public Vector3 forwardDirection;
 
 	Vector3 target;
@@ -92,4 +93,18 @@ public class EllipseMovement : MonoBehaviour
 		transform.LookAt(forwardDirection);
 		//Debug.Log (transform.rotation.eulerAngles);
 	}
+		
+	#region triggerCallbacks
+
+	void OnTriggerStay()
+	{
+		isGrounded=true;
+	}
+
+	void OnTriggerExit()
+	{
+		isGrounded=false;
+	}
+
+	#endregion
 }

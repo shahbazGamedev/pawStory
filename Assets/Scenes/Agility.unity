@@ -559,6 +559,7 @@ MonoBehaviour:
   dogSpeedReduction: .600000024
   additionalTime: 20
   checkPointCount: 0
+  jumpForce: 3
 --- !u!4 &185955424
 Transform:
   m_ObjectHideFlags: 0
@@ -2173,6 +2174,7 @@ MonoBehaviour:
   centerY: -.800000012
   moveSpeed: 100
   alphaFactor: 22
+  isGrounded: 0
   forwardDist: 4
   forwardDirection: {x: 0, y: 0, z: 0}
 --- !u!65 &1468324182
@@ -2400,8 +2402,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: OnRestartGame
+      - m_Target: {fileID: 185955423}
+        m_MethodName: restartGameBtn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

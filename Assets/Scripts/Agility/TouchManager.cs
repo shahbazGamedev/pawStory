@@ -17,8 +17,8 @@ public class TouchManager : MonoBehaviour
 	SwipeRecognizer.TouchPattern pattern;
 	SwipeRecognizer.TouchPattern gestureCache;
 
-	public delegate void touchEventBroadcastSystem(SwipeRecognizer.TouchPattern touchPattern);
-	public event touchEventBroadcastSystem patternRecognized;
+	public delegate void TouchEventBroadcastSystem(SwipeRecognizer.TouchPattern touchPattern);
+	public event TouchEventBroadcastSystem PatternRecognized;
 
 	// Use this for initialization
 	void Start ()
@@ -31,8 +31,8 @@ public class TouchManager : MonoBehaviour
 	{
 		if(pattern!=SwipeRecognizer.TouchPattern.reset)
 		{
-			if (patternRecognized != null)
-				patternRecognized (pattern);
+			if (PatternRecognized != null)
+				PatternRecognized (pattern);
 			gestureCache = pattern;
 			//Debug.Log (gestureCache);
 			pattern = SwipeRecognizer.TouchPattern.reset;
