@@ -1,48 +1,47 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &107872
+--- !u!1 &116666
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 466216}
-  - 33: {fileID: 3312212}
-  - 135: {fileID: 13528048}
-  - 23: {fileID: 2359276}
-  - 114: {fileID: 11405718}
-  - 54: {fileID: 5486782}
+  - 4: {fileID: 482330}
+  - 33: {fileID: 3364900}
+  - 135: {fileID: 13554014}
+  - 23: {fileID: 2361474}
+  - 114: {fileID: 11434832}
   m_Layer: 0
-  m_Name: ballon3
+  m_Name: ballon2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &466216
+--- !u!4 &482330
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 107872}
+  m_GameObject: {fileID: 116666}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: .790000021, z: 0}
+  m_LocalPosition: {x: -.796000004, y: .790000021, z: 0}
   m_LocalScale: {x: .627982855, y: .627982855, z: .627982855}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!23 &2359276
+--- !u!23 &2361474
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 107872}
+  m_GameObject: {fileID: 116666}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: 9b17fce92836a854f91a4c327bc0c204, type: 2}
+  - {fileID: 2100000, guid: 80a9bbb1455ec244e819201b4888b5d7, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -56,51 +55,38 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!33 &3312212
+--- !u!33 &3364900
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 107872}
+  m_GameObject: {fileID: 116666}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!54 &5486782
-Rigidbody:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 107872}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: .0500000007
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &11405718
+--- !u!114 &11434832
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 107872}
+  m_GameObject: {fileID: 116666}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a6dbf5a3f7f90d84382302cb3d07c880, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floor: {fileID: 0}
+  floor: {fileID: 129348, guid: 2613466712fcd3b498349827cf67ae2d, type: 2}
   maxDistance: 0
   distance: 0
   food: {fileID: 133482, guid: ae1b3cbc41b2cc84aac7af46acd20b7e, type: 2}
-  target: {fileID: 0}
+  target: {fileID: 479826, guid: 668b3c030a25d274983d577cf1b57b05, type: 2}
+  startingPos: {fileID: 477226, guid: 8179d2c07e5f251498afd57fef43655f, type: 2}
   speed: 10
---- !u!135 &13528048
+  smooth: 10
+--- !u!135 &13554014
 SphereCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 107872}
+  m_GameObject: {fileID: 116666}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
@@ -115,18 +101,6 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_IsKinematic
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_Constraints
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
       propertyPath: food
       value: 
       objectReference: {fileID: 133482, guid: ae1b3cbc41b2cc84aac7af46acd20b7e, type: 2}
@@ -134,7 +108,23 @@ Prefab:
       propertyPath: speed
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: startingPos
+      value: 
+      objectReference: {fileID: 477226, guid: 8179d2c07e5f251498afd57fef43655f, type: 2}
+    - target: {fileID: 0}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 479826, guid: 668b3c030a25d274983d577cf1b57b05, type: 2}
+    - target: {fileID: 0}
+      propertyPath: smooth
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: floor
+      value: 
+      objectReference: {fileID: 129348, guid: 2613466712fcd3b498349827cf67ae2d, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 107872}
+  m_RootGameObject: {fileID: 116666}
   m_IsPrefabParent: 1

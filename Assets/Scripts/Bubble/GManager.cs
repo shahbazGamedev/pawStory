@@ -17,6 +17,8 @@ public class GManager : MonoBehaviour {
 	Transform baloonParent;
 	GlobalValues gValues;
 	int a;
+	public bool isMoving;
+	public GameObject dog;
 
 
 //	public int playerScore;
@@ -25,6 +27,7 @@ public class GManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
+		isMoving=false;
 		gValues = GlobalValues.instanceRef;
 		Reset ();
 		baloonParent = GameObject.Find ("BaloonHolder").transform;
@@ -76,6 +79,7 @@ public class GManager : MonoBehaviour {
 			SpawnPoint point = spawnCollection[Random.Range (0, spawnCollection.Length)];
 			GameObject randomBaloonPrefab=baloonCollection[Random.Range(0,3)];
 			GameObject thisInstance=(GameObject)Instantiate(randomBaloonPrefab, point.transform.position, Quaternion.identity);
+			isMoving=true;
 			thisInstance.transform.parent =baloonParent;
 			thisInstance.name="Baloon"+a;
 			gValues.baloonsAtScene+=1;

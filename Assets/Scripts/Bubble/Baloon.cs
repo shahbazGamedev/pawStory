@@ -7,22 +7,31 @@ public class Baloon : MonoBehaviour {
 	public float distance;
 	public GameObject food;
 	public Transform target;
-
+	public Transform startingPos;
 	public float speed;
+	public float smooth;
+
 
 	GlobalValues gValues;
 
 	// Use this for initialization
 	void Start () {
-		maxDistance = 20;
+		smooth=10f;
+		maxDistance = 10;
 		floor = GameObject.FindGameObjectWithTag("floor");
 		gValues = GlobalValues.instanceRef;
+
 	
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		distance = Vector3.Distance (this.gameObject.transform.position, floor.transform.position);
+
+
+			MoveMent();
+
+
+	distance = Vector3.Distance (this.gameObject.transform.position, floor.transform.position);
 		if(distance>maxDistance)
 		{
 			gValues.baloonsAtScene -= 1;
@@ -31,7 +40,7 @@ public class Baloon : MonoBehaviour {
 	}
 	void OnMouseDown()
 	{
-		Instantiate(food,new Vector3(0,10,0),Quaternion.identity);
+		Instantiate(food,transform.position,Quaternion.identity);
 		//float step = speed * Time.deltaTime;
 		//transform.position = Vector3.MoveTowards(transform.position, target.position, step);
 	}
@@ -43,4 +52,15 @@ public class Baloon : MonoBehaviour {
 //		Destroy (this.gameObject);
 //
 //	}
+	void MoveMent()
+	{
+		float t = 0.0f;
+		t+=Time.deltaTime;
+		Vector3 startingPos = transform.position;
+		transform.position = Vector3.MoveTowards(startingPos, target.position,t*smooth);
+
+	}
+
+
+
 }
