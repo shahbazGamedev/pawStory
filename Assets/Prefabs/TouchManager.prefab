@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &117646
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 421718}
+  - 114: {fileID: 11493010}
+  m_Layer: 0
+  m_Name: TouchManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &421718
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 117646}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11493010
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 117646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be6b76674edf4a24d9c5c5bbd0600cfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  touchMat: {fileID: 188282, guid: b277afcde5431224e9c824abf4b57288, type: 2}
+  touchDataCollection:
+  - name: Touch 0
+    touchID: 0
+    isActive: 0
+    holdTime: 0
+    startPoint: {x: 0, y: 0}
+    endPoint: {x: 0, y: 0}
+    swipeData: []
+  - name: Touch 1
+    touchID: -1
+    isActive: 0
+    holdTime: 0
+    startPoint: {x: 0, y: 0}
+    endPoint: {x: 0, y: 0}
+    swipeData: []
+  - name: Touch 2
+    touchID: -2
+    isActive: 0
+    holdTime: 0
+    startPoint: {x: 0, y: 0}
+    endPoint: {x: 0, y: 0}
+    swipeData: []
+  - name: Touch 3
+    touchID: -3
+    isActive: 0
+    holdTime: 0
+    startPoint: {x: 0, y: 0}
+    endPoint: {x: 0, y: 0}
+    swipeData: []
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: touchMat
+      value: 
+      objectReference: {fileID: 188282, guid: b277afcde5431224e9c824abf4b57288, type: 2}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 117646}
+  m_IsPrefabParent: 1

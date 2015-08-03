@@ -67,8 +67,8 @@ public class EllipseMovement : MonoBehaviour
 		// Update ellipse angle
 		alpha += Time.deltaTime * alphaFactor;
 
-		if(alpha>=360)
-			alpha=0;
+//		if(alpha>=360)
+//			alpha=0;
 
 		// Calculate current position on ellipse based on angle(radians)
 		x = centerX + a.transform.position.x * Mathf.Cos (alpha * 0.0174f);
@@ -77,8 +77,8 @@ public class EllipseMovement : MonoBehaviour
 		// Calculate LookAt Position
 		forwardAlpha=alpha+forwardDist;
 
-		if(forwardAlpha>=360)
-			forwardAlpha-=360;
+//		if(forwardAlpha>=360)
+//			forwardAlpha-=360;
 
 		xForward = centerX + a.transform.position.x * Mathf.Cos (forwardAlpha * 0.0174f);
 		yForward = centerY + b.transform.position.z * Mathf.Sin (forwardAlpha * 0.0174f);
