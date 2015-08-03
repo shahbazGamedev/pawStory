@@ -10,10 +10,8 @@ public class EllipseMovement : MonoBehaviour
 {
 	#region Variables
 
-	[Tooltip("Ellipse MajorAxis - position.x")] 
-	public Transform a;
-	[Tooltip("Ellipse MinorAxis - position.y")]
-	public Transform b;
+	public CircuitLaneData[] circuitLaneData;
+
 	public bool updatePos;
 	public float alpha;
 	public float centerX;
@@ -22,20 +20,37 @@ public class EllipseMovement : MonoBehaviour
 	public float alphaFactor;
 	public bool isGrounded;
 	public float forwardDist;
-
 	public Vector3 forwardDirection;
+	public float laneChangeSpeed;
 
 	Vector3 target;
 	Vector3 currentPosition;
-	DogManager dgManager;
+
+	Vector3 majorAxis;
+	Vector3 minorAxis;
+
 	Animator dogAnim;
 
 	float x;
 	float y;
-
 	float xForward;
 	float yForward;
 	float forwardAlpha;
+	int currentLane; // starts from 0
+
+	[System.Serializable]
+	public struct CircuitLaneData {
+		public string name;
+		public int LaneID;
+		[Tooltip("Ellipse MajorAxis - position.x")] 
+		public Transform majorAxis;
+		[Tooltip("Ellipse MinorAxis - position.y")]
+		public Transform minorAxis;
+	}
+
+	// Event to broadcast lane change complete to listeners
+	public delegate void DogLaneChange();
+	public event DogLaneChange LaneChangeComplete;
 
 	#endregion
 
@@ -43,9 +58,8 @@ public class EllipseMovement : MonoBehaviour
 	void Start () 
 	{
 		target=gameObject.transform.position;
-		dgManager = GetComponent<DogManager> ();
 		dogAnim = GetComponent<Animator> ();
-//		dgManager.isCircuitRun=true; // Added tp override dog idle animation
+		ResetLane ();
 	}
 	
 	// Update is called once per frame
@@ -68,21 +82,15 @@ public class EllipseMovement : MonoBehaviour
 		// Update ellipse angle
 		alpha += Time.deltaTime * alphaFactor;
 
-//		if(alpha>=360)
-//			alpha=0;
-
 		// Calculate current position on ellipse based on angle(radians)
-		x = centerX + a.transform.position.x * Mathf.Cos (alpha * 0.0174f);
-		y = centerY + b.transform.position.z * Mathf.Sin (alpha * 0.0174f);
+		x = centerX + majorAxis.x * Mathf.Cos (alpha * 0.0174f);
+		y = centerY + minorAxis.z * Mathf.Sin (alpha * 0.0174f);
 
 		// Calculate LookAt Position
 		forwardAlpha=alpha+forwardDist;
 
-//		if(forwardAlpha>=360)
-//			forwardAlpha-=360;
-
-		xForward = centerX + a.transform.position.x * Mathf.Cos (forwardAlpha * 0.0174f);
-		yForward = centerY + b.transform.position.z * Mathf.Sin (forwardAlpha * 0.0174f);
+		xForward = centerX + majorAxis.x * Mathf.Cos (forwardAlpha * 0.0174f);
+		yForward = centerY + minorAxis.z * Mathf.Sin (forwardAlpha * 0.0174f);
 
 		currentPosition=transform.position;
 		target=new Vector3(x, currentPosition.y, y);
@@ -91,8 +99,47 @@ public class EllipseMovement : MonoBehaviour
 		// Dog Movement
 		GetComponent<Rigidbody>().MovePosition (Vector3.MoveTowards (transform.position, target, moveSpeed * Time.deltaTime));
 		transform.LookAt(forwardDirection);
-		//Debug.Log (transform.rotation.eulerAngles);
 	}
+
+	// Reset lane at start of game
+	public void ResetLane()
+	{
+		currentLane = 1;
+		majorAxis = circuitLaneData [currentLane].majorAxis.transform.position;
+		minorAxis = circuitLaneData [currentLane].minorAxis.transform.position;
+	}
+
+	#region Coroutines
+
+	// Change lane dog in moving
+	public IEnumerator ChangeLane(int targetLane)
+	{
+		Debug.Log (targetLane);
+		if(targetLane < 0 || targetLane >= circuitLaneData.Length)
+		{
+			// Do nothing
+		}
+		else
+		{
+			while(majorAxis!=circuitLaneData [targetLane].majorAxis.transform.position 
+				|| minorAxis!=circuitLaneData [targetLane].minorAxis.transform.position )
+			{
+				yield return new WaitForFixedUpdate ();
+				// code for changing lane
+				/*majorAxis = circuitLaneData [targetLane].majorAxis.transform.position;
+				minorAxis = circuitLaneData [targetLane].minorAxis.transform.position;*/
+				majorAxis = Vector3.MoveTowards (majorAxis, circuitLaneData [targetLane].majorAxis.transform.position, laneChangeSpeed * Time.deltaTime);
+				minorAxis = Vector3.MoveTowards (minorAxis, circuitLaneData [targetLane].minorAxis.transform.position, laneChangeSpeed * Time.deltaTime);
+			}
+		}
+
+		if (LaneChangeComplete != null)
+			LaneChangeComplete ();
+		
+		yield return null;
+	}
+
+	#endregion
 		
 	#region triggerCallbacks
 
