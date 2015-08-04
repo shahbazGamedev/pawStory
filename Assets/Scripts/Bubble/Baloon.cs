@@ -10,13 +10,15 @@ public class Baloon : MonoBehaviour {
 	public Transform startingPos;
 	public float speed;
 	public float smooth;
+	public Transform foodHolder;
+	public int ID;
 
 
 	GlobalValues gValues;
 
 	// Use this for initialization
 	void Start () {
-		smooth=10f;
+
 		maxDistance = 10;
 		floor = GameObject.FindGameObjectWithTag("floor");
 		gValues = GlobalValues.instanceRef;
@@ -40,7 +42,9 @@ public class Baloon : MonoBehaviour {
 	}
 	void OnMouseDown()
 	{
+		if(ID==3)
 		Instantiate(food,transform.position,Quaternion.identity);
+
 		//float step = speed * Time.deltaTime;
 		//transform.position = Vector3.MoveTowards(transform.position, target.position, step);
 	}
@@ -60,6 +64,8 @@ public class Baloon : MonoBehaviour {
 		transform.position = Vector3.MoveTowards(startingPos, target.position,t*smooth);
 
 	}
+
+
 
 
 

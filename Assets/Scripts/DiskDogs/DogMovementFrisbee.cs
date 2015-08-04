@@ -214,7 +214,6 @@ public void jumpingRight(Vector3 force)
 
 	public void Movement()
 	{
-
 //		spawnValue=Random.Range(0,3);
 //		targetMove=spawnPoint[spawnValue];
 		distance=Vector3.Distance(targetMove.position,transform.position);

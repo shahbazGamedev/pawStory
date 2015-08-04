@@ -10,15 +10,19 @@ public class GManager : MonoBehaviour {
 	SpawnPoint[] spawnCollection;
 	public float levelTime;
 	bool gameStart;
-	bool gameOver;
+	public bool gameOver;
 	public float maxBaloons;
 	 public GameObject[] baloonCollection;
 	public float baloonWaitTime;
 	Transform baloonParent;
 	GlobalValues gValues;
-	int a;
-	public bool isMoving;
+	int ballonIndex;
+	public GameObject gameOverPanel;
 	public GameObject dog;
+	public bool isCollect;
+	public Text highScore;
+	public GameObject floor;
+
 
 
 //	public int playerScore;
@@ -27,7 +31,7 @@ public class GManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-		isMoving=false;
+		gameOver=false;
 		gValues = GlobalValues.instanceRef;
 		Reset ();
 		baloonParent = GameObject.Find ("BaloonHolder").transform;
@@ -39,6 +43,15 @@ public class GManager : MonoBehaviour {
 
 	void Update()
 	{
+		if(gameOver)
+		{
+			GameOver();
+		}
+//		if(isCollect)
+//		{
+//			dog.GetComponent<DogMovementBubble>().Movement();
+//			isCollect=false;
+//		}
 
 	}
 	
@@ -50,42 +63,54 @@ public class GManager : MonoBehaviour {
 			Spawner ();
 			GuiUpdate ();
 		}
+
 	
 	}
 
 	void TimerKeeper()
 	{
-		if (gameStart) {
+		if (gameStart) 
+		{
 			levelTime -= Time.deltaTime;
+
+		}
+		if(levelTime<=0f)
+		{
+			Debug.Log ("gameover");
+			gameOver=true;
 		}
 
+
+	
 
 	}
 
 	public void Reset()
 	{
 		gValues.Reset();
-		levelTime = 20;
+		levelTime = 30;
 		maxBaloons = 3;
 		gameStart = true;
 		gameOver = false;
-		a = 0;
+		ballonIndex = 0;
+		dog.SetActive(true);
+		gameOverPanel.SetActive(false);
 
 	}
 
 	void Spawner()
 	{
-		if (gValues.baloonsAtScene < maxBaloons && baloonWaitTime<=0) {
+		if (gValues.baloonsAtScene < maxBaloons && baloonWaitTime<=0) 
+		{
 			SpawnPoint point = spawnCollection[Random.Range (0, spawnCollection.Length)];
 			GameObject randomBaloonPrefab=baloonCollection[Random.Range(0,3)];
 			GameObject thisInstance=(GameObject)Instantiate(randomBaloonPrefab, point.transform.position, Quaternion.identity);
-			isMoving=true;
-			thisInstance.transform.parent =baloonParent;
-			thisInstance.name="Baloon"+a;
+		    thisInstance.transform.parent =baloonParent;
+		    thisInstance.name="Baloon"+ballonIndex;
 			gValues.baloonsAtScene+=1;
 			if(thisInstance!=null)
 			{
-				a+=1;
+				ballonIndex+=1;
 				baloonWaitTime=2f;
 			}
 		}
@@ -101,11 +126,27 @@ public class GManager : MonoBehaviour {
 
 	void GuiUpdate()
 	{
-
+		timer.text="Time: "+(int)levelTime;
+		score.text="Score: "+dog.GetComponent<DogMovementBubble>().score;
 	}
 
 	public void FindSpawnPts()
 	{
 		spawnCollection = FindObjectsOfType (typeof(SpawnPoint))as SpawnPoint[];
 	}
-}
+	void GameOver()
+	{
+		highScore.text="Score: "+dog.GetComponent<DogMovementBubble>().score;
+		dog.SetActive(false);
+		gameOverPanel.SetActive(true);
+	}
+
+
+	public void MainMenu()
+	{
+		Application.LoadLevel("MainMenu");
+	}
+
+
+	}
+
