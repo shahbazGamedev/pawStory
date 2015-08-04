@@ -5,23 +5,24 @@ using UnityEngine.UI;
 public class GManager : MonoBehaviour {
 	//public static GManager instanceRef;
 
-	public Text timer;
-	public Text score;
-	SpawnPoint[] spawnCollection;
+
 	public float levelTime;
-	bool gameStart;
-	public bool gameOver;
 	public float maxBaloons;
-	 public GameObject[] baloonCollection;
 	public float baloonWaitTime;
-	Transform baloonParent;
-	GlobalValues gValues;
-	int ballonIndex;
+	public GameObject[] baloonCollection;
 	public GameObject gameOverPanel;
 	public GameObject dog;
 	public bool isCollect;
+	public Text timer;
+	public Text score;
 	public Text highScore;
-	public GameObject floor;
+	Transform baloonParent;
+	GlobalValues gValues;
+	int ballonIndex;
+	SpawnPoint[] spawnCollection;
+	bool gameStart;
+	bool gameOver;
+
 
 
 
@@ -37,9 +38,8 @@ public class GManager : MonoBehaviour {
 		baloonParent = GameObject.Find ("BaloonHolder").transform;
 		//Random.seed=(int)System.DateTime.Now.Ticks;
 		FindSpawnPts ();
-
-
 	}
+
 
 	void Update()
 	{
@@ -52,8 +52,7 @@ public class GManager : MonoBehaviour {
 //			dog.GetComponent<DogMovementBubble>().Movement();
 //			isCollect=false;
 //		}
-
-	}
+		}
 	
 	// Update is called once per frame
 	void FixedUpdate () 
@@ -63,9 +62,7 @@ public class GManager : MonoBehaviour {
 			Spawner ();
 			GuiUpdate ();
 		}
-
-	
-	}
+		}
 
 	void TimerKeeper()
 	{
@@ -79,11 +76,8 @@ public class GManager : MonoBehaviour {
 			Debug.Log ("gameover");
 			gameOver=true;
 		}
+		}
 
-
-	
-
-	}
 
 	public void Reset()
 	{
@@ -95,8 +89,8 @@ public class GManager : MonoBehaviour {
 		ballonIndex = 0;
 		dog.SetActive(true);
 		gameOverPanel.SetActive(false);
+		}
 
-	}
 
 	void Spawner()
 	{
@@ -117,12 +111,12 @@ public class GManager : MonoBehaviour {
 		baloonWaitTime -= Time.deltaTime;
 	}
 
-
-
+	
 	void Awake() {
 		//DontDestroyOnLoad(transform.gameObject);
 		//instanceRef = this;
 	}
+
 
 	void GuiUpdate()
 	{
@@ -130,10 +124,13 @@ public class GManager : MonoBehaviour {
 		score.text="Score: "+dog.GetComponent<DogMovementBubble>().score;
 	}
 
+
 	public void FindSpawnPts()
 	{
 		spawnCollection = FindObjectsOfType (typeof(SpawnPoint))as SpawnPoint[];
 	}
+
+
 	void GameOver()
 	{
 		highScore.text="Score: "+dog.GetComponent<DogMovementBubble>().score;
@@ -148,5 +145,9 @@ public class GManager : MonoBehaviour {
 	}
 
 
+	public void Restart()
+	{
+		Application.LoadLevel("bubbleTap");
+	}
 	}
 

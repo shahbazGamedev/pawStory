@@ -46,10 +46,10 @@ public class DogMovementBubble : MonoBehaviour {
 	public void ScoreSystem()
 	{
 
-
-			Debug.Log ("collided");
-			score+=1;
-			dogAnim.SetFloat("Walk",0f);
+		Debug.Log ("collided");
+		score+=1;
+		dogAnim.SetFloat("Walk",0f);
+		transform.position=startingPos;
 		}
 	}
 
