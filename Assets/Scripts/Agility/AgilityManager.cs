@@ -20,7 +20,7 @@ public class AgilityManager : MonoBehaviour {
 	public GameObject startBtn;
 	public Text timerText;
 
-	public float totalTimeAvailable;
+	//public float totalTimeAvailable;
 	public float totalCheckpoints;
 	public float dogSpeedReduction;
 	public float additionalTime;
@@ -33,8 +33,8 @@ public class AgilityManager : MonoBehaviour {
 	Vector3 startPos;
 	Quaternion startRot;
 
+	public float currentCheckpointTimer; // In secs
 	float currentTimer; // In secs
-	float currentCheckpointTimer; // In secs
 	int currentLane;
 
 	bool startGame;
@@ -44,6 +44,7 @@ public class AgilityManager : MonoBehaviour {
 
 	Animator dogAnim;
 	EllipseMovement dogCircuitManager;
+	CameraFollow camRef;
 
 	// Emulates hashtable in editor - PowerUp
 	[System.Serializable]
@@ -69,6 +70,7 @@ public class AgilityManager : MonoBehaviour {
 		spawnPts = FindObjectsOfType<SpawnPoint> ();
 		dogRef = GameObject.FindGameObjectWithTag ("Player");
 		touchManagerRef = FindObjectOfType <TouchManager> ();
+		camRef = FindObjectOfType <CameraFollow> ();
 		dogAnim = dogRef.GetComponent<Animator>();
 		dogCircuitManager = dogRef.GetComponent <EllipseMovement> ();
 
@@ -79,14 +81,16 @@ public class AgilityManager : MonoBehaviour {
 
 
 		touchManagerRef.PatternRecognized += SwipeEventHandler; //  Add Listener to touch manager
-		dogCircuitManager.LaneChangeComplete += LaneChangeHandler;
+		EllipseMovement.LaneChangeComplete += LaneChangeHandler;
+		EllipseMovement.LapTriggered += LapComplete;
 	}
 
 	// Decouple listener from event
 	void OnDisable()
 	{
 		touchManagerRef.PatternRecognized -= SwipeEventHandler;
-		dogCircuitManager.LaneChangeComplete -= LaneChangeHandler;
+		EllipseMovement.LaneChangeComplete -= LaneChangeHandler;
+		EllipseMovement.LapTriggered -= LapComplete;
 	}
 
 	// Update is called once per frame
@@ -114,7 +118,7 @@ public class AgilityManager : MonoBehaviour {
 	// Update checkpoint and timer
 	void ReachedCheckPoint()
 	{
-		checkPointCount += 1;
+		checkPointCount += 0.5f;
 		currentCheckpointTimer += additionalTime;
 	}
 
@@ -161,6 +165,12 @@ public class AgilityManager : MonoBehaviour {
 		}
 	}
 
+	// Called when lap completes
+	void LapComplete()
+	{
+		ReachedCheckPoint ();
+	}
+
 	#region Coroutines
 
 	// Activates End Game Display
@@ -190,7 +200,7 @@ public class AgilityManager : MonoBehaviour {
 	// Start Btn callback
 	public void startGameBtn()
 	{
-		ReachedCheckPoint ();
+		//ReachedCheckPoint ();
 		startGame = true;
 		StartCoroutine (GameStart ());
 	}
@@ -206,6 +216,7 @@ public class AgilityManager : MonoBehaviour {
 		startBtn.SetActive (true);
 		dogCircuitManager.alpha=0f;
 		dogCircuitManager.ResetLane ();
+		camRef.ResetPosition ();
 	}
 
 	#endregion

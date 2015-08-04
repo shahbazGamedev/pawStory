@@ -51,8 +51,9 @@ public class EllipseMovement : MonoBehaviour
 
 	// Event to broadcast lane change complete to listeners
 	public delegate void DogMovement();
-	public event DogMovement LaneChangeComplete;
-	public event DogMovement DogJustMoved;
+	public static event DogMovement LaneChangeComplete;
+	public static event DogMovement DogJustMoved;
+	public static event DogMovement LapTriggered;
 
 	#endregion
 
@@ -113,6 +114,13 @@ public class EllipseMovement : MonoBehaviour
 		currentLane = 1;
 		majorAxis = circuitLaneData [currentLane].majorAxis.transform.position;
 		minorAxis = circuitLaneData [currentLane].minorAxis.transform.position;
+	}
+
+	// Fire event from outside
+	public void FireLapTriggeredEvent()
+	{
+		if(LapTriggered!=null)
+			LapTriggered ();
 	}
 
 	#region Coroutines

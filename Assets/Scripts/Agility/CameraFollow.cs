@@ -5,6 +5,8 @@ public class CameraFollow : MonoBehaviour {
 
 	public GameObject dogRef;
 
+	Vector3 startPos;
+	Quaternion startRot;
 	Vector3 majorAxis;
 	Vector3 minorAxis;
 	Vector3 target;
@@ -16,7 +18,6 @@ public class CameraFollow : MonoBehaviour {
 	float yForward;
 	float forwardAlpha;
 
-	public float height;
 	public float alpha;
 	public float centerX;
 	public float centerY;
@@ -28,9 +29,11 @@ public class CameraFollow : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		dogRef = GameObject.FindGameObjectWithTag ("Player");
-		dogRef.GetComponent <EllipseMovement> ().DogJustMoved += FollowDogMovement;
+		EllipseMovement.DogJustMoved += FollowDogMovement;
 		majorAxis = dogRef.GetComponent <EllipseMovement> ().circuitLaneData [1].majorAxis.transform.position;
 		minorAxis = dogRef.GetComponent <EllipseMovement> ().circuitLaneData [1].minorAxis.transform.position;
+		startPos = transform.position;
+		startRot = transform.rotation;
 	}
 	
 	// Update is called once per frame
@@ -41,8 +44,8 @@ public class CameraFollow : MonoBehaviour {
 	// Decouple event listener
 	void OnDisable()
 	{
-		if(dogRef!=null)
-			dogRef.GetComponent <EllipseMovement> ().DogJustMoved -= FollowDogMovement;
+//		if(dogRef!=null)
+			EllipseMovement.DogJustMoved -= FollowDogMovement;
 	}
 
 	// Camera update
@@ -73,8 +76,16 @@ public class CameraFollow : MonoBehaviour {
 	void LateUpdate()
 	{
 		Camera.main.transform.position = Vector3.Scale (transform.position, new Vector3(1f,0f,1f)) + transform.rotation * new Vector3 (0f, 8f, -8f);
-		var rotation = Quaternion.LookRotation(transform.position-Camera.main.transform.position);
+		var rotation = Quaternion.LookRotation(transform.position-Camera.main.transform.position, Vector3.up);
 		rotation = Quaternion.Euler (21.5f, rotation.eulerAngles.y, 0f);
 		Camera.main.transform.rotation = rotation;
+	}
+
+	//Reset postion
+	public void ResetPosition()
+	{
+		transform.position = startPos;
+		transform.rotation = startRot;
+		alpha = 0;
 	}
 }
