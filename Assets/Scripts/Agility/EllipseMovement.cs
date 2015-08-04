@@ -22,6 +22,7 @@ public class EllipseMovement : MonoBehaviour
 	public float forwardDist;
 	public Vector3 forwardDirection;
 	public float laneChangeSpeed;
+	public float damping;
 
 	Vector3 target;
 	Vector3 currentPosition;
@@ -49,8 +50,9 @@ public class EllipseMovement : MonoBehaviour
 	}
 
 	// Event to broadcast lane change complete to listeners
-	public delegate void DogLaneChange();
-	public event DogLaneChange LaneChangeComplete;
+	public delegate void DogMovement();
+	public event DogMovement LaneChangeComplete;
+	public event DogMovement DogJustMoved;
 
 	#endregion
 
@@ -74,6 +76,7 @@ public class EllipseMovement : MonoBehaviour
 		{
 			dogAnim.SetFloat ("Speed", 0);
 		}
+			
 	}
 
 	// Update dog position in a elliptical path
@@ -99,6 +102,9 @@ public class EllipseMovement : MonoBehaviour
 		// Dog Movement
 		GetComponent<Rigidbody>().MovePosition (Vector3.MoveTowards (transform.position, target, moveSpeed * Time.deltaTime));
 		transform.LookAt(forwardDirection);
+
+		if (DogJustMoved != null)
+			DogJustMoved ();
 	}
 
 	// Reset lane at start of game
@@ -126,8 +132,6 @@ public class EllipseMovement : MonoBehaviour
 			{
 				yield return new WaitForFixedUpdate ();
 				// code for changing lane
-				/*majorAxis = circuitLaneData [targetLane].majorAxis.transform.position;
-				minorAxis = circuitLaneData [targetLane].minorAxis.transform.position;*/
 				majorAxis = Vector3.MoveTowards (majorAxis, circuitLaneData [targetLane].majorAxis.transform.position, laneChangeSpeed * Time.deltaTime);
 				minorAxis = Vector3.MoveTowards (minorAxis, circuitLaneData [targetLane].minorAxis.transform.position, laneChangeSpeed * Time.deltaTime);
 			}

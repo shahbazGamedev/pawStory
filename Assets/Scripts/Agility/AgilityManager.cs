@@ -123,18 +123,21 @@ public class AgilityManager : MonoBehaviour {
 	{
 		if (startGame) 
 		{
-			Debug.Log (pattern);
 			if (pattern == SwipeRecognizer.TouchPattern.swipeUp) 
 			{
 				Jump ();
 			}
-			else if(pattern==SwipeRecognizer.TouchPattern.swipeLeft)
+			else if(pattern == SwipeRecognizer.TouchPattern.swipeLeft || pattern == SwipeRecognizer.TouchPattern.swipeUpLeft || pattern == SwipeRecognizer.TouchPattern.swipeDownLeft)
 			{
 				StartCoroutine (dogCircuitManager.ChangeLane (currentLane-=1));
 			}
-			else if(pattern==SwipeRecognizer.TouchPattern.swipeRight)
+			else if(pattern == SwipeRecognizer.TouchPattern.swipeRight || pattern == SwipeRecognizer.TouchPattern.swipeUpRight || pattern == SwipeRecognizer.TouchPattern.swipeDownRight)
 			{
 				StartCoroutine (dogCircuitManager.ChangeLane (currentLane+=1));
+			}
+			else
+			{
+				Debug.Log (pattern);
 			}
 		}
 	}
