@@ -10,7 +10,7 @@ public class EllipseMovement : MonoBehaviour
 {
 	#region Variables
 
-	public CircuitLaneData[] circuitLaneData;
+	public CircuitLaneData[] circuitLaneData; // Collection of ellipse path data
 
 	public bool updatePos;
 	public float alpha;
@@ -18,7 +18,7 @@ public class EllipseMovement : MonoBehaviour
 	public float centerY;
 	public float moveSpeed;
 	public float alphaFactor;
-	public bool isGrounded;
+	public bool isGrounded; // Flag to check whether dog is mid air
 	public float forwardDist;
 	public Vector3 forwardDirection;
 	public float laneChangeSpeed;
@@ -131,7 +131,7 @@ public class EllipseMovement : MonoBehaviour
 		Debug.Log (targetLane);
 		if(targetLane < 0 || targetLane >= circuitLaneData.Length)
 		{
-			// Do nothing
+			// Do nothing when dog is at either ends
 		}
 		else
 		{
@@ -139,6 +139,7 @@ public class EllipseMovement : MonoBehaviour
 				|| minorAxis!=circuitLaneData [targetLane].minorAxis.transform.position )
 			{
 				yield return new WaitForFixedUpdate ();
+
 				// code for changing lane
 				majorAxis = Vector3.MoveTowards (majorAxis, circuitLaneData [targetLane].majorAxis.transform.position, laneChangeSpeed * Time.deltaTime);
 				minorAxis = Vector3.MoveTowards (minorAxis, circuitLaneData [targetLane].minorAxis.transform.position, laneChangeSpeed * Time.deltaTime);

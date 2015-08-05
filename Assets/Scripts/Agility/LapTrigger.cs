@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿/**
+Script Author : Vaikash 
+Description   : Lap Trigger Script
+**/
+
+using UnityEngine;
 using System.Collections;
 
 public class LapTrigger : MonoBehaviour {

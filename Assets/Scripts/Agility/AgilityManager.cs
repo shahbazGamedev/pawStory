@@ -79,13 +79,13 @@ public class AgilityManager : MonoBehaviour {
 		startPos = dogRef.transform.position;
 		startRot = dogRef.transform.rotation;
 
-
+		// Event Listeners
 		touchManagerRef.PatternRecognized += SwipeEventHandler; //  Add Listener to touch manager
 		EllipseMovement.LaneChangeComplete += LaneChangeHandler;
 		EllipseMovement.LapTriggered += LapComplete;
 	}
 
-	// Decouple listener from event
+	// Decouple listeners from events
 	void OnDisable()
 	{
 		touchManagerRef.PatternRecognized -= SwipeEventHandler;
@@ -98,9 +98,7 @@ public class AgilityManager : MonoBehaviour {
 	{
 		if (startGame) 
 		{
-			//currentTimer += Time.deltaTime;
 			currentCheckpointTimer -= Time.deltaTime;
-			//gameOver = currentTimer > totalTimeAvailable ? true : false;
 			gameOver = (int)currentCheckpointTimer <= 0 ? true : false;
 			if (currentCheckpointTimer < 10)
 				timerText.text = "Time Remaining: 0" + (int)currentCheckpointTimer + " s";
@@ -131,11 +129,11 @@ public class AgilityManager : MonoBehaviour {
 			{
 				Jump ();
 			}
-			else if(pattern == SwipeRecognizer.TouchPattern.swipeLeft || pattern == SwipeRecognizer.TouchPattern.swipeUpLeft || pattern == SwipeRecognizer.TouchPattern.swipeDownLeft)
+			else if(pattern == SwipeRecognizer.TouchPattern.swipeLeft /*|| pattern == SwipeRecognizer.TouchPattern.swipeUpLeft || pattern == SwipeRecognizer.TouchPattern.swipeDownLeft*/)
 			{
 				StartCoroutine (dogCircuitManager.ChangeLane (currentLane-=1));
 			}
-			else if(pattern == SwipeRecognizer.TouchPattern.swipeRight || pattern == SwipeRecognizer.TouchPattern.swipeUpRight || pattern == SwipeRecognizer.TouchPattern.swipeDownRight)
+			else if(pattern == SwipeRecognizer.TouchPattern.swipeRight /*|| pattern == SwipeRecognizer.TouchPattern.swipeUpRight || pattern == SwipeRecognizer.TouchPattern.swipeDownRight*/)
 			{
 				StartCoroutine (dogCircuitManager.ChangeLane (currentLane+=1));
 			}
@@ -211,7 +209,6 @@ public class AgilityManager : MonoBehaviour {
 		gameOver = false;
 		dogRef.transform.position = startPos;
 		dogRef.transform.rotation = startRot;
-		//timerText.gameObject.transform.parent.gameObject.SetActive (true);
 		gameOverPannel.SetActive (false);
 		startBtn.SetActive (true);
 		dogCircuitManager.alpha=0f;

@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿/**
+Script Author : Vaikash 
+Description   : Elliptical Path Movement adopted for camera
+**/
+
+using UnityEngine;
 using System.Collections;
 
 public class CameraFollow : MonoBehaviour {
@@ -68,20 +73,21 @@ public class CameraFollow : MonoBehaviour {
 		target=new Vector3(x, currentPosition.y, y);
 		forwardDirection=new Vector3(xForward, currentPosition.y, yForward);
 
-		// Dog Movement
+		// Update path Movement
 		transform.position= Vector3.MoveTowards (transform.position, target, moveSpeed * Time.deltaTime);
 		transform.LookAt(forwardDirection);
 	}
 
 	void LateUpdate()
 	{
+		// Camera position update
 		Camera.main.transform.position = Vector3.Scale (transform.position, new Vector3(1f,0f,1f)) + transform.rotation * new Vector3 (0f, 8f, -8f);
 		var rotation = Quaternion.LookRotation(transform.position-Camera.main.transform.position, Vector3.up);
 		rotation = Quaternion.Euler (21.5f, rotation.eulerAngles.y, 0f);
 		Camera.main.transform.rotation = rotation;
 	}
 
-	//Reset postion
+	//Reset postion of camera at game restart
 	public void ResetPosition()
 	{
 		transform.position = startPos;
