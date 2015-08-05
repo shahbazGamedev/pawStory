@@ -2,16 +2,15 @@
 using System.Collections;
 
 public class DogMovementBubble : MonoBehaviour {
-	Vector3 startingPos;
+	public float speed;
 	public float distance;
 	public Transform target;
-	private Vector3 direction;
-	Rigidbody rb;
-	public float speed;
-	private Animator dogAnim;
 	public int score;
 	public bool isCollect;
-
+	private Vector3 direction;
+	private Animator dogAnim;
+	Vector3 startingPos;
+	Rigidbody rb;
 
 	// Use this for initialization
 	void Start () 
@@ -40,17 +39,17 @@ public class DogMovementBubble : MonoBehaviour {
 		{
 			rb.AddForce(transform.forward*speed);
 			dogAnim.SetFloat("Walk",1f);
+		}
+		}
 
-		}
-		}
+
 	public void ScoreSystem()
 	{
-
 		Debug.Log ("collided");
 		score+=1;
 		dogAnim.SetFloat("Walk",0f);
 		transform.position=startingPos;
-		}
+	}
 	}
 
 		

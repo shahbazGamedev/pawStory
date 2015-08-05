@@ -14,12 +14,14 @@ public class food : MonoBehaviour {
 		dogMove=FindObjectOfType<DogMovementBubble>();
 	  
 	}
-	
+
+
 	// Update is called once per frame
 	void Update ()
 	{
 	
 	}
+
 
 	void OnCollisionEnter(Collision other)
 	{
@@ -30,7 +32,6 @@ public class food : MonoBehaviour {
 			dogMove.ScoreSystem();
 			dogMove.isCollect=false;
 			Destroy(this.gameObject);
-
 		}
 		else
 		{

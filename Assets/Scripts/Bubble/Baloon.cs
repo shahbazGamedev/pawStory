@@ -17,29 +17,28 @@ public class Baloon : MonoBehaviour {
 	GlobalValues gValues;
 
 	// Use this for initialization
-	void Start () {
-
+	void Start () 
+	{
 		maxDistance = 10;
 		floor = GameObject.FindGameObjectWithTag("floor");
 		gValues = GlobalValues.instanceRef;
-
-	
 	}
 	
+
 	// Update is called once per frame
-	void FixedUpdate () {
+	void FixedUpdate ()
+	{
 
-
-			MoveMent();
-
-
+	MoveMent();
 	distance = Vector3.Distance (this.gameObject.transform.position, floor.transform.position);
-		if(distance>maxDistance)
-		{
-			gValues.baloonsAtScene -= 1;
-			Destroy (this.gameObject);
-		}
+	if(distance>maxDistance)
+	{
+	gValues.baloonsAtScene -= 1;
+	Destroy (this.gameObject);
 	}
+	}
+
+
 	void OnMouseDown()
 	{
 		if(ID==3)
@@ -48,6 +47,8 @@ public class Baloon : MonoBehaviour {
 		//float step = speed * Time.deltaTime;
 		//transform.position = Vector3.MoveTowards(transform.position, target.position, step);
 	}
+
+
 //	void OnBecameInvisible()
 //	{
 //		//Debug.LogError ("I m invincible");
@@ -58,15 +59,10 @@ public class Baloon : MonoBehaviour {
 //	}
 	void MoveMent()
 	{
-		float t = 0.0f;
+	    float t = 0.0f;
 		t+=Time.deltaTime;
 		Vector3 startingPos = transform.position;
 		transform.position = Vector3.MoveTowards(startingPos, target.position,t*smooth);
 
 	}
-
-
-
-
-
-}
+	}

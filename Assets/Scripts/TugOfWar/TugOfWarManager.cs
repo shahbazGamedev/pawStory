@@ -72,4 +72,7 @@ public class TugOfWarManager : MonoBehaviour
 	{
 		pulleyRef.transform.Rotate(-Vector3.forward * Time.deltaTime * 100);
 	}
+
+
+
 }
