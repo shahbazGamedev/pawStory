@@ -54,9 +54,11 @@ public class EllipseMovement : MonoBehaviour
 
 	// Event to broadcast lane change complete to listeners
 	public delegate void DogMovement();
+	public static event DogMovement GameHasBegun;
 	public static event DogMovement LaneChangeComplete;
 	public static event DogMovement DogJustMoved;
 	public static event DogMovement LapTriggered;
+	public static event DogMovement DogMovedNextPartition;
 
 	#endregion
 

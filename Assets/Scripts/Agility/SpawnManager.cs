@@ -4,29 +4,45 @@ using System.Collections;
 public class SpawnManager : MonoBehaviour {
 
 	public GameObject[] obstacleCollection;
-	public PowerUpCollection[] collectibleCollection;
-	public SpawnPoint[] spawnPts;
+	public PickUpCollection[] collectibleCollection;
+	public spawnLocationHolder[] spawnPts;
 
-	// Emulates hashtable in editor - PowerUp
+	int dogPosition; // in predefined partition
+
 	[System.Serializable]
-	public struct PowerUpCollection {
-		public PowerUp key;
+	public struct spawnLocationHolder {
+		public int partition;
+		public SpwanPtData innerSpawnPos;
+		public SpwanPtData midSpawnPos;
+		public SpwanPtData outerSpawnPos;
+	}
+
+	[System.Serializable]
+	public struct SpwanPtData {
+		public GameObject position;
+		public GameObject direction;
+	}
+
+	// Emulates hashtable in editor - PickUp
+	[System.Serializable]
+	public struct PickUpCollection {
+		public PickUp key;
 		public GameObject valueRef;
-		public float coolDown;
 	}
 
 	// PowerUp types
-	public enum PowerUp
+	public enum PickUp
 	{
 		SlowMotion,
 		TurboRun,
-		Freeze
+		HurdleJump,
+		HurdleSlide
 	};
 
 	// Use this for initialization
 	void Start () 
 	{
-		spawnPts = FindObjectsOfType<SpawnPoint> ();
+		
 	}
 	
 	// Update is called once per frame
@@ -34,4 +50,15 @@ public class SpawnManager : MonoBehaviour {
 	{
 	
 	}
+
+	#region Coroutines
+
+	// Spawn random objects at all spawnPts
+	IEnumerator FillAllSpawnPts()
+	{
+		yield return new WaitForFixedUpdate ();
+		// spawning code here in while loop
+	}
+
+	#endregion
 }

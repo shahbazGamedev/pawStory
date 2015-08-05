@@ -194,6 +194,7 @@ public class AgilityManager : MonoBehaviour {
 		dogCircuitManager.alpha=0f;
 		dogCircuitManager.ResetLane ();
 		camRef.ResetPosition ();
+		currentCheckpointTimer = 20;
 	}
 
 	#endregion
