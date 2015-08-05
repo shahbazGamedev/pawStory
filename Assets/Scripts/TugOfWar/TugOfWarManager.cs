@@ -12,7 +12,16 @@ public class TugOfWarManager : MonoBehaviour
 
 	public bool isPulleyTouched;
 	public Image pulleyRef;
-
+	public Text timer;
+	public float levelTime;
+//	//
+//	private float rotationSpeed = 10.0F;
+//	private float lerpSpeed = 1.0F;
+//	private Vector3 theSpeed;
+//	private Vector3 avgSpeed;
+//	public  bool isDragging = false;
+//	private Vector3 targetSpeedX;
+//	//
 	void Awake()
 	{
 		dogAnimator =  dogRef.GetComponent<Animator>();
@@ -22,7 +31,8 @@ public class TugOfWarManager : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-	
+
+	    
 	}
 
 	public void TrackMouseMovement(BaseEventData data)
@@ -37,6 +47,7 @@ public class TugOfWarManager : MonoBehaviour
 		PointerEventData pointerData = (PointerEventData ) data;
 		Debug.Log("Selected");
 		isPulleyTouched = true;
+		//isDragging=true;
 	}
 
 	public void PointerUp(BaseEventData data)
@@ -67,12 +78,57 @@ public class TugOfWarManager : MonoBehaviour
 		}
 	}
 	 
-	// Update is called once per frame
-	void Update () 
+	void FixedUpdate()
 	{
-		pulleyRef.transform.Rotate(-Vector3.forward * Time.deltaTime * 100);
+		timer.text="Time Left: "+levelTime;
+		levelTime-=Time.deltaTime;
 	}
 
 
+	// Update is called once per frame
+	void Update () 
+	{
+//		
+//		if (Input.GetMouseButton(0) && isDragging) {
+//			theSpeed = new Vector3(-Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"),0.0f);
+//			avgSpeed = Vector3.Lerp(avgSpeed, theSpeed, Time.deltaTime * 5);
+//		} else {
+//			if (isDragging) {
+//				theSpeed = avgSpeed;
+//				isDragging = false;
+//			}
+//			float i = Time.deltaTime * lerpSpeed;
+//			theSpeed = Vector3.Slerp(theSpeed, Vector3.zero, i);
+//		}
+//
+//		pulleyRef.transform.Rotate(Camera.main.transform.forward * theSpeed.x * rotationSpeed, Space.World);
+//		//pulleyRef.transform.Rotate(Camera.main.transform.forward* theSpeed.y * rotationSpeed, Space.World);
+	if(isPulleyTouched)
+		{
+    	pulleyRef.transform.Rotate(-Vector3.forward * Time.deltaTime * 100);
+		dogRef.GetComponent<DogMovementTugOfWar>().Movement();
+		}
+		else
+		{
+			pulleyRef.transform.Rotate(Vector3.forward * Time.deltaTime * 100);
+			dogRef.GetComponent<DogMovementTugOfWar>().BackMovement();
 
-}
+		}
+	    }
+
+	public void ReStart()
+	{
+		Application.LoadLevel("TugOfWar");
+	}
+
+	public void MainMenu()
+	{
+		Application.LoadLevel("MainMenu");
+	}
+        }  
+
+	
+
+
+
+
