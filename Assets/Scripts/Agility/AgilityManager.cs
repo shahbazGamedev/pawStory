@@ -31,13 +31,13 @@ public class AgilityManager : MonoBehaviour {
 	Quaternion startRot;
 
 	public float currentCheckpointTimer; // In secs
-	float currentTimer; // In secs
+//	float currentTimer; // In secs
 	int currentLane;
 
 	bool startGame;
 	bool gameOver;
-	bool spawnObstacle;
-	bool spawnCollectible;
+//	bool spawnObstacle;
+//	bool spawnCollectible;
 
 	Animator dogAnim;
 	EllipseMovement dogCircuitManager;
@@ -191,7 +191,7 @@ public class AgilityManager : MonoBehaviour {
 		dogRef.transform.rotation = startRot;
 		gameOverPannel.SetActive (false);
 		startBtn.SetActive (true);
-		dogCircuitManager.alpha=0f;
+		EllipseMovement.alpha=0f;
 		dogCircuitManager.ResetLane ();
 		camRef.ResetPosition ();
 		currentCheckpointTimer = 20;

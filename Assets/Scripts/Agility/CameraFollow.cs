@@ -27,7 +27,6 @@ public class CameraFollow : MonoBehaviour {
 	public float centerX;
 	public float centerY;
 	public float moveSpeed;
-	public float alphaFactor;
 	public float forwardDist;
 	public Vector3 forwardDirection;
 
@@ -57,7 +56,7 @@ public class CameraFollow : MonoBehaviour {
 	void FollowDogMovement()
 	{
 		// Update ellipse angle
-		alpha += Time.deltaTime * alphaFactor;
+		alpha = EllipseMovement.alpha;
 
 		// Calculate current position on ellipse based on angle(radians)
 		x = centerX + majorAxis.x * Mathf.Cos (alpha * 0.0174f);

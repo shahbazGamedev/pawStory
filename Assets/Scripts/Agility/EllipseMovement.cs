@@ -13,7 +13,7 @@ public class EllipseMovement : MonoBehaviour
 	public CircuitLaneData[] circuitLaneData; // Collection of ellipse path data
 
 	public bool updatePos;
-	public float alpha;
+	public static float alpha;
 	public float centerX;
 	public float centerY;
 	public float moveSpeed;
@@ -136,6 +136,12 @@ public class EllipseMovement : MonoBehaviour
 			LapTriggered ();
 	}
 
+	// Run coroutine from outside
+	public void RunCoroutine(float speedFactor)
+	{
+		StartCoroutine (BulletTime (speedFactor));
+	}
+
 	#region Coroutines
 
 	// Change lane dog in moving
@@ -164,6 +170,20 @@ public class EllipseMovement : MonoBehaviour
 		
 		yield return null;
 	}
+		
+	// Manages Bullet Time
+	public IEnumerator BulletTime(float factor)
+	{
+		var tempAlphaFactor = alphaFactor;
+		alphaFactor = factor;
+		dogAnim.SetFloat ("SlowFactor", factor>22? 1.5f:0.5f);
+		yield return new WaitForSeconds (3);
+		alphaFactor = tempAlphaFactor;
+		dogAnim.SetFloat ("SlowFactor", 1f);
+		Debug.Log ("Done");
+		//yield return null;
+	}
+		
 
 	#endregion
 		

@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿/**
+Script Author : Vaikash 
+Description   : Takes care of collisions in Agility
+**/
+
+using UnityEngine;
 using System.Collections;
 
 public class CollisionManager : MonoBehaviour {
@@ -24,7 +29,7 @@ public class CollisionManager : MonoBehaviour {
 	}
 
 	// Manage Collision
-	void OnCollsionEnter(Collider other)
+	void OnCollisionEnter(Collision other)
 	{
 		if(other.gameObject.tag=="Player")
 		{
@@ -32,16 +37,21 @@ public class CollisionManager : MonoBehaviour {
 			{
 				// Reduce dog movement speed
 				Debug.Log ("Hit hurdle");
+				Destroy (gameObject);
 			}
 			else if(objectID==collisionTypes.powerTurbo)
 			{
 				// Dog movement speed boost
 				Debug.Log ("Turbo Mode");
+				other.gameObject.GetComponent <EllipseMovement>().RunCoroutine (33);
+				Destroy (gameObject);
 			}
 			else if(objectID==collisionTypes.powerSlow)
 			{
 				// Slow game speed
 				Debug.Log ("Bullet Time");
+				other.gameObject.GetComponent <EllipseMovement>().RunCoroutine (11);
+				Destroy (gameObject);
 			}
 		}
 	}

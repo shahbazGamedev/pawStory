@@ -1,13 +1,21 @@
-﻿using UnityEngine;
+﻿/**
+Script Author : Vaikash 
+Description   : Takes care of obstacle spawning in Agility
+**/
+
+using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class SpawnManager : MonoBehaviour {
 
 	public GameObject[] obstacleCollection;
-	public PickUpCollection[] collectibleCollection;
+	public GameObject[] collectibleCollection;
 	public spawnLocationHolder[] spawnPts;
 
-	int dogPosition; // in predefined partition
+	public int dogPosition; // in predefined partition
+	int dogPrevPos;
+	bool spawnOn;
 
 	[System.Serializable]
 	public struct spawnLocationHolder {
@@ -23,26 +31,13 @@ public class SpawnManager : MonoBehaviour {
 		public GameObject direction;
 	}
 
-	// Emulates hashtable in editor - PickUp
-	[System.Serializable]
-	public struct PickUpCollection {
-		public PickUp key;
-		public GameObject valueRef;
-	}
-
-	// PowerUp types
-	public enum PickUp
-	{
-		SlowMotion,
-		TurboRun,
-		HurdleJump,
-		HurdleSlide
-	};
-
 	// Use this for initialization
 	void Start () 
 	{
-		
+		dogPrevPos = 10;
+		spawnOn = true;
+		StartCoroutine (Spawner ());
+
 	}
 	
 	// Update is called once per frame
@@ -51,13 +46,60 @@ public class SpawnManager : MonoBehaviour {
 	
 	}
 
+	// Actual spawining takes place here
+	void spawn(int partition)
+	{
+		switch(partition)
+		{
+		case 0:
+			{
+				Debug.Log (partition);
+
+				break;
+			}
+		case 2:
+			{
+				Debug.Log (partition);
+				break;
+			}
+		case 4:
+			{
+				Debug.Log (partition);
+				break;
+			}
+		case 6:
+			{
+				Debug.Log (partition);
+				break;
+			}
+		default:
+			{
+				//Debug.Log (partition);
+				break;
+			}
+		}
+	}
+
 	#region Coroutines
 
-	// Spawn random objects at all spawnPts
-	IEnumerator FillAllSpawnPts()
+	// Spawn random objects at near spawnPts based on dog position
+	public IEnumerator Spawner()
 	{
-		yield return new WaitForFixedUpdate ();
-		// spawning code here in while loop
+		while(spawnOn)
+		{
+			
+			yield return new WaitForFixedUpdate ();
+			if(dogPosition!=dogPrevPos)
+			{
+				if(dogPosition%2==0)
+				{
+					spawn (dogPosition);
+				}
+				// spawn next 2 sets of spawn pts
+			}
+			dogPrevPos=dogPosition;
+		}
+		yield return null;
 	}
 
 	#endregion
