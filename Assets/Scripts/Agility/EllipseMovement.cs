@@ -23,6 +23,9 @@ public class EllipseMovement : MonoBehaviour
 	public Vector3 forwardDirection;
 	public float laneChangeSpeed;
 	public float damping;
+	public float dragFactor;
+
+	Rigidbody rb;
 
 	Vector3 target;
 	Vector3 currentPosition;
@@ -63,6 +66,7 @@ public class EllipseMovement : MonoBehaviour
 		target=gameObject.transform.position;
 		dogAnim = GetComponent<Animator> ();
 		ResetLane ();
+		rb = GetComponent <Rigidbody> ();
 	}
 	
 	// Update is called once per frame
@@ -70,14 +74,21 @@ public class EllipseMovement : MonoBehaviour
 	{
 		if (updatePos) 
 		{
-			dogAnim.SetFloat ("Speed", 1);
+			if(isGrounded)
+				dogAnim.SetFloat ("Speed", 1);
+			else
+				dogAnim.SetFloat ("Speed", 0);
 			DogTrackMove ();
+
 		}
 		else
 		{
 			dogAnim.SetFloat ("Speed", 0);
 		}
 			
+		//rb.drag = dragFactor * transform.position.y;
+		//RealisticJump ();
+
 	}
 
 	// Update dog position in a elliptical path

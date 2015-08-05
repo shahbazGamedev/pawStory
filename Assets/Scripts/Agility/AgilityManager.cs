@@ -12,9 +12,6 @@ public class AgilityManager : MonoBehaviour {
 
 	#region Variables
 
-	public GameObject[] obstacleCollection;
-	public PowerUpCollection[] collectibleCollection;
-	public SpawnPoint[] spawnPts;
 	public GameObject dogRef;
 	public GameObject gameOverPannel;
 	public GameObject startBtn;
@@ -46,28 +43,11 @@ public class AgilityManager : MonoBehaviour {
 	EllipseMovement dogCircuitManager;
 	CameraFollow camRef;
 
-	// Emulates hashtable in editor - PowerUp
-	[System.Serializable]
-	public struct PowerUpCollection {
-		public PowerUp key;
-		public GameObject valueRef;
-		public float coolDown;
-	}
-
-	// PowerUp types
-	public enum PowerUp
-	{
-		SlowMotion,
-		TurboRun,
-		Freeze
-	};
-
 	#endregion
 
 	// Use this for initialization
 	void Start () 
 	{
-		spawnPts = FindObjectsOfType<SpawnPoint> ();
 		dogRef = GameObject.FindGameObjectWithTag ("Player");
 		touchManagerRef = FindObjectOfType <TouchManager> ();
 		camRef = FindObjectOfType <CameraFollow> ();
