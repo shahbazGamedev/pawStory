@@ -41,6 +41,24 @@ public class TournamentSelection : MonoBehaviour
 	{
 		GameMgr.instance.LoadScene (GlobalConst.Scene_ColorLesson);
 	}
+	
+	
+	public void OnGame_06()
+	{
+		GameMgr.instance.LoadScene (GlobalConst.Scene_Agility);
+	}
+	
+	
+	public void OnGame_07()
+	{
+		GameMgr.instance.LoadScene (GlobalConst.Scene_Bubble);
+	}
+	
+	
+	public void OnGame_08()
+	{
+		GameMgr.instance.LoadScene (GlobalConst.Scene_Tugofwar);
+	}
 
 
 }
