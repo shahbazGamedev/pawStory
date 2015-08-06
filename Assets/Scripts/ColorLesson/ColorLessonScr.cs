@@ -17,7 +17,10 @@ public class ColorLessonScr : MonoBehaviour
 	public GameObject GameHudObj;
 	public Image QuestionImg;
 	public List<Sprite> QuestionList;
+	public Animator DogAnimator;
+	public ParticleSystem Ps;
 
+	int dogAnimState = 0; // 0: Idle, 1: Idle 2, 2: Idle 3, 3: Run 
 	int dogSpeed = 10;
 	float pickupStartPos = 10.0f;
 	int curLane = 1; // starts with zero
@@ -37,28 +40,50 @@ public class ColorLessonScr : MonoBehaviour
 	private Vector3 lastPos;
 	private float dragDistance;  //minimum distance for a swipe to be registered
 	private List<Vector3> touchPositions = new List<Vector3>();
+	
+	private bool waitForTap = true;
 
-	void OnEnable()
-	{
+	void OnEnable() {
 		EventMgr.GameRestart += OnRestartGame;
 	}
 	
 	
-	void OnDisable()
-	{
+	void OnDisable() {
 		EventMgr.GameRestart -= OnRestartGame;
 	}
 
 
-	void Start ()
-	{
+	void Start () {
 		OnRestartGame ();
 	}
 
 
-	void Update ()
-	{
-		if (!isGameOver)
+	void Update ()	{
+		if (waitForTap) {
+#if UNITY_ANDROID
+			if(Input.touchCount > 0) {
+				Touch touch = Input.touches[0];
+				if (touch.phase == TouchPhase.Ended) {
+					waitForTap = false;
+					dogAnimState = 3;
+					DogAnimator.SetInteger("DogAnimState", dogAnimState);
+					QuestionImg.gameObject.SetActive (true);
+					ScoreText.gameObject.SetActive(true);
+					QuestionText.text = "Item to collect ";
+				}
+			}
+#endif
+			if(Input.GetKeyDown(KeyCode.Space))
+			{
+				waitForTap = false;
+				dogAnimState = 3;
+				DogAnimator.SetInteger("DogAnimState", dogAnimState);
+				QuestionImg.gameObject.SetActive (true);
+				ScoreText.gameObject.SetActive(true);
+				QuestionText.text = "Item to collect ";
+			}
+		}
+		else if (!isGameOver)
 		{
 			// restrict to two touches
 			for(int i = 0; i < 2 && i < Input.touchCount; i++)
@@ -78,14 +103,12 @@ public class ColorLessonScr : MonoBehaviour
 						if (Mathf.Abs(lastPos.y - firstPos.y) > Mathf.Abs(lastPos.x - firstPos.x))
 			            {   //the vertical movement 
 							if (lastPos.y>firstPos.y)
-			                 {   
-								//Up swipe
+							{
 								Debug.Log("Up Swipe");
 								OnLeft();
-			                 }
-			                 else
-			                 {   
-								//Down swipe
+							}
+							else
+							{
 								Debug.Log("Down Swipe");
 								OnRight();
 							}
@@ -93,11 +116,11 @@ public class ColorLessonScr : MonoBehaviour
 						else
 						{
 							if ((lastPos.x>firstPos.x))
-							{   //Right swipe
+							{
 								Debug.Log("Right Swipe");
 							}
 							else
-							{   //Left swipe
+							{
 								Debug.Log("Left Swipe");
 							}
 						}
@@ -124,7 +147,7 @@ public class ColorLessonScr : MonoBehaviour
 
 	private void LateUpdate()
 	{
-		if (!isGameOver) {
+		if (!isGameOver && !waitForTap) {
 			Camera.main.transform.position += dogMoveOffset;
 		}
 	}
@@ -134,13 +157,15 @@ public class ColorLessonScr : MonoBehaviour
 	{
 		if (other.name.Contains ("Trigger"))
 		{
-			// dunamic level load trigger
+			// dynamic level load trigger
 		}
 		else
 		{
 			if (other.name.Contains ("Ans"))
 			{
+				Ps.gameObject.transform.position = other.gameObject.transform.position;
 				ScoreVal++;
+				Ps.Play();
 			}
 			ScoreText.text = ScoreVal + " / "  + TotalQuestions;
 			curQuestion++;
@@ -154,9 +179,10 @@ public class ColorLessonScr : MonoBehaviour
 			else
 			{
 				QuestionImg.sprite = QuestionList[Questions[curQuestion]];
-				QuestionText.text = "Item to collect : ";// + Questions[curQuestion] + QuestionList[Questions[curQuestion]].name;
+				//QuestionText.text = "Item to collect ";// + Questions[curQuestion] + QuestionList[Questions[curQuestion]].name;
 				Debug.Log("curQuestion :  " + curQuestion);
 			}
+			other.gameObject.SetActive(false);
 		}
 	}
 
@@ -168,7 +194,7 @@ public class ColorLessonScr : MonoBehaviour
 
 		pickupStartPos = StartPosOfDog.transform.position.z + pickupStartPos;
 
-		while ( i < TotalQuestions)
+		while (i < TotalQuestions)
 		{
 			int newQuestion = Random.Range(0, PickupList.Count);
 			Questions.Add(newQuestion);
@@ -179,33 +205,37 @@ public class ColorLessonScr : MonoBehaviour
 			if(nextQuestion >= PickupList.Count)
 				nextQuestion = 0;
 
-			int newLane = Random.Range(0, TotalLanes);
+			GameObject parentObj = new GameObject();
+			parentObj.name = "Question_" + i;
+			parentObj.transform.parent = PickupsParentObj.transform;
+
+			int nextLane = Random.Range(0, TotalLanes);
 			GameObject curObj = GameObject.Instantiate(PickupList[newQuestion]) as GameObject;
-			curObj.transform.position = new Vector3(lanePostion[newLane].x,
-			                                        lanePostion[newLane].y + 0.5f,
+			curObj.transform.position = new Vector3(lanePostion[nextLane].x,
+			                                        lanePostion[nextLane].y + 0.5f,
 			                                        pickupStartPos + i * pickupGap);
 			curObj.transform.localScale = new Vector3(1f, 1f, 1f);
-			curObj.transform.parent = PickupsParentObj.transform;
+			curObj.transform.parent = parentObj.transform; 
 			curObj.name = PickupList[newQuestion].name + "_" + i + "_1" + "Ans";
-			newLane++;
-			if(newLane >= TotalLanes)
-				newLane = 0;
+			nextLane++;
+			if(nextLane >= TotalLanes)
+				nextLane = 0;
 
 			curObj = GameObject.Instantiate(PickupList[prevQuestion]) as GameObject;
-			curObj.transform.position = new Vector3(lanePostion[newLane].x,
-			                                        lanePostion[newLane].y + 0.5f,
+			curObj.transform.position = new Vector3(lanePostion[nextLane].x,
+			                                        lanePostion[nextLane].y + 0.5f,
 			                                        pickupStartPos + i * pickupGap);
-			curObj.transform.parent = PickupsParentObj.transform;
+			curObj.transform.parent = parentObj.transform; 
 			curObj.name = PickupList[prevQuestion].name + "_" + i + "_2";
-			newLane++;
-			if(newLane >= TotalLanes)
-				newLane = 0;
+			nextLane++;
+			if(nextLane >= TotalLanes)
+				nextLane = 0;
 
 			curObj = GameObject.Instantiate(PickupList[nextQuestion]) as GameObject;
-			curObj.transform.position = new Vector3(lanePostion[newLane].x,
-			                                        lanePostion[newLane].y + 0.5f,
+			curObj.transform.position = new Vector3(lanePostion[nextLane].x,
+			                                        lanePostion[nextLane].y + 0.5f,
 			                                        pickupStartPos + i * pickupGap);
-			curObj.transform.parent = PickupsParentObj.transform;
+			curObj.transform.parent = parentObj.transform; 
 			curObj.name = PickupList[nextQuestion].name + "_" + i + "_3";
 
 			i++;
@@ -250,34 +280,49 @@ public class ColorLessonScr : MonoBehaviour
 		ScoreVal = 0;
 		pickupGap = 20.0f;
 		pickupStartPos = pickupGap;
+		dogMoveOffset = Vector3.zero;
 		isGameOver = false;
+		waitForTap = true;
+
+		dogAnimState = 0;
+		DogAnimator.SetInteger("DogAnimState", dogAnimState);
 
 		foreach (Transform child in PickupsParentObj.transform)
 			GameObject.Destroy(child.gameObject);
 
-		lanePostion = new List<Vector3> ();
+		lanePostion = new List<Vector3>();
 		lanePostion.Add (new Vector3(-2, 0f, 0));
 		lanePostion.Add (new Vector3(0.5f, 0f, 0));
 		lanePostion.Add (new Vector3(2.75f, 0f, 0));
 
-		LoadPickups ();
+		LoadPickups();
 
 		GameOverScreenObj.SetActive(false);
 		GameHudObj.SetActive(true);
 
 		Camera.main.transform.position = StartPosOfCam.position;
 
+		QuestionImg.gameObject.SetActive (false);
+		ScoreText.gameObject.SetActive(false);
 		QuestionImg.sprite = QuestionList[Questions[curQuestion]];
 		ScoreText.text = ScoreVal + " / "  + TotalQuestions;
 
 		DogObj.transform.position = StartPosOfDog.position;
 
 		dragDistance = Screen.height * 0.1f;
+		QuestionText.text = "Tap to start";
 	}
 
 
-	public void OnHome()
-	{
-		GameMgr.instance.LoadScene (GlobalConst.Scene_MainMenu);
+	public void OnHome(){
+		GameMgr.instance.LoadScene(GlobalConst.Scene_MainMenu);
 	}
+
+
+	void IdleStartFired(){
+	}
+
+
 }
+
+

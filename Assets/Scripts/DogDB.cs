@@ -46,7 +46,7 @@ public class DogDB
 		InitDB ();
 	}
 
-	// move this to file
+	
 	void InitDB()
 	{
 		Dog curDog = new Dog ();
