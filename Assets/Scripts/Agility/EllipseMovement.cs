@@ -186,7 +186,7 @@ public class EllipseMovement : MonoBehaviour
 		if (!isCoroutineOn) {
 			var tempAlphaFactor = alphaFactor;
 			alphaFactor = factor;
-			dogAnim.SetFloat ("SlowFactor", factor > 22 ? 1.5f : 0.5f);
+			dogAnim.SetFloat ("SlowFactor", factor > 22 ? 1.25f : 0.5f);
 			yield return new WaitForSeconds (3);
 			alphaFactor = tempAlphaFactor;
 			dogAnim.SetFloat ("SlowFactor", 1f);

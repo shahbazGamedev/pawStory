@@ -12,8 +12,10 @@ public class SpawnManager : MonoBehaviour {
 	public GameObject[] obstacleCollection;
 	public GameObject[] collectibleCollection;
 	public spawnLocationHolder[] spawnPts;
-
+	public GameObject[] powSpawnPts;
 	public container[] spacePartition;
+
+	GameObject powerUpRef;
 
 	public GameObject cloneHolder;
 
@@ -95,16 +97,25 @@ public class SpawnManager : MonoBehaviour {
 		spawnHodler.Clear ();
 	}
 
+	// Spawn powerUp
+	public void SpawnPowerUp()
+	{
+		if (powerUpRef != null)
+			Destroy (powerUpRef);
+		powerUpRef = (GameObject)Instantiate (collectibleCollection [Random.Range (0, collectibleCollection.Length)], 
+			powSpawnPts [Random.Range (0, powSpawnPts.Length)].transform.position, 
+			Quaternion.identity);
+		Debug.Log ("power");
+	}
 
 	// Actual spawining takes place here
-	void spawn(int partition)
+	void Spawn(int partition)
 	{
 		switch(partition)
 		{
 		case 0:
 			{
 //				Debug.Log (partition);
-
 				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].innerSpawnPos.position, obstacleCollection));
 				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].midSpawnPos.position, obstacleCollection));
 				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].outerSpawnPos.position, obstacleCollection));
@@ -208,6 +219,7 @@ public class SpawnManager : MonoBehaviour {
 			}
 		case 10:
 			{
+				SpawnPowerUp ();
 //				Debug.Log (partition);
 				spacePartition [0].partitionContainer.Add (CheckForProbability (spawnPts [0].innerSpawnPos.position, obstacleCollection));
 				spacePartition [0].partitionContainer.Add (CheckForProbability (spawnPts [0].midSpawnPos.position, obstacleCollection));
@@ -224,17 +236,17 @@ public class SpawnManager : MonoBehaviour {
 
 	#region Coroutines
 
-	// Spawn random objects at near spawnPts based on dog position //TODO change it to event handler
+	// Spawn random objects at near spawnPts based on dog position
 	public IEnumerator Spawner()
 	{
-		spawn (10);
+		Spawn (10);
 		while(spawnOn)
 		{
 			
 			yield return new WaitForFixedUpdate ();
 			if(dogPosition!=dogPrevPos)
 			{
-					spawn (dogPosition);
+					Spawn (dogPosition);
 				// spawn next 2 sets of spawn pts
 			}
 			dogPrevPos=dogPosition;

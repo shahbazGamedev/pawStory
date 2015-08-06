@@ -54,7 +54,7 @@ public class CollisionManager : MonoBehaviour {
 			{
 				// Dog movement speed boost
 				Debug.Log ("Turbo Mode");
-				other.gameObject.GetComponent <EllipseMovement>().RunCoroutine (33);
+				other.gameObject.GetComponent <EllipseMovement>().RunCoroutine (28);
 				Destroy (gameObject.transform.parent.gameObject);
 			}
 			else if(objectID==collisionTypes.powerSlow)

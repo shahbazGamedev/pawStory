@@ -33,7 +33,9 @@ public class AgilityManager : MonoBehaviour {
 	Vector3 startPos;
 	Quaternion startRot;
 	public Vector3 targetColliderSize;
+	public Vector3 targetColliderCenter;
 	Vector3 boxColliderSize;
+	Vector3 boxColliderCenter;
 
 	public float currentCheckpointTimer; // In secs
 //	float currentTimer; // In secs
@@ -67,6 +69,7 @@ public class AgilityManager : MonoBehaviour {
 
 		var boxCollider = (BoxCollider)dogRef.GetComponent <Collider> ();
 		boxColliderSize = boxCollider.size;
+		boxColliderCenter = boxCollider.center;
 
 		// Event Listeners
 		touchManagerRef.PatternRecognized += SwipeEventHandler; //  Add Listener to touch manager
@@ -107,6 +110,7 @@ public class AgilityManager : MonoBehaviour {
 	{
 		checkPointCount += 0.5f;
 		currentCheckpointTimer += additionalTime;
+		GetComponent <SpawnManager>().SpawnPowerUp ();
 	}
 
 	// Handle patternRecognized event
@@ -165,6 +169,7 @@ public class AgilityManager : MonoBehaviour {
 			var boxCollider = (BoxCollider)dogRef.GetComponent <Collider> ();
 			//boxColliderSize = boxCollider.size;
 			boxCollider.size=targetColliderSize;
+			boxCollider.center = targetColliderCenter;
 			//Invoke ("ResetColliderSize", timeForSlideReset);
 		}
 	}
@@ -175,6 +180,7 @@ public class AgilityManager : MonoBehaviour {
 		//Debug.Log ("Reset");
 		var boxCollider = (BoxCollider)dogRef.GetComponent <Collider> ();
 		boxCollider.size = boxColliderSize;
+		boxCollider.center = boxColliderCenter;
 	}
 
 	// Called when lap completes
