@@ -158,6 +158,7 @@ public class AgilityManager : MonoBehaviour {
 		//yield return new WaitForSeconds (2);
 		timerText.gameObject.transform.parent.gameObject.SetActive (false);
 		gameOverPannel.SetActive (true);
+		GetComponent <SpawnManager> ().spawnOn = false;
 		yield return null;
 	}
 
@@ -195,6 +196,8 @@ public class AgilityManager : MonoBehaviour {
 		dogCircuitManager.ResetLane ();
 		camRef.ResetPosition ();
 		currentCheckpointTimer = 20;
+		GetComponent <SpawnManager> ().spawnOn = true;
+		StartCoroutine (GetComponent <SpawnManager> ().Spawner ());
 	}
 
 	#endregion

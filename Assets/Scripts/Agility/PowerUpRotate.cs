@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿/**
+Script Author : Vaikash 
+Description   : Animates PowerUps
+**/
+
+using UnityEngine;
 using System.Collections;
 
 public class PowerUpRotate : MonoBehaviour {

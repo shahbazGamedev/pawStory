@@ -13,9 +13,21 @@ public class SpawnManager : MonoBehaviour {
 	public GameObject[] collectibleCollection;
 	public spawnLocationHolder[] spawnPts;
 
+	public container[] spacePartition;
+
+	public GameObject cloneHolder;
+
+	[System.Serializable]
+	public struct container {
+		public List<GameObject> partitionContainer;
+	}
+
 	public int dogPosition; // in predefined partition
+	int prevDogPosition;
+	int randomNumber;
 	int dogPrevPos;
-	bool spawnOn;
+	public bool spawnOn;
+	int partitionCount;
 
 	[System.Serializable]
 	public struct spawnLocationHolder {
@@ -36,8 +48,17 @@ public class SpawnManager : MonoBehaviour {
 	{
 		dogPrevPos = 10;
 		spawnOn = true;
+		partitionCount = spawnPts.Length;
 		StartCoroutine (Spawner ());
+		EllipseMovement.DogMovedNextPartition += UpdateDogPosition;
 
+
+	}
+
+	void OnDisable()
+	{
+		EllipseMovement.DogMovedNextPartition -= UpdateDogPosition;
+		spawnOn = false;
 	}
 	
 	// Update is called once per frame
@@ -45,6 +66,35 @@ public class SpawnManager : MonoBehaviour {
 	{
 	
 	}
+
+	// Random spawn code
+	GameObject CheckForProbability(GameObject positionRef, GameObject[] collection)
+	{
+		randomNumber = Random.Range (0, collection.Length);
+		var cloneInstance = (GameObject)Instantiate (collection [randomNumber], positionRef.transform.position, Quaternion.identity);
+		cloneInstance.transform.parent = cloneHolder.transform;
+		return cloneInstance;
+	}
+
+	// Event Handler for dogMovedNextPartition
+	void UpdateDogPosition()
+	{
+		//Debug.Log ("Fired");
+		dogPosition += 1;
+		if (dogPosition > 7)
+			dogPosition = 0;
+	}
+
+	// Destroy spawned objects when no longer seen
+	void ClearObstacles(List<GameObject> spawnHodler)
+	{
+		foreach(var gameObj in spawnHodler)
+		{
+			Destroy (gameObj);
+		}
+		spawnHodler.Clear ();
+	}
+
 
 	// Actual spawining takes place here
 	void spawn(int partition)
@@ -55,26 +105,121 @@ public class SpawnManager : MonoBehaviour {
 			{
 				Debug.Log (partition);
 
+				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].innerSpawnPos.position, obstacleCollection));
+				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].midSpawnPos.position, obstacleCollection));
+				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].outerSpawnPos.position, obstacleCollection));
+
+				if(spacePartition[partition + 6].partitionContainer.Count!=0)
+				{
+					ClearObstacles (spacePartition [partition + 6].partitionContainer);
+				}
+
+				break;
+			}
+		case 1:
+			{
+				Debug.Log (partition);
+				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].innerSpawnPos.position, obstacleCollection));
+				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].midSpawnPos.position, obstacleCollection));
+				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].outerSpawnPos.position, obstacleCollection));
+
 				break;
 			}
 		case 2:
 			{
 				Debug.Log (partition);
+				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].innerSpawnPos.position, obstacleCollection));
+				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].midSpawnPos.position, obstacleCollection));
+				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].outerSpawnPos.position, obstacleCollection));
+
+				if(spacePartition[partition-2].partitionContainer.Count!=0)
+				{
+					ClearObstacles (spacePartition [partition - 2].partitionContainer);
+				}
+
+				break;
+			}
+		case 3:
+			{
+				Debug.Log (partition);
+				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].innerSpawnPos.position, obstacleCollection));
+				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].midSpawnPos.position, obstacleCollection));
+				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].outerSpawnPos.position, obstacleCollection));
+
+				if(spacePartition[partition-2].partitionContainer.Count!=0)
+				{
+					ClearObstacles (spacePartition [partition - 2].partitionContainer);
+				}
+
 				break;
 			}
 		case 4:
 			{
 				Debug.Log (partition);
+				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].innerSpawnPos.position, obstacleCollection));
+				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].midSpawnPos.position, obstacleCollection));
+				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].outerSpawnPos.position, obstacleCollection));
+
+				if(spacePartition[partition-2].partitionContainer.Count!=0)
+				{
+					ClearObstacles (spacePartition [partition - 2].partitionContainer);
+				}
+
+				break;
+			}
+		case 5:
+			{
+				Debug.Log (partition);
+//				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].innerSpawnPos.position, obstacleCollection));
+//				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].midSpawnPos.position, obstacleCollection));
+//				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].outerSpawnPos.position, obstacleCollection));
+
+				if(spacePartition[partition-1].partitionContainer.Count!=0)
+				{
+					ClearObstacles (spacePartition [partition - 2].partitionContainer);
+				}
+
 				break;
 			}
 		case 6:
 			{
 				Debug.Log (partition);
+				spacePartition [0].partitionContainer.Add (CheckForProbability (spawnPts [0].innerSpawnPos.position, obstacleCollection));
+				spacePartition [0].partitionContainer.Add (CheckForProbability (spawnPts [0].midSpawnPos.position, obstacleCollection));
+				spacePartition [0].partitionContainer.Add (CheckForProbability (spawnPts [0].outerSpawnPos.position, obstacleCollection));
+
+				if(spacePartition[partition-1].partitionContainer.Count!=0)
+				{
+					ClearObstacles (spacePartition [partition - 2].partitionContainer);
+				}
+
 				break;
 			}
-		default:
+		case 7:
 			{
-				//Debug.Log (partition);
+				Debug.Log (partition);
+				spacePartition [1].partitionContainer.Add (CheckForProbability (spawnPts [1].innerSpawnPos.position, obstacleCollection));
+				spacePartition [1].partitionContainer.Add (CheckForProbability (spawnPts [1].midSpawnPos.position, obstacleCollection));
+				spacePartition [1].partitionContainer.Add (CheckForProbability (spawnPts [1].outerSpawnPos.position, obstacleCollection));
+
+				if(spacePartition[partition-1].partitionContainer.Count!=0)
+				{
+					ClearObstacles (spacePartition [partition - 2].partitionContainer);
+				}
+
+				break;
+			}
+		case 10:
+			{
+				Debug.Log (partition);
+				spacePartition [0].partitionContainer.Add (CheckForProbability (spawnPts [0].innerSpawnPos.position, obstacleCollection));
+				spacePartition [0].partitionContainer.Add (CheckForProbability (spawnPts [0].midSpawnPos.position, obstacleCollection));
+				spacePartition [0].partitionContainer.Add (CheckForProbability (spawnPts [0].outerSpawnPos.position, obstacleCollection));
+
+				spacePartition [1].partitionContainer.Add (CheckForProbability (spawnPts [1].innerSpawnPos.position, obstacleCollection));
+				spacePartition [1].partitionContainer.Add (CheckForProbability (spawnPts [1].midSpawnPos.position, obstacleCollection));
+				spacePartition [1].partitionContainer.Add (CheckForProbability (spawnPts [1].outerSpawnPos.position, obstacleCollection));
+
 				break;
 			}
 		}
@@ -82,19 +227,17 @@ public class SpawnManager : MonoBehaviour {
 
 	#region Coroutines
 
-	// Spawn random objects at near spawnPts based on dog position
+	// Spawn random objects at near spawnPts based on dog position //TODO change it to event handler
 	public IEnumerator Spawner()
 	{
+		spawn (10);
 		while(spawnOn)
 		{
 			
 			yield return new WaitForFixedUpdate ();
 			if(dogPosition!=dogPrevPos)
 			{
-				if(dogPosition%2==0)
-				{
 					spawn (dogPosition);
-				}
 				// spawn next 2 sets of spawn pts
 			}
 			dogPrevPos=dogPosition;

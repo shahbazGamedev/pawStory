@@ -9,13 +9,16 @@ using System.Collections;
 public class CollisionManager : MonoBehaviour {
 
 	public collisionTypes objectID;
+	public int triggerID; // starts from 1
+	public static int previousID;
 
 	public enum collisionTypes
 	{
 		hurdleJump,
 		hurdleSlide,
 		powerTurbo,
-		powerSlow
+		powerSlow,
+		waypoint
 	}
 
 	// Use this for initialization
@@ -29,10 +32,18 @@ public class CollisionManager : MonoBehaviour {
 	}
 
 	// Manage Collision
-	void OnCollisionEnter(Collision other)
+	void OnTriggerEnter(Collider other)
 	{
-		if(other.gameObject.tag=="Player")
+		if (other.gameObject.tag == "Player") 
 		{
+			if(objectID==collisionTypes.waypoint)
+			{
+				if(triggerID!=previousID)
+					other.gameObject.GetComponent <EllipseMovement> ().FireDogMovedNextPartition ();
+				previousID = triggerID;
+				return;
+			}
+
 			if(objectID==collisionTypes.hurdleJump || objectID==collisionTypes.hurdleSlide)
 			{
 				// Reduce dog movement speed

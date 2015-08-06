@@ -41,6 +41,7 @@ public class EllipseMovement : MonoBehaviour
 	float yForward;
 	float forwardAlpha;
 	int currentLane; // starts from 0
+	bool isCoroutineOn;
 
 	[System.Serializable]
 	public struct CircuitLaneData {
@@ -119,6 +120,7 @@ public class EllipseMovement : MonoBehaviour
 
 		if (DogJustMoved != null)
 			DogJustMoved ();
+
 	}
 
 	// Reset lane at start of game
@@ -134,6 +136,13 @@ public class EllipseMovement : MonoBehaviour
 	{
 		if(LapTriggered!=null)
 			LapTriggered ();
+	}
+
+	// Fire event from outside
+	public void FireDogMovedNextPartition()
+	{
+		if (DogMovedNextPartition != null)
+			DogMovedNextPartition ();
 	}
 
 	// Run coroutine from outside
@@ -174,14 +183,16 @@ public class EllipseMovement : MonoBehaviour
 	// Manages Bullet Time
 	public IEnumerator BulletTime(float factor)
 	{
-		var tempAlphaFactor = alphaFactor;
-		alphaFactor = factor;
-		dogAnim.SetFloat ("SlowFactor", factor>22? 1.5f:0.5f);
-		yield return new WaitForSeconds (3);
-		alphaFactor = tempAlphaFactor;
-		dogAnim.SetFloat ("SlowFactor", 1f);
-		Debug.Log ("Done");
-		//yield return null;
+		if (!isCoroutineOn) {
+			var tempAlphaFactor = alphaFactor;
+			alphaFactor = factor;
+			dogAnim.SetFloat ("SlowFactor", factor > 22 ? 1.5f : 0.5f);
+			yield return new WaitForSeconds (3);
+			alphaFactor = tempAlphaFactor;
+			dogAnim.SetFloat ("SlowFactor", 1f);
+			//Debug.Log ("Done");
+		}
+		yield return null;
 	}
 		
 
@@ -189,14 +200,16 @@ public class EllipseMovement : MonoBehaviour
 		
 	#region triggerCallbacks
 
-	void OnTriggerStay()
+	void OnTriggerStay(Collider other)
 	{
-		isGrounded=true;
+		if(other.gameObject.tag=="floor")
+			isGrounded=true;
 	}
 
-	void OnTriggerExit()
+	void OnTriggerExit(Collider other)
 	{
-		isGrounded=false;
+		if(other.gameObject.tag=="floor")
+			isGrounded=false;
 	}
 
 	#endregion
