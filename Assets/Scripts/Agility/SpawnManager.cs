@@ -103,7 +103,7 @@ public class SpawnManager : MonoBehaviour {
 		{
 		case 0:
 			{
-				Debug.Log (partition);
+//				Debug.Log (partition);
 
 				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].innerSpawnPos.position, obstacleCollection));
 				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].midSpawnPos.position, obstacleCollection));
@@ -118,7 +118,7 @@ public class SpawnManager : MonoBehaviour {
 			}
 		case 1:
 			{
-				Debug.Log (partition);
+//				Debug.Log (partition);
 				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].innerSpawnPos.position, obstacleCollection));
 				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].midSpawnPos.position, obstacleCollection));
 				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].outerSpawnPos.position, obstacleCollection));
@@ -127,7 +127,7 @@ public class SpawnManager : MonoBehaviour {
 			}
 		case 2:
 			{
-				Debug.Log (partition);
+//				Debug.Log (partition);
 				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].innerSpawnPos.position, obstacleCollection));
 				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].midSpawnPos.position, obstacleCollection));
 				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].outerSpawnPos.position, obstacleCollection));
@@ -141,7 +141,7 @@ public class SpawnManager : MonoBehaviour {
 			}
 		case 3:
 			{
-				Debug.Log (partition);
+//				Debug.Log (partition);
 				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].innerSpawnPos.position, obstacleCollection));
 				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].midSpawnPos.position, obstacleCollection));
 				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].outerSpawnPos.position, obstacleCollection));
@@ -155,7 +155,7 @@ public class SpawnManager : MonoBehaviour {
 			}
 		case 4:
 			{
-				Debug.Log (partition);
+//				Debug.Log (partition);
 				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].innerSpawnPos.position, obstacleCollection));
 				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].midSpawnPos.position, obstacleCollection));
 				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].outerSpawnPos.position, obstacleCollection));
@@ -169,10 +169,7 @@ public class SpawnManager : MonoBehaviour {
 			}
 		case 5:
 			{
-				Debug.Log (partition);
-//				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].innerSpawnPos.position, obstacleCollection));
-//				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].midSpawnPos.position, obstacleCollection));
-//				spacePartition [partition+2].partitionContainer.Add (CheckForProbability (spawnPts [partition+2].outerSpawnPos.position, obstacleCollection));
+//				Debug.Log (partition);
 
 				if(spacePartition[partition-1].partitionContainer.Count!=0)
 				{
@@ -183,7 +180,7 @@ public class SpawnManager : MonoBehaviour {
 			}
 		case 6:
 			{
-				Debug.Log (partition);
+//				Debug.Log (partition);
 				spacePartition [0].partitionContainer.Add (CheckForProbability (spawnPts [0].innerSpawnPos.position, obstacleCollection));
 				spacePartition [0].partitionContainer.Add (CheckForProbability (spawnPts [0].midSpawnPos.position, obstacleCollection));
 				spacePartition [0].partitionContainer.Add (CheckForProbability (spawnPts [0].outerSpawnPos.position, obstacleCollection));
@@ -197,7 +194,7 @@ public class SpawnManager : MonoBehaviour {
 			}
 		case 7:
 			{
-				Debug.Log (partition);
+//				Debug.Log (partition);
 				spacePartition [1].partitionContainer.Add (CheckForProbability (spawnPts [1].innerSpawnPos.position, obstacleCollection));
 				spacePartition [1].partitionContainer.Add (CheckForProbability (spawnPts [1].midSpawnPos.position, obstacleCollection));
 				spacePartition [1].partitionContainer.Add (CheckForProbability (spawnPts [1].outerSpawnPos.position, obstacleCollection));
@@ -211,7 +208,7 @@ public class SpawnManager : MonoBehaviour {
 			}
 		case 10:
 			{
-				Debug.Log (partition);
+//				Debug.Log (partition);
 				spacePartition [0].partitionContainer.Add (CheckForProbability (spawnPts [0].innerSpawnPos.position, obstacleCollection));
 				spacePartition [0].partitionContainer.Add (CheckForProbability (spawnPts [0].midSpawnPos.position, obstacleCollection));
 				spacePartition [0].partitionContainer.Add (CheckForProbability (spawnPts [0].outerSpawnPos.position, obstacleCollection));

@@ -109,13 +109,17 @@ public class AgilityManager : MonoBehaviour {
 			{
 				Jump ();
 			}
-			else if(pattern == SwipeRecognizer.TouchPattern.swipeLeft /*|| pattern == SwipeRecognizer.TouchPattern.swipeUpLeft || pattern == SwipeRecognizer.TouchPattern.swipeDownLeft*/)
+			else if(pattern == SwipeRecognizer.TouchPattern.swipeLeft || pattern == SwipeRecognizer.TouchPattern.swipeUpLeft || pattern == SwipeRecognizer.TouchPattern.swipeDownLeft)
 			{
 				StartCoroutine (dogCircuitManager.ChangeLane (currentLane-=1));
 			}
-			else if(pattern == SwipeRecognizer.TouchPattern.swipeRight /*|| pattern == SwipeRecognizer.TouchPattern.swipeUpRight || pattern == SwipeRecognizer.TouchPattern.swipeDownRight*/)
+			else if(pattern == SwipeRecognizer.TouchPattern.swipeRight || pattern == SwipeRecognizer.TouchPattern.swipeUpRight || pattern == SwipeRecognizer.TouchPattern.swipeDownRight)
 			{
 				StartCoroutine (dogCircuitManager.ChangeLane (currentLane+=1));
+			}
+			else if (pattern == SwipeRecognizer.TouchPattern.swipeDown) 
+			{
+				Slide ();
 			}
 			else
 			{
@@ -140,6 +144,15 @@ public class AgilityManager : MonoBehaviour {
 		{
 			dogAnim.SetTrigger ("Jump");
 			dogRef.GetComponent<Rigidbody> ().AddForce (jumpHeight, ForceMode.Impulse);
+		}
+	}
+
+	// Called to make dog slide
+	void Slide()
+	{
+		if (dogCircuitManager.isGrounded) 
+		{
+			dogAnim.SetTrigger ("Slide");
 		}
 	}
 
