@@ -12,6 +12,8 @@ public class AgilityManager : MonoBehaviour {
 
 	#region Variables
 
+	public static AgilityManager instanceRef;
+
 	public GameObject dogRef;
 	public GameObject gameOverPannel;
 	public GameObject startBtn;
@@ -23,12 +25,15 @@ public class AgilityManager : MonoBehaviour {
 	public float additionalTime;
 	public float checkPointCount; // Always int values
 	public float jumpForce;
+	public float timeForSlideReset;
 
 	TouchManager touchManagerRef;
 
 	Vector3 jumpHeight;
 	Vector3 startPos;
 	Quaternion startRot;
+	public Vector3 targetColliderSize;
+	Vector3 boxColliderSize;
 
 	public float currentCheckpointTimer; // In secs
 //	float currentTimer; // In secs
@@ -48,6 +53,7 @@ public class AgilityManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
+		instanceRef = this;
 		dogRef = GameObject.FindGameObjectWithTag ("Player");
 		touchManagerRef = FindObjectOfType <TouchManager> ();
 		camRef = FindObjectOfType <CameraFollow> ();
@@ -58,6 +64,9 @@ public class AgilityManager : MonoBehaviour {
 		jumpHeight = new Vector3(0 , jumpForce, 0);
 		startPos = dogRef.transform.position;
 		startRot = dogRef.transform.rotation;
+
+		var boxCollider = (BoxCollider)dogRef.GetComponent <Collider> ();
+		boxColliderSize = boxCollider.size;
 
 		// Event Listeners
 		touchManagerRef.PatternRecognized += SwipeEventHandler; //  Add Listener to touch manager
@@ -153,7 +162,19 @@ public class AgilityManager : MonoBehaviour {
 		if (dogCircuitManager.isGrounded) 
 		{
 			dogAnim.SetTrigger ("Slide");
+			var boxCollider = (BoxCollider)dogRef.GetComponent <Collider> ();
+			//boxColliderSize = boxCollider.size;
+			boxCollider.size=targetColliderSize;
+			//Invoke ("ResetColliderSize", timeForSlideReset);
 		}
+	}
+
+	// Reset box collider size afer sliding
+	public void ResetColliderSize()
+	{
+		//Debug.Log ("Reset");
+		var boxCollider = (BoxCollider)dogRef.GetComponent <Collider> ();
+		boxCollider.size = boxColliderSize;
 	}
 
 	// Called when lap completes

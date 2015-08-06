@@ -651,6 +651,8 @@ MonoBehaviour:
   additionalTime: 10
   checkPointCount: 0
   jumpForce: 5
+  timeForSlideReset: 1.20000005
+  targetColliderSize: {x: .600000024, y: .600000024, z: 2}
   currentCheckpointTimer: 20
 --- !u!4 &185955424
 Transform:
@@ -2306,8 +2308,8 @@ Transform:
   - {fileID: 1825231781}
   - {fileID: 819968442}
   - {fileID: 1046692146}
-  m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_Father: {fileID: 1369313726}
+  m_RootOrder: 9
 --- !u!1 &801489482
 GameObject:
   m_ObjectHideFlags: 0
@@ -2751,7 +2753,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 410218, guid: 20ae4503d475295449e5e7ba333aff00, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 45.3100014
+      value: 44.7999992
       objectReference: {fileID: 0}
     - target: {fileID: 410218, guid: 20ae4503d475295449e5e7ba333aff00, type: 2}
       propertyPath: m_LocalPosition.y
@@ -2759,7 +2761,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 410218, guid: 20ae4503d475295449e5e7ba333aff00, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 4.67821646
+      value: -8.47000027
       objectReference: {fileID: 0}
     - target: {fileID: 410218, guid: 20ae4503d475295449e5e7ba333aff00, type: 2}
       propertyPath: m_LocalRotation.x
@@ -3542,6 +3544,7 @@ Transform:
   - {fileID: 1153552266}
   - {fileID: 597564493}
   - {fileID: 993305117}
+  - {fileID: 797433696}
   m_Father: {fileID: 0}
   m_RootOrder: 8
 --- !u!1 &1396245464
@@ -3577,7 +3580,7 @@ Light:
   m_Shadows:
     m_Type: 2
     m_Resolution: -1
-    m_Strength: 1
+    m_Strength: .600000024
     m_Bias: .0500000007
     m_NormalBias: .400000006
   m_Cookie: {fileID: 0}
@@ -3656,6 +3659,7 @@ GameObject:
   - 65: {fileID: 1468324182}
   - 114: {fileID: 1468324181}
   - 95: {fileID: 1468324186}
+  - 114: {fileID: 1468324183}
   m_Layer: 0
   m_Name: Dog
   m_TagString: Player
@@ -3723,6 +3727,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: .400000006, y: 1.20000005, z: 1}
   m_Center: {x: 0, y: .579999983, z: .5}
+--- !u!114 &1468324183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1468324179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dccfa8da996e2945bdd1e99642ad654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!65 &1468324184
 BoxCollider:
   m_ObjectHideFlags: 0

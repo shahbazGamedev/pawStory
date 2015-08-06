@@ -48,21 +48,21 @@ public class CollisionManager : MonoBehaviour {
 			{
 				// Reduce dog movement speed
 				Debug.Log ("Hit hurdle");
-				Destroy (gameObject);
+				Destroy (gameObject.transform.parent.gameObject);
 			}
 			else if(objectID==collisionTypes.powerTurbo)
 			{
 				// Dog movement speed boost
 				Debug.Log ("Turbo Mode");
 				other.gameObject.GetComponent <EllipseMovement>().RunCoroutine (33);
-				Destroy (gameObject);
+				Destroy (gameObject.transform.parent.gameObject);
 			}
 			else if(objectID==collisionTypes.powerSlow)
 			{
 				// Slow game speed
 				Debug.Log ("Bullet Time");
 				other.gameObject.GetComponent <EllipseMovement>().RunCoroutine (11);
-				Destroy (gameObject);
+				Destroy (gameObject.transform.parent.gameObject);
 			}
 		}
 	}
