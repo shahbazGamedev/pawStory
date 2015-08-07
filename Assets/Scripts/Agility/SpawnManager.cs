@@ -1,6 +1,6 @@
 ﻿/**
 Script Author : Vaikash 
-Description   : Takes care of obstacle spawning in Agility
+Description   : Takes care of obstacle & powerUp spawn in Agility
 **/
 
 using UnityEngine;
@@ -52,8 +52,6 @@ public class SpawnManager : MonoBehaviour {
 		partitionCount = spawnPts.Length;
 		StartCoroutine (Spawner ());
 		EllipseMovement.DogMovedNextPartition += UpdateDogPosition;
-
-
 	}
 
 	void OnDisable()
@@ -80,7 +78,6 @@ public class SpawnManager : MonoBehaviour {
 	// Event Handler for dogMovedNextPartition
 	void UpdateDogPosition()
 	{
-		//Debug.Log ("Fired");
 		dogPosition += 1;
 		if (dogPosition > 7)
 			dogPosition = 0;
@@ -104,10 +101,9 @@ public class SpawnManager : MonoBehaviour {
 		powerUpRef = (GameObject)Instantiate (collectibleCollection [Random.Range (0, collectibleCollection.Length)], 
 			powSpawnPts [Random.Range (0, powSpawnPts.Length)].transform.position, 
 			Quaternion.identity);
-		Debug.Log ("power");
 	}
 
-	// Actual spawining takes place here
+	// Actual spawning takes place here 
 	void Spawn(int partition)
 	{
 		switch(partition)

@@ -17,6 +17,7 @@ public class AgilityManager : MonoBehaviour {
 	public GameObject dogRef;
 	public GameObject gameOverPannel;
 	public GameObject startBtn;
+	public GameObject freezeSkillBtn;
 	public Text timerText;
 	public Text gameOverText;
 
@@ -28,6 +29,7 @@ public class AgilityManager : MonoBehaviour {
 	public float jumpForce;
 	public float timeForSlideReset;
 	public int hurdlesCollided;
+	public float timeScale;
 
 	TouchManager touchManagerRef;
 
@@ -40,13 +42,11 @@ public class AgilityManager : MonoBehaviour {
 	Vector3 boxColliderCenter;
 
 	public float currentCheckpointTimer; // In secs
-//	float currentTimer; // In secs
 	int currentLane;
 
 	bool startGame;
 	bool gameOver;
-//	bool spawnObstacle;
-//	bool spawnCollectible;
+	bool pauseTimer;
 
 	Animator dogAnim;
 	EllipseMovement dogCircuitManager;
@@ -69,6 +69,7 @@ public class AgilityManager : MonoBehaviour {
 		startPos = dogRef.transform.position;
 		startRot = dogRef.transform.rotation;
 
+		// Save default dog collider values
 		var boxCollider = (BoxCollider)dogRef.GetComponent <Collider> ();
 		boxColliderSize = boxCollider.size;
 		boxColliderCenter = boxCollider.center;
@@ -92,7 +93,9 @@ public class AgilityManager : MonoBehaviour {
 	{
 		if (startGame) 
 		{
-			currentCheckpointTimer -= Time.deltaTime;
+			if (!pauseTimer) {
+				currentCheckpointTimer -= Time.deltaTime * timeScale;
+			}
 			gameOver = (int)currentCheckpointTimer <= 0 ? true : false;
 			if (currentCheckpointTimer < 10)
 				timerText.text = "Time Remaining: 0" + (int)currentCheckpointTimer + " s";
@@ -168,18 +171,17 @@ public class AgilityManager : MonoBehaviour {
 		if (dogCircuitManager.isGrounded) 
 		{
 			dogAnim.SetTrigger ("Slide");
+
+			// Reduce dog collider size
 			var boxCollider = (BoxCollider)dogRef.GetComponent <Collider> ();
-			//boxColliderSize = boxCollider.size;
 			boxCollider.size=targetColliderSize;
 			boxCollider.center = targetColliderCenter;
-			//Invoke ("ResetColliderSize", timeForSlideReset);
 		}
 	}
 
 	// Reset box collider size afer sliding
 	public void ResetColliderSize()
 	{
-		//Debug.Log ("Reset");
 		var boxCollider = (BoxCollider)dogRef.GetComponent <Collider> ();
 		boxCollider.size = boxColliderSize;
 		boxCollider.center = boxColliderCenter;
@@ -191,18 +193,22 @@ public class AgilityManager : MonoBehaviour {
 		ReachedCheckPoint ();
 	}
 
+	// Resume timer 
+	void ResumeTimer()
+	{
+		pauseTimer = false;
+	}
 	#region Coroutines
 
 	// Activates End Game Display
 	IEnumerator GameOver()
 	{
 		dogCircuitManager.updatePos = false;
-		//yield return new WaitForSeconds (2);
 		timerText.gameObject.transform.parent.gameObject.SetActive (false);
 		gameOverPannel.SetActive (true);
 		GetComponent <SpawnManager> ().spawnOn = false;
 		gameOverText.text = "Lap Count: " + checkPointCount + "\n\n" + "Hurdles Collided: " 
-			+ hurdlesCollided + "\n\nDistance Travelled: " + (int)EllipseMovement.alpha+" m";
+			+ hurdlesCollided + "\n\nDistance Travelled: " + (int)EllipseMovement.alpha+" m"; // Game Play Stats
 		yield return null;
 	}
 
@@ -225,6 +231,7 @@ public class AgilityManager : MonoBehaviour {
 	{
 		//ReachedCheckPoint ();
 		startGame = true;
+		freezeSkillBtn.SetActive (true);
 		StartCoroutine (GameStart ());
 	}
 
@@ -245,6 +252,21 @@ public class AgilityManager : MonoBehaviour {
 		GetComponent <SpawnManager> ().spawnOn = true;
 		GetComponent <SpawnManager> ().ClearHurdles ();
 		StartCoroutine (GetComponent <SpawnManager> ().Spawner ());
+	}
+
+	// Freeze skill Btn callback
+	public void freezeBtn()
+	{
+		// code to stop timer
+		pauseTimer = true;
+		freezeSkillBtn.SetActive (false);
+		Invoke ("ResumeTimer", 3f);
+	}
+
+	// Home Btn Callback
+	public void homeBtn()
+	{
+		GameMgr.instance.LoadScene(GlobalConst.Scene_MainMenu);
 	}
 
 	#endregion

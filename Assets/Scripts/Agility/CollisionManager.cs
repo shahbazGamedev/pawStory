@@ -47,23 +47,23 @@ public class CollisionManager : MonoBehaviour {
 			if(objectID==collisionTypes.hurdleJump || objectID==collisionTypes.hurdleSlide)
 			{
 				// Reduce dog movement speed
-				Debug.Log ("Hit hurdle");
-				other.gameObject.GetComponent <EllipseMovement>().RunCoroutine (20);
+//				Debug.Log ("Hit hurdle");
+				other.gameObject.GetComponent <EllipseMovement>().RunCoroutine (18);
 				AgilityManager.instanceRef.hurdlesCollided += 1;
 				Destroy (gameObject.transform.parent.gameObject);
 			}
 			else if(objectID==collisionTypes.powerTurbo)
 			{
 				// Dog movement speed boost
-				Debug.Log ("Turbo Mode");
+//				Debug.Log ("Turbo Mode");
 				other.gameObject.GetComponent <EllipseMovement>().RunCoroutine (28);
 				Destroy (gameObject.transform.parent.gameObject);
 			}
 			else if(objectID==collisionTypes.powerSlow)
 			{
 				// Slow game speed
-				Debug.Log ("Bullet Time");
-				other.gameObject.GetComponent <EllipseMovement>().RunCoroutine (18);
+//				Debug.Log ("Bullet Time");
+				other.gameObject.GetComponent <EllipseMovement>().RunCoroutine (14);
 				Destroy (gameObject.transform.parent.gameObject);
 			}
 		}

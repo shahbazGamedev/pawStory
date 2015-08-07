@@ -48,7 +48,6 @@ public class CameraFollow : MonoBehaviour {
 	// Decouple event listener
 	void OnDisable()
 	{
-//		if(dogRef!=null)
 			EllipseMovement.DogJustMoved -= FollowDogMovement;
 	}
 

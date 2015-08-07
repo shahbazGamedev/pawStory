@@ -18,6 +18,7 @@ public class EllipseMovement : MonoBehaviour
 	public float centerY;
 	public float moveSpeed;
 	public float alphaFactor;
+	const float alphaFactorConst = 22f;
 	public bool isGrounded; // Flag to check whether dog is mid air
 	public float forwardDist;
 	public Vector3 forwardDirection;
@@ -55,7 +56,6 @@ public class EllipseMovement : MonoBehaviour
 
 	// Event to broadcast lane change complete to listeners
 	public delegate void DogMovement();
-	public static event DogMovement GameHasBegun;
 	public static event DogMovement LaneChangeComplete;
 	public static event DogMovement DogJustMoved;
 	public static event DogMovement LapTriggered;
@@ -82,16 +82,11 @@ public class EllipseMovement : MonoBehaviour
 			else
 				dogAnim.SetFloat ("Speed", 0);
 			DogTrackMove ();
-
 		}
 		else
 		{
 			dogAnim.SetFloat ("Speed", 0);
 		}
-			
-		//rb.drag = dragFactor * transform.position.y;
-		//RealisticJump ();
-
 	}
 
 	// Update dog position in a elliptical path
@@ -115,7 +110,7 @@ public class EllipseMovement : MonoBehaviour
 		forwardDirection=new Vector3(xForward, currentPosition.y, yForward);
 
 		// Dog Movement
-		GetComponent<Rigidbody>().MovePosition (Vector3.MoveTowards (transform.position, target, moveSpeed * Time.deltaTime));
+		rb.MovePosition (Vector3.MoveTowards (transform.position, target, moveSpeed * Time.deltaTime));
 		transform.LookAt(forwardDirection);
 
 		if (DogJustMoved != null)
@@ -156,7 +151,7 @@ public class EllipseMovement : MonoBehaviour
 	// Change lane dog in moving
 	public IEnumerator ChangeLane(int targetLane)
 	{
-		Debug.Log (targetLane);
+//		Debug.Log (targetLane);
 		if(targetLane < 0 || targetLane >= circuitLaneData.Length)
 		{
 			// Do nothing when dog is at either ends
@@ -183,15 +178,18 @@ public class EllipseMovement : MonoBehaviour
 	// Manages Bullet Time
 	public IEnumerator BulletTime(float factor)
 	{
+//		isCoroutineOn = true;
 		if (!isCoroutineOn) {
-			var tempAlphaFactor = alphaFactor;
 			alphaFactor = factor;
-			dogAnim.SetFloat ("SlowFactor", factor > 22 ? 1.25f : 0.7f);
+			if (factor == 14)
+				AgilityManager.instanceRef.timeScale = 0.5f;
+			dogAnim.SetFloat ("SlowFactor", factor > 22 ? 1.25f : 0.7f); // Match Animation speed
 			yield return new WaitForSeconds (3);
-			alphaFactor = tempAlphaFactor;
+			alphaFactor = alphaFactorConst;
+			AgilityManager.instanceRef.timeScale = 1f;
 			dogAnim.SetFloat ("SlowFactor", 1f);
-			//Debug.Log ("Done");
 		}
+//		isCoroutineOn = false;
 		yield return null;
 	}
 		
@@ -200,6 +198,7 @@ public class EllipseMovement : MonoBehaviour
 		
 	#region triggerCallbacks
 
+	// Maintains isGrounded flag based on dog movement
 	void OnTriggerStay(Collider other)
 	{
 		if(other.gameObject.tag=="floor")
