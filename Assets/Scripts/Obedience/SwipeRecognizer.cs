@@ -172,19 +172,19 @@ public class SwipeRecognizer
 		// Mapping angle to 8 directions 0 - 180
 		if(angle>0)
 		{
-			if(angle > 75 && angle <= 105)
+			if(angle > 60 && angle <= 120)
 			{
 				pattern = TouchPattern.swipeUp;
 			}
-			else if(angle > 15 && angle <= 75)
+			else if(angle > 30 && angle <= 60)
 			{
 				pattern = TouchPattern.swipeUpRight;
 			}
-			else if(angle >= 0 && angle <= 15)
+			else if(angle >= 0 && angle <= 30)
 			{
 				pattern = TouchPattern.swipeRight;
 			}
-			else if(angle > 105 && angle <= 165)
+			else if(angle > 120 && angle <= 150)
 			{
 				pattern = TouchPattern.swipeUpLeft;
 			}
@@ -197,19 +197,19 @@ public class SwipeRecognizer
 		// Mapping angle to 8 directions 0 - -180
 		else
 		{
-			if(angle < -75 && angle >= -105)
+			if(angle < -60 && angle >= -120)
 			{
 				pattern = TouchPattern.swipeDown;
 			}
-			else if(angle < -15 && angle >= -75)
+			else if(angle < -30 && angle >= -60)
 			{
 				pattern = TouchPattern.swipeDownRight;
 			}
-			else if(angle <= 0 && angle >= -15)
+			else if(angle <= 0 && angle >= -30)
 			{
 				pattern = TouchPattern.swipeRight;
 			}
-			else if(angle < -105 && angle >= -165)
+			else if(angle < -120 && angle >= -150)
 			{
 				pattern = TouchPattern.swipeDownLeft;
 			}
@@ -278,19 +278,19 @@ public class SwipeRecognizer
 		// Mapping angle to 8 directions 0 - 180
 		if(angle>0)
 		{
-			if(angle > 75 && angle <= 105)
+			if(angle > 60 && angle <= 120)
 			{
 				pattern = TouchPattern.swipeUp;
 			}
-			else if(angle > 15 && angle <= 75)
+			else if(angle > 30 && angle <= 60)
 			{
 				pattern = TouchPattern.swipeUpRight;
 			}
-			else if(angle >= 0 && angle <= 15)
+			else if(angle >= 0 && angle <= 30)
 			{
 				pattern = TouchPattern.swipeRight;
 			}
-			else if(angle > 105 && angle <= 165)
+			else if(angle > 120 && angle <= 150)
 			{
 				pattern = TouchPattern.swipeUpLeft;
 			}
@@ -303,19 +303,19 @@ public class SwipeRecognizer
 		// Mapping angle to 8 directions 0 - -180
 		else
 		{
-			if(angle < -75 && angle >= -105)
+			if(angle < -60 && angle >= -120)
 			{
 				pattern = TouchPattern.swipeDown;
 			}
-			else if(angle < -15 && angle >= -75)
+			else if(angle < -30 && angle >= -60)
 			{
 				pattern = TouchPattern.swipeDownRight;
 			}
-			else if(angle <= 0 && angle >= -15)
+			else if(angle <= 0 && angle >= -30)
 			{
 				pattern = TouchPattern.swipeRight;
 			}
-			else if(angle < -105 && angle >= -165)
+			else if(angle < -120 && angle >= -150)
 			{
 				pattern = TouchPattern.swipeDownLeft;
 			}
@@ -361,19 +361,19 @@ public class SwipeRecognizer
 		// Mapping angle to 8 directions 0 - 180
 		if(angle>0)
 		{
-			if(angle > 75 && angle <= 105)
+			if(angle > 60 && angle <= 120)
 			{
 				pattern = TouchPattern.swipeUp;
 			}
-			else if(angle > 15 && angle <= 75)
+			else if(angle > 30 && angle <= 60)
 			{
 				pattern = TouchPattern.swipeUpRight;
 			}
-			else if(angle >= 0 && angle <= 15)
+			else if(angle >= 0 && angle <= 30)
 			{
 				pattern = TouchPattern.swipeRight;
 			}
-			else if(angle > 105 && angle <= 165)
+			else if(angle > 120 && angle <= 150)
 			{
 				pattern = TouchPattern.swipeUpLeft;
 			}
@@ -386,19 +386,19 @@ public class SwipeRecognizer
 		// Mapping angle to 8 directions 0 - -180
 		else
 		{
-			if(angle < -75 && angle >= -105)
+			if(angle < -60 && angle >= -120)
 			{
 				pattern = TouchPattern.swipeDown;
 			}
-			else if(angle < -15 && angle >= -75)
+			else if(angle < -30 && angle >= -60)
 			{
 				pattern = TouchPattern.swipeDownRight;
 			}
-			else if(angle <= 0 && angle >= -15)
+			else if(angle <= 0 && angle >= -30)
 			{
 				pattern = TouchPattern.swipeRight;
 			}
-			else if(angle < -105 && angle >= -165)
+			else if(angle < -120 && angle >= -150)
 			{
 				pattern = TouchPattern.swipeDownLeft;
 			}

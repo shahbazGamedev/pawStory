@@ -101,6 +101,7 @@ public class SpawnManager : MonoBehaviour {
 		powerUpRef = (GameObject)Instantiate (collectibleCollection [Random.Range (0, collectibleCollection.Length)], 
 			powSpawnPts [Random.Range (0, powSpawnPts.Length)].transform.position, 
 			Quaternion.identity);
+		powerUpRef.transform.parent = cloneHolder.transform;
 	}
 
 	// Actual spawning takes place here 
