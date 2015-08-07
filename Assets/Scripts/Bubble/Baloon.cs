@@ -2,67 +2,40 @@
 using System.Collections;
 
 public class Baloon : MonoBehaviour {
-	public GameObject floor;
-	public float maxDistance;
-	public float distance;
-	public GameObject food;
-	public Transform target;
-	public Transform startingPos;
-	public float speed;
-	public float smooth;
-	public Transform foodHolder;
+	public GameObject Food;
 	public int ID;
+	public int FoodType;
+	float LifeTime;
+	float Speed;
+	float curTime;
 
-
-	GlobalValues gValues;
-
-	// Use this for initialization
+	
 	void Start () 
 	{
-		maxDistance = 10;
-		floor = GameObject.FindGameObjectWithTag("floor");
-		gValues = GlobalValues.instanceRef;
+		LifeTime = 4;
+		Speed = 3;
 	}
-	
 
-	// Update is called once per frame
+
 	void FixedUpdate ()
 	{
-
-	MoveMent();
-	distance = Vector3.Distance (this.gameObject.transform.position, floor.transform.position);
-	if(distance>maxDistance)
-	{
-	gValues.baloonsAtScene -= 1;
-	Destroy (this.gameObject);
-	}
+		curTime += Time.deltaTime;
+		if(curTime > LifeTime)
+		{
+			Destroy (this.gameObject);
+		}
+		else
+		{
+			transform.position += new Vector3(0, 1, 0) * Speed * Time.deltaTime;
+		}
 	}
 
 
 	void OnMouseDown()
 	{
-		if(ID==3)
-		Instantiate(food,transform.position,Quaternion.identity);
-
-		//float step = speed * Time.deltaTime;
-		//transform.position = Vector3.MoveTowards(transform.position, target.position, step);
+		if(ID == 3)
+			Instantiate(Food, transform.position, Quaternion.identity);
 	}
 
 
-//	void OnBecameInvisible()
-//	{
-//		//Debug.LogError ("I m invincible");
-//		GManager gameManager = GManager.instanceRef;
-//		gameManager.baloonsAtScene -= 1;
-//		Destroy (this.gameObject);
-//
-//	}
-	void MoveMent()
-	{
-	    float t = 0.0f;
-		t+=Time.deltaTime;
-		Vector3 startingPos = transform.position;
-		transform.position = Vector3.MoveTowards(startingPos, target.position,t*smooth);
-
-	}
-	}
+}

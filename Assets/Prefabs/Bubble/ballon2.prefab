@@ -73,16 +73,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6dbf5a3f7f90d84382302cb3d07c880, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floor: {fileID: 129348, guid: 2613466712fcd3b498349827cf67ae2d, type: 2}
-  maxDistance: 0
-  distance: 0
-  food: {fileID: 133482, guid: ae1b3cbc41b2cc84aac7af46acd20b7e, type: 2}
-  target: {fileID: 479826, guid: 668b3c030a25d274983d577cf1b57b05, type: 2}
-  startingPos: {fileID: 477226, guid: 8179d2c07e5f251498afd57fef43655f, type: 2}
-  speed: 3
-  smooth: 5
-  foodHolder: {fileID: 0}
-  ID: 0
+  Food: {fileID: 133482, guid: ae1b3cbc41b2cc84aac7af46acd20b7e, type: 2}
+  ID: 3
+  FoodType: 0
 --- !u!135 &13554014
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -126,6 +119,18 @@ Prefab:
       propertyPath: floor
       value: 
       objectReference: {fileID: 129348, guid: 2613466712fcd3b498349827cf67ae2d, type: 2}
+    - target: {fileID: 0}
+      propertyPath: ID
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Food
+      value: 
+      objectReference: {fileID: 133482, guid: ae1b3cbc41b2cc84aac7af46acd20b7e, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 116666}

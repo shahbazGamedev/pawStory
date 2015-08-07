@@ -101,7 +101,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e875fd7e6bc5374b8fef796ad6856cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isCollect: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -125,6 +124,10 @@ Prefab:
       propertyPath: dog
       value: 
       objectReference: {fileID: 115258, guid: d7f5dc08140780045b0f187764789ec9, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 133482}
