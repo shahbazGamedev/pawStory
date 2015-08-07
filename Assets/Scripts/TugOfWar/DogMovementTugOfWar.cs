@@ -9,7 +9,6 @@ public class DogMovementTugOfWar : MonoBehaviour {
 	public GameObject win;
 	public GameObject gameOver;
 	public GameObject dog;
-	public GameObject floor;
 	public GameObject pulley;
 	public GameObject timer;
 	public Text winCondition;
@@ -45,7 +44,6 @@ public class DogMovementTugOfWar : MonoBehaviour {
 		if(other.gameObject.tag=="Finish")
 		{
 			timer.SetActive(false);
-			floor.SetActive(false);
 			dog.SetActive(false);
 			gameOver.SetActive(true);
 			Debug.Log ("win");
@@ -57,7 +55,6 @@ public class DogMovementTugOfWar : MonoBehaviour {
 		if(other.gameObject.tag=="LoseLine")
 		{
 			timer.SetActive(false);
-			floor.SetActive(false);
 			dog.SetActive(false);
 			gameOver.SetActive(true);
 			Debug.Log ("lose");
@@ -65,5 +62,11 @@ public class DogMovementTugOfWar : MonoBehaviour {
 		    winCondition.text="PUPPY WINS";
 		    pulley.SetActive(false);
 		}
+	}
+
+	public void GameOver()
+	{
+
+		winCondition.text="Ended as Draw";
 	}
 }

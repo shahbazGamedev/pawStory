@@ -1,36 +1,45 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
 
-public class MouseRotation: MonoBehaviour {
+public class MouseRotation : MonoBehaviour {
+	float angle;
+	Vector2 normalizedPositions;
+	public bool isTouched;
 
-	private float rotationSpeed = 10.0F;
-	private float lerpSpeed = 1.0F;
+
+	public GameObject dogRef;
+
+	// Use this for initialization
+	void Start () {
+
 	
-	private Vector3 theSpeed;
-	private Vector3 avgSpeed;
-	public  bool isDragging = false;
-	private Vector3 targetSpeedX;
-	
-	void OnMouseDown() {
-		
-		isDragging = true;
 	}
 	
-	void Update() {
-		
-		if (Input.GetMouseButton(0) && isDragging) {
-			theSpeed = new Vector3(-Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"), 0.0F);
-			avgSpeed = Vector3.Lerp(avgSpeed, theSpeed, Time.deltaTime * 5);
-		} else {
-			if (isDragging) {
-				theSpeed = avgSpeed;
-				isDragging = false;
-			}
-			float i = Time.deltaTime * lerpSpeed;
-			theSpeed = Vector3.Lerp(theSpeed, Vector3.zero, i);
+	// Update is called once per frame
+	void Update () 
+	{
+
+
+	    normalizedPositions = new Vector2((Input.mousePosition.x/Screen.width-0.5f), ((Input.mousePosition.y/Screen.height)-0.5f));
+		angle = Mathf.Atan2(normalizedPositions.y, normalizedPositions.x)*Mathf.Rad2Deg; 
+		transform.eulerAngles = new Vector3( 0,0,angle);
+		Debug.Log (angle);
+		if(angle<=50)
+		{
+			dogRef.GetComponent<DogMovementTugOfWar>().Movement();
 		}
-		
-		transform.Rotate(Camera.main.transform.up * theSpeed.x * rotationSpeed, Space.World);
-		transform.Rotate(Camera.main.transform.right * theSpeed.y * rotationSpeed, Space.World);
+			else
+			dogRef.GetComponent<DogMovementTugOfWar>().BackMovement();
+//		}
+//		else
+//		{
+//		    transform.eulerAngles = new Vector3( 0,0,angle);
+//			dogRef.GetComponent<DogMovementTugOfWar>().BackMovement();
+//		}
+
+
 	}
+
+
 }
