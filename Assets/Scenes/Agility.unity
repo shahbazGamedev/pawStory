@@ -305,7 +305,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
 --- !u!1 &87482110
 GameObject:
   m_ObjectHideFlags: 0
@@ -646,12 +646,14 @@ MonoBehaviour:
   gameOverPannel: {fileID: 1923198348}
   startBtn: {fileID: 108442207}
   timerText: {fileID: 1808941474}
+  gameOverText: {fileID: 1863632274}
   totalCheckpoints: 0
   dogSpeedReduction: .600000024
-  additionalTime: 10
+  additionalTime: 7
   checkPointCount: 0
   jumpForce: 5
   timeForSlideReset: 1.20000005
+  hurdlesCollided: 0
   targetColliderSize: {x: .600000024, y: .600000024, z: 2}
   targetColliderCenter: {x: 0, y: .300000012, z: .5}
   currentCheckpointTimer: 20
@@ -666,7 +668,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
 --- !u!114 &185955425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1712,7 +1714,7 @@ GameObject:
   m_Layer: 0
   m_Name: PowSpawnPt (3)
   m_TagString: Untagged
-  m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 8467475693731670952, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -2362,7 +2364,7 @@ GameObject:
   m_Layer: 0
   m_Name: PowSpawnPt (0)
   m_TagString: Untagged
-  m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 8467475693731670952, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -3043,7 +3045,7 @@ GameObject:
   m_Layer: 0
   m_Name: PowSpawnPt (2)
   m_TagString: Untagged
-  m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 8467475693731670952, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -3082,7 +3084,7 @@ GameObject:
   m_Layer: 0
   m_Name: PowSpawnPt (1)
   m_TagString: Untagged
-  m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 8467475693731670952, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -3654,6 +3656,7 @@ Transform:
   - {fileID: 993305117}
   - {fileID: 797433696}
   - {fileID: 602317643}
+  - {fileID: 1867664706}
   m_Father: {fileID: 0}
   m_RootOrder: 4
 --- !u!1 &1396245464
@@ -4231,10 +4234,10 @@ RectTransform:
   - {fileID: 1292337784}
   m_Father: {fileID: 1923198349}
   m_RootOrder: 1
-  m_AnchorMin: {x: .5, y: .5}
-  m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: -4.57763672e-05, y: -3.05175781e-05}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchorMin: {x: .282000005, y: .165840894}
+  m_AnchorMax: {x: .373326868, y: .337266564}
+  m_AnchoredPosition: {x: .5, y: 3}
+  m_SizeDelta: {x: -1, y: 0}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1803418555
 MonoBehaviour:
@@ -4562,10 +4565,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1923198349}
   m_RootOrder: 3
-  m_AnchorMin: {x: .5, y: 1}
-  m_AnchorMax: {x: .5, y: 1}
-  m_AnchoredPosition: {x: 1, y: -150}
-  m_SizeDelta: {x: 400, y: 100}
+  m_AnchorMin: {x: .114711516, y: .378415287}
+  m_AnchorMax: {x: .88500005, y: .811861634}
+  m_AnchoredPosition: {x: 0, y: -3.5}
+  m_SizeDelta: {x: -4, y: 1}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1863632274
 MonoBehaviour:
@@ -4582,7 +4585,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 8ec3e0624f0853841a3b315266c8cb6e, type: 3}
     m_FontSize: 40
     m_FontStyle: 0
     m_BestFit: 0
@@ -4626,8 +4629,8 @@ Transform:
   m_LocalPosition: {x: 29.6999989, y: .25, z: 19.1099987}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_Father: {fileID: 1369313726}
+  m_RootOrder: 11
 --- !u!1 &1898364481
 GameObject:
   m_ObjectHideFlags: 0
@@ -4714,10 +4717,10 @@ RectTransform:
   - {fileID: 63214522}
   m_Father: {fileID: 1923198349}
   m_RootOrder: 2
-  m_AnchorMin: {x: .5, y: .5}
-  m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 140.699997, y: -4.57763672e-05}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchorMin: {x: .623000026, y: .165840894}
+  m_AnchorMax: {x: .716000021, y: .337266564}
+  m_AnchoredPosition: {x: 2.5, y: 3}
+  m_SizeDelta: {x: -3, y: 0}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1905950898
 MonoBehaviour:
@@ -4970,10 +4973,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1923198349}
   m_RootOrder: 0
-  m_AnchorMin: {x: .5, y: 1}
-  m_AnchorMax: {x: .5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -50}
-  m_SizeDelta: {x: 400, y: 100}
+  m_AnchorMin: {x: .320000023, y: .811861634}
+  m_AnchorMax: {x: .682519197, y: 1}
+  m_AnchoredPosition: {x: -1.5, y: 5}
+  m_SizeDelta: {x: -1, y: -10}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1996198070
 MonoBehaviour:
@@ -4988,9 +4991,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: .196078435, g: .196078435, b: .196078435, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 8ec3e0624f0853841a3b315266c8cb6e, type: 3}
     m_FontSize: 50
     m_FontStyle: 0
     m_BestFit: 0

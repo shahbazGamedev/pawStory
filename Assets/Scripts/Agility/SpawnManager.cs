@@ -25,7 +25,6 @@ public class SpawnManager : MonoBehaviour {
 	}
 
 	public int dogPosition; // in predefined partition
-	int prevDogPosition;
 	int randomNumber;
 	int dogPrevPos;
 	public bool spawnOn;
@@ -234,12 +233,26 @@ public class SpawnManager : MonoBehaviour {
 		}
 	}
 
+	// Reset for restart
+	public void ClearHurdles()
+	{
+		dogPosition = -1;
+		foreach(var gameObjCollection in spacePartition)
+		{
+			if(gameObjCollection.partitionContainer.Count!=0)
+			{
+				ClearObstacles (gameObjCollection.partitionContainer);
+			}
+		}
+	}
+
 	#region Coroutines
 
 	// Spawn random objects at near spawnPts based on dog position
 	public IEnumerator Spawner()
 	{
 		Spawn (10);
+		dogPrevPos = 10;
 		while(spawnOn)
 		{
 			

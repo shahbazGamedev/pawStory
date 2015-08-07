@@ -18,6 +18,7 @@ public class AgilityManager : MonoBehaviour {
 	public GameObject gameOverPannel;
 	public GameObject startBtn;
 	public Text timerText;
+	public Text gameOverText;
 
 	//public float totalTimeAvailable;
 	public float totalCheckpoints;
@@ -26,6 +27,7 @@ public class AgilityManager : MonoBehaviour {
 	public float checkPointCount; // Always int values
 	public float jumpForce;
 	public float timeForSlideReset;
+	public int hurdlesCollided;
 
 	TouchManager touchManagerRef;
 
@@ -199,6 +201,8 @@ public class AgilityManager : MonoBehaviour {
 		timerText.gameObject.transform.parent.gameObject.SetActive (false);
 		gameOverPannel.SetActive (true);
 		GetComponent <SpawnManager> ().spawnOn = false;
+		gameOverText.text = "Lap Count: " + checkPointCount + "\n\n" + "Hurdles Collided: " 
+			+ hurdlesCollided + "\n\nDistance Travelled: " + (int)EllipseMovement.alpha+" m";
 		yield return null;
 	}
 
@@ -236,7 +240,10 @@ public class AgilityManager : MonoBehaviour {
 		dogCircuitManager.ResetLane ();
 		camRef.ResetPosition ();
 		currentCheckpointTimer = 20;
+		hurdlesCollided = 0;
+		checkPointCount = 0;
 		GetComponent <SpawnManager> ().spawnOn = true;
+		GetComponent <SpawnManager> ().ClearHurdles ();
 		StartCoroutine (GetComponent <SpawnManager> ().Spawner ());
 	}
 
