@@ -2,40 +2,55 @@
 using System.Collections;
 
 public class Baloon : MonoBehaviour {
-	public GameObject Food;
+	public GameObject BaloonItem;
 	public int ID;
-	public int FoodType;
-	float LifeTime;
-	float Speed;
-	float curTime;
+	public float Speed;
+	public float Distance;
+	public bool isAlive = false;
 
 	
 	void Start () 
 	{
-		LifeTime = 4;
 		Speed = 3;
+		Distance = 10;
 	}
 
 
 	void FixedUpdate ()
 	{
-		curTime += Time.deltaTime;
-		if(curTime > LifeTime)
-		{
-			Destroy (this.gameObject);
-		}
-		else
-		{
-			transform.position += new Vector3(0, 1, 0) * Speed * Time.deltaTime;
+		if (isAlive) {
+			Vector3 distanceTravelled = new Vector3 (0, 1, 0) * Speed * Time.deltaTime;
+			transform.position += distanceTravelled;
+			Distance -= distanceTravelled.magnitude;
+			if(Distance < 0)
+			{
+				isAlive = false;
+			}
 		}
 	}
 
 
 	void OnMouseDown()
 	{
-		if(ID == 3)
-			Instantiate(Food, transform.position, Quaternion.identity);
+		gameObject.SetActive (false);
+		if (ID == 0 || ID == 1) {
+			Rigidbody rb = BaloonItem.GetComponent<Rigidbody> () as Rigidbody;
+			rb.useGravity = true;
+			BaloonItem.SetActive (true);
+			BaloonItem.transform.parent = transform.parent;
+			isAlive = false;
+		}
 	}
 
+
+	public void SetBaloonData(GameObject newBaloon, int newID, bool newState)
+	{
+		BaloonItem = newBaloon;
+		ID = newID;
+		isAlive = newState;
+		newBaloon.transform.parent = transform;
+		newBaloon.transform.position = transform.position;
+		BaloonItem.SetActive (false);
+	}
 
 }

@@ -3,42 +3,52 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class BubbleGame : MonoBehaviour {
-	public float levelTime;
-	public float maxBaloons;
-	public float baloonWaitTime;
-	public GameObject[] baloonCollection;
+	float levelTime;
+	float maxBaloons;
+	float nextBaloonTime;
 	public GameObject gameOverPanel;
 	public GameObject dog;
 	public Text timer;
 	public Text TxtScore;
-	public Text highScore;
-	public List<GameObject> spawnPosList;
-	public List<GameObject> foodList;
-	Transform baloonParent;
-	int ballonIndex;
+	public Text HighScore;
+	public List<GameObject> SpawnPosList;
+	public List<GameObject> BallonList;
+	public List<GameObject> BallonItemList;
+	public Transform BaloonParent;
+	int baloonIndex;
 	bool gameOver;
-
-	public int baloonsAtScene;
-	public int playerScore;
-
-
-	public float speed;
-	public float distance;
-	public Transform target;
-	public int score;
-	public bool isCollect;
-	private Vector3 direction;
-	private Animator dogAnim;
+	int baloonsAtScene;
+	int playerScore;
+	float speed;
+	float distance;
+	Vector3 targetPos;
+	int score;
+	bool isCollect;
+	Vector3 dir;
+	Animator dogAnim;
 	Vector3 startingPos;
 	Rigidbody rb;
+	int baloonItemCount = 0;
+
+	int dogState = 0;// 0= watching, 1= collecting
+
+
+	void OnEnable()
+	{
+		EventMgr.SetPos += OnSetPos;
+	}
+
+
+	void OnDisable()
+	{
+		EventMgr.SetPos -= OnSetPos;
+	}
 
 	
 	void Start () 
 	{
 		gameOver=false;
 		Reset ();
-		baloonParent = GameObject.Find ("BaloonHolder").transform;
-
 		rb=GetComponent<Rigidbody>();
 		dogAnim=GetComponent<Animator>();
 		startingPos=transform.position;
@@ -51,15 +61,16 @@ public class BubbleGame : MonoBehaviour {
 		{
 			GameOver();
 		}
-		if(isCollect)
-			Movement();
+		if(dogState == 1)
+			CollectItem();
 	}
 
 
 	void FixedUpdate () 
 	{
-		if (!gameOver) {
-			baloonWaitTime -= Time.deltaTime;
+		if (!gameOver) 
+		{
+			nextBaloonTime -= Time.deltaTime;
 			levelTime -= Time.deltaTime;				
 
 			if(levelTime <= 0f)
@@ -75,11 +86,13 @@ public class BubbleGame : MonoBehaviour {
 
 	public void Reset()
 	{
-		levelTime = 5;
+		levelTime = 25;
 		baloonsAtScene = 0;
-		maxBaloons = 3;
-		baloonWaitTime = 0;
-		ballonIndex = 0;
+		maxBaloons = 10;
+		nextBaloonTime = levelTime / maxBaloons;
+		baloonIndex = 0;
+		speed = 10;
+		dogState = 0;
 		gameOver = false;
 		dog.SetActive(true);
 		gameOverPanel.SetActive(false);
@@ -88,20 +101,14 @@ public class BubbleGame : MonoBehaviour {
 
 	void Spawner()
 	{
-		if (baloonsAtScene < maxBaloons && baloonWaitTime <= 0) 
+		if (baloonsAtScene < maxBaloons && nextBaloonTime <= 0) 
 		{
-			int randPos = Random.Range (0, spawnPosList.Count);
-			GameObject randomBaloonPrefab = baloonCollection[Random.Range(0, baloonCollection.Length)];
-			GameObject thisInstance=(GameObject)Instantiate(randomBaloonPrefab, 
-			                                                spawnPosList[randPos].transform.position, 
-			                                                Quaternion.identity);
-			if(thisInstance!=null)
+			GameObject curBaloon = GetBaloon();
+			if(curBaloon!=null)
 			{
-				thisInstance.transform.parent = baloonParent;
-				thisInstance.name = "Baloon" + ballonIndex;
 				baloonsAtScene += 1;
-				ballonIndex += 1;
-				baloonWaitTime = 2f;
+				baloonIndex += 1;
+				nextBaloonTime = 2f;
 			}
 		}
 	}
@@ -116,7 +123,7 @@ public class BubbleGame : MonoBehaviour {
 
 	void GameOver()
 	{
-		highScore.text = "Score: " + score;
+		HighScore.text = "Score: " + score;
 		dog.SetActive(false);
 		gameOverPanel.SetActive(true);
 	}
@@ -134,34 +141,36 @@ public class BubbleGame : MonoBehaviour {
 	}
 
 
-	public void Movement()
+	public void CollectItem()
 	{
-		distance=Vector3.Distance(target.position,transform.position);
-		direction=new Vector3(target.position.x,0,target.position.z);
-		transform.LookAt(direction);
-		if(distance>1f)
+		distance = Vector3.Distance(targetPos, transform.position);
+		Debug.Log (distance);
+		dir = new Vector3(targetPos.x, 0, targetPos.z);
+		transform.LookAt(dir);
+		if(distance > 1f)
 		{
-			rb.AddForce(transform.forward*speed);
-			dogAnim.SetFloat("Walk",1f);
+			transform.position += transform.forward * speed * Time.deltaTime;
+			dogAnim.SetFloat("Walk", 1f);
 		}
 	}
+
 	
 	public void ScoreSystem()
 	{
 		Debug.Log ("collided");
 		score += 1;
-		dogAnim.SetFloat("Walk",0f);
-		transform.position=startingPos;
+		dogAnim.SetFloat("Walk", 0f);
 	}
 	
 	
 	void OnCollisionEnter(Collision other)
 	{
-		if(other.gameObject.name.Contains("food"))
+		if(other.gameObject.name.Contains("baloonItem"))
 		{
 			ScoreSystem();
-			isCollect=false;
-			Destroy(this.gameObject);
+			isCollect = false;
+			other.gameObject.SetActive(false);
+			dogState = 0;
 		}
 		/*
 		else
@@ -174,5 +183,37 @@ public class BubbleGame : MonoBehaviour {
 	}
 
 
+	void OnSetPos(Vector3 pos)
+	{
+		targetPos = pos;
+		isCollect = true;
+		dogState = 1;
+		Debug.Log (dogState);
+	}
+
+
+	GameObject GetBaloon()
+	{
+		GameObject retVal;
+		int randPos = Random.Range (0, SpawnPosList.Count);
+		int randBaloon = Random.Range(0, BallonList.Count);
+
+		retVal = (GameObject)Instantiate(BallonList[randBaloon], 
+		                        SpawnPosList[randPos].transform.position, 
+		                        Quaternion.identity);
+
+		retVal.transform.parent = BaloonParent;
+		retVal.name = "Baloon_" + baloonIndex;
+
+		Baloon baloonScr = retVal.GetComponent<Baloon> () as Baloon;
+		int randBaloonItem = Random.Range(0, BallonItemList.Count);
+
+		baloonItemCount++;
+		GameObject baloonItem = GameObject.Instantiate(BallonItemList [randBaloonItem]);
+		baloonItem.name = "baloonItem_" + baloonItemCount;
+		baloonScr.SetBaloonData (baloonItem, randBaloon, true);
+
+		return retVal;
+	}
 }
 
