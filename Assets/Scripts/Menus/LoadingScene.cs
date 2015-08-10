@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class LoadingScene : MonoBehaviour {
@@ -21,7 +21,7 @@ public class LoadingScene : MonoBehaviour {
 			curScreen++;
 			if(curScreen >= Screens.Count)
 			{
-				GameMgr.instance.LoadScene (GlobalConst.Scene_MainMenu);
+				GameMgr.Inst.LoadScene (GlobalConst.Scene_MainMenu);
 			}
 			else
 			{

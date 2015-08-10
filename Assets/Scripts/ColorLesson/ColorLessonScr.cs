@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
@@ -60,7 +60,7 @@ public class ColorLessonScr : MonoBehaviour
 
 	void Update ()	{
 		if (waitForTap) {
-#if UNITY_ANDROID
+#if UNITY_ANDROID || UNITY_IOS 
 			if(Input.touchCount > 0) {
 				Touch touch = Input.touches[0];
 				if (touch.phase == TouchPhase.Ended) {
@@ -315,7 +315,7 @@ public class ColorLessonScr : MonoBehaviour
 
 
 	public void OnHome(){
-		GameMgr.instance.LoadScene(GlobalConst.Scene_MainMenu);
+		GameMgr.Inst.LoadScene(GlobalConst.Scene_MainMenu);
 	}
 
 

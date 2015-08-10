@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class MainMenu : MonoBehaviour {
@@ -13,7 +13,7 @@ public class MainMenu : MonoBehaviour {
 
 	public void OnPlayBtn()
 	{
-		GameMgr.instance.LoadScene (GlobalConst.Scene_TournamentSelection);
+		GameMgr.Inst.LoadScene (GlobalConst.Scene_TournamentSelection);
 	}
 }
 		

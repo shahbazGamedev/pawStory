@@ -1,4 +1,4 @@
-﻿/**
+/**
 Script Author : Vaikash 
 Description   : Agility Game Manager
 **/
@@ -266,7 +266,7 @@ public class AgilityManager : MonoBehaviour {
 	// Home Btn Callback
 	public void homeBtn()
 	{
-		GameMgr.instance.LoadScene(GlobalConst.Scene_MainMenu);
+		GameMgr.Inst.LoadScene(GlobalConst.Scene_MainMenu);
 	}
 
 	#endregion

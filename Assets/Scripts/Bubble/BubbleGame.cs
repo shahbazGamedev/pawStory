@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
@@ -128,7 +128,7 @@ public class BubbleGame : MonoBehaviour {
 	void GuiUpdate()
 	{
 		timer.text = "Time: "+(int)levelTime;
-		TxtScore.text = "Score: " + score;
+		TxtScore.text = "Saved: " + score;
 	}
 
 
@@ -142,13 +142,13 @@ public class BubbleGame : MonoBehaviour {
 
 	public void OnMainMenu()
 	{
-		GameMgr.instance.LoadScene(GlobalConst.Scene_MainMenu);
+		GameMgr.Inst.LoadScene(GlobalConst.Scene_MainMenu);
 	}
 
 
 	public void OnRestart()
 	{
-		GameMgr.instance.LoadScene(GlobalConst.Scene_Bubble);
+		GameMgr.Inst.LoadScene(GlobalConst.Scene_Bubble);
 	}
 
 

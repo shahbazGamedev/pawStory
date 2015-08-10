@@ -1,375 +1,285 @@
-﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.EventSystems;
+using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class DockJump : MonoBehaviour {
-	public GameObject dogRef;
-	public GameObject MenuBtn;
-	public GameObject RestartBtn;
-	//public GameObject PlayBtn;
-	public GameObject Stage;
-	public GameObject Pool;
-	public GameObject Floor;
-	public GameObject Bg;
-	public GameObject TouchMat;
-	public GameObject gameScreen;
+
+	// Dog
+	public GameObject DogObj;
+	public Animator DogAnim;
 	public float moveSpeed;
 	public float jumpForce;
 	public float jumpspeed;
-	public Text gameOver;
-	public int chances;
-	public Transform target;
-	private Animator dogAnim;
-	private Vector3 jumpHeight;
-	private Vector3 dogPos;
-	private float speedDampTime = 0.1f;
-	private float dragRatio;
-	private float distance;
-	Vector2 swipeBegin;
-	Vector2 swipeEnd;
+	public Transform DogStartTrans;
 	Rigidbody rb;
-	bool isJumping=false;
-	public bool isRunning;
-	bool isCoroutine;
-	bool isGameOver;
+	bool isJumping;
+	bool isRunning;
+	int DogState = 0; // 0: sit, 1: Stand, 2: jog, 3: Run, 5: Jump, 
+	List<float> jumpDistList;
+
+	// Camera
+	public GameObject CamObj;
+	public Transform CamStartTrans;
 	public bool isCameraMove;
-	public GameObject camera;
 	public bool isCamReturn;
-	public Text Score;
-	public Text chance;
-	public int maxChances;
-	public float[] scoreSystem;
-	public int highScore;
-	public int score;
-	bool scoreUpdate;
-	public Text highScoreTxt;
-	public bool isFoulJump;
-	public bool isgameStart;
+
+	// HUD
+	public GameObject GameOverPanel;
+	public GameObject TouchMat;
+	public GameObject gameScreen;
+
+	public Text TapToPlayTxt;
+	public Text ScoreTxt;
+	public Text JumpCountTxt;
+	public Text HighScoreTxt;
+	int highScore;
+	int score;
+
+	bool waitForTap;
+	int jumpCount;
+	int maxJumpCount;
+	public Transform target;
+	Vector3 jumpHeight;
+	float speedDampTime = 0.1f;
+	float dragRatio;
+	float distance;
+	bool isGameOver;
+	bool isFoulJump;
 	bool canJump;
 
-
-	void awake()
+	public void Restart ()
 	{
+		waitForTap = true;
+		isFoulJump = true;
+		isCamReturn = false;
+		isCameraMove = false;
+		isGameOver = false;
 
+		// dog
+		isRunning = false;
+		canJump = false;
+		transform.position = DogStartTrans.position;
+		rb = GetComponent<Rigidbody> ();
+		jumpHeight = new Vector3 (0, jumpForce, jumpspeed);
+		jumpDistList = new List<float> ();
+		jumpCount = 0;
+		maxJumpCount = 3;
+
+		// Cam
+		CamObj.transform.position = CamStartTrans.position;
+
+		// HUD
+		TapToPlayTxt.text = "Tap to Play";
+		JumpCountTxt.text = "Chances: " + jumpCount + " / " + maxJumpCount;
+		ScoreTxt.text = "Distance: " + distance;
+		GameOverPanel.SetActive (false);
 	}
 
-	// Use this for initialization
+
 	void Start ()
 	{
-		canJump=true;
-	    isgameStart=false;
-		isFoulJump=true;
-		scoreUpdate=true;
-		isCamReturn=false;
-		isCameraMove=true;
-		isRunning=false;
-		isGameOver=false;
-		dogAnim = dogRef.GetComponent<Animator> ();
-		jumpHeight = new Vector3 (0, jumpForce, jumpspeed);
-		rb = GetComponent<Rigidbody> ();
-	    dogPos=new Vector3(1.19f,2.84f,-15.35f);
-		MenuBtn.SetActive(false);
-		RestartBtn.SetActive(false);
-		Bg.SetActive(false);
-		chance.text="Chances: "+chances+ " / "+maxChances;
-		Score.text="Distace: " + distance;
-
-
+		Restart ();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		if(isGameOver==true)
+
+
+	void Update () 
+	{
+		if (waitForTap)
 		{
-			GameOver();
+#if UNITY_ANDROID || UNITY_IOS 
+			if(Input.GetMouseButtonUp(0) || Input.GetKeyUp(KeyCode.Space))
+			{
+				waitForTap = false;
+				TapToPlayTxt.text = "Tap to Jump";
+				if(isJumping && canJump)
+				{
+					Jumping();
+				}
+				isRunning = true;
+			}
+#endif
+		}else{
+			Movement ();
 		}
-		movement();
-	
-		//detectSwipe();
-		//distance();
 	}
 
 
 	void FixedUpdate() 
 	{
-		if(isRunning==true)
+		if(isRunning && !waitForTap)
 		{
-		running();
+			Running();
 		}
 	}
 
 
-	void jumping()
+	void LateUpdate()
 	{
-		canJump=false;
-		isFoulJump=false;
-		isRunning=false; 
-		dogAnim.SetTrigger ("Jump");
-		Debug.Log("WORKING FINE");
-		rb.AddForce(jumpHeight,ForceMode.Impulse);
-		}
+		if(isRunning)
+			CamObj.transform.position += new Vector3(0, 0, 1) * Time.deltaTime * 5;
+	}
 
 
-	void running()
+	void Jumping()
 	{
-		//if(isRunning=true)
+		canJump = false;
+		isFoulJump = false;
+		isRunning = false; 
+		DogAnim.SetTrigger ("Jump");
+		rb.AddForce(jumpHeight, ForceMode.Impulse);
+	}
+
+
+	void Running()
+	{
 		rb.drag = rb.velocity.magnitude * dragRatio;
-		dogAnim.SetFloat ("Speed",1f, speedDampTime, Time.deltaTime);
+		DogAnim.SetFloat ("Speed", 1f, speedDampTime, Time.deltaTime);
 		rb.AddForce (transform.forward * moveSpeed);
-
-}
-
-
-		IEnumerator ReturnDog ()
-		{
-		isCoroutine=true;
-		yield return new WaitForSeconds(3.0f);
-		transform.position = dogPos;
-		rb.velocity = Vector3.zero;
-		isCoroutine=false;
-		chance.text="Chances: "+chances+ " / "+maxChances;
-		isCameraMove=true;
-		GetComponent<Rigidbody>().detectCollisions=true;
-		scoreUpdate=true;
-		isFoulJump=true;
-		rb.isKinematic=false;
-		canJump=true;
-
-
-		}
-
+	}
 
 	void OnTriggerStay()
 	{
-		Debug.Log ("triggered");
-		camera.GetComponent<CameraMovement>().cameraMove();
-//		if(canJump)
-//		{
 		isJumping = true;
-
-			Debug.Log ("trigger");
-		//}
-
-
-
-
 	}
 
 
 	void OnTriggerExit()
 	{
 		isJumping = false;
-		isRunning=false;
+		isRunning = false;
 	}
 
 
-	public void OnPointerDown(BaseEventData  data)
+	void Movement()
 	{
-		Debug.Log("Begins");
-		PointerEventData e=(PointerEventData) data;
-		swipeBegin=e.position;
-		if(isJumping && canJump)
+		if(Input.GetKeyDown(KeyCode.Space) && isJumping)
 		{
-
-		jumping();
-
-
+			Jumping();
 		}
-
-
-	isRunning=true;
-
 	}
-	
-	public void OnPointerUp(BaseEventData  data)
-	{
-		//Debug.Log("Ends");
-		PointerEventData e=(PointerEventData) data;
-		swipeEnd=e.position;
-
-	}
-
-
-	void movement()
-	{
-		if(Input.GetKeyDown(KeyCode.Space)&& isJumping==true)
-		{
-			jumping();
-			//dogAnim.SetFloat ("Speed",0f, speedDampTime, Time.deltaTime);
-			Debug.Log("WORKING");
-			}
-	}
-
-
-//	void detectSwipe()
-//	{
-
-
-//		Vector2 direction=swipeEnd-swipeBegin;
-//		direction.Normalize();
-//		
-//		//swipe upwards
-//		if(direction.y > 0 &&  direction.x > -0.5f && direction.x < 0.5f)
-//		{
-//			Debug.Log("up swipe");
-//			//if(isJumping)
-//			//{
-//
-//
-//		//	}
-//				
-//			
-//		}
-//		//swipe down
-//		if(direction.y < 0 && direction.x > -0.5f && direction.x < 0.5f)
-//		{
-//			Debug.Log("down swipe");
-//		
-//		}
-		//swipe left
-		//if(direction.x < 0 && direction.y > -0.5f && direction.y < 0.5f)
-		//{
-		//	Debug.Log("left swipe");
-		//}
-		//swipe right
-		//if(direction.x > 0 && direction.y > -0.5f && direction.y < 0.5f)
-		//{
-		////	Debug.Log("right swipe");
-		//}
-
-	//}
 
 
 	void OnCollisionEnter(Collision collision)
 	{
-
-		if(collision.gameObject.tag=="floor")
+		// On dog landing to pool
+		if(collision.gameObject.tag == "floor")
 		{
-			StartCoroutine(ReturnCamera());
+			waitForTap = true;
 		
-			if(scoreUpdate)
-			{
+			DogAnim.SetFloat ("Speed", 0f);
+			rb.isKinematic=true;
+			GetComponent<Rigidbody>().detectCollisions = false;
 
-				Debug.Log("new");
-				chances+=1;
-				dogAnim.SetFloat ("Speed",0f);
-				rb.isKinematic=true;
-				GetComponent<Rigidbody>().detectCollisions=false;
-			ScoreSystem();
-				scoreUpdate=false;
-			}
-
-			if(!isCoroutine)
-				StartCoroutine(ReturnDog());
-			}
-		if(chances>=maxChances)
-		{
-			StartCoroutine(EndGame());
-			}
-
-
-	}
-
-
-	private void gameStart()
-	{
-		isRunning=true;
-
+			AnalyzeJump();
 		}
+		if(jumpCount >= maxJumpCount)
+		{
+			GameOver();
+		}
+	}
 
 
 	private void GameOver()
 	{
-	//Application.LoadLevel("MainMenu");
-	gameOver.text="Game over";
-			Debug.Log ("gameover");
-		MenuBtn.SetActive(true);
-		RestartBtn.SetActive(true);
-//		PlayBtn.SetActive(false);
+		GameOverPanel.SetActive (true);
 
 		isRunning=false;
-		Stage.SetActive(false);
-		Pool.SetActive(false);
-		Floor.SetActive(false);
-		dogRef.SetActive(false);
-		Bg.SetActive(true);
 		TouchMat.SetActive(false);
 		gameScreen.SetActive(false);
-		if(scoreSystem[1]>scoreSystem[2])
+
+		float longDist = jumpDistList [0];
+		for (int i = 1; i< jumpDistList.Count; i++)
 		{
-			if(scoreSystem[1]>scoreSystem[3])
+			if(longDist < jumpDistList[i])
 			{
-				highScoreTxt.text="Longest Jump : "+(int)scoreSystem[1]+" ft ";
+				longDist = jumpDistList[i];
 			}
-			else
-				highScoreTxt.text="Longest Jump : "+(int)scoreSystem[3]+" ft ";
 		}
-		else
+		HighScoreTxt.text = "Longest Jump : " + (int)longDist + " ft";;
+	}
+
+
+	void AnalyzeJump()
+	{			
+		DogAnim.SetFloat ("Speed",0f);
+		rb.isKinematic = true;
+		GetComponent<Rigidbody>().detectCollisions = false;
+
+		// jump analysis
+		distance = Vector3.Distance(target.position, transform.position);
+		string distStr = "Distance: Foul";
+		if (isFoulJump) {
+			distance = 0;
+			TapToPlayTxt.text = "";
+		} else {
+			distStr = "Distance: " + (int)distance + " ft";
+			TapToPlayTxt.text = "Cool";
+		}
+
+		// Update UI
+		ScoreTxt.text = distStr;
+
+		jumpDistList.Add (distance);
+		NextRound ();
+	}
+
+
+	void NextRound()
+	{
+		CamObj.transform.position = CamStartTrans.position;
+		transform.position = DogStartTrans.position;
+
+		jumpCount += 1;
+		if (jumpCount >= maxJumpCount) {
+			GameOver ();
+		}
+		else 
 		{
-			if(scoreSystem[2]>scoreSystem[3])
-			{
-				highScoreTxt.text="Longest Jump : "+(int)scoreSystem[2]+" ft ";
-			}
-			else
-				highScoreTxt.text="Longest Jump : "+(int)scoreSystem[3]+" ft ";
+			rb.velocity = Vector3.zero;
+			TapToPlayTxt.text = "Tap to Play";
+			JumpCountTxt.text = "Chances: " + jumpCount + " / " + maxJumpCount;
+			GetComponent<Rigidbody>().detectCollisions = true;
+			rb.isKinematic = false;
+			isCameraMove = true;
+			canJump = true;
+			isFoulJump = true;
 		}
+	}
 
 
-		}
-
-
-	void Distance()
+	public void OnRestartBtn()
 	{
-		distance=Vector3.Distance(target.position,transform.position);
-		//print("Jumping Distance: " + distance);
-		}
+		GameMgr.Inst.LoadScene(GlobalConst.Scene_DockJump);
+	}
 
 
-	void ScoreSystem()
+	public void OnMainMenuBtn()
 	{
-		//if(chances==4)
-	//	{
-		Debug.Log("hello");
-			Distance();
-			Score.text="Distace: " + (int)distance+ " ft ";
-		scoreSystem[chances]=distance;
-		if(isFoulJump)
+		GameMgr.Inst.LoadScene (GlobalConst.Scene_MainMenu);
+	}
+
+
+	public void Transition()
+	{
+		float transitionDuration = 2f;
+		float t = 0.0f;
+		Vector3 startingPos = transform.position;
+		while (t < 1.0f)
 		{
-			Score.text="Distace: Foul";
+			t += Time.deltaTime * (Time.timeScale / transitionDuration);
+			transform.position = Vector3.MoveTowards(startingPos, target.position, t);
 		}
-
-
-	//	}
+	}
 	
-
-	}
-
-
-	public void restart()
-	{
-		Application.LoadLevel("DockJump");
-	}
-
-
-	public void menu()
-	{
-		Application.LoadLevel("MainMenu");
-	}
-
-
-	IEnumerator EndGame()
-	{
-		yield return new WaitForSeconds(3f);
-		isGameOver=true;
-	}
-	IEnumerator ReturnCamera()
-	{
-		yield return new WaitForSeconds(3f);
-		isCamReturn=true;
-	}
-
-	}
-
 	
+	public void cameraMove()
+	{
+		if(isCameraMove)
+		{
+			isCameraMove = false;
+			Transition();
+		}
+	}
+	
+}
 

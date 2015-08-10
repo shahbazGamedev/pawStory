@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class TournamentSelection : MonoBehaviour
@@ -15,49 +15,49 @@ public class TournamentSelection : MonoBehaviour
 
 	public void OnGame_01()
 	{
-		GameMgr.instance.LoadScene (GlobalConst.Scene_DiscDogs);
+		GameMgr.Inst.LoadScene (GlobalConst.Scene_DiscDogs);
 	}
 
 
 	public void OnGame_02()
 	{
-		GameMgr.instance.LoadScene (GlobalConst.Scene_DockJump);
+		GameMgr.Inst.LoadScene (GlobalConst.Scene_DockJump);
 	}
 
 
 	public void OnGame_03()
 	{
-		GameMgr.instance.LoadScene (GlobalConst.Scene_Tracking);
+		GameMgr.Inst.LoadScene (GlobalConst.Scene_Tracking);
 	}
 
 
 	public void OnGame_04()
 	{
-		GameMgr.instance.LoadScene (GlobalConst.Scene_Obedience);
+		GameMgr.Inst.LoadScene (GlobalConst.Scene_Obedience);
 	}
 
 
 	public void OnGame_05()
 	{
-		GameMgr.instance.LoadScene (GlobalConst.Scene_ColorLesson);
+		GameMgr.Inst.LoadScene (GlobalConst.Scene_ColorLesson);
 	}
 	
 	
 	public void OnGame_06()
 	{
-		GameMgr.instance.LoadScene (GlobalConst.Scene_Agility);
+		GameMgr.Inst.LoadScene (GlobalConst.Scene_Agility);
 	}
 	
 	
 	public void OnGame_07()
 	{
-		GameMgr.instance.LoadScene (GlobalConst.Scene_Bubble);
+		GameMgr.Inst.LoadScene (GlobalConst.Scene_Bubble);
 	}
 	
 	
 	public void OnGame_08()
 	{
-		GameMgr.instance.LoadScene (GlobalConst.Scene_Tugofwar);
+		GameMgr.Inst.LoadScene (GlobalConst.Scene_Tugofwar);
 	}
 
 

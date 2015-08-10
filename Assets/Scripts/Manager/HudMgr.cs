@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class HudMgr : MonoBehaviour 
@@ -43,17 +43,17 @@ public class HudMgr : MonoBehaviour
 
 	void OnLevelWasLoaded(int val)
 	{
-		string curScene = GameMgr.instance.GetCurScene ();
+		string curScene = GameMgr.Inst.GetCurScene ();
 		OnSceneLoaded (curScene);
 	}
 
 	#region TopPanel
 	public void OnButton_01()
 	{
-		string curScene = GameMgr.instance.GetCurScene ();
+		string curScene = GameMgr.Inst.GetCurScene ();
 		if(curScene.Equals(GlobalConst.Scene_TournamentSelection))
 		{
-			GameMgr.instance.LoadScene(GlobalConst.Scene_MainMenu);
+			GameMgr.Inst.LoadScene(GlobalConst.Scene_MainMenu);
 		}
 		else if (curScene.Equals (GlobalConst.Scene_DiscDogs) ||
 			curScene.Equals (GlobalConst.Scene_DockJump) ||
@@ -61,7 +61,7 @@ public class HudMgr : MonoBehaviour
 			curScene.Equals (GlobalConst.Scene_Tracking) ||
 			curScene.Equals (GlobalConst.Scene_ColorLesson)) 
 		{
-			if(GameMgr.instance.IsGamePaused())
+			if(GameMgr.Inst.IsGamePaused())
 				EventMgr.OnGameResume();
 			else
 				EventMgr.OnGamePause();
@@ -130,7 +130,7 @@ public class HudMgr : MonoBehaviour
 	#region BottomPanel
 	public void OnOpenShopMenu()
 	{
-		if (!GameMgr.instance.IsGamePaused ()) 
+		if (!GameMgr.Inst.IsGamePaused ()) 
 		{
 			EventMgr.OnGamePause();
 		}
@@ -184,7 +184,7 @@ public class HudMgr : MonoBehaviour
 	public void OnHome()
 	{
 		OnGameResume ();
-		GameMgr.instance.LoadScene (GlobalConst.Scene_MainMenu);
+		GameMgr.Inst.LoadScene (GlobalConst.Scene_MainMenu);
 	}
 	#endregion BottomPanel
 

@@ -3,17 +3,17 @@ using System.Collections;
 
 public class GameMgr : MonoBehaviour 
 {
-	private static GameMgr _instance = null;
-	public static GameMgr instance
+	private static GameMgr instance = null;
+	public static GameMgr Inst
 	{
 		get
 		{
-			if(_instance == null)
+			if(instance == null)
 			{
-				_instance = GameObject.FindObjectOfType<GameMgr>();
-				DontDestroyOnLoad(_instance.gameObject);
+				instance = GameObject.FindObjectOfType<GameMgr>();
+				DontDestroyOnLoad(instance.gameObject);
 			}
-			return _instance;
+			return instance;
 		}
 	}
 
@@ -25,14 +25,14 @@ public class GameMgr : MonoBehaviour
 
 	void Awake()
 	{
-		if(_instance == null)
+		if(instance == null)
 		{
-			_instance = this;
+			instance = this;
 			DontDestroyOnLoad(this);
 		}
 		else
 		{
-			if(this != _instance)
+			if(this != instance)
 				Destroy(this.gameObject);
 		}
 	}
