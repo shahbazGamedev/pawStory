@@ -29,6 +29,7 @@ public class BubbleGame : MonoBehaviour {
 	Vector3 startingPos;
 	Rigidbody rb;
 	int baloonItemCount = 0;
+	float oneSecTimer = 0;
 
 	int dogState = 0;// 0= watching, 1= collecting
 
@@ -57,10 +58,6 @@ public class BubbleGame : MonoBehaviour {
 
 	void Update()
 	{
-		if(gameOver)
-		{
-			GameOver();
-		}
 		if(dogState == 1)
 			CollectItem();
 	}
@@ -70,17 +67,31 @@ public class BubbleGame : MonoBehaviour {
 	{
 		if (!gameOver) 
 		{
-			nextBaloonTime -= Time.deltaTime;
-			levelTime -= Time.deltaTime;				
+			oneSecTimer += Time.deltaTime;
 
-			if(levelTime <= 0f)
+			if(oneSecTimer >= 1)
 			{
-				gameOver=true;
+				OneSecTimer();
 			}
 
 			Spawner ();
-			GuiUpdate ();
 		}
+	}
+
+
+	void OneSecTimer()
+	{
+		nextBaloonTime -= 1;
+		levelTime -= 1;				
+
+		GuiUpdate ();
+
+		if(levelTime <= 0f)
+		{
+			gameOver = true;
+			GameOver();
+		}
+		oneSecTimer = 0;
 	}
 
 
@@ -144,7 +155,7 @@ public class BubbleGame : MonoBehaviour {
 	public void CollectItem()
 	{
 		distance = Vector3.Distance(targetPos, transform.position);
-		Debug.Log (distance);
+		//Debug.Log (distance);
 		dir = new Vector3(targetPos.x, 0, targetPos.z);
 		transform.LookAt(dir);
 		if(distance > 1f)
