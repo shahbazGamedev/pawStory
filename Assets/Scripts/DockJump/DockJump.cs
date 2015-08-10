@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 using System.Collections.Generic;
 
 public class DockJump : MonoBehaviour {
@@ -7,9 +8,9 @@ public class DockJump : MonoBehaviour {
 	// Dog
 	public GameObject DogObj;
 	public Animator DogAnim;
-	public float moveSpeed;
-	public float jumpForce;
-	public float jumpspeed;
+	float runSpeed;
+	float jumpForce;
+	float jumpspeed;
 	public Transform DogStartTrans;
 	Rigidbody rb;
 	bool isJumping;
@@ -39,7 +40,6 @@ public class DockJump : MonoBehaviour {
 	int jumpCount;
 	int maxJumpCount;
 	public Transform target;
-	Vector3 jumpHeight;
 	float speedDampTime = 0.1f;
 	float dragRatio;
 	float distance;
@@ -58,9 +58,10 @@ public class DockJump : MonoBehaviour {
 		// dog
 		isRunning = false;
 		canJump = false;
+		runSpeed = 5;
+		jumpForce = 10;
 		transform.position = DogStartTrans.position;
-		rb = GetComponent<Rigidbody> ();
-		jumpHeight = new Vector3 (0, jumpForce, jumpspeed);
+		rb.isKinematic = true;
 		jumpDistList = new List<float> ();
 		jumpCount = 0;
 		maxJumpCount = 3;
@@ -78,6 +79,7 @@ public class DockJump : MonoBehaviour {
 
 	void Start ()
 	{
+		rb = GetComponent<Rigidbody> ();
 		Restart ();
 	}
 
@@ -93,13 +95,16 @@ public class DockJump : MonoBehaviour {
 				TapToPlayTxt.text = "Tap to Jump";
 				if(isJumping && canJump)
 				{
-					Jumping();
+					FinalJump();
 				}
 				isRunning = true;
 			}
 #endif
 		}else{
-			Movement ();
+			if(Input.GetKeyDown(KeyCode.Space) && isJumping)
+			{
+				FinalJump();
+			}
 		}
 	}
 
@@ -120,21 +125,22 @@ public class DockJump : MonoBehaviour {
 	}
 
 
-	void Jumping()
+	void FinalJump()
 	{
 		canJump = false;
 		isFoulJump = false;
 		isRunning = false; 
+		rb.isKinematic = false;
 		DogAnim.SetTrigger ("Jump");
-		rb.AddForce(jumpHeight, ForceMode.Impulse);
+		rb.AddForce(new Vector3(0, 0.7f, 1) * jumpForce, ForceMode.Impulse);
 	}
 
 
 	void Running()
 	{
-		rb.drag = rb.velocity.magnitude * dragRatio;
 		DogAnim.SetFloat ("Speed", 1f, speedDampTime, Time.deltaTime);
-		rb.AddForce (transform.forward * moveSpeed);
+		DogObj.transform.position += Time.deltaTime * new Vector3 (0, 0, 1) * runSpeed;
+
 	}
 
 	void OnTriggerStay()
@@ -150,15 +156,6 @@ public class DockJump : MonoBehaviour {
 	}
 
 
-	void Movement()
-	{
-		if(Input.GetKeyDown(KeyCode.Space) && isJumping)
-		{
-			Jumping();
-		}
-	}
-
-
 	void OnCollisionEnter(Collision collision)
 	{
 		// On dog landing to pool
@@ -167,10 +164,9 @@ public class DockJump : MonoBehaviour {
 			waitForTap = true;
 		
 			DogAnim.SetFloat ("Speed", 0f);
-			rb.isKinematic=true;
-			GetComponent<Rigidbody>().detectCollisions = false;
+			rb.isKinematic = true;
 
-			AnalyzeJump();
+			AnalyzeLanding();
 		}
 		if(jumpCount >= maxJumpCount)
 		{
@@ -199,7 +195,7 @@ public class DockJump : MonoBehaviour {
 	}
 
 
-	void AnalyzeJump()
+	void AnalyzeLanding()
 	{			
 		DogAnim.SetFloat ("Speed",0f);
 		rb.isKinematic = true;
@@ -220,12 +216,13 @@ public class DockJump : MonoBehaviour {
 		ScoreTxt.text = distStr;
 
 		jumpDistList.Add (distance);
-		NextRound ();
+		StartCoroutine (NextRound ());
 	}
 
 
-	void NextRound()
+	IEnumerator NextRound()
 	{
+		yield return new WaitForSeconds (3f);
 		CamObj.transform.position = CamStartTrans.position;
 		transform.position = DogStartTrans.position;
 

@@ -731,9 +731,8 @@ GameObject:
   - 4: {fileID: 578240749}
   - 33: {fileID: 578240751}
   - 23: {fileID: 578240750}
-  - 64: {fileID: 578240752}
   m_Layer: 0
-  m_Name: polySurface1 (1)
+  m_Name: Water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -745,8 +744,8 @@ Transform:
   m_PrefabParentObject: {fileID: 400076, guid: eeadb880fe1e4284cb785c416cb1d0aa, type: 3}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 578240748}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: -1.62920685e-07}
-  m_LocalPosition: {x: 1.54832411, y: .590816259, z: 13.9618626}
+  m_LocalRotation: {x: -1.62920685e-07, y: -1.62920685e-07, z: -1, w: 2.65431496e-14}
+  m_LocalPosition: {x: 1.54832411, y: .75999999, z: 11.79}
   m_LocalScale: {x: 56.0124702, y: 56.0124702, z: 56.0124702}
   m_Children: []
   m_Father: {fileID: 127890302}
@@ -783,18 +782,6 @@ MeshFilter:
     type: 3}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 578240748}
-  m_Mesh: {fileID: 4300006, guid: eeadb880fe1e4284cb785c416cb1d0aa, type: 3}
---- !u!64 &578240752
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 578240748}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Convex: 0
   m_Mesh: {fileID: 4300006, guid: eeadb880fe1e4284cb785c416cb1d0aa, type: 3}
 --- !u!1 &580093606
 GameObject:
@@ -1093,7 +1080,7 @@ Light:
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_Strength: 1
     m_Bias: .0500000007
@@ -1116,8 +1103,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 802012466}
-  m_LocalRotation: {x: .408217937, y: -.234569728, z: .109381676, w: .875426054}
-  m_LocalPosition: {x: .199999809, y: 2.47843647, z: -9.13653374}
+  m_LocalRotation: {x: .612372458, y: .353553325, z: -.612372577, w: .353553265}
+  m_LocalPosition: {x: 0, y: 40, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1185087520}
@@ -2092,9 +2079,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DogObj: {fileID: 1989705550}
   DogAnim: {fileID: 1989705552}
-  moveSpeed: 15
-  jumpForce: 1.5
-  jumpspeed: 2
   DogStartTrans: {fileID: 505700370}
   CamObj: {fileID: 797280434}
   CamStartTrans: {fileID: 439153974}
@@ -2271,7 +2255,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2051447673}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
@@ -2303,8 +2287,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2051447673}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .200000003, y: -.469999999, z: 12.2399998}
-  m_LocalScale: {x: 7.4163928, y: .100000001, z: 16.7757206}
+  m_LocalPosition: {x: 1.44000006, y: 1.34000003, z: 12.3500004}
+  m_LocalScale: {x: 9.45589542, y: .100000001, z: 16.7757206}
   m_Children: []
   m_Father: {fileID: 1185087520}
   m_RootOrder: 3
