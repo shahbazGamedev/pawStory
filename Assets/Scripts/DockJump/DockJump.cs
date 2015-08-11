@@ -37,6 +37,7 @@ public class DockJump : MonoBehaviour {
 	int TotalIdleStates = 3;
 	int IdleRandom;
 	List<float> jumpDistList;
+	Vector3 dir;// = new Vector3 (0, 0, 1);
 
 	// Camera
 	public GameObject CamObj;
@@ -65,7 +66,6 @@ public class DockJump : MonoBehaviour {
 	float distance;
 	bool isGameOver;
 	bool isFoulJump;
-	bool canJump;
 
 
 	void ChangeDogState (DogStates newDogState)
@@ -110,13 +110,13 @@ public class DockJump : MonoBehaviour {
 		// dog
 		ChangeDogState (DogStates.Idle);
 		rb.isKinematic = true;
-		canJump = false;
 		runSpeed = 5;
 		jumpForce = 10;
 		transform.position = DogStartTrans.position;
 		jumpDistList = new List<float> ();
 		jumpCount = 0;
 		maxJumpCount = 3;
+		dir = new Vector3 (0, 0, 1);
 
 		// Cam
 		CamObj.transform.position = CamStartTrans.position;
@@ -159,9 +159,9 @@ public class DockJump : MonoBehaviour {
 
 	void FixedUpdate() 
 	{
-		if(dogState == DogStates.Run && !waitForTap)
+		if(dogState == DogStates.Run)
 		{
-			DogObj.transform.position += Time.deltaTime * new Vector3 (0, 0, 1) * runSpeed;
+			DogObj.transform.position += Time.deltaTime * dir * runSpeed;
 		}
 	}
 
@@ -175,7 +175,6 @@ public class DockJump : MonoBehaviour {
 
 	void FinalJump()
 	{
-		canJump = false;
 		isFoulJump = false;
 		rb.isKinematic = false;
 		ChangeDogState (DogStates.Jump);
@@ -185,12 +184,14 @@ public class DockJump : MonoBehaviour {
 
 	void OnTriggerStay(Collider other)
 	{
+		Debug.Log ("OnTriggerStay");
 		isInJumpZone = true;
 	}
 
 
 	void OnTriggerExit(Collider other)
 	{
+		Debug.Log ("OnTriggerExit");
 		isInJumpZone = false;
 		rb.isKinematic = false;
 	}
@@ -201,7 +202,6 @@ public class DockJump : MonoBehaviour {
 		// On dog landing to pool
 		if(collision.gameObject.tag == "floor")
 		{
-			waitForTap = true;
 			AnalyzeLanding();
 		}
 		if(jumpCount >= maxJumpCount)
@@ -213,6 +213,7 @@ public class DockJump : MonoBehaviour {
 
 	private void GameOver()
 	{
+		waitForTap = true;
 		GameOverPanel.SetActive (true);
 
 		TouchMat.SetActive(false);
@@ -266,24 +267,43 @@ public class DockJump : MonoBehaviour {
 		ScoreTxt.text = distStr;
 		yield return new WaitForSeconds (2f);
 
-		CamObj.transform.position = CamStartTrans.position;
-		transform.position = DogStartTrans.position;
-
 		jumpCount += 1;
 		if (jumpCount >= maxJumpCount)
 		{
 			GameOver ();
 		}
-		else 
+		else
 		{
-			ChangeDogState(DogStates.Idle);
 			rb.velocity = Vector3.zero;
+			Debug.Log(rb.velocity);
 			TapToPlayTxt.text = "Tap to Play";
 			JumpCountTxt.text = "Chances: " + jumpCount + " / " + maxJumpCount;
+
+			waitForTap = true;
+			isFoulJump = false;
+			isCamReturn = false;
+			isCamMove = false;
+			isGameOver = false;
+			isInJumpZone = false;
+			
+			// dog
 			rb.isKinematic = true;
-			isCamMove = true;
-			canJump = true;
-			isFoulJump = true;
+			runSpeed = 5;
+			jumpForce = 10;
+			transform.position = DogStartTrans.position;
+
+			
+			// Cam
+			CamObj.transform.position = CamStartTrans.position;
+			
+			// HUD
+			TapToPlayTxt.text = "Tap to Play";
+			JumpCountTxt.text = "Chances: " + jumpCount + " / " + maxJumpCount;
+			ScoreTxt.text = "Distance: " + distance;
+			GameOverPanel.SetActive (false);
+
+			ChangeDogState(DogStates.Idle);
+			
 		}
 	}
 
