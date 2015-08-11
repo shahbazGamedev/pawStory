@@ -75,7 +75,7 @@ public class AgilityManager : MonoBehaviour {
 		boxColliderCenter = boxCollider.center;
 
 		// Event Listeners
-		touchManagerRef.PatternRecognized += SwipeEventHandler; //  Add Listener to touch manager
+		TouchManager.PatternRecognized += SwipeEventHandler; //  Add Listener to touch manager
 		EllipseMovement.LaneChangeComplete += LaneChangeHandler;
 		EllipseMovement.LapTriggered += LapComplete;
 	}
@@ -83,7 +83,7 @@ public class AgilityManager : MonoBehaviour {
 	// Decouple listeners from events
 	void OnDisable()
 	{
-		touchManagerRef.PatternRecognized -= SwipeEventHandler;
+		TouchManager.PatternRecognized -= SwipeEventHandler;
 		EllipseMovement.LaneChangeComplete -= LaneChangeHandler;
 		EllipseMovement.LapTriggered -= LapComplete;
 	}
