@@ -2100,7 +2100,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2142,7 +2142,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 881240102}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .0200000405, y: -.0791329145, z: -1.19192612}
+  m_LocalPosition: {x: .0200000405, y: -.0791329145, z: 1.65999997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1482494152}
@@ -3038,8 +3038,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: startGameBtn
+      - m_Target: {fileID: 1813844000}
+        m_MethodName: PlayBtn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3222,7 +3222,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 464920, guid: 8fe98293f575748808ad4d8abf87ddda, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -1.98000002
+      value: -2.06999993
       objectReference: {fileID: 0}
     - target: {fileID: 464920, guid: 8fe98293f575748808ad4d8abf87ddda, type: 2}
       propertyPath: m_LocalPosition.z
@@ -3504,8 +3504,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1714708550}
-  m_LocalRotation: {x: 0, y: 0, z: 1, w: -1.62920685e-07}
-  m_LocalPosition: {x: .0200000405, y: 1.1508671, z: 0}
+  m_LocalRotation: {x: 1, y: 7.54979013e-08, z: -1.62920685e-07, w: -1.23001695e-14}
+  m_LocalPosition: {x: .0200000405, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 336160784}
@@ -3776,12 +3776,12 @@ MonoBehaviour:
   dogMaxLives: 3
   comboMultiplierCap: 10
   scoreIncrement: 1
-  sliderSpeed: .25
   slider: {fileID: 837843744}
   scoreText: {fileID: 155844368}
   comboText: {fileID: 2043749400}
   gameOverText: {fileID: 226934421}
   gameOverPannel: {fileID: 398127331}
+  startBtn: {fileID: 1264444655}
 --- !u!4 &1813844001
 Transform:
   m_ObjectHideFlags: 0

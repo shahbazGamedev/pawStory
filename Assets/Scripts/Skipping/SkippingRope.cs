@@ -18,7 +18,6 @@ public class SkippingRope : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		angle = transform.rotation.eulerAngles.x;
-		rotateRope = true; //TODO
 		startRot = transform.rotation;
 	}
 	
@@ -35,12 +34,15 @@ public class SkippingRope : MonoBehaviour {
 	void RotateSkipRope()
 	{
 		angle += Time.deltaTime * skipSpeed;
-		transform.rotation=Quaternion.Euler (angle, 0f, 180f);
+		if (angle > 360)
+			angle = 1f;
+		transform.rotation=Quaternion.Euler (angle, 180f, 180f);
 	}
 
 	// Resets gameObject's position
 	public void ResetPosition()
 	{
 		transform.rotation = startRot;
+		angle = transform.rotation.eulerAngles.x;
 	}
 }

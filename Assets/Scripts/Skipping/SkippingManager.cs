@@ -22,7 +22,6 @@ public class SkippingManager : MonoBehaviour
 	public int dogMaxLives;
 	public int comboMultiplierCap;
 	public float scoreIncrement;
-	public float sliderSpeed;
 
 	bool gameStart;
 	bool comboChain;
@@ -30,11 +29,12 @@ public class SkippingManager : MonoBehaviour
 
 	int comboCount;
 	int maxCombo;
+	float sliderValue;
 	float score; // Always int
 	float tapCount;
 
+	SkippingRope skipRope;
 	Animator dogAnimator;
-	Rigidbody dogRigidBody;
 
 	// UI components 
 	public Slider slider;
@@ -42,20 +42,20 @@ public class SkippingManager : MonoBehaviour
 	public Text comboText;
 	public Text gameOverText;
 	public GameObject gameOverPannel;
+	public GameObject startBtn;
 
 	#endregion
 
 	void Awake()
 	{
 		dogAnimator =  dogRef.GetComponent<Animator>();
-		dogRigidBody = GetComponent<Rigidbody>();
+		skipRope = ropeRef.GetComponent <SkippingRope> ();
 	}
 
 	// Use this for initialization
 	void Start () 
 	{
 		instanceRef = this;
-		gameStart = true;
 		comboCount = 1;
 		dogLives = dogMaxLives;
 		scoreText.text = "Score: " + score;
@@ -70,7 +70,6 @@ public class SkippingManager : MonoBehaviour
 	void Update () 
 	{
 		SliderFunction();
-//		PlaySkipping();
 	}
 
 	// Decouple Event Listeners
@@ -84,17 +83,19 @@ public class SkippingManager : MonoBehaviour
 	// Listens for player input
 	void PlaySkipping()
 	{
-//		if(Input.GetMouseButtonDown(0))
-//		{
 			dogAnimator.SetTrigger("Skip");
 			tapCount += 1;
-//		}
 	}
 
 
 	void SliderFunction()
 	{
-		slider.value =  Mathf.PingPong(Time.time *sliderSpeed * 2,1);
+		sliderValue = skipRope.angle * 2 / 360;
+		if(sliderValue>1)
+		{
+			sliderValue = 2 - sliderValue;
+		}
+		slider.value = sliderValue;
 	}
 
 	// Disable life GUI object
@@ -163,7 +164,7 @@ public class SkippingManager : MonoBehaviour
 	//Event Handler for PatternRecognized Event
 	void PatternRecognizedEvent(SwipeRecognizer.TouchPattern pattern)
 	{
-		if(pattern==SwipeRecognizer.TouchPattern.singleTap)
+		if(pattern==SwipeRecognizer.TouchPattern.singleTap && gameStart)
 		{
 			PlaySkipping ();
 		}
@@ -176,7 +177,9 @@ public class SkippingManager : MonoBehaviour
 	// Play Btn Callback
 	public void PlayBtn()
 	{
-		//TODO
+		gameStart = true;
+		ropeRef.GetComponent <SkippingRope>().rotateRope=true;
+		startBtn.SetActive (false);
 	}
 
 	// Reset Btn Callback
@@ -184,7 +187,7 @@ public class SkippingManager : MonoBehaviour
 	{
 		dogLives = dogMaxLives;
 		gameOverPannel.SetActive (false);
-		ropeRef.GetComponent <SkippingRope>().rotateRope=true;
+		startBtn.SetActive (true);
 		ropeRef.GetComponent <SkippingRope> ().ResetPosition ();
 		scoreText.gameObject.transform.parent.gameObject.SetActive (true);
 		comboText.gameObject.SetActive (true);
@@ -194,6 +197,11 @@ public class SkippingManager : MonoBehaviour
 		score = 0;
 		maxCombo = 0;
 		tapCount = 0;
+		slider.value = 0;
+		foreach(var gameObj in livesRef)
+		{
+			gameObj.SetActive (true);
+		}
 	}
 
 	// Home Btn Callback
