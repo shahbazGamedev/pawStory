@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿/**
+Script Author : Vaikash 
+Description   : Manages Trigger in Skipping Game
+**/
+
+using UnityEngine;
 using System.Collections;
 
 public class TriggerDetection : MonoBehaviour {
