@@ -426,7 +426,7 @@ GameObject:
   - 4: {fileID: 254858782}
   - 65: {fileID: 254858781}
   m_Layer: 0
-  m_Name: Trigger
+  m_Name: JumpAreaTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2062,7 +2062,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: .0500000007
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -2080,10 +2080,10 @@ MonoBehaviour:
   DogObj: {fileID: 1989705550}
   DogAnim: {fileID: 1989705552}
   DogStartTrans: {fileID: 505700370}
+  dogState: 0
   CamObj: {fileID: 797280434}
   CamStartTrans: {fileID: 439153974}
   isCamMove: 0
-  isCamReturn: 0
   GameOverPanel: {fileID: 345322391}
   TouchMat: {fileID: 1578186221}
   gameScreen: {fileID: 3235629}
