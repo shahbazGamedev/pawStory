@@ -33,7 +33,7 @@ public class DockJump : MonoBehaviour {
 	public Transform DogStartTrans;
 	Rigidbody rb;
 	bool isInJumpZone;
-	DogStates dogState; // 0: sit, 1: Idle, 2: jog, 3: Run, 5: Jump, 
+	public DogStates dogState; // 0: sit, 1: Idle, 2: jog, 3: Run, 5: Jump, 
 	int TotalIdleStates = 3;
 	int IdleRandom;
 	List<float> jumpDistList;
@@ -43,7 +43,6 @@ public class DockJump : MonoBehaviour {
 	public GameObject CamObj;
 	public Transform CamStartTrans;
 	public bool isCamMove;
-	public bool isCamReturn;
 
 	// HUD
 	public GameObject GameOverPanel;
@@ -65,7 +64,6 @@ public class DockJump : MonoBehaviour {
 	float dragRatio;
 	float distance;
 	bool isGameOver;
-	bool isFoulJump;
 
 
 	void ChangeDogState (DogStates newDogState)
@@ -101,8 +99,6 @@ public class DockJump : MonoBehaviour {
 	public void Restart ()
 	{
 		waitForTap = true;
-		isFoulJump = true;
-		isCamReturn = false;
 		isCamMove = false;
 		isGameOver = false;
 		isInJumpZone = false;
@@ -138,7 +134,7 @@ public class DockJump : MonoBehaviour {
 
 	void Update () 
 	{
-		if (waitForTap)
+		if (waitForTap && !isGameOver)
 		{
 			if(Input.GetMouseButtonUp(0) || Input.GetKeyUp(KeyCode.Space))
 			{
@@ -148,7 +144,7 @@ public class DockJump : MonoBehaviour {
 			}
 		}else{
 			if(Input.GetMouseButtonUp(0) || Input.GetKeyUp(KeyCode.Space)
-			   && isInJumpZone && dogState != DogStates.Jump )
+			   && isInJumpZone && dogState != DogStates.Jump && !isGameOver)
 			{
 				ChangeDogState(DogStates.Jump);
 				FinalJump();
@@ -159,7 +155,7 @@ public class DockJump : MonoBehaviour {
 
 	void FixedUpdate() 
 	{
-		if(dogState == DogStates.Run)
+		if(dogState == DogStates.Run && !isGameOver)
 		{
 			DogObj.transform.position += Time.deltaTime * dir * runSpeed;
 		}
@@ -168,14 +164,13 @@ public class DockJump : MonoBehaviour {
 
 	void LateUpdate()
 	{
-		if(dogState == DogStates.Run)
+		if(dogState == DogStates.Run && !isGameOver)
 			CamObj.transform.position += new Vector3(0, 0, 1) * Time.deltaTime * 5;
 	}
 
 
 	void FinalJump()
 	{
-		isFoulJump = false;
 		rb.isKinematic = false;
 		ChangeDogState (DogStates.Jump);
 		rb.AddForce(new Vector3(0, 0.7f, 1) * jumpForce, ForceMode.Impulse);
@@ -234,12 +229,13 @@ public class DockJump : MonoBehaviour {
 	void AnalyzeLanding()
 	{
 		rb.isKinematic = true;
-		GetComponent<Rigidbody>().detectCollisions = false;
 
-		// jump analysis
-		if (isFoulJump) {
+		if(dogState == DogStates.Run)// not a jump so foul
+		{
 			distance = -1;
-		} else {
+		}
+		else 
+		{
 			distance = Vector3.Distance(target.position, transform.position);
 		}
 
@@ -274,19 +270,13 @@ public class DockJump : MonoBehaviour {
 		}
 		else
 		{
-			rb.velocity = Vector3.zero;
-			Debug.Log(rb.velocity);
-			TapToPlayTxt.text = "Tap to Play";
-			JumpCountTxt.text = "Chances: " + jumpCount + " / " + maxJumpCount;
-
 			waitForTap = true;
-			isFoulJump = false;
-			isCamReturn = false;
 			isCamMove = false;
 			isGameOver = false;
 			isInJumpZone = false;
 			
 			// dog
+			rb.velocity = Vector3.zero;
 			rb.isKinematic = true;
 			runSpeed = 5;
 			jumpForce = 10;
@@ -299,7 +289,6 @@ public class DockJump : MonoBehaviour {
 			// HUD
 			TapToPlayTxt.text = "Tap to Play";
 			JumpCountTxt.text = "Chances: " + jumpCount + " / " + maxJumpCount;
-			ScoreTxt.text = "Distance: " + distance;
 			GameOverPanel.SetActive (false);
 
 			ChangeDogState(DogStates.Idle);
