@@ -143,7 +143,7 @@ public class DockJump : MonoBehaviour {
 				ChangeDogState(DogStates.Run);
 			}
 		}else{
-			if(Input.GetMouseButtonUp(0) || Input.GetKeyUp(KeyCode.Space)
+			if((Input.GetMouseButtonUp(0) || Input.GetKeyUp(KeyCode.Space))
 			   && isInJumpZone && dogState != DogStates.Jump && !isGameOver)
 			{
 				ChangeDogState(DogStates.Jump);
@@ -173,7 +173,7 @@ public class DockJump : MonoBehaviour {
 	{
 		rb.isKinematic = false;
 		ChangeDogState (DogStates.Jump);
-		rb.AddForce(new Vector3(0, 0.7f, 1) * jumpForce, ForceMode.Impulse);
+		rb.AddForce(new Vector3(0, 0.5f, 0.8f) * jumpForce, ForceMode.Impulse);
 	}
 
 
