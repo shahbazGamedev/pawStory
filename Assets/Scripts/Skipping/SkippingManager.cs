@@ -22,6 +22,7 @@ public class SkippingManager : MonoBehaviour
 	public int dogMaxLives;
 	public int comboMultiplierCap;
 	public float scoreIncrement;
+	public float[] ropeSpeeds;
 
 	bool gameStart;
 	bool comboChain;
@@ -107,6 +108,7 @@ public class SkippingManager : MonoBehaviour
 	// gameOver Function
 	void GameOver()
 	{
+		gameStart = false;
 		gameOverPannel.SetActive (true);
 		ropeRef.GetComponent <SkippingRope>().rotateRope=false;
 		scoreText.gameObject.transform.parent.gameObject.SetActive (false);
@@ -159,6 +161,7 @@ public class SkippingManager : MonoBehaviour
 			comboText.text="";
 		}
 		scoreText.text = "Score: " + score;
+		skipRope.skipSpeed=ropeSpeeds[Random.Range (0,6)];
 	}
 
 	//Event Handler for PatternRecognized Event
@@ -202,6 +205,7 @@ public class SkippingManager : MonoBehaviour
 		{
 			gameObj.SetActive (true);
 		}
+		gameStart = true;
 	}
 
 	// Home Btn Callback
