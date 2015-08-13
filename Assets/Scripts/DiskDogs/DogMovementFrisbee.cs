@@ -65,6 +65,8 @@ public class DogMovementFrisbee : MonoBehaviour {
 //		if(isRestart)
 //		{OnRestart();
 //		}
+		EndPanel.SetActive (false);
+
 		flagYellow.SetActive(false);
 		flagGreen.SetActive(false);
 		flagRed.SetActive(false);
@@ -87,7 +89,8 @@ public class DogMovementFrisbee : MonoBehaviour {
 		TempFlag();
 		if(isGameover==true)
 		{
-		GameOver();
+			GameOver();
+			EndPanel.SetActive(false);
 		}
 		if(isMoving)
 		{

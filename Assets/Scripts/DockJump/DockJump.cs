@@ -136,6 +136,7 @@ public class DockJump : MonoBehaviour {
 	{
 		if (waitForTap && !isGameOver)
 		{
+			Debug.Log("isGameOver" + isGameOver);
 			if(Input.GetMouseButtonUp(0) || Input.GetKeyUp(KeyCode.Space))
 			{
 				waitForTap = false;
@@ -208,14 +209,15 @@ public class DockJump : MonoBehaviour {
 
 	private void GameOver()
 	{
+		isGameOver = true;
 		waitForTap = true;
 		GameOverPanel.SetActive (true);
 
 		TouchMat.SetActive(false);
 		gameScreen.SetActive(false);
 
-		float longDist = jumpDistList [0];
-		for (int i = 1; i< jumpDistList.Count; i++)
+		float longDist = 0;
+		for (int i = 0; i < jumpDistList.Count; i++)
 		{
 			if(longDist < jumpDistList[i])
 			{
@@ -263,6 +265,9 @@ public class DockJump : MonoBehaviour {
 		ScoreTxt.text = distStr;
 		yield return new WaitForSeconds (2f);
 
+		ChangeDogState(DogStates.Idle);
+		yield return new WaitForSeconds (0.25f);
+
 		jumpCount += 1;
 		if (jumpCount >= maxJumpCount)
 		{
@@ -290,10 +295,10 @@ public class DockJump : MonoBehaviour {
 			TapToPlayTxt.text = "Tap to Play";
 			JumpCountTxt.text = "Chances: " + jumpCount + " / " + maxJumpCount;
 			GameOverPanel.SetActive (false);
-
-			ChangeDogState(DogStates.Idle);
 			
 		}
+
+
 	}
 
 

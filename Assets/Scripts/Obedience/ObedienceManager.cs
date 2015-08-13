@@ -9,7 +9,7 @@ public class ObedienceManager : MonoBehaviour {
 	public Text instructions;
 	public Text roundInfo;
 	public Text timerNotification;
-	public GameObject gameOverPannel;
+	public GameObject gameOverPanel;
 	public GameObject gestureMat; // Image UI element on which event triggers are attached
 	public GameObject[] directionRef;
 
@@ -69,20 +69,7 @@ public class ObedienceManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		dogRef = GameObject.FindGameObjectWithTag ("Player");
-		dogManager = dogRef.GetComponent <DogManager> ();
-		randomNumber = 2;
-		pattern = SwipeRecognizer.TouchPattern.reset;
-		gameOn = true;
-		startPosition = dogRef.transform.position;
-		startRotation = dogRef.transform.rotation;
-		nextInstruct = true;
-		StartCoroutine (Instruct ());
-		combo = false;
-		dogAnim = dogRef.GetComponentInChildren<Animator> ();
-
-		// Add listener to reset complete event
-		dogManager.ResetComplete += GotoNextInstruction;
+		OnRestart ();
 	}
 	
 	// Update is called once per frame
@@ -334,12 +321,12 @@ public class ObedienceManager : MonoBehaviour {
 	{
 		while(gameOn) 
 		{
-			if (chance == maxChances) // if chances depleted gameOver
+			if (chance >= maxChances) // if chances depleted gameOver
 			{
 				yield return new WaitForSeconds (2);
 				DeactivateGestureMat ();
 				gameOn = false;
-				gameOverPannel.SetActive (true);
+				gameOverPanel.SetActive (true);
 				instructions.text = "Score: " + points + " / " + maxChances;
 
 			}
@@ -483,7 +470,6 @@ public class ObedienceManager : MonoBehaviour {
 	}
 
 	// Event trigger - EndDrag
-
 	public void OnEndDrag (BaseEventData data)
 	{
 		var pointData = (PointerEventData)data;
@@ -546,24 +532,37 @@ public class ObedienceManager : MonoBehaviour {
 	}
 	#endregion
 
+
 	#region ButtonCallbacks
 	// Back button
-	public void GoBack()
+	public void OnMainMenu()
 	{
-		Application.LoadLevel ("MainMenu");
+		GameMgr.Inst.LoadScene (GlobalConst.Scene_MainMenu);
 	}
 
+
 	// Replay button
-	public void PlayAgain()
+	public void OnRestart()
 	{
-		//Application.LoadLevel (Application.loadedLevel);
+		dogRef = GameObject.FindGameObjectWithTag ("Player");
+		dogManager = dogRef.GetComponent <DogManager> ();
+		randomNumber = 2;
 		pattern = SwipeRecognizer.TouchPattern.reset;
 		gameOn = true;
-		chance = 0;
-		points = 0;
+		startPosition = dogRef.transform.position;
+		startRotation = dogRef.transform.rotation;
+		nextInstruct = true;
 		StartCoroutine (Instruct ());
 		combo = false;
-		gameOverPannel.SetActive (false);
+		dogAnim = dogRef.GetComponentInChildren<Animator> ();
+		
+		// Add listener to reset complete event
+		dogManager.ResetComplete += GotoNextInstruction;
+
+		chance = 0;
+		points = 0;
+		combo = false;
+		gameOverPanel.SetActive (false);
 		timerNotification.gameObject.SetActive (true);
 	}
 	#endregion
