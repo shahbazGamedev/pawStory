@@ -164,7 +164,7 @@ public class SkippingManager : MonoBehaviour
 			comboText.text="";
 		}
 		scoreText.text = "Score: " + score;
-		skipRope.skipSpeed=ropeSpeeds[Random.Range (0,6)];
+		skipRope.skipSpeed=ropeSpeeds[Random.Range (0,8)];
 	}
 
 	//Event Handler for PatternRecognized Event
