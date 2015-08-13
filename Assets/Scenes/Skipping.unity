@@ -2582,6 +2582,10 @@ Prefab:
       propertyPath: m_Delegates.Array.data[5].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnClickEnd
       objectReference: {fileID: 0}
+    - target: {fileID: 188282, guid: b277afcde5431224e9c824abf4b57288, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b277afcde5431224e9c824abf4b57288, type: 2}
   m_IsPrefabParent: 0
@@ -3209,6 +3213,10 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1441398764}
+--- !u!1 &1450192603 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 188282, guid: b277afcde5431224e9c824abf4b57288, type: 2}
+  m_PrefabInternal: {fileID: 1142084694}
 --- !u!1001 &1471887562
 Prefab:
   m_ObjectHideFlags: 0
@@ -3789,6 +3797,7 @@ MonoBehaviour:
   gameOverText: {fileID: 226934421}
   gameOverPannel: {fileID: 398127331}
   startBtn: {fileID: 1264444655}
+  touchMat: {fileID: 1450192603}
 --- !u!4 &1813844001
 Transform:
   m_ObjectHideFlags: 0

@@ -44,6 +44,7 @@ public class SkippingManager : MonoBehaviour
 	public Text gameOverText;
 	public GameObject gameOverPannel;
 	public GameObject startBtn;
+	public GameObject touchMat;
 
 	#endregion
 
@@ -108,12 +109,14 @@ public class SkippingManager : MonoBehaviour
 	// gameOver Function
 	void GameOver()
 	{
+		touchMat.SetActive (false);
 		gameStart = false;
 		gameOverPannel.SetActive (true);
 		ropeRef.GetComponent <SkippingRope>().rotateRope=false;
 		scoreText.gameObject.transform.parent.gameObject.SetActive (false);
 		comboText.gameObject.SetActive (false);
 		slider.gameObject.SetActive (false);
+		maxCombo = tapCount < 1 ? 0 : maxCombo;
 		gameOverText.text = "Score: " + score + "\n\n" + "Max Combo: " 
 			+ maxCombo + "\n\nTotal Taps: " + tapCount; // Game Play Stats
 	}
@@ -183,6 +186,7 @@ public class SkippingManager : MonoBehaviour
 		gameStart = true;
 		ropeRef.GetComponent <SkippingRope>().rotateRope=true;
 		startBtn.SetActive (false);
+		touchMat.SetActive (true);
 	}
 
 	// Reset Btn Callback
