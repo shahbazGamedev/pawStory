@@ -56,10 +56,14 @@ public class HudMgr : MonoBehaviour
 			GameMgr.Inst.LoadScene(GlobalConst.Scene_MainMenu);
 		}
 		else if (curScene.Equals (GlobalConst.Scene_DiscDogs) ||
-			curScene.Equals (GlobalConst.Scene_DockJump) ||
-			curScene.Equals (GlobalConst.Scene_Obedience) ||
-			curScene.Equals (GlobalConst.Scene_Tracking) ||
-			curScene.Equals (GlobalConst.Scene_ColorLesson)) 
+		         curScene.Equals (GlobalConst.Scene_DockJump) ||
+		         curScene.Equals (GlobalConst.Scene_Tracking) ||
+		         curScene.Equals (GlobalConst.Scene_Obedience) ||
+		         curScene.Equals (GlobalConst.Scene_ColorLesson) ||
+                 curScene.Equals (GlobalConst.Scene_Skipping) ||
+                 curScene.Equals (GlobalConst.Scene_Tugofwar) ||
+                 curScene.Equals (GlobalConst.Scene_Agility) ||
+		         curScene.Equals (GlobalConst.Scene_Bubble)) 
 		{
 			if(GameMgr.Inst.IsGamePaused())
 				EventMgr.OnGameResume();

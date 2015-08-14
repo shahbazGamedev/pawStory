@@ -96,26 +96,29 @@ public class DockJump : MonoBehaviour {
 	}
 
 
-	public void Restart ()
+	public void OnRestartGame ()
 	{
+		Debug.Log ("OnRestartGame");
+		rb = GetComponent<Rigidbody> ();
+
 		waitForTap = true;
-		isCamMove = false;
 		isGameOver = false;
 		isInJumpZone = false;
 
 		// dog
 		ChangeDogState (DogStates.Idle);
 		rb.isKinematic = true;
+		transform.position = DogStartTrans.position;
 		runSpeed = 5;
 		jumpForce = 10;
-		transform.position = DogStartTrans.position;
-		jumpDistList = new List<float> ();
 		jumpCount = 0;
 		maxJumpCount = 3;
+		jumpDistList = new List<float> ();
 		dir = new Vector3 (0, 0, 1);
 
 		// Cam
 		CamObj.transform.position = CamStartTrans.position;
+		isCamMove = false;
 
 		// HUD
 		TapToPlayTxt.text = "Tap to Play";
@@ -125,30 +128,39 @@ public class DockJump : MonoBehaviour {
 	}
 
 
-	void Start ()
-	{
-		rb = GetComponent<Rigidbody> ();
-		Restart ();
+	void OnEnable() {
+		EventMgr.GameRestart += OnRestartGame;
+	}
+	
+	
+	void OnDisable() {
+		EventMgr.GameRestart -= OnRestartGame;
 	}
 
 
-	void Update () 
+	void Start ()
 	{
-		if (waitForTap && !isGameOver)
+		OnRestartGame ();
+	}
+
+
+	void Update () 	{
+		if (GameMgr.Inst.IsGamePaused ()) {
+			return;
+		} 
+		// Detect Tap
+		if ((Input.GetMouseButtonDown (0) || Input.GetKeyUp (KeyCode.Space)) && !isGameOver) 
 		{
-			Debug.Log("isGameOver" + isGameOver);
-			if(Input.GetMouseButtonUp(0) || Input.GetKeyUp(KeyCode.Space))
+			if (waitForTap ) 
 			{
 				waitForTap = false;
 				TapToPlayTxt.text = "Tap to Jump";
-				ChangeDogState(DogStates.Run);
+				ChangeDogState (DogStates.Run);
 			}
-		}else{
-			if((Input.GetMouseButtonUp(0) || Input.GetKeyUp(KeyCode.Space))
-			   && isInJumpZone && dogState != DogStates.Jump && !isGameOver)
+			else if (isInJumpZone && dogState == DogStates.Run) 
 			{
-				ChangeDogState(DogStates.Jump);
-				FinalJump();
+				ChangeDogState (DogStates.Jump);
+				FinalJump ();
 			}
 		}
 	}
@@ -286,7 +298,6 @@ public class DockJump : MonoBehaviour {
 			runSpeed = 5;
 			jumpForce = 10;
 			transform.position = DogStartTrans.position;
-
 			
 			// Cam
 			CamObj.transform.position = CamStartTrans.position;
@@ -294,17 +305,8 @@ public class DockJump : MonoBehaviour {
 			// HUD
 			TapToPlayTxt.text = "Tap to Play";
 			JumpCountTxt.text = "Chances: " + jumpCount + " / " + maxJumpCount;
-			GameOverPanel.SetActive (false);
-			
+			GameOverPanel.SetActive (false);			
 		}
-
-
-	}
-
-
-	public void OnRestartBtn()
-	{
-		GameMgr.Inst.LoadScene(GlobalConst.Scene_DockJump);
 	}
 
 

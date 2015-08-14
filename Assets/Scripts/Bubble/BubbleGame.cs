@@ -37,22 +37,20 @@ public class BubbleGame : MonoBehaviour {
 	void OnEnable()
 	{
 		EventMgr.SetPos += OnSetPos;
+		EventMgr.GameRestart += OnRestartGame;
 	}
 
 
 	void OnDisable()
 	{
 		EventMgr.SetPos -= OnSetPos;
+		EventMgr.GameRestart -= OnRestartGame;
 	}
 
 	
 	void Start () 
 	{
-		gameOver=false;
-		Reset ();
-		rb=GetComponent<Rigidbody>();
-		dogAnim=GetComponent<Animator>();
-		startingPos=transform.position;
+		OnRestartGame ();
 	}
 
 
@@ -65,7 +63,7 @@ public class BubbleGame : MonoBehaviour {
 
 	void FixedUpdate () 
 	{
-		if (!gameOver) 
+		if (!gameOver && !GameMgr.Inst.IsGamePaused()) 
 		{
 			oneSecTimer += Time.deltaTime;
 
@@ -95,8 +93,13 @@ public class BubbleGame : MonoBehaviour {
 	}
 
 
-	public void Reset()
+	public void OnRestartGame()
 	{
+		gameOver=false;
+		rb=GetComponent<Rigidbody>();
+		dogAnim=GetComponent<Animator>();
+		startingPos=transform.position;
+
 		levelTime = 25;
 		baloonsAtScene = 0;
 		maxBaloons = 10;
@@ -143,12 +146,6 @@ public class BubbleGame : MonoBehaviour {
 	public void OnMainMenu()
 	{
 		GameMgr.Inst.LoadScene(GlobalConst.Scene_MainMenu);
-	}
-
-
-	public void OnRestart()
-	{
-		GameMgr.Inst.LoadScene(GlobalConst.Scene_Bubble);
 	}
 
 
