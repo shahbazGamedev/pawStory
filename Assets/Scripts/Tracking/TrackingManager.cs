@@ -16,6 +16,7 @@ public class TrackingManager : MonoBehaviour {
 	public Text score;
 	public GameObject marker;
 	public GameObject gameOverPanel;
+	public Text gameOverText;
 	public GameObject touchMat;
 	public Slider dogCapacity;
 	public GameObject lineRenderer;
@@ -40,11 +41,12 @@ public class TrackingManager : MonoBehaviour {
 	public float interpolationScale;
 	public float maxTrackingCapacity;
 	public List<Vector3> dragData;
+	public float sliderUpdateSpeed;
 
 	bool isFirstRun;
 	bool needToPop;
 	bool swipeFinished;
-	bool isGameOn;
+	public bool isGameOn;
 	bool gameOver;
 	bool startTracking;
 	bool pathEnable;
@@ -179,8 +181,9 @@ public class TrackingManager : MonoBehaviour {
 	// Activates the gameOver Panel
 	void GameOver()
 	{
+		instructions.gameObject.SetActive (false);
 		gameOverPanel.SetActive (true);
-		instructions.text = "Score: " + points + " Points." ;
+		gameOverText.text = "Score: " + points + " Points." ;
 		foreach(var live in life) // Destroys remaining resets / lives
 		{
 			live.SetActive (false);
@@ -217,7 +220,7 @@ public class TrackingManager : MonoBehaviour {
 		while (dogCapacity.value < dogCapacity.maxValue) 
 		{
 			yield return new WaitForFixedUpdate ();
-			distanceCovered -= Time.deltaTime;
+			distanceCovered -= Time.deltaTime * sliderUpdateSpeed;
 		}
 		distanceCovered = 0;
 		dogCapacity.value = dogCapacity.maxValue;
@@ -289,7 +292,7 @@ public class TrackingManager : MonoBehaviour {
 					}
 				}
 
-				if (Vector3.Distance (startPosition, touchStartPosition) < 0.18f && isFirstRun)
+				if (Vector3.Distance (startPosition, touchStartPosition) < 1.5f && isFirstRun)
 				{
 					pathEnable = false;
 					isGameOn = true;
