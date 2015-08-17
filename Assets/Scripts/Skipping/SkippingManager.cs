@@ -170,7 +170,8 @@ public class SkippingManager : MonoBehaviour
 	//Event Handler for PatternRecognized Event
 	void PatternRecognizedEvent(SwipeRecognizer.TouchPattern pattern)
 	{
-		if(pattern==SwipeRecognizer.TouchPattern.singleTap && gameStart)
+//		if(pattern==SwipeRecognizer.TouchPattern.singleTap && gameStart)
+		if(pattern!=SwipeRecognizer.TouchPattern.hold && gameStart)
 		{
 			PlaySkipping ();
 		}
