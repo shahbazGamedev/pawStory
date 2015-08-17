@@ -16,6 +16,7 @@ public class TrackingManager : MonoBehaviour {
 	public Text score;
 	public GameObject marker;
 	public GameObject gameOverPanel;
+	public Text gameOverText;
 	public GameObject touchMat;
 	public Slider dogCapacity;
 	public GameObject lineRenderer;
@@ -180,8 +181,9 @@ public class TrackingManager : MonoBehaviour {
 	// Activates the gameOver Panel
 	void GameOver()
 	{
+		instructions.gameObject.SetActive (false);
 		gameOverPanel.SetActive (true);
-		instructions.text = "Score: " + points + " Points." ;
+		gameOverText.text = "Score: " + points + " Points." ;
 		foreach(var live in life) // Destroys remaining resets / lives
 		{
 			live.SetActive (false);
@@ -283,7 +285,7 @@ public class TrackingManager : MonoBehaviour {
 				Vector3 screenPoint = new Vector3(data.position.x, data.position.y, 0f);
 				RaycastHit hit;
 				Ray ray = Camera.main.ScreenPointToRay(screenPoint);
-				if (Physics.Raycast (ray, out hit, 1000f)) {
+				if (Physics.Raycast (ray, out hit, 200f)) {
 					layerName = LayerMask.LayerToName (hit.collider.gameObject.layer);
 					if (layerName == "Floor") {
 						touchStartPosition = hit.point + (Vector3.up * 0.01f);
