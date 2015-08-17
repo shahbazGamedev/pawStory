@@ -40,11 +40,12 @@ public class TrackingManager : MonoBehaviour {
 	public float interpolationScale;
 	public float maxTrackingCapacity;
 	public List<Vector3> dragData;
+	public float sliderUpdateSpeed;
 
 	bool isFirstRun;
 	bool needToPop;
 	bool swipeFinished;
-	bool isGameOn;
+	public bool isGameOn;
 	bool gameOver;
 	bool startTracking;
 	bool pathEnable;
@@ -217,7 +218,7 @@ public class TrackingManager : MonoBehaviour {
 		while (dogCapacity.value < dogCapacity.maxValue) 
 		{
 			yield return new WaitForFixedUpdate ();
-			distanceCovered -= Time.deltaTime;
+			distanceCovered -= Time.deltaTime * sliderUpdateSpeed;
 		}
 		distanceCovered = 0;
 		dogCapacity.value = dogCapacity.maxValue;
@@ -282,14 +283,14 @@ public class TrackingManager : MonoBehaviour {
 				Vector3 screenPoint = new Vector3(data.position.x, data.position.y, 0f);
 				RaycastHit hit;
 				Ray ray = Camera.main.ScreenPointToRay(screenPoint);
-				if (Physics.Raycast (ray, out hit, 200f)) {
+				if (Physics.Raycast (ray, out hit, 1000f)) {
 					layerName = LayerMask.LayerToName (hit.collider.gameObject.layer);
 					if (layerName == "Floor") {
 						touchStartPosition = hit.point + (Vector3.up * 0.01f);
 					}
 				}
 
-				if (Vector3.Distance (startPosition, touchStartPosition) < 0.18f && isFirstRun)
+				if (Vector3.Distance (startPosition, touchStartPosition) < 1.5f && isFirstRun)
 				{
 					pathEnable = false;
 					isGameOn = true;
