@@ -18,7 +18,7 @@ public class CatchTrainer : MonoBehaviour {
 
 	bool isPressed;
 	Vector3 targetPos;
-	Vector3 startPos;
+	Vector2 touchStartPos;
 	Vector3 projectileVelocity;
 
 	List<GameObject> markerList;
@@ -66,10 +66,11 @@ public class CatchTrainer : MonoBehaviour {
 	// calculate force for projectile
 	Vector3 CalcForce(Vector3 fromPos, Vector3 toPos)
 	{
-		return (new Vector2 (toPos.x, toPos.y) - new Vector2 (fromPos.x, fromPos.y)) * thrustForce;
+		//return (new Vector2 (toPos.x, toPos.y) - new Vector2 (fromPos.x, fromPos.y)) * thrustForce;
+		return (toPos - fromPos) * Vector3.Distance (touchStartPos, Input.mousePosition);
 	}
 
-	// Updates the position of markers
+	// updates the position of markers
 	void setMarker(Vector3 pStartPosition , Vector3 pVelocity )
 	{
 		float velocity = Mathf.Sqrt((pVelocity.x * pVelocity.x) + (pVelocity.y * pVelocity.y));
@@ -119,6 +120,7 @@ public class CatchTrainer : MonoBehaviour {
 	{
 		var pointData = (PointerEventData)data;
 		if (pointData.pointerId == -1) {
+			touchStartPos = Input.mousePosition;
 			isPressed = true;
 		}
 	}
