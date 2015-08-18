@@ -1618,7 +1618,7 @@ GameObject:
   m_Layer: 0
   m_Name: CatchTrainer
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2270504221434485236, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1633,6 +1633,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf37dd89d3fa83d48a0c3be23636a6c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dogRef: {fileID: 0}
+  ballPrefab: {fileID: 125274, guid: c6de119694380834180f376e35caae8b, type: 2}
+  markerPrefab: {fileID: 173524, guid: 1636b55f433fb2f46bb0c621b38befd2, type: 2}
+  noOfMarkers: 10
+  thrustForce: 1
 --- !u!4 &720925828
 Transform:
   m_ObjectHideFlags: 0
@@ -1640,11 +1645,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 720925826}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.0146812499, y: .829132915, z: -.823073745}
+  m_LocalPosition: {x: -3.03999996, y: -.0500000007, z: -2.11999989}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 3
 --- !u!1 &995963019
 GameObject:
   m_ObjectHideFlags: 0
@@ -1828,48 +1833,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 223a9d338d97efa4fab0c00d1e70471e, type: 2}
   m_IsPrefabParent: 0
---- !u!1001 &1084750586
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 421718, guid: 68fa63d9f40117d4eaddaac8a3e3c6fb, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 421718, guid: 68fa63d9f40117d4eaddaac8a3e3c6fb, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 421718, guid: 68fa63d9f40117d4eaddaac8a3e3c6fb, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 421718, guid: 68fa63d9f40117d4eaddaac8a3e3c6fb, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 421718, guid: 68fa63d9f40117d4eaddaac8a3e3c6fb, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 421718, guid: 68fa63d9f40117d4eaddaac8a3e3c6fb, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 421718, guid: 68fa63d9f40117d4eaddaac8a3e3c6fb, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 421718, guid: 68fa63d9f40117d4eaddaac8a3e3c6fb, type: 2}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 68fa63d9f40117d4eaddaac8a3e3c6fb, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &1098652946
 GameObject:
   m_ObjectHideFlags: 0
@@ -2024,7 +1987,7 @@ Prefab:
     - target: {fileID: 11415316, guid: b277afcde5431224e9c824abf4b57288, type: 2}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1344737056}
+      objectReference: {fileID: 720925827}
     - target: {fileID: 11415316, guid: b277afcde5431224e9c824abf4b57288, type: 2}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnBeginDrag
@@ -2032,7 +1995,7 @@ Prefab:
     - target: {fileID: 11415316, guid: b277afcde5431224e9c824abf4b57288, type: 2}
       propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1344737056}
+      objectReference: {fileID: 720925827}
     - target: {fileID: 11415316, guid: b277afcde5431224e9c824abf4b57288, type: 2}
       propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnEndDrag
@@ -2040,7 +2003,7 @@ Prefab:
     - target: {fileID: 11415316, guid: b277afcde5431224e9c824abf4b57288, type: 2}
       propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1344737056}
+      objectReference: {fileID: 720925827}
     - target: {fileID: 11415316, guid: b277afcde5431224e9c824abf4b57288, type: 2}
       propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnDrag
@@ -2048,7 +2011,7 @@ Prefab:
     - target: {fileID: 11415316, guid: b277afcde5431224e9c824abf4b57288, type: 2}
       propertyPath: m_Delegates.Array.data[3].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1344737056}
+      objectReference: {fileID: 720925827}
     - target: {fileID: 11415316, guid: b277afcde5431224e9c824abf4b57288, type: 2}
       propertyPath: m_Delegates.Array.data[3].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnPointerDown
@@ -2056,7 +2019,7 @@ Prefab:
     - target: {fileID: 11415316, guid: b277afcde5431224e9c824abf4b57288, type: 2}
       propertyPath: m_Delegates.Array.data[4].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1344737056}
+      objectReference: {fileID: 720925827}
     - target: {fileID: 11415316, guid: b277afcde5431224e9c824abf4b57288, type: 2}
       propertyPath: m_Delegates.Array.data[4].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnPointerUp
@@ -2064,14 +2027,14 @@ Prefab:
     - target: {fileID: 11415316, guid: b277afcde5431224e9c824abf4b57288, type: 2}
       propertyPath: m_Delegates.Array.data[5].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1344737056}
+      objectReference: {fileID: 720925827}
     - target: {fileID: 11415316, guid: b277afcde5431224e9c824abf4b57288, type: 2}
       propertyPath: m_Delegates.Array.data[5].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnClickEnd
       objectReference: {fileID: 0}
     - target: {fileID: 188282, guid: b277afcde5431224e9c824abf4b57288, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b277afcde5431224e9c824abf4b57288, type: 2}
@@ -2372,12 +2335,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1264444655}
---- !u!114 &1344737056 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 11493010, guid: 68fa63d9f40117d4eaddaac8a3e3c6fb,
-    type: 2}
-  m_PrefabInternal: {fileID: 1084750586}
-  m_Script: {fileID: 11500000, guid: be6b76674edf4a24d9c5c5bbd0600cfc, type: 3}
 --- !u!1001 &1396321024
 Prefab:
   m_ObjectHideFlags: 0
@@ -2455,7 +2412,7 @@ Transform:
   - {fileID: 464894864}
   - {fileID: 995963024}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
 --- !u!1 &1526594635
 GameObject:
   m_ObjectHideFlags: 0
@@ -2705,7 +2662,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1902032267}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: -1.62920685e-07}
-  m_LocalPosition: {x: 0, y: -.0638209581, z: -.349999994}
+  m_LocalPosition: {x: 0, y: -.0638209581, z: 2.43000007}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1396321025}
