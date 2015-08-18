@@ -79,6 +79,27 @@ public class GameMgr : MonoBehaviour
 	}
 
 
+    void OnApplicationPause(bool pauseStatus)
+    {
+        if (pauseStatus)
+        {
+            EventMgr.OnGamePause();
+            isPaused = true;
+        }        
+    }
+
+    
+    void OnApplicationFocus(bool focusStatus)
+    {
+        if (focusStatus)
+        {
+            EventMgr.OnGamePause();
+            isPaused = true;
+        } 
+    }
+
+
+
 	void Init()
 	{
 	}

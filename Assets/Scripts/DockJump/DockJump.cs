@@ -149,7 +149,8 @@ public class DockJump : MonoBehaviour {
 			return;
 		} 
 		// Detect Tap
-		if ((Input.GetMouseButtonDown (0) || Input.GetKeyUp (KeyCode.Space)) && !isGameOver) 
+		if ((Input.GetMouseButtonDown (0) || Input.GetKeyUp (KeyCode.Space)) 
+            && !isGameOver ) 
 		{
 			if (waitForTap ) 
 			{

@@ -73,7 +73,7 @@ public class ColorLessonScr : MonoBehaviour
 				}
 			}
 #endif
-			if(Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown (0))
+			if(Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonUp (0))
 			{
 				waitForTap = false;
 				dogAnimState = 3;
