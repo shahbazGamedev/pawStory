@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿/**
+Script Author : Vaikash 
+Description   : Animation Event Listener for IdleLook2Sides
+**/
+
+using UnityEngine;
 using System.Collections;
 
 public class AnimationEventListener : MonoBehaviour {
