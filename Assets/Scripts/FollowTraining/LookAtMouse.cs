@@ -10,14 +10,11 @@ public class LookAtMouse : MonoBehaviour
 
 	void FixedUpdate () 
 	{
-		Plane playerPlane = new Plane(Vector3.up, transform.position);
-		Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-		float hitdist = 0.0f;
-		if (playerPlane.Raycast (ray, out hitdist)) 
-		{
-			Vector3 targetPoint = ray.GetPoint(hitdist);
-			Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
-			transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speed * Time.deltaTime);
-		}
+		 Vector3 upAxis = new Vector3(0,0,-1);
+	    Vector3 mouseScreenPosition = Input.mousePosition;
+		mouseScreenPosition.z = transform.position.z;
+		Vector3 mouseWorldSpace = Camera.main.ScreenToWorldPoint(mouseScreenPosition);
+		headRef.transform.LookAt(mouseWorldSpace, upAxis);
+		headRef.transform.eulerAngles = new Vector3(transform.eulerAngles.x,transform.eulerAngles.y,0);
 	}
-}
+	}
