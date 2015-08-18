@@ -3,51 +3,44 @@ using System.Collections;
 using UnityEngine.EventSystems;
 
 public class MouseRotation : MonoBehaviour {
-	float angle;
-	Vector2 normalizedPositions;
-	public bool isTouched;
-	float preAngle;
-	float delta;
-	float CurrnentAngle;
-	float totalAngle;
-
 	public GameObject dogRef;
+	float angle;
+	float preAngle;
+	int value;
+	Vector2 normalizedPositions;
+	public bool gameStart;
 
-	// Use this for initialization
-	void Start () {
 
+	void Start () 
+	{
 	
 	}
 	
-	// Update is called once per frame
+
 	void Update () 
 	{
+		if(gameStart)
+		{
 		normalizedPositions = new Vector2((Input.mousePosition.x/Screen.width-0.5f), ((Input.mousePosition.y/Screen.height)-0.5f));
 		angle = Mathf.Atan2(normalizedPositions.y, normalizedPositions.x)*Mathf.Rad2Deg; 
 		transform.eulerAngles = new Vector3( 0,0,angle);
-
 		if(angle<0)
 		{
 			angle += 360;
-			Debug.Log (angle);
+			//Debug.Log (angle);
 		}
-		CurrnentAngle=angle;
-		delta=CurrnentAngle-angle;
-		if(delta>300)
+
+		if(angle-preAngle>270)
 		{
-			dogRef.GetComponent<DogMovementTugOfWar>().Movement();
+			value+=1;
+			Debug.Log (value);
+			dogRef.GetComponent<TugOfWarManager>().Movement();
 		}
-
-
-//		}
-//		else
-//		{
-//		    transform.eulerAngles = new Vector3( 0,0,angle);
-//			dogRef.GetComponent<DogMovementTugOfWar>().BackMovement();
-//		}
-
-
+		else
+		{
+			dogRef.GetComponent<TugOfWarManager>().BackMovement();
+		}
+		preAngle=angle;
+		}
 	}
-
-
-}
+	}
