@@ -40,7 +40,7 @@ public class DogMovementFrisbee : MonoBehaviour {
 	private Vector3 frisbeedirection;
 	private Vector3 dogPos;
 	private float distance;
-	private float speed=2f;
+	public  float speed;
 	private Vector3 jumpHeight;
 	private Vector3 direction;
 	bool isCatching;

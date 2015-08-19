@@ -24,6 +24,7 @@ public class FrisbeeMovement : MonoBehaviour {
 	private Vector3 currentPosition;
 	bool isJumping=false;
 	bool detectLife;
+	public GameObject dummyFrisbee;
 
 
 
@@ -38,7 +39,7 @@ public class FrisbeeMovement : MonoBehaviour {
     void  Start ()
 	{
 		rb = GetComponent<Rigidbody>();
-		currentPosition = new Vector3 (0, .156f, 0.65f);
+		currentPosition = new Vector3 (-0.143f, .156f, 1.552f);
 
 
 
@@ -104,6 +105,7 @@ public class FrisbeeMovement : MonoBehaviour {
 		
 		rb.AddForce(force * power);
 		dog.GetComponent<DogMovementFrisbee>().chances= dog.GetComponent<DogMovementFrisbee>().chances+1;
+		dummyFrisbee.SetActive(false);
 		detectLife=true;
 
 
@@ -131,6 +133,7 @@ public class FrisbeeMovement : MonoBehaviour {
 		dog.GetComponent<DogMovementFrisbee>().FrisbeeAttached.SetActive(false);
 		GetComponent<Rigidbody>().detectCollisions=true;
 		detectLife=false;
+		dummyFrisbee.SetActive(true);
 
 
 	}
