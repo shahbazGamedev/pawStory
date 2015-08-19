@@ -89,6 +89,9 @@ public class CatchTrainer : MonoBehaviour {
 	{
 		float velocity = Mathf.Sqrt((pVelocity.x * pVelocity.x) + (pVelocity.y * pVelocity.y));
 		float angle = Mathf.Rad2Deg*(Mathf.Atan2(pVelocity.y , pVelocity.x));
+		angle = angle < 0 ? angle += 360 : angle;
+		angle = 360 - angle;
+		angle = Mathf.Clamp (angle, 90, 180);
 		float fTime = 0;
 		fTime += 0.1f;
 		for (int i = 0 ; i < noOfMarkers ; i++)
@@ -122,11 +125,12 @@ public class CatchTrainer : MonoBehaviour {
 	{
 		var pointData = (PointerEventData)data;
 		touchCurPos = pointData.position;
-		Vector3 vel = CalcForce (transform.position, touchCurPos);
+		Vector3 vel = CalcForce (touchStartPos, touchCurPos);
 		Vector3 direction = CalcDirection (touchStartPos, touchCurPos);
 		float angle = Mathf.Atan2 (direction.y, direction.x) * Mathf.Rad2Deg;
 		angle = angle < 0 ? angle += 360 : angle;
 		angle = 360 - angle;
+		angle = Mathf.Clamp (angle, 90, 180);
 		transform.eulerAngles = new Vector3 (0, 0, 0);
 		setMarker (transform.position, vel);
 		transform.eulerAngles = new Vector3 (0, angle, 0);
