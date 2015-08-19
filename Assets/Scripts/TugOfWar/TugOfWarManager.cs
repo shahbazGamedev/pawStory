@@ -93,8 +93,7 @@ public class TugOfWarManager : MonoBehaviour {
 			win.SetActive(true);
 			winCondition.text="PLAYER WINS";
 			pulley.SetActive(false);
-
-		}
+			}
 	if(other.gameObject.tag=="LoseLine")
 		{
 			dog.SetActive(false);
@@ -112,8 +111,6 @@ public class TugOfWarManager : MonoBehaviour {
 		gameStart=false;
 		value=0;
 		play.text="Tap To Start";
-
-
 	}
 
 
