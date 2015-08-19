@@ -10,19 +10,23 @@ using UnityEngine.EventSystems;
 
 public class CatchTrainer : MonoBehaviour {
 
+	public static CatchTrainer instRef;
 	public GameObject dogRef;
 	public GameObject ballPrefab;
 	public GameObject markerPrefab;
 	public GameObject cannonRef;
+	public GameObject ballCatched;
 
 	public int noOfMarkers;
 	public float sensitivity;
 	public float clampLimit;
+	public bool isHoldingBall;
 
 	float projVel;
 	float projAngle;
 	float thrustForce;
 	bool isPressed;
+	bool gameOver;
 
 	Vector3 targetPos;
 	Vector2 touchStartPos;
@@ -35,6 +39,7 @@ public class CatchTrainer : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		instRef = this;
 		dogRef = GameObject.FindGameObjectWithTag ("Player");
 		targetPos = dogRef.transform.position;
 		markerList = new List<GameObject> ();
@@ -57,7 +62,11 @@ public class CatchTrainer : MonoBehaviour {
 		{
 			ThrowBall ();
 		}
-
+		if (isHoldingBall) {
+			ballCatched.SetActive (true);
+			gameOver = true;
+			isHoldingBall = false;
+		}
 	}
 
 	// Pool the marker in a list
@@ -113,9 +122,21 @@ public class CatchTrainer : MonoBehaviour {
 	// throw ball
 	void ThrowBall()
 	{
-		var ballRef = (GameObject)Instantiate (ballPrefab, cannonRef.transform.position, Quaternion.identity);
-		var force = Quaternion.Euler (new Vector3 (0, projAngle, 0)) * (projectileVelocity);
-		ballRef.GetComponent <Rigidbody> ().AddForce (force ,ForceMode.Impulse);
+		if(!gameOver) {
+			var ballRef = (GameObject)Instantiate (ballPrefab, cannonRef.transform.position, Quaternion.identity);
+			var force = Quaternion.Euler (new Vector3 (0, projAngle, 0)) * (projectileVelocity);
+			ballRef.GetComponent <Rigidbody> ().AddForce (force, ForceMode.Impulse);
+			HideMarker ();
+		}
+	}
+
+	// Hides Marker
+	void HideMarker()
+	{
+		for(int i = 0; i < noOfMarkers; i++)
+		{
+			markerList[i].GetComponent <Renderer>().enabled = false;
+		}
 	}
 
 	#region EventTriggers
