@@ -19,8 +19,6 @@ public class MouseRotation : MonoBehaviour {
 
 	void Update () 
 	{
-		if(gameStart)
-		{
 		normalizedPositions = new Vector2((Input.mousePosition.x/Screen.width-0.5f), ((Input.mousePosition.y/Screen.height)-0.5f));
 		angle = Mathf.Atan2(normalizedPositions.y, normalizedPositions.x)*Mathf.Rad2Deg; 
 		transform.eulerAngles = new Vector3( 0,0,angle);
@@ -43,4 +41,4 @@ public class MouseRotation : MonoBehaviour {
 		preAngle=angle;
 		}
 	}
-	}
+	
