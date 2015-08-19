@@ -61,4 +61,9 @@ public class TournamentSelection : MonoBehaviour
 	}
 
 
+    public void OnGame_09()
+    {
+        GameMgr.Inst.LoadScene(GlobalConst.Scene_Skipping);
+    }
+
 }

@@ -1,6 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum GameStates
+{ 
+    None,
+    Menu,
+    Pause,
+    Play,
+    GameWon,
+    GameLost,
+    Tutorial,
+    Store,
+};
+
 public class GameMgr : MonoBehaviour 
 {
 	private static GameMgr instance = null;
@@ -20,6 +32,9 @@ public class GameMgr : MonoBehaviour
 	// Scene Managements
 	string prevScene = GlobalConst.Scene_LoadingScene;
 	string curScene = GlobalConst.Scene_LoadingScene;
+
+    GameStates prevGameState = GameStates.Play;
+    GameStates curGameState = GameStates.Play;
 
 	bool isPaused = false;
 
@@ -91,14 +106,15 @@ public class GameMgr : MonoBehaviour
     
     void OnApplicationFocus(bool focusStatus)
     {
+#if !UNITY_EDITOR
         if (focusStatus)
         {
             EventMgr.OnGamePause();
             isPaused = true;
         } 
+#endif
     }
-
-
+    
 
 	void Init()
 	{
@@ -160,6 +176,7 @@ public class GameMgr : MonoBehaviour
 	{
 		isPaused = true;
 		Time.timeScale = 0;
+        ChangeState(GameStates.Pause);
 	}
 
 
@@ -167,7 +184,8 @@ public class GameMgr : MonoBehaviour
 	{
 		isPaused = false;
 		Time.timeScale = 1;
-	}
+        ChangeState(GameStates.Play);
+    }
 
 
 	void OnRestartGame()
@@ -176,5 +194,22 @@ public class GameMgr : MonoBehaviour
 			OnGameResume ();
 	}
 	#endregion GameHandles
+
+
+    #region GameState
+    void ChangeState(GameStates newGameState)
+    {
+        prevGameState = curGameState;
+        curGameState = newGameState;
+    }
+
+
+    GameStates GetGameState()
+    {
+        return curGameState;
+    }
+
+    #endregion GameState
+
 }
 
