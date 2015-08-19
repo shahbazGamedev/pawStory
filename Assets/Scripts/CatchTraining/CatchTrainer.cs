@@ -7,6 +7,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class CatchTrainer : MonoBehaviour {
 
@@ -37,6 +38,9 @@ public class CatchTrainer : MonoBehaviour {
 
 	List<GameObject> markerList;
 
+	// UI Components
+	public Text instruction;
+
 	// Use this for initialization
 	void Start () {
 		instRef = this;
@@ -44,6 +48,7 @@ public class CatchTrainer : MonoBehaviour {
 		targetPos = dogRef.transform.position;
 		markerList = new List<GameObject> ();
 		InitMarker ();
+		instruction.text="Aim for Puppy!";
 	}
 
 	// Listen for restart
@@ -66,6 +71,7 @@ public class CatchTrainer : MonoBehaviour {
 			ballCatched.SetActive (true);
 			gameOver = true;
 			isHoldingBall = false;
+			instruction.text="Puppy Caught the Ball!!";
 		}
 	}
 
@@ -103,6 +109,7 @@ public class CatchTrainer : MonoBehaviour {
 	void setMarker(Vector3 pStartPosition , Vector3 pVelocity )
 	{
 		projVel = Mathf.Sqrt((pVelocity.x * pVelocity.x) + (pVelocity.y * pVelocity.y));
+		//Debug.Log (projVel);
 		var angle = Mathf.Rad2Deg*(Mathf.Atan2(pVelocity.y , pVelocity.x));
 		angle = angle < 0 ? angle += 360 : angle;
 		float fTime = 0;
@@ -150,7 +157,10 @@ public class CatchTrainer : MonoBehaviour {
 	// Event trigger - EndDrag
 	public void OnEndDrag (BaseEventData data)
 	{
-		ThrowBall ();
+		if (projVel > 5) {
+			ThrowBall ();
+//			instruction.text="";
+		}
 	}
 
 	// Event trigger - Drag
@@ -159,7 +169,7 @@ public class CatchTrainer : MonoBehaviour {
 		var pointData = (PointerEventData)data;
 		touchCurPos = pointData.position;
 		projectileVelocity = CalcForce (touchStartPos, touchCurPos);
-		Debug.Log (projectileVelocity);
+//		Debug.Log (projectileVelocity);
 		direction = CalcDirection (touchStartPos, touchCurPos);
 		projAngle = Mathf.Atan2 (direction.y, direction.x) * Mathf.Rad2Deg;
 		projAngle = projAngle < 0 ? projAngle += 360 : projAngle;

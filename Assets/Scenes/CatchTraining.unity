@@ -1706,6 +1706,7 @@ MonoBehaviour:
   sensitivity: 1000
   clampLimit: 1
   isHoldingBall: 0
+  instruction: {fileID: 155844368}
 --- !u!4 &720925828
 Transform:
   m_ObjectHideFlags: 0
@@ -1737,8 +1738,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: .183490366, y: .382615387, z: .245142058}
-  m_Center: {x: -.145407647, y: .341409743, z: -.00647702068}
+  m_Size: {x: .840497196, y: .735833883, z: .969139695}
+  m_Center: {x: -.230240017, y: .349506408, z: .0432614759}
 --- !u!1 &995963019
 GameObject:
   m_ObjectHideFlags: 0
@@ -2538,6 +2539,10 @@ Prefab:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 125274, guid: c6de119694380834180f376e35caae8b, type: 2}
+      propertyPath: m_Name
+      value: Ball Attached
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5428006, guid: c6de119694380834180f376e35caae8b, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: c6de119694380834180f376e35caae8b, type: 2}
@@ -2805,7 +2810,6 @@ GameObject:
   - 4: {fileID: 1902032268}
   - 54: {fileID: 1902032272}
   - 65: {fileID: 1902032271}
-  - 65: {fileID: 1902032270}
   - 95: {fileID: 1902032269}
   - 114: {fileID: 1902032273}
   - 114: {fileID: 1902032274}
@@ -2846,18 +2850,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!65 &1902032270
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1902032267}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: .5, y: .5, z: .5}
-  m_Center: {x: 0, y: 1.29999995, z: 1.63999999}
 --- !u!65 &1902032271
 BoxCollider:
   m_ObjectHideFlags: 0
