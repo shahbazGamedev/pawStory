@@ -14,11 +14,15 @@ public class CatchTrainer : MonoBehaviour {
 	public GameObject ballPrefab;
 	public GameObject markerPrefab;
 	public int noOfMarkers;
-	public float thrustForce;
+	public float sensitivity;
+	public float clampLimit;
 
+	float thrustForce;
 	bool isPressed;
 	Vector3 targetPos;
 	Vector2 touchStartPos;
+	Vector2 touchCurPos;
+	Vector2 touchPrevPos;
 	Vector3 projectileVelocity;
 
 	List<GameObject> markerList;
@@ -34,12 +38,12 @@ public class CatchTrainer : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(isPressed)
-		{
-			// Code to update and display projectile trajectory
-			Debug.Log ("Trajectory code under progress");
-			UpdateMarker ();
-		}
+//		if(isPressed)
+//		{
+//			// Code to update and display projectile trajectory
+//			Debug.Log ("Trajectory code under progress");
+//			UpdateMarker ();
+//		}
 	}
 
 	// Pool the marker in a list
@@ -57,17 +61,27 @@ public class CatchTrainer : MonoBehaviour {
 	// Update marker position based on user interaction
 	void UpdateMarker()
 	{
-		Vector3 vel = CalcForce(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
-		float angle = Mathf.Atan2 (vel.y, vel.x) * Mathf.Rad2Deg;
-		transform.eulerAngles = new Vector3(0,0,angle);
-		setMarker(transform.position, vel);
+//			Vector3 vel = CalcForce (transform.position, Camera.main.ScreenToWorldPoint (Input.mousePosition));
+//			Vector3 direction = CalcDirection (touchStartPos, Input.mousePosition);
+//			float angle = Mathf.Atan2 (direction.y, direction.x) * Mathf.Rad2Deg;
+//			setMarker (transform.position, vel);
+//			transform.eulerAngles = new Vector3 (0, angle, 0);
+//			touchPrevPos = touchCurPos;
 	}
 
 	// calculate force for projectile
 	Vector3 CalcForce(Vector3 fromPos, Vector3 toPos)
 	{
 		//return (new Vector2 (toPos.x, toPos.y) - new Vector2 (fromPos.x, fromPos.y)) * thrustForce;
-		return (toPos - fromPos) * Vector3.Distance (touchStartPos, Input.mousePosition);
+		thrustForce = Mathf.Clamp (Vector3.Distance (touchStartPos, touchCurPos)/sensitivity, 0f, clampLimit);
+		Debug.Log (thrustForce);
+		return (toPos - fromPos) * thrustForce;
+	}
+
+	// calculate direction for projectile
+	Vector3 CalcDirection(Vector3 fromPos, Vector3 toPos)
+	{
+		return (new Vector2 (toPos.x, toPos.y) - new Vector2 (fromPos.x, fromPos.y));
 	}
 
 	// updates the position of markers
@@ -81,8 +95,8 @@ public class CatchTrainer : MonoBehaviour {
 		{
 			float dx = velocity * fTime * Mathf.Cos(angle * Mathf.Deg2Rad);
 			float dy = velocity * fTime * Mathf.Sin(angle * Mathf.Deg2Rad) - (Physics2D.gravity.magnitude * fTime * fTime / 2.0f);
-			Vector3 pos = new Vector3(pStartPosition.x + dx , pStartPosition.y + dy ,2);
-			markerList[i].transform.position = pos;
+			Vector3 pos = new Vector3 (pStartPosition.x + dx, pStartPosition.y + dy, 0);
+			markerList [i].transform.position = pos;
 			markerList[i].GetComponent <Renderer>().enabled = true;
 			markerList[i].transform.eulerAngles = new Vector3(0,0,Mathf.Atan2(pVelocity.y - (Physics.gravity.magnitude)*fTime,pVelocity.x)*Mathf.Rad2Deg);
 			fTime += 0.1f;
@@ -106,7 +120,16 @@ public class CatchTrainer : MonoBehaviour {
 	// Event trigger - Drag
 	public void OnDrag (BaseEventData data)
 	{
-
+		var pointData = (PointerEventData)data;
+		touchCurPos = pointData.position;
+		Vector3 vel = CalcForce (transform.position, touchCurPos);
+		Vector3 direction = CalcDirection (touchStartPos, touchCurPos);
+		float angle = Mathf.Atan2 (direction.y, direction.x) * Mathf.Rad2Deg;
+		angle = angle < 0 ? angle += 360 : angle;
+		angle = 360 - angle;
+		transform.eulerAngles = new Vector3 (0, 0, 0);
+		setMarker (transform.position, vel);
+		transform.eulerAngles = new Vector3 (0, angle, 0);
 	}
 
 	// Event trigger - Pointer Click
@@ -120,7 +143,7 @@ public class CatchTrainer : MonoBehaviour {
 	{
 		var pointData = (PointerEventData)data;
 		if (pointData.pointerId == -1) {
-			touchStartPos = Input.mousePosition;
+			touchStartPos = pointData.position;
 			isPressed = true;
 		}
 	}
