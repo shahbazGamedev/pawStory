@@ -66,7 +66,6 @@ public class CatchTrainer : MonoBehaviour {
 			ballCatched.SetActive (true);
 			gameOver = true;
 			isHoldingBall = false;
-			HideMarker ();
 		}
 	}
 
@@ -127,6 +126,7 @@ public class CatchTrainer : MonoBehaviour {
 			var ballRef = (GameObject)Instantiate (ballPrefab, cannonRef.transform.position, Quaternion.identity);
 			var force = Quaternion.Euler (new Vector3 (0, projAngle, 0)) * (projectileVelocity);
 			ballRef.GetComponent <Rigidbody> ().AddForce (force, ForceMode.Impulse);
+			HideMarker ();
 		}
 	}
 
