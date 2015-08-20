@@ -7,8 +7,8 @@ using UnityEngine.EventSystems;
 public class ObedienceManager : MonoBehaviour {
 	
 	public Text instructions;
-	public Text roundInfo;
-//	public Text timerNotification;
+	public Text roundInfo; // (changed) displays score
+	public Text gameOverText;
 	public Image analogTimer;
 	public GameObject gameOverPanel;
 	public GameObject gestureMat; // Image UI element on which event triggers are attached
@@ -343,7 +343,7 @@ public class ObedienceManager : MonoBehaviour {
 				DeactivateGestureMat ();
 				gameOn = false;
 				gameOverPanel.SetActive (true);
-				instructions.text = "Score: " + points + " / " + maxChances;
+				gameOverText.text = "Score: " + points * scoreIncrement;
 
 			}
 			else  // else put a random instruction
@@ -390,7 +390,7 @@ public class ObedienceManager : MonoBehaviour {
 				{
 					StartCoroutine (DetectHold ());
 				}
-				roundInfo.text = chance + " / " + maxChances;
+				roundInfo.text = "Score: "+points * scoreIncrement;
 				nextInstruct = false;
 				yield return new WaitForSeconds (instructionWaitTime);
 			}
