@@ -18,6 +18,7 @@ public class Dog
 	public string Name; // given by player
 
 	public int Age; // in days
+    public int Sex; // 0 female, 1 male
 
 	public float Energy; // should have int values only
 	public float Happiness;
@@ -54,6 +55,7 @@ public class DogDB
 		curDog.Uid = Random.Range (0, 30000);// ponz.tmp
 		curDog.DogType = DogTypes.Beagle;
 		curDog.Age = 12 * 7; // 12 weeks;
+        curDog.Sex = 1;
 
 		curDog.Energy = 60;
 		curDog.Happiness = 80;
