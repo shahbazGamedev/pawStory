@@ -117,7 +117,7 @@ RectTransform:
   m_Children:
   - {fileID: 842021453}
   m_Father: {fileID: 374765306}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: 110, y: -149}
@@ -764,8 +764,8 @@ RectTransform:
   - {fileID: 1809696980}
   - {fileID: 227615391}
   - {fileID: 1232703584}
-  - {fileID: 15242590}
   - {fileID: 1102761390}
+  - {fileID: 15242590}
   m_Father: {fileID: 491338967}
   m_RootOrder: 1
   m_AnchorMin: {x: 0, y: 0}
@@ -849,10 +849,7 @@ MonoBehaviour:
   Dog: {fileID: 399018159}
   dog: {fileID: 399018158}
   target: {fileID: 209136828}
-  MenuBtn: {fileID: 15242589}
-  RestartBtn: {fileID: 1102761386}
   Frisbee: {fileID: 209136824}
-  gameOver: {fileID: 1232703583}
   Score: 0
   Floor: {fileID: 0}
   isMoving: 1
@@ -1656,7 +1653,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 399018161}
-        m_MethodName: Restart
+        m_MethodName: OnRestart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1707,7 +1704,7 @@ RectTransform:
   m_Children:
   - {fileID: 101542219}
   m_Father: {fileID: 374765306}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: -162, y: -149}
@@ -2079,7 +2076,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: .5, y: 0}
   m_AnchorMax: {x: .5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 17.0359993}
+  m_AnchoredPosition: {x: 0, y: -1}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: .5, y: 0}
 --- !u!114 &1549180379
