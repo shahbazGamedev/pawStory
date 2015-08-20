@@ -10,7 +10,7 @@ public class FrisbeeMovement : MonoBehaviour {
 	public GameObject dummyFrisbee;
 	public GameObject dog;
 	public GameObject frisbee;
-	private float power= 550.0f;
+	public float power;
 	private Vector3 endPos;
 	private Vector3 force;
 	private Vector3 startPos;
