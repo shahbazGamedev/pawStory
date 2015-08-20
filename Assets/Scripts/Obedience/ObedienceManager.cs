@@ -8,7 +8,8 @@ public class ObedienceManager : MonoBehaviour {
 	
 	public Text instructions;
 	public Text roundInfo;
-	public Text timerNotification;
+//	public Text timerNotification;
+	public Image analogTimer;
 	public GameObject gameOverPanel;
 	public GameObject gestureMat; // Image UI element on which event triggers are attached
 	public GameObject[] directionRef;
@@ -252,9 +253,10 @@ public class ObedienceManager : MonoBehaviour {
 		}
 		else
 		{
-			timerNotification.gameObject.SetActive (false);
+			analogTimer.gameObject.SetActive (false);
 		}
-		timerNotification.text = (int)timer + " / " + (int)instructionWaitTime;
+//		timerNotification.text = (int)timer + " / " + (int)instructionWaitTime;
+		analogTimer.fillAmount = (5 - timer) / 5;
 	}
 
 	// Flag for issuing next instruction
@@ -568,7 +570,7 @@ public class ObedienceManager : MonoBehaviour {
 		points = 0;
 		combo = false;
 		gameOverPanel.SetActive (false);
-		timerNotification.gameObject.SetActive (true);
+		analogTimer.gameObject.SetActive (true);
 		StartCoroutine (Instruct ());
 	}
 	#endregion
