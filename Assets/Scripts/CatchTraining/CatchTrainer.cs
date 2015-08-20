@@ -202,6 +202,15 @@ public class CatchTrainer : MonoBehaviour {
 			isPressed = false;
 		}
 	}
+		
+	// Reset ball
+	public void ResetBall()
+	{
+		gameOver=false;
+		isHoldingBall=false;
+		ballCatched.SetActive(false);
+		instruction.text="Aim for Puppy!";
+	}
 
 	// Reset game
 	void OnRestartGame()
