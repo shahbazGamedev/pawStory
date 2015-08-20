@@ -1637,7 +1637,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: 628e92d39265fa645a26e862608bbeb1, type: 2}
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -2020,7 +2020,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22457796, guid: b277afcde5431224e9c824abf4b57288, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 22457796, guid: b277afcde5431224e9c824abf4b57288, type: 2}
       propertyPath: m_AnchoredPosition.x
@@ -2188,7 +2188,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Reset
+  m_Text: Start
 --- !u!222 &1195232085
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2327,7 +2327,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1264444656
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2340,7 +2340,7 @@ RectTransform:
   m_Children:
   - {fileID: 1195232083}
   m_Father: {fileID: 1732059435}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_AnchorMin: {x: .789531529, y: .0358986333}
   m_AnchorMax: {x: .984000027, y: .135550693}
   m_AnchoredPosition: {x: -.5, y: 0}
@@ -2385,8 +2385,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 720925827}
-        m_MethodName: ResetBall
+      - m_Target: {fileID: 0}
+        m_MethodName: PlayBtn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2688,8 +2688,8 @@ RectTransform:
   m_Children:
   - {fileID: 398127332}
   - {fileID: 1773228995}
-  - {fileID: 1817970713}
   - {fileID: 1264444656}
+  - {fileID: 1817970713}
   - {fileID: 2057631797}
   m_Father: {fileID: 0}
   m_RootOrder: 1
