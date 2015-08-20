@@ -69,6 +69,7 @@ public class ObedienceManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		Init ();
 		OnRestart ();
 	}
 	
@@ -267,6 +268,19 @@ public class ObedienceManager : MonoBehaviour {
 	void OnDisable()
 	{
 		dogManager.ResetComplete -= GotoNextInstruction;
+		EventMgr.GameRestart -= OnRestart;
+	}
+
+	// Initialize at start of game
+	void Init ()
+	{
+		dogRef = GameObject.FindGameObjectWithTag ("Player");
+		dogManager = dogRef.GetComponent<DogManager> ();
+		dogAnim = dogRef.GetComponentInChildren<Animator> ();
+
+		// Add listener to reset complete event
+		dogManager.ResetComplete += GotoNextInstruction;
+		EventMgr.GameRestart += OnRestart;
 	}
 		
 	#region Coroutines
@@ -541,29 +555,21 @@ public class ObedienceManager : MonoBehaviour {
 	}
 
 
-	// Replay button
+	// Restart button
 	public void OnRestart()
 	{
-		dogRef = GameObject.FindGameObjectWithTag ("Player");
-		dogManager = dogRef.GetComponent <DogManager> ();
-		randomNumber = 2;
 		pattern = SwipeRecognizer.TouchPattern.reset;
 		gameOn = true;
 		startPosition = dogRef.transform.position;
 		startRotation = dogRef.transform.rotation;
 		nextInstruct = true;
-		StartCoroutine (Instruct ());
 		combo = false;
-		dogAnim = dogRef.GetComponentInChildren<Animator> ();
-		
-		// Add listener to reset complete event
-		dogManager.ResetComplete += GotoNextInstruction;
-
 		chance = 0;
 		points = 0;
 		combo = false;
 		gameOverPanel.SetActive (false);
 		timerNotification.gameObject.SetActive (true);
+		StartCoroutine (Instruct ());
 	}
 	#endregion
 }
