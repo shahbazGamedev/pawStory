@@ -7,13 +7,28 @@ public class MainMenu : MonoBehaviour {
 	{
 	}
 
+
 	void Update () 
 	{
 	}
 
-	public void OnPlayBtn()
+
+	public void OnDogSelection()
 	{
-		GameMgr.Inst.LoadScene (GlobalConst.Scene_TournamentSelection);
+		GameMgr.Inst.LoadScene (GlobalConst.Scene_PuppySelection);
 	}
+
+
+    public void OnTraining()
+    {
+        GameMgr.Inst.LoadScene(GlobalConst.Scene_PuppyTraining);
+    }
+
+
+    public void OnGames()
+    {
+        GameMgr.Inst.LoadScene(GlobalConst.Scene_TournamentSelection);
+    }
+
 }
 		

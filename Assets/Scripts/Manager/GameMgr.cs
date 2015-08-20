@@ -33,8 +33,8 @@ public class GameMgr : MonoBehaviour
 	string prevScene = GlobalConst.Scene_LoadingScene;
 	string curScene = GlobalConst.Scene_LoadingScene;
 
-    GameStates prevGameState = GameStates.Play;
-    GameStates curGameState = GameStates.Play;
+    GameStates prevGameState = GameStates.Menu;
+    GameStates curGameState = GameStates.Menu;
 
 	bool isPaused = false;
 
@@ -208,8 +208,22 @@ public class GameMgr : MonoBehaviour
     {
         return curGameState;
     }
-
     #endregion GameState
+
+
+    #region GameSpecfic
+    public void InitGame()
+    {
+    }
+    #endregion GameSpecfic
+
+
+    #region DogSpecfic
+    public void InitDog()
+    {
+
+    }
+    #endregion DogSpecfic
 
 }
 

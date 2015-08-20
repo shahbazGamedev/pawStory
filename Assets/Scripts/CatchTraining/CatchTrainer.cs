@@ -215,7 +215,7 @@ public class CatchTrainer : MonoBehaviour {
 	// Reset game
 	void OnRestartGame()
 	{
-		Application.LoadLevel (GlobalConst.Scene_Catch);
+		Application.LoadLevel (GlobalConst.Scene_CatchTraining);
 	}
 
 	#endregion

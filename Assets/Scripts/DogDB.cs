@@ -40,7 +40,7 @@ public class Dog
 public class DogDB
 {
 	List<Dog> DogList;
-	public DogDB () 
+	public DogDB ()
 	{
 		DogList = new List<Dog> ();
 		InitDB ();
@@ -53,7 +53,7 @@ public class DogDB
 		curDog.Name = "Tommy";
 		curDog.Uid = Random.Range (0, 30000);// ponz.tmp
 		curDog.DogType = DogTypes.Beagle;
-		curDog.Age = 12 * 7;// 12 weeks;
+		curDog.Age = 12 * 7; // 12 weeks;
 
 		curDog.Energy = 60;
 		curDog.Happiness = 80;

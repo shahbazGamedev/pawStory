@@ -11,12 +11,14 @@ public class HudMgr : MonoBehaviour
 	public GameObject BottomPanel;
 	public GameObject Shop_Menu;
 	public GameObject Pause_Menu;
+    public GameObject Stats_Menu;
 
 	void Start () 
 	{
 		BottomPanel.SetActive (false);
 		Shop_Menu.SetActive (false);
 		Pause_Menu.SetActive (false);
+        Stats_Menu.SetActive(false);
 	}
 
 
@@ -47,6 +49,7 @@ public class HudMgr : MonoBehaviour
 		OnSceneLoaded (curScene);
 	}
 
+
 	#region TopPanel
 	public void OnButton_01()
 	{
@@ -75,6 +78,7 @@ public class HudMgr : MonoBehaviour
 	
 	public void OnDogClick()
 	{
+        OnOpenStatsMenu();
 	}
 
 
@@ -141,6 +145,7 @@ public class HudMgr : MonoBehaviour
 		BottomPanel.SetActive (true);
 		Shop_Menu.SetActive (true);
 		Pause_Menu.SetActive (false);
+        Stats_Menu.SetActive(false);
 	}
 
 
@@ -155,6 +160,7 @@ public class HudMgr : MonoBehaviour
 		BottomPanel.SetActive (true);
 		Shop_Menu.SetActive (false);
 		Pause_Menu.SetActive (true);
+        Stats_Menu.SetActive(false);
 	}
 
 
@@ -168,7 +174,8 @@ public class HudMgr : MonoBehaviour
 	{
 		BottomPanel.SetActive (false);
 		Shop_Menu.SetActive (false);
-		Pause_Menu.SetActive (false);
+        Pause_Menu.SetActive(false);
+        Stats_Menu.SetActive(false);
 	}
 
 
@@ -190,6 +197,16 @@ public class HudMgr : MonoBehaviour
 		OnGameResume ();
 		GameMgr.Inst.LoadScene (GlobalConst.Scene_MainMenu);
 	}
+
+
+    public void OnOpenStatsMenu()
+    {
+        BottomPanel.SetActive(true);
+        Shop_Menu.SetActive(false);
+        Pause_Menu.SetActive(false);
+        Stats_Menu.SetActive(true);
+    }
+
 	#endregion BottomPanel
 
 }
