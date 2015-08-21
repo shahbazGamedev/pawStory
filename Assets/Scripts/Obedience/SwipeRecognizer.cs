@@ -68,7 +68,7 @@ public class SwipeRecognizer
 		Vector2 previousVector;
 		Vector2 midPoint;
 
-		if(swipeData.Count<6)
+		if(swipeData.Count<8)
 		{
 			return false;
 		}
@@ -94,7 +94,7 @@ public class SwipeRecognizer
 		previousVector = startPoint - midPoint; // Transform the vector from screen origin to calculated midpoint
 
 
-		// Preliminery check to avoid unwanted calculations
+		// Preliminary check to avoid unwanted calculations
 		if(AngleBetweenVectors (previousVector,(swipeData[swipeData.Count/3]-midPoint))>25)
 		{
 			//Debug.Log ("totalAngle");
@@ -144,9 +144,9 @@ public class SwipeRecognizer
 	}
 
 	/// <summary>
-	/// Recogonizes the swipe.
+	/// Recognizes the swipe.
 	/// </summary>
-	/// <returns><c>true</c>, if swipe was recogonized, <c>false</c> otherwise.</returns>
+	/// <returns><c>true</c>, if swipe was recognized, <c>false</c> otherwise.</returns>
 	/// <param name="startPoint">Start point.</param>
 	/// <param name="endPoint">End point.</param>
 	/// <param name="swipeData">Swipe data.</param>
@@ -255,9 +255,9 @@ public class SwipeRecognizer
 	}
 
 	/// <summary>
-	/// Recogonizes the swipe - Adopted for Obedience Module.
+	/// Recognizes the swipe - Adopted for Obedience Module.
 	/// </summary>
-	/// <returns><c>true</c>, if swipe was recogonized, <c>false</c> otherwise.</returns>
+	/// <returns><c>true</c>, if swipe was recognized, <c>false</c> otherwise.</returns>
 	/// <param name="swipeData">Swipe data - Struct.</param>
 	/// <param name="pattern">Pattern.</param>
 	public static bool RecogonizeSwipe (ObedienceManager.SwipeDataCollection swipeData, out TouchPattern pattern) 
@@ -265,7 +265,7 @@ public class SwipeRecognizer
 		pattern = TouchPattern.tryAgain;
 		TouchPattern patternLocal;
 
-		if(swipeData.swipeData.Count<4)
+		if(swipeData.swipeData.Count<12)
 		{
 			return false;
 		}
@@ -343,9 +343,9 @@ public class SwipeRecognizer
 	}
 
 	/// <summary>
-	/// Recogonizes the swipe - Adopted for Agility Module.
+	/// Recognizes the swipe - Adopted for Agility Module.
 	/// </summary>
-	/// <returns><c>true</c>, if swipe was recogonized, <c>false</c> otherwise.</returns>
+	/// <returns><c>true</c>, if swipe was recognized, <c>false</c> otherwise.</returns>
 	/// <param name="swipeData">Swipe data - Struct.</param>
 	/// <param name="pattern">Pattern.</param>
 	public static bool RecogonizeSwipe (TouchDataCollection swipeData, out TouchPattern pattern, bool circle) 
