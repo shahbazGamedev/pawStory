@@ -19,7 +19,6 @@ public class GameOverTemplate : MonoBehaviour {
 
     public void OnRestart()
     {
-        Debug.Log("OnRestart");
         EventMgr.OnGameRestart();
     }
 }

@@ -43,6 +43,7 @@ public class EventMgr
 
 
 	public static void OnGameRestart(){
+        
 		if (GameRestart != null){
 			GameRestart();
 		}

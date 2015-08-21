@@ -41,8 +41,9 @@ public class BubbleGame : MonoBehaviour {
 	}
 
 
-	void OnDisable()
+    void OnDisable()
 	{
+        Debug.Log("Disable");
 		EventMgr.SetPos -= OnSetPos;
 		EventMgr.GameRestart -= OnRestartGame;
 	}
@@ -102,7 +103,7 @@ public class BubbleGame : MonoBehaviour {
 		dogAnim=GetComponent<Animator>();
 		startingPos=transform.position;
 
-		levelTime = 2;
+		levelTime = 30;
 		baloonsAtScene = 0;
 		maxBaloons = 10;
 		nextBaloonTime = levelTime / maxBaloons;
@@ -140,7 +141,7 @@ public class BubbleGame : MonoBehaviour {
 	void GameOver()
 	{
 		HighScore.text = "Score: " + score;
-		dog.SetActive(false);
+		//dog.SetActive(false);
 		gameOverPanel.SetActive(true);
 	}
 
