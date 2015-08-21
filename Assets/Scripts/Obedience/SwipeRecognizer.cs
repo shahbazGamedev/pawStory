@@ -265,6 +265,11 @@ public class SwipeRecognizer
 		pattern = TouchPattern.tryAgain;
 		TouchPattern patternLocal;
 
+		if(swipeData.swipeData.Count<4)
+		{
+			return false;
+		}
+
 		float xComponent;
 		float yComponent;
 		float angle;

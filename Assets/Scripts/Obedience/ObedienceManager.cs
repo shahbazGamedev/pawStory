@@ -13,27 +13,26 @@ public class ObedienceManager : MonoBehaviour {
 	public GameObject gameOverPanel;
 	public GameObject gestureMat; // Image UI element on which event triggers are attached
 	public GameObject[] directionRef;
-
-	float timer;
-	public int range;
-	bool gameOn;
-	bool catchUserInput; // Bool for catchUserInput coroutine
-	int randomNumber;
 	public float instructionWaitTime;
-	bool combo;
-	bool isCoroutineON; // True when catchCombos coroutine is running
 	public bool registerAnimEvent; // If true listenes for trigger from idle animation
 	public bool nextInstruct;
-	bool isDogSiting;
-
-	int chance;
-	int points;
 	public int maxChances;
 	public int scoreIncrement;
-
-	Animator dogAnim;
 	public float angularVelocity;
 	public float jumpForce;
+	public int range;
+
+	float timer;
+	bool gameOn;
+	bool catchUserInput; // Bool for catchUserInput coroutine
+	bool combo;
+	bool isCoroutineON; // True when catchCombos coroutine is running
+	bool isDogSiting;
+	int chance;
+	int points;
+	int randomNumber;
+
+	Animator dogAnim;
 
 	SwipeRecognizer.TouchPattern pattern;
 	SwipeRecognizer.TouchPattern presentGesture;
@@ -99,26 +98,28 @@ public class ObedienceManager : MonoBehaviour {
 	void CheckUserInput()
 	{
 		// Seperate routines for combos and non combos!
-		if (randomNumber != 10) 
+		if (randomNumber != 15) // Include Nos which has combos
 		{
+			Debug.Log (pattern);
 			if (pattern == presentGesture)
 			{
-				instructions.text="Excellent";
+				Invoke ("NotifyCorrectInput", 1);
 				catchUserInput = false;
 				points += scoreIncrement;
 				gestureCache = pattern;
 				DeactivateGestureMat ();
+				roundInfo.text = "Score: "+points * scoreIncrement;
 			} 
 			else // if wrong gesture
 			{
 				if(true)
 				{
-					if (pattern == SwipeRecognizer.TouchPattern.singleTap)
+					if (pattern == SwipeRecognizer.TouchPattern.singleTap || pattern == SwipeRecognizer.TouchPattern.tryAgain)
 						return;
 				}
 				gestureCache = pattern;
 				catchUserInput = false;
-				instructions.text = "Wrong";
+				Invoke ("NotifyWrongInput", 1);
 				DeactivateGestureMat ();
 			}
 		} 
@@ -208,14 +209,55 @@ public class ObedienceManager : MonoBehaviour {
 			}
 		case SwipeRecognizer.TouchPattern.hold:
 			{
+				if (randomNumber == 5) {
+					nextInstruct = false;
+					registerAnimEvent = true;
+					dogAnim.SetTrigger ("Jump");
+					dogRef.GetComponent <Rigidbody> ().AddForce (new Vector3 (0f, 1f, 0f) * jumpForce, ForceMode.Impulse);
+					gestureCache = SwipeRecognizer.TouchPattern.reset;
+				}
+				else
+				{
+					nextInstruct = false;
+					registerAnimEvent = true;
+					dogAnim.SetTrigger ("Jump");
+					gestureCache = SwipeRecognizer.TouchPattern.reset;
+				}
+				break;
+			}
+		case SwipeRecognizer.TouchPattern.swipeLeft:
+			{
 				nextInstruct = false;
 				registerAnimEvent = true;
-				dogAnim.SetTrigger ("Jump");
-				dogRef.GetComponent <Rigidbody> ().AddForce (new Vector3 (0f, 1f, 0f) * jumpForce, ForceMode.Impulse);
+				dogAnim.SetBool ("Mirror", false);
+				dogAnim.SetBool ("MirStand", true);
+				dogAnim.SetTrigger ("Sleep");
+				gestureCache = SwipeRecognizer.TouchPattern.reset;
+				break;
+			}
+		case SwipeRecognizer.TouchPattern.swipeRight:
+			{
+				nextInstruct = false;
+				registerAnimEvent = true;
+				dogAnim.SetBool ("Mirror", true);
+				dogAnim.SetBool ("MirStand", false);
+				dogAnim.SetTrigger ("Sleep");
 				gestureCache = SwipeRecognizer.TouchPattern.reset;
 				break;
 			}
 		}
+	}
+
+	// Notifies wrong input
+	void NotifyWrongInput ()
+	{
+		instructions.text = "Wrong";
+	}
+
+	// Notifies correct input
+	void NotifyCorrectInput ()
+	{
+		instructions.text = "Excellent!";
 	}
 
 	// Disable touchInput
@@ -283,6 +325,7 @@ public class ObedienceManager : MonoBehaviour {
 		// Add listener to reset complete event
 		dogManager.ResetComplete += GotoNextInstruction;
 		EventMgr.GameRestart += OnRestart;
+		analogTimer.gameObject.SetActive (false);
 	}
 		
 	#region Coroutines
@@ -291,9 +334,10 @@ public class ObedienceManager : MonoBehaviour {
 	{
 		while (catchUserInput)
 		{
-			yield return new WaitForFixedUpdate (); // Wait for fixed update
+			yield return new WaitForEndOfFrame (); // Wait for fixed update
 			if (pattern != SwipeRecognizer.TouchPattern.reset)
 			{
+				Debug.Log (pattern);
 				if (combo) 
 				{
 					if (pattern == gestureCollection [randomNumber].value2) 
@@ -303,6 +347,7 @@ public class ObedienceManager : MonoBehaviour {
 						catchUserInput = false;
 						combo = false;
 						DeactivateGestureMat ();
+						roundInfo.text = "Score: "+points * scoreIncrement;
 					} 
 					else // if wrong gesture 
 					{
@@ -357,7 +402,7 @@ public class ObedienceManager : MonoBehaviour {
 				yield return StartCoroutine (WailTillIdleAnimation ());
 
 				chance += 1;
-				if(randomNumber==0 && isDogSiting)
+				if(randomNumber==0 && isDogSiting || isDogSiting)
 				{
 					randomNumber = 1;
 					isDogSiting = false;
@@ -386,11 +431,10 @@ public class ObedienceManager : MonoBehaviour {
 				swipeDataCollection [1].holdTime = 0; 
 				swipeDataCollection [2].holdTime = 0;
 
-				if (randomNumber == 5) // Change condition to check hold gesture if need arises
+				if (randomNumber == 5 || randomNumber == 11) // Change condition to check hold gesture if need arises
 				{
 					StartCoroutine (DetectHold ());
 				}
-				roundInfo.text = "Score: "+points * scoreIncrement;
 				nextInstruct = false;
 				yield return new WaitForSeconds (instructionWaitTime);
 			}
@@ -409,13 +453,13 @@ public class ObedienceManager : MonoBehaviour {
 			if(swipeDataCollection [1].isActive && !swipeDataCollection [2].isActive)
 			{
 				// Min. hold time of 1 sec
-				if(swipeDataCollection [1].holdTime>1 && swipeDataCollection [1].swipeData.Count<1)
+				if(swipeDataCollection [1].holdTime>1 && swipeDataCollection [1].swipeData.Count<=3)
 				{
 					pattern = SwipeRecognizer.TouchPattern.hold;
 					swipeDataCollection [1].holdTime = 0;
 					swipeDataCollection [1].isActive = false;
 				}
-				else if(swipeDataCollection [1].swipeData.Count>1)
+				else if(swipeDataCollection [1].swipeData.Count>3)
 				{
 					pattern = SwipeRecognizer.TouchPattern.move;
 					swipeDataCollection [1].isActive = false;
@@ -530,6 +574,8 @@ public class ObedienceManager : MonoBehaviour {
 				}
 			}
 		}
+		swipeDataCollection [-pointData.pointerId].isActive = false;
+		swipeDataCollection [-pointData.pointerId].holdTime = 0;
 	}
 
 	// Event Trigger - Pointer Down
@@ -571,6 +617,7 @@ public class ObedienceManager : MonoBehaviour {
 		combo = false;
 		gameOverPanel.SetActive (false);
 		analogTimer.gameObject.SetActive (true);
+		roundInfo.text = "Score: 0";
 		StartCoroutine (Instruct ());
 	}
 	#endregion
