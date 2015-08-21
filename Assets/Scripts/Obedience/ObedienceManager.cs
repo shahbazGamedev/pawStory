@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿/**
+Script Author : Vaikash 
+Description   : Game Manager for Obedience
+**/
+
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -431,10 +436,10 @@ public class ObedienceManager : MonoBehaviour {
 				swipeDataCollection [1].holdTime = 0; 
 				swipeDataCollection [2].holdTime = 0;
 
-				if (randomNumber == 5 || randomNumber == 11) // Change condition to check hold gesture if need arises
-				{
+//				if (randomNumber == 5 || randomNumber == 11) // Change condition to check hold gesture if need arises
+//				{
 					StartCoroutine (DetectHold ());
-				}
+//				}
 				nextInstruct = false;
 				yield return new WaitForSeconds (instructionWaitTime);
 			}
@@ -459,11 +464,12 @@ public class ObedienceManager : MonoBehaviour {
 					swipeDataCollection [1].holdTime = 0;
 					swipeDataCollection [1].isActive = false;
 				}
-				else if(swipeDataCollection [1].swipeData.Count>3)
-				{
-					pattern = SwipeRecognizer.TouchPattern.move;
-					swipeDataCollection [1].isActive = false;
-				}
+				// move gesture disabled
+//				else if(swipeDataCollection [1].swipeData.Count>3)
+//				{
+//					pattern = SwipeRecognizer.TouchPattern.move;
+//					swipeDataCollection [1].isActive = false;
+//				}
 			}
 		}
 		yield return null;
