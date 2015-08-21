@@ -162,6 +162,15 @@ public class GameMgr : MonoBehaviour
 			curScene = newScene;
 		}
 	}
+
+
+    void OnLevelWasLoaded(int levelNo)
+    {
+        Debug.Log("loadedLevel: " + Application.loadedLevel + " / " + Application.levelCount);
+        Debug.Log("loadedLevelName: " + Application.loadedLevelName);
+    }
+
+
 	#endregion SceneManagement
 
 

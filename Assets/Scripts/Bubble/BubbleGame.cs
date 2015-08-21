@@ -95,12 +95,14 @@ public class BubbleGame : MonoBehaviour {
 
 	public void OnRestartGame()
 	{
+        Debug.Log("OnRestartGame");
+
 		gameOver=false;
 		rb=GetComponent<Rigidbody>();
 		dogAnim=GetComponent<Animator>();
 		startingPos=transform.position;
 
-		levelTime = 25;
+		levelTime = 2;
 		baloonsAtScene = 0;
 		maxBaloons = 10;
 		nextBaloonTime = levelTime / maxBaloons;
