@@ -323,7 +323,7 @@ public class ObedienceManager : MonoBehaviour
         }
         else
         {
-            analogTimer.transform.parent.gameObject.SetActive(true);
+            analogTimer.transform.parent.gameObject.SetActive(false);
         }
         //		timerNotification.text = (int)timer + " / " + (int)instructionWaitTime;
         analogTimer.fillAmount = (5 - timer) / 5;

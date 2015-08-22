@@ -20,6 +20,7 @@ public class SkippingManager : MonoBehaviour
     public int dogMaxLives;
     public int comboMultiplierCap;
     public float scoreIncrement;
+    public float maxGameTime;
     public float[] ropeSpeeds;
 
     bool gameStart;
@@ -31,18 +32,18 @@ public class SkippingManager : MonoBehaviour
     float sliderValue;
     float score; // Always int
     float tapCount;
+    float timer;
 
     SkippingRope skipRope;
     Animator dogAnimator;
 
     // UI components
     public Slider slider;
-
     public Text scoreText;
     public Text comboText;
     public Text gameOverText;
+    public Image analogTimer;
     public GameObject gameOverPannel;
-    public GameObject startBtn;
     public GameObject touchMat;
 
     #endregion Variables
@@ -56,16 +57,7 @@ public class SkippingManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        instanceRef = this;
-        comboCount = 1;
-        dogLives = dogMaxLives;
-        scoreText.text = "Score: " + score;
-
-        // Add Event Listener
-        TriggerDetection.DogHitSkipRope += DogHitSkipRopeEvent;
-        TriggerDetection.SkipRopeReset += SkipRopeResetEvent;
-        TouchManager.PatternRecognized += PatternRecognizedEvent;
-        EventMgr.GameRestart += OnResetBtn;
+        Init();
     }
 
     // Decouple Event Listeners
@@ -81,6 +73,24 @@ public class SkippingManager : MonoBehaviour
     void Update()
     {
         SliderFunction();
+        Timer();
+    }
+
+    // Initialize game
+    void Init()
+    {
+        instanceRef = this;
+        comboCount = 1;
+        dogLives = dogMaxLives;
+        scoreText.text = "Score: " + score;
+        touchMat.SetActive(true);
+        DisplayInstruction();
+
+        // Add Event Listener
+        TriggerDetection.DogHitSkipRope += DogHitSkipRopeEvent;
+        TriggerDetection.SkipRopeReset += SkipRopeResetEvent;
+        TouchManager.PatternRecognized += PatternRecognizedEvent;
+        EventMgr.GameRestart += OnResetBtn;
     }
 
     // Listens for player input
@@ -98,6 +108,21 @@ public class SkippingManager : MonoBehaviour
             sliderValue = 2 - sliderValue;
         }
         slider.value = sliderValue;
+
+    }
+
+    // Timer function
+    void Timer()
+    {
+        if (gameStart)
+        {
+            timer += Time.deltaTime;
+            if (timer >= maxGameTime)
+            {
+                Invoke("GameOver", 0.5f);
+            }
+        }
+        analogTimer.fillAmount = (maxGameTime - timer) / maxGameTime;
     }
 
     // Disable life GUI object
@@ -110,7 +135,7 @@ public class SkippingManager : MonoBehaviour
     void GameOver()
     {
         touchMat.SetActive(false);
-        gameStart = false;
+        gameStart = false;    
         gameOverPannel.SetActive(true);
         ropeRef.GetComponent<SkippingRope>().rotateRope = false;
         scoreText.gameObject.transform.parent.gameObject.SetActive(false);
@@ -119,6 +144,12 @@ public class SkippingManager : MonoBehaviour
         maxCombo = tapCount < 1 ? 0 : maxCombo;
         gameOverText.text = "Score: " + score + "\n\n" + "Max Combo: "
             + maxCombo + "\n\nTotal Taps: " + tapCount; // Game Play Stats
+    }
+
+    // Display instruction to start game
+    void DisplayInstruction()
+    {
+        scoreText.text = "Tap to Start!!";
     }
 
     #region EventHandlers
@@ -173,9 +204,15 @@ public class SkippingManager : MonoBehaviour
     void PatternRecognizedEvent(SwipeRecognizer.TouchPattern pattern)
     {
         //		if(pattern==SwipeRecognizer.TouchPattern.singleTap && gameStart)
-        if (pattern != SwipeRecognizer.TouchPattern.hold && gameStart)
+        if (pattern != SwipeRecognizer.TouchPattern.hold)
         {
-            PlaySkipping();
+            Debug.Log("Tap");
+            if(!gameStart)
+            {
+                OnPlayBtn();
+            }
+            else
+                PlaySkipping();
         }
     }
 
@@ -187,18 +224,18 @@ public class SkippingManager : MonoBehaviour
     public void OnPlayBtn()
     {
         gameStart = true;
+        timer = 0;
         ropeRef.GetComponent<SkippingRope>().rotateRope = true;
-        startBtn.SetActive(false);
-        touchMat.SetActive(true);
+        scoreText.text = "Score: 0";
     }
 
     // Reset Btn Callback
     public void OnResetBtn()
     {
-        Debug.Log("resetBtn");
+
         dogLives = dogMaxLives;
+        timer = 0;
         gameOverPannel.SetActive(false);
-        startBtn.SetActive(true);
         ropeRef.GetComponent<SkippingRope>().ResetPosition();
         scoreText.gameObject.transform.parent.gameObject.SetActive(true);
         comboText.gameObject.SetActive(true);
@@ -213,8 +250,9 @@ public class SkippingManager : MonoBehaviour
         {
             gameObj.SetActive(true);
         }
-        gameStart = true;
         scoreText.text = "";
+        touchMat.SetActive(true);
+        DisplayInstruction();
     }
 
     // Home Btn Callback

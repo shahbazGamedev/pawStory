@@ -26,7 +26,7 @@ public class TriggerDetection : MonoBehaviour {
 	{
 		if(other.gameObject.tag=="target" && this.gameObject.tag=="Finish")
 		{
-			Debug.Log ("Rope reset");
+			//Debug.Log ("Rope reset");
 			if(SkipRopeReset!=null)
 			{
 				SkipRopeReset ();
@@ -34,7 +34,7 @@ public class TriggerDetection : MonoBehaviour {
 		}
 		else if(other.gameObject.tag=="target" && this.gameObject.tag=="Player")
 		{
-			Debug.Log ("Hit pass");
+			//Debug.Log ("Hit pass");
 			if(DogHitSkipRope!=null)
 			{
 				DogHitSkipRope ();
