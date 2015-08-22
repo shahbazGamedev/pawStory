@@ -42,6 +42,7 @@ public class DockJump : MonoBehaviour {
 	// Camera
 	public GameObject CamObj;
 	public Transform CamStartTrans;
+	public Animator CamAnim;
 	public bool isCamMove;
 
 	// HUD
@@ -141,7 +142,7 @@ public class DockJump : MonoBehaviour {
 	void Start ()
 	{
 		OnRestartGame ();
-	}
+    }
 
 
 	void Update () 	{
@@ -157,6 +158,8 @@ public class DockJump : MonoBehaviour {
 				waitForTap = false;
 				TapToPlayTxt.text = "Tap to Jump";
 				ChangeDogState (DogStates.Run);
+				CamAnim.enabled = false;
+
 			}
 			else if (isInJumpZone && dogState == DogStates.Run) 
 			{

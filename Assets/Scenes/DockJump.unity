@@ -458,7 +458,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &345322392
 RectTransform:
   m_ObjectHideFlags: 0
@@ -779,6 +779,7 @@ GameObject:
   - 92: {fileID: 797280437}
   - 124: {fileID: 797280436}
   - 81: {fileID: 797280435}
+  - 95: {fileID: 797280440}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -852,6 +853,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
+--- !u!95 &797280440
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 797280434}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a0cfc86ab5fe0ff46bfc863d3b9f8791, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &802012466
 GameObject:
   m_ObjectHideFlags: 0
@@ -1901,6 +1919,7 @@ MonoBehaviour:
   dogState: 0
   CamObj: {fileID: 797280434}
   CamStartTrans: {fileID: 439153974}
+  CamAnim: {fileID: 797280440}
   isCamMove: 0
   GameOverPanel: {fileID: 345322391}
   TouchMat: {fileID: 1578186221}
