@@ -1,17 +1,16 @@
 ﻿/**
-Script Author : Vaikash 
+Script Author : Vaikash
 Description   : Game Manager for Obedience
 **/
 
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class ObedienceManager : MonoBehaviour
 {
-
     public Text instructions;
     public Text roundInfo; // (changed) displays score
     public Text gameOverText;
@@ -128,7 +127,7 @@ public class ObedienceManager : MonoBehaviour
                     if (pattern == SwipeRecognizer.TouchPattern.singleTap || pattern == SwipeRecognizer.TouchPattern.tryAgain /*|| pattern == SwipeRecognizer.TouchPattern.swipeLeft || pattern == SwipeRecognizer.TouchPattern.swipeRight*/) // Uncomment if need arises
                     {
                         SwipeReset();
-                        Invoke("NotifyTryAgain", 0.5f);
+                        Invoke("NotifyTryAgain", 0.2f);
                         return;
                     }
                 }
@@ -305,12 +304,10 @@ public class ObedienceManager : MonoBehaviour
         pattern = SwipeRecognizer.TouchPattern.reset;
     }
 
-
     // Reset particular swipe data
     void dataReset(int pointerID)
     {
         swipeDataCollection[pointerID].swipeData.Clear();
-
     }
 
     // Timer function
@@ -360,6 +357,7 @@ public class ObedienceManager : MonoBehaviour
     }
 
     #region Coroutines
+
     //  Checks combo conditions
     IEnumerator CatchCombos()
     {
@@ -380,7 +378,7 @@ public class ObedienceManager : MonoBehaviour
                         DeactivateGestureMat();
                         roundInfo.text = "Score: " + points * scoreIncrement;
                     }
-                    else // if wrong gesture 
+                    else // if wrong gesture
                     {
                         instructions.text = "Wrong";
                         DeactivateGestureMat();
@@ -400,7 +398,6 @@ public class ObedienceManager : MonoBehaviour
                         instructions.text = "Wrong";
                         DeactivateGestureMat();
                     }
-
                 }
             }
         }
@@ -408,7 +405,7 @@ public class ObedienceManager : MonoBehaviour
         yield return null;
     }
 
-    // Sets random instruction at fixed intervals 
+    // Sets random instruction at fixed intervals
     IEnumerator Instruct()
     {
         while (gameOn)
@@ -420,7 +417,6 @@ public class ObedienceManager : MonoBehaviour
                 gameOn = false;
                 gameOverPanel.SetActive(true);
                 gameOverText.text = "Score: " + points * scoreIncrement;
-
             }
             else  // else put a random instruction
             {
@@ -469,7 +465,6 @@ public class ObedienceManager : MonoBehaviour
                 nextInstruct = false;
                 yield return new WaitForSeconds(instructionWaitTime);
             }
-
         }
         yield return null;
     }
@@ -477,7 +472,6 @@ public class ObedienceManager : MonoBehaviour
     // Checks for touch pattern hold and move - only when combo is true
     IEnumerator DetectHold()
     {
-
         while (catchUserInput)
         {
             yield return new WaitForFixedUpdate();
@@ -551,9 +545,11 @@ public class ObedienceManager : MonoBehaviour
         }
         yield return null;
     }
-    #endregion
+
+    #endregion Coroutines
 
     #region EventTriggers
+
     // Event trigger - BeginDrag
     public void OnBeginDrag(BaseEventData data)
     {
@@ -590,7 +586,7 @@ public class ObedienceManager : MonoBehaviour
         var pointData = (PointerEventData)data;
         if (pointData.pointerId == -1 && !swipeDataCollection[2].isActive)
         {
-            // check for tap 
+            // check for tap
             if (swipeDataCollection[-pointData.pointerId].swipeData.Count <= 1)
             {
                 // check for double tap
@@ -624,16 +620,16 @@ public class ObedienceManager : MonoBehaviour
         swipeDataCollection[-pointData.pointerId].isActive = false;
         swipeDataCollection[-pointData.pointerId].holdTime = 0;
     }
-    #endregion
 
+    #endregion EventTriggers
 
     #region ButtonCallbacks
+
     // Back button
     public void OnMainMenu()
     {
         GameMgr.Inst.LoadScene(GlobalConst.Scene_MainMenu);
     }
-
 
     // Restart button
     public void OnRestart()
@@ -652,5 +648,6 @@ public class ObedienceManager : MonoBehaviour
         roundInfo.text = "Score: 0";
         StartCoroutine(Instruct());
     }
-    #endregion
+
+    #endregion ButtonCallbacks
 }
