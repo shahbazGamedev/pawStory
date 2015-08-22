@@ -262,6 +262,7 @@ RectTransform:
   - {fileID: 923574593}
   - {fileID: 1949095874}
   - {fileID: 1746931929}
+  - {fileID: 379368150}
   m_Father: {fileID: 1414622071}
   m_RootOrder: 1
   m_AnchorMin: {x: 0, y: 0}
@@ -296,6 +297,72 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 247363135}
+--- !u!1 &379368149
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 224: {fileID: 379368150}
+  - 222: {fileID: 379368152}
+  - 114: {fileID: 379368151}
+  m_Layer: 9
+  m_Name: Txt_Msg
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &379368150
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 379368149}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 247363136}
+  m_RootOrder: 5
+  m_AnchorMin: {x: .5, y: 1}
+  m_AnchorMax: {x: .5, y: 1}
+  m_AnchoredPosition: {x: 3.05175781e-05, y: 70}
+  m_SizeDelta: {x: 500, y: 70}
+  m_Pivot: {x: .5, y: 1}
+--- !u!114 &379368151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 379368149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 8ec3e0624f0853841a3b315266c8cb6e, type: 3}
+    m_FontSize: 48
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 
+--- !u!222 &379368152
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 379368149}
 --- !u!1 &388781956
 GameObject:
   m_ObjectHideFlags: 0
@@ -326,6 +393,7 @@ MonoBehaviour:
   instructions: {fileID: 2082004460}
   roundInfo: {fileID: 1949095875}
   gameOverText: {fileID: 1687853263}
+  messageText: {fileID: 379368151}
   analogTimer: {fileID: 247159129}
   gameOverPanel: {fileID: 835748603}
   gestureMat: {fileID: 1208918083}
@@ -369,10 +437,10 @@ MonoBehaviour:
     value1: 12
     value2: 16
   - key: Lie Down - Left
-    value1: 4
+    value1: 9
     value2: 16
   - key: Lie Down - Right
-    value1: 5
+    value1: 8
     value2: 16
   - key: One Paw Up
     value1: 14
@@ -489,7 +557,6 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1687853262}
   - {fileID: 2126399918}
   m_Father: {fileID: 1414622071}
   m_RootOrder: 2
@@ -562,7 +629,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22446566, guid: 0e51a0cb9a48dab4391f0ffcdcd144e1, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22446566, guid: 0e51a0cb9a48dab4391f0ffcdcd144e1, type: 2}
       propertyPath: m_AnchoredPosition.x
@@ -1397,11 +1464,11 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 835748604}
-  m_RootOrder: 0
+  m_Father: {fileID: 2126399918}
+  m_RootOrder: 5
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 0, y: 45}
+  m_AnchoredPosition: {x: 0, y: 45.000042}
   m_SizeDelta: {x: 400, y: 80}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1687853263
@@ -1429,7 +1496,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 
 --- !u!222 &1687853264
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1447,12 +1514,12 @@ GameObject:
   - 222: {fileID: 1746931931}
   - 114: {fileID: 1746931930}
   m_Layer: 5
-  m_Name: RawImage
+  m_Name: Timer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1746931929
 RectTransform:
   m_ObjectHideFlags: 0

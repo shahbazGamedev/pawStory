@@ -68,7 +68,7 @@ public class SwipeRecognizer
 		Vector2 previousVector;
 		Vector2 midPoint;
 
-		if(swipeData.Count<8)
+		if(swipeData.Count<6)
 		{
 			return false;
 		}
@@ -90,9 +90,12 @@ public class SwipeRecognizer
 		{
 			midPoint = (swipeData[swipeData.Count/4]+endPoint) * 0.5f;
 		}
+        
 
 		previousVector = startPoint - midPoint; // Transform the vector from screen origin to calculated midpoint
 
+        var radius=previousVector.magnitude;
+        Debug.Log(radius);
 
 		// Preliminary check to avoid unwanted calculations
 		if(AngleBetweenVectors (previousVector,(swipeData[swipeData.Count/3]-midPoint))>25)
@@ -122,19 +125,31 @@ public class SwipeRecognizer
 				if (totalAngle > 600) 
 				{
 					pattern = TouchPattern.doubleCircle;
+                    if(PreventSmallCircle(radius))
+                    {
+                        pattern = TouchPattern.tryAgain;
+                    }
 					return true;
 				}
 				
 				if(angle>=0)
 				{
 					pattern = TouchPattern.antiClockwiseCircle;
-					return true;
+                    if (PreventSmallCircle(radius))
+                    {
+                        pattern = TouchPattern.tryAgain;
+                    }
+                    return true;
 				}
 
 				else
 				{
 					pattern = TouchPattern.clockwiseCircle;
-					return true;
+                    if (PreventSmallCircle(radius))
+                    {
+                        pattern = TouchPattern.tryAgain;
+                    }
+                    return true;
 				}
 			}
 		}
@@ -142,6 +157,16 @@ public class SwipeRecognizer
 		//Debug.Log ("false");
 		return false;
 	}
+
+    static bool PreventSmallCircle(float radius)
+    {
+        if (radius < 35)
+        {
+            return true;
+        }
+        else
+            return false;
+    }
 
 	/// <summary>
 	/// Recognizes the swipe.
@@ -265,10 +290,16 @@ public class SwipeRecognizer
 		pattern = TouchPattern.tryAgain;
 		TouchPattern patternLocal;
 
-		if(swipeData.swipeData.Count<12)
-		{
-			return false;
-		}
+		//if(swipeData.swipeData.Count<6)
+		//{
+		//	return false;
+		//}
+        var dist = Vector2.Distance(swipeData.swipeData[0], swipeData.swipeData[swipeData.swipeData.Count / 4]);
+        //Debug.Log(dist);
+        if (dist < 25f)
+        {
+            return false;
+        }
 
 		float xComponent;
 		float yComponent;

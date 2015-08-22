@@ -15,6 +15,7 @@ public class ObedienceManager : MonoBehaviour
     public Text instructions;
     public Text roundInfo; // (changed) displays score
     public Text gameOverText;
+    public Text messageText;
     public Image analogTimer;
     public GameObject gameOverPanel;
     public GameObject gestureMat; // Image UI element on which event triggers are attached
@@ -124,8 +125,12 @@ public class ObedienceManager : MonoBehaviour
             {
                 if (true)
                 {
-                    if (pattern == SwipeRecognizer.TouchPattern.singleTap || pattern == SwipeRecognizer.TouchPattern.tryAgain)
+                    if (pattern == SwipeRecognizer.TouchPattern.singleTap || pattern == SwipeRecognizer.TouchPattern.tryAgain /*|| pattern == SwipeRecognizer.TouchPattern.swipeLeft || pattern == SwipeRecognizer.TouchPattern.swipeRight*/) // Uncomment if need arises
+                    {
+                        SwipeReset();
+                        Invoke("NotifyTryAgain", 0.5f);
                         return;
+                    }
                 }
                 gestureCache = pattern;
                 catchUserInput = false;
@@ -236,23 +241,23 @@ public class ObedienceManager : MonoBehaviour
                     }
                     break;
                 }
-            case SwipeRecognizer.TouchPattern.swipeLeft:
+            case SwipeRecognizer.TouchPattern.swipeDownLeft:
                 {
                     nextInstruct = false;
                     registerAnimEvent = true;
-                    dogAnim.SetBool("Mirror", false);
-                    dogAnim.SetBool("MirStand", true);
-                    dogAnim.SetTrigger("Sleep");
+                    //dogAnim.SetBool("Mirror", false);
+                    //dogAnim.SetBool("MirStand", true);
+                    //dogAnim.SetTrigger("Sleep");
                     gestureCache = SwipeRecognizer.TouchPattern.reset;
                     break;
                 }
-            case SwipeRecognizer.TouchPattern.swipeRight:
+            case SwipeRecognizer.TouchPattern.swipeDownRight:
                 {
                     nextInstruct = false;
                     registerAnimEvent = true;
-                    dogAnim.SetBool("Mirror", true);
-                    dogAnim.SetBool("MirStand", false);
-                    dogAnim.SetTrigger("Sleep");
+                    //dogAnim.SetBool("Mirror", true);
+                    //dogAnim.SetBool("MirStand", false);
+                    //dogAnim.SetTrigger("Sleep");
                     gestureCache = SwipeRecognizer.TouchPattern.reset;
                     break;
                 }
@@ -262,21 +267,36 @@ public class ObedienceManager : MonoBehaviour
     // Notifies wrong input
     void NotifyWrongInput()
     {
-        instructions.text = "Wrong";
+        messageText.text = "Wrong";
+        Invoke("ClearMessage", 2f);
+    }
+
+    // Notifies try again
+    void NotifyTryAgain()
+    {
+        messageText.text = "Try Again";
+        Invoke("ClearMessage", 2f);
     }
 
     // Notifies correct input
     void NotifyCorrectInput()
     {
-        instructions.text = "Excellent!";
+        messageText.text = "Excellent!";
+        Invoke("ClearMessage", 2f);
+    }
+
+    // De-notifies message
+    void ClearMessage()
+    {
+        messageText.text = "";
     }
 
     // Disable touchInput
     public void DeactivateGestureMat()
     {
+        SwipeReset();
         catchUserInput = false;
         gestureMat.SetActive(false);
-        SwipeReset();
     }
 
     // Reset previous touch input
@@ -306,7 +326,7 @@ public class ObedienceManager : MonoBehaviour
         }
         else
         {
-            analogTimer.gameObject.SetActive(false);
+            analogTimer.transform.parent.gameObject.SetActive(true);
         }
         //		timerNotification.text = (int)timer + " / " + (int)instructionWaitTime;
         analogTimer.fillAmount = (5 - timer) / 5;
@@ -336,7 +356,7 @@ public class ObedienceManager : MonoBehaviour
         // Add listener to reset complete event
         dogManager.ResetComplete += GotoNextInstruction;
         EventMgr.GameRestart += OnRestart;
-        analogTimer.gameObject.SetActive(false);
+        analogTimer.transform.parent.gameObject.SetActive(true);
     }
 
     #region Coroutines
@@ -628,7 +648,7 @@ public class ObedienceManager : MonoBehaviour
         points = 0;
         combo = false;
         gameOverPanel.SetActive(false);
-        analogTimer.gameObject.SetActive(true);
+        analogTimer.transform.parent.gameObject.SetActive(true);
         roundInfo.text = "Score: 0";
         StartCoroutine(Instruct());
     }
