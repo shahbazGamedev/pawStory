@@ -43,7 +43,6 @@ public class BubbleGame : MonoBehaviour {
 
     void OnDisable()
 	{
-        Debug.Log("Disable");
 		EventMgr.SetPos -= OnSetPos;
 		EventMgr.GameRestart -= OnRestartGame;
 	}
@@ -168,7 +167,6 @@ public class BubbleGame : MonoBehaviour {
 	
 	public void ScoreSystem()
 	{
-		Debug.Log ("collided");
 		score += 1;
 		dogAnim.SetFloat("Walk", 0f);
 	}
