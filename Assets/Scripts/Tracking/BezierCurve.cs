@@ -10,8 +10,8 @@ public class BezierCurve
 {
     #region Variables
 
-    private const int SEGMENTS_PER_CURVE = 20;
-    private const float MINIMUM_SQR_DISTANCE = 0.01f;
+    private const int SEGMENTS_PER_CURVE = 18;
+    private const float MINIMUM_SQR_DISTANCE = 0.1f;
 
     // This corresponds to about 172 degrees, 8 degrees from a straight line
     private const float DIVISION_THRESHOLD = -0.99f;

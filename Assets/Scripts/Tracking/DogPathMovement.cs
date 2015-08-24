@@ -11,23 +11,19 @@ public class DogPathMovement : MonoBehaviour
     #region Variables
 
     public GameObject dogRef;
-    List<Vector3> pathData;
     public bool followPath;
-
-    Vector3 currentposition;
     public Vector3 target;
-
     public bool reachedPathEnd;
-    Vector3 pathEnd;
     public float dogSpeed;
     public bool reachedTarget;
-
-    Animator dogAnim;
-
     public int nodeCount;
     public int currentNode;
-
     public float minDistToReach;
+
+    List<Vector3> pathData;
+    Vector3 currentposition;
+    Vector3 pathEnd;
+    Animator dogAnim;
     TrackingManager trackingManagerRef;
 
     #endregion Variables
@@ -113,7 +109,7 @@ public class DogPathMovement : MonoBehaviour
         GetComponent<Rigidbody>().MovePosition(Vector3.MoveTowards(transform.position, target, dogSpeed * Time.deltaTime));
 
         // Update dog rotation based on target
-        if (!(Vector3.Distance(transform.position, target) < 0.015f))
+        if (!(Vector3.Distance(transform.position, target) < 0.01f))
         {
             transform.LookAt(target);
         }

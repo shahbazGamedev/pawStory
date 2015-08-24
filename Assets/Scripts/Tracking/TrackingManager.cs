@@ -4,15 +4,14 @@ Description   : Game Manager - Tracking
 **/
 
 using UnityEngine;
+using UnityEngine.EventSystems;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class TrackingManager : MonoBehaviour
 {
-
     #region Variables
 
     public Text instructions;
@@ -26,13 +25,7 @@ public class TrackingManager : MonoBehaviour
     public GameObject dogRef;
     public GameObject[] life;
     public Text roundInfoDisplay;
-    DogPathMovement pathMove;
 
-    LineRenderer line;
-    string layerName;
-
-    Vector3 worldPoint;
-    Vector3 potentialSamplePoint;
 
     public int round;
     public int resetChances;
@@ -45,21 +38,27 @@ public class TrackingManager : MonoBehaviour
     public float maxTrackingCapacity;
     public List<Vector3> dragData;
     public float sliderUpdateSpeed;
+    public bool isGameOn;
+    public bool roundComplete;
 
+    DogPathMovement pathMove;
+    Animator dogAnim;
+    LineRenderer line;
+    string layerName;
+
+    Vector3 worldPoint;
+    Vector3 potentialSamplePoint;
     bool isFirstRun;
     bool needToPop;
     bool swipeFinished;
-    public bool isGameOn;
     bool gameOver;
     bool startTracking;
     bool pathEnable;
     bool reset; // Prevents the user from drawing path when dog capacity slider is filling up
     bool lineRendererActive;
     bool canReset; // Allows the user to reset path if true
-    public bool roundComplete;
     bool trackCheck;
     //public int scoreIncrement;
-
     float distanceCovered;
     float remainingCapacity;
 
@@ -86,7 +85,6 @@ public class TrackingManager : MonoBehaviour
         if (startTracking)
         {
             RenderBezier();
-            //Debug.Log ("Done");
             drawingPoints = bezierPath.GetDrawingPoints1();
             dogRef.GetComponent<DogPathMovement>().SetPathData(drawingPoints);
             dogRef.GetComponent<DogPathMovement>().EnableDogPathMovement(true);
@@ -116,16 +114,17 @@ public class TrackingManager : MonoBehaviour
         }
 
         // checks if dog has reached the set path and initiates next round
-        if (dogRef.GetComponent<DogPathMovement>().reachedPathEnd)
+        if (pathMove.reachedPathEnd)
         {
-            roundComplete = true;
-            dogRef.GetComponent<DogPathMovement>().reachedPathEnd = false;
+            //roundComplete = true;
+            pathMove.reachedPathEnd = false;
+            StartCoroutine(TargetNotFound());
         }
 
         // bark if target found
-        if (dogRef.GetComponent<DogPathMovement>().reachedTarget)
+        if (pathMove.reachedTarget)
         {
-            dogRef.GetComponent<DogPathMovement>().reachedTarget = false;
+            pathMove.reachedTarget = false;
             points += scoreIncrement + (int) dogCapacity.value;
             StartCoroutine(TargetFound());
         }
@@ -146,6 +145,7 @@ public class TrackingManager : MonoBehaviour
         startPosition = dogRef.transform.position;
         startRotation = dogRef.transform.rotation;
         pathMove = dogRef.GetComponent<DogPathMovement>();
+        dogAnim = dogRef.GetComponent<Animator>();
 
         // Add Event Listeners
         EventMgr.GameRestart += PlayAgain;
@@ -156,7 +156,7 @@ public class TrackingManager : MonoBehaviour
     {
         EventMgr.GameRestart -= PlayAgain;
     }
-    
+
     #region BezierInterface
 
     // smooth and render curve each frame as player swipes/drags on screen
@@ -210,7 +210,7 @@ public class TrackingManager : MonoBehaviour
         {
             live.SetActive(false);
         }
-        score.gameObject.SetActive(false);
+        //score.gameObject.SetActive(false);
         touchMat.SetActive(false);
         //gameOver = false;
     }
@@ -280,11 +280,20 @@ public class TrackingManager : MonoBehaviour
     // Dog has tracked the target successfully
     IEnumerator TargetFound()
     {
-        // add success animation //TODO
+        // add success animation
+        dogAnim.SetTrigger("Win");
         yield return new WaitForSeconds(3);
         roundComplete = true;
     }
 
+    // Dog has failed to track
+    private IEnumerator TargetNotFound()
+    {
+        // add failure animation
+        dogAnim.SetTrigger("Lose");
+        yield return new WaitForSeconds(3);
+        roundComplete = true;
+    }
     // Reload Level
     IEnumerator Reload()
     {
