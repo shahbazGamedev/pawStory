@@ -76,6 +76,14 @@ public class TrackingManager : MonoBehaviour
 
     #endregion Variables
 
+    public void Awake()
+    {
+        dogRef = GameObject.FindGameObjectWithTag("Player");
+        pathMove = dogRef.GetComponent<DogPathMovement>();
+        dogAnim = dogRef.GetComponent<Animator>();
+        line = lineRenderer.GetComponent<LineRenderer>();
+    }
+
     // Use this for initialization
     void Start()
     {
@@ -90,8 +98,8 @@ public class TrackingManager : MonoBehaviour
         {
             RenderBezier();
             drawingPoints = bezierPath.GetDrawingPoints1();
-            dogRef.GetComponent<DogPathMovement>().SetPathData(drawingPoints);
-            dogRef.GetComponent<DogPathMovement>().EnableDogPathMovement(true);
+            pathMove.SetPathData(drawingPoints);
+            pathMove.EnableDogPathMovement(true);
             swipeFinished = false;
             startTracking = false;
         }
@@ -137,8 +145,6 @@ public class TrackingManager : MonoBehaviour
     // Initialize game
     void Init()
     {
-        dogRef = GameObject.FindGameObjectWithTag("Player");
-        line = lineRenderer.GetComponent<LineRenderer>();
         dogCapacity.maxValue = maxTrackingCapacity;
         bezierPath = new BezierCurve();
         isFirstRun = true;
@@ -148,8 +154,6 @@ public class TrackingManager : MonoBehaviour
         StartCoroutine(UpdateSlider());
         startPosition = dogRef.transform.position;
         startRotation = dogRef.transform.rotation;
-        pathMove = dogRef.GetComponent<DogPathMovement>();
-        dogAnim = dogRef.GetComponent<Animator>();
         SpawnMarker();
 
         // Add Event Listeners
