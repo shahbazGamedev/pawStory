@@ -26,6 +26,7 @@ public class SkippingManager : MonoBehaviour
     bool gameStart;
     bool comboChain;
     bool lastHit;
+    bool gameHold;
 
     int comboCount;
     int maxCombo;
@@ -152,6 +153,15 @@ public class SkippingManager : MonoBehaviour
         scoreText.text = "Tap to Start!!";
     }
 
+    // Reset rope position and wait for user tap (game pause)
+    void onTap()
+    {
+        gameHold = false;
+        gameStart = true;
+        ropeRef.GetComponent<SkippingRope>().rotateRope = true;
+        scoreText.text = "Score: " + score;
+    }
+
     #region EventHandlers
 
     // Event Handler for DogHitSkipRope
@@ -188,6 +198,7 @@ public class SkippingManager : MonoBehaviour
             {
                 comboChain = true;
             }
+            scoreText.text = "Score: " + score;
         }
         else
         {
@@ -195,8 +206,12 @@ public class SkippingManager : MonoBehaviour
             maxCombo = comboCount >= maxCombo ? comboCount : maxCombo;
             comboCount = 1;
             comboText.text = "";
+            gameHold = true;
+            gameStart = false;
+            ropeRef.GetComponent<SkippingRope>().rotateRope = false;
+            ropeRef.GetComponent<SkippingRope>().ResetPosition();
+            scoreText.text = "--Tap to Resume--";
         }
-        scoreText.text = "Score: " + score;
         skipRope.skipSpeed = ropeSpeeds[Random.Range(0, 8)];
     }
 
@@ -207,10 +222,12 @@ public class SkippingManager : MonoBehaviour
         if (pattern != SwipeRecognizer.TouchPattern.hold)
         {
             Debug.Log("Tap");
-            if(!gameStart)
+            if (!gameStart && !gameHold)
             {
                 OnPlayBtn();
             }
+            else if (gameHold)
+                onTap();
             else
                 PlaySkipping();
         }
@@ -253,6 +270,7 @@ public class SkippingManager : MonoBehaviour
         scoreText.text = "";
         touchMat.SetActive(true);
         DisplayInstruction();
+        comboText.text = "";
     }
 
     // Home Btn Callback
