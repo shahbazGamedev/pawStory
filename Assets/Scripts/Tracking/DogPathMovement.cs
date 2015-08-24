@@ -1,135 +1,139 @@
 ﻿/**
-Script Author : Vaikash 
+Script Author : Vaikash
 Description   : Dog Movement on Path
 **/
+
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
-public class DogPathMovement : MonoBehaviour {
-	public GameObject dogRef;
-	List<Vector3> pathData;
-	public bool followPath;
+public class DogPathMovement : MonoBehaviour
+{
+    #region Variables
 
-	Vector3 currentposition;
-	public Vector3 target;
+    public GameObject dogRef;
+    List<Vector3> pathData;
+    public bool followPath;
 
-	public bool reachedPathEnd;
-	Vector3 pathEnd;
-	public float dogSpeed;
-	public bool reachedTarget;
+    Vector3 currentposition;
+    public Vector3 target;
 
-	Animator dogAnim;
+    public bool reachedPathEnd;
+    Vector3 pathEnd;
+    public float dogSpeed;
+    public bool reachedTarget;
 
-	public int nodeCount;
-	public int currentNode;
+    Animator dogAnim;
 
-	public float minDistToReach;
-	TrackingManager trackingManagerRef;
+    public int nodeCount;
+    public int currentNode;
 
-	// Use this for initialization
-	void Start () 
-	{
-		dogAnim = dogRef.GetComponent<Animator>();
-		pathData=new List<Vector3>();
-		reachedPathEnd=false;
-		nodeCount=0;
-		currentNode=0;
-		trackingManagerRef = FindObjectOfType<TrackingManager> ();
-	}
+    public float minDistToReach;
+    TrackingManager trackingManagerRef;
 
-	void Update()
-	{
-		// Animation state update
-		if(reachedPathEnd || reachedTarget)
-		{
-			dogAnim.SetBool("Sniff", false);
-			followPath=false;
-		}
-		else if(!reachedPathEnd && followPath)
-		{
-			dogAnim.SetBool("Sniff", true);
-		}
-	}
+    #endregion Variables
 
-	// Update is called once per frame
-	void FixedUpdate () {
-		// Update position if flag set true
-		if(followPath)
-		{
-			currentposition=transform.position;
-			FollowPath();
-		}
-	}
+    // Use this for initialization
+    void Start()
+    {
+        dogAnim = dogRef.GetComponent<Animator>();
+        pathData = new List<Vector3>();
+        reachedPathEnd = false;
+        nodeCount = 0;
+        currentNode = 0;
+        trackingManagerRef = FindObjectOfType<TrackingManager>();
+    }
 
-	// Set path data and reset parameter for each swipe
-	public void SetPathData(List<Vector3> data)
-	{
-		pathData = data;
-		nodeCount = data.Count;
-		reachedPathEnd = false;
-		reachedTarget = false;
-		currentNode = 0;
-		pathEnd = pathData [nodeCount - 1];
-	}
+    void Update()
+    {
+        // Animation state update
+        if (reachedPathEnd || reachedTarget)
+        {
+            dogAnim.SetBool("Sniff", false);
+            followPath = false;
+        }
+        else if (!reachedPathEnd && followPath)
+        {
+            dogAnim.SetBool("Sniff", true);
+        }
+    }
 
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        // Update position if flag set true
+        if (followPath)
+        {
+            currentposition = transform.position;
+            FollowPath();
+        }
+    }
 
-	// Set followPath flag
-	public void EnableDogPathMovement(bool enable)
-	{
-		followPath=enable;
-		target = pathData [0];
-		target.y = transform.position.y;
-	}
+    // Set path data and reset parameter for each swipe
+    public void SetPathData(List<Vector3> data)
+    {
+        pathData = data;
+        nodeCount = data.Count;
+        reachedPathEnd = false;
+        reachedTarget = false;
+        currentNode = 0;
+        pathEnd = pathData[nodeCount - 1];
+    }
 
-	// Move dog on the set path
-	void FollowPath()
-	{
-		if(currentNode<(nodeCount) )
-		{
-			if(nodeCount==0)
-			{
-				Debug.Log("Path Data is Empty");
-			}
-			else
-			{
-				// Update target once target is reached
-				if((transform.position-target).sqrMagnitude<=minDistToReach)
-				{
-					target = pathData [currentNode];
-					target.y = currentposition.y;
-					pathEnd.y = currentposition.y;
-					currentNode += 1;
-				}
-			}
-		}
+    // Set followPath flag
+    public void EnableDogPathMovement(bool enable)
+    {
+        followPath = enable;
+        target = pathData[0];
+        target.y = transform.position.y;
+    }
 
-		// Update position using rigidbody
-		GetComponent<Rigidbody>().MovePosition(Vector3.MoveTowards(transform.position, target, dogSpeed* Time.deltaTime));
+    // Move dog on the set path
+    void FollowPath()
+    {
+        if (currentNode < (nodeCount))
+        {
+            if (nodeCount == 0)
+            {
+                Debug.Log("Path Data is Empty");
+            }
+            else
+            {
+                // Update target once target is reached
+                if ((transform.position - target).sqrMagnitude <= minDistToReach)
+                {
+                    target = pathData[currentNode];
+                    target.y = currentposition.y;
+                    pathEnd.y = currentposition.y;
+                    currentNode += 1;
+                }
+            }
+        }
 
-		// Update dog rotation based on target
-		if(!(Vector3.Distance(transform.position,target)<0.015f))
-		{
-			transform.LookAt(target);
-		}
+        // Update position using rigidbody
+        GetComponent<Rigidbody>().MovePosition(Vector3.MoveTowards(transform.position, target, dogSpeed * Time.deltaTime));
 
-		// Check if dog reached path end
-		if(Vector3.Distance(pathEnd, transform.position)<0.005f)
-		{
-			reachedPathEnd=true;
-		}
-	}
+        // Update dog rotation based on target
+        if (!(Vector3.Distance(transform.position, target) < 0.015f))
+        {
+            transform.LookAt(target);
+        }
 
-	// Update score if dog collides with the target and stop
-	void OnCollisionEnter(Collision other)
-	{
-		if(other.transform.tag=="Finish") 
-		{
-			followPath = false;
-			reachedTarget = true;
-			//trackingManagerRef.points += 1;
-//			Debug.Log ("Reached Target");
-		}
-	}
+        // Check if dog reached path end
+        if (Vector3.Distance(pathEnd, transform.position) < 0.1f)
+        {
+            reachedPathEnd = true;
+        }
+    }
 
+    // Update score if dog collides with the target and stop
+    void OnCollisionEnter(Collision other)
+    {
+        if (other.transform.tag == "Finish")
+        {
+            followPath = false;
+            reachedTarget = true;
+            //trackingManagerRef.points += 1;
+            //			Debug.Log ("Reached Target");
+        }
+    }
 }
