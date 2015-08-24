@@ -14,6 +14,7 @@ public class TrackingManager : MonoBehaviour
 {
     #region Variables
 
+    //public static TrackingManager instanceRef;
     public Text instructions;
     public Text score;
     public GameObject marker;
@@ -69,6 +70,9 @@ public class TrackingManager : MonoBehaviour
 
     BezierCurve bezierPath;
     List<Vector3> drawingPoints;
+
+    public delegate void TrackingEvent();
+    public static TrackingEvent SpawnMarker;
 
     #endregion Variables
 
@@ -146,6 +150,7 @@ public class TrackingManager : MonoBehaviour
         startRotation = dogRef.transform.rotation;
         pathMove = dogRef.GetComponent<DogPathMovement>();
         dogAnim = dogRef.GetComponent<Animator>();
+        SpawnMarker();
 
         // Add Event Listeners
         EventMgr.GameRestart += PlayAgain;
@@ -232,6 +237,7 @@ public class TrackingManager : MonoBehaviour
         pathEnable = true;
         isFirstRun = true;
         trackCheck = true;
+        SpawnMarker();
     }
 
     #region Coroutines
@@ -313,7 +319,6 @@ public class TrackingManager : MonoBehaviour
         {
             if ((!isGameOn || pathEnable) && !reset)
             {
-                marker.gameObject.SetActive(false);
                 Vector3 screenPoint = new Vector3(data.position.x, data.position.y, 0f);
                 RaycastHit hit;
                 Ray ray = Camera.main.ScreenPointToRay(screenPoint);
@@ -328,6 +333,7 @@ public class TrackingManager : MonoBehaviour
 
                 if (Vector3.Distance(startPosition, touchStartPosition) < 1.5f && isFirstRun)
                 {
+                    marker.gameObject.SetActive(false);
                     pathEnable = false;
                     isGameOn = true;
                 }
