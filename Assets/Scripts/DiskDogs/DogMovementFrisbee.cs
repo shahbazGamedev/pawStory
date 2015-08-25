@@ -19,7 +19,7 @@ public class DogMovementFrisbee : MonoBehaviour {
 	public Text chance;
 	public int chances;
 	public Text ChanceUi;
-	public Transform targetMove;
+	private Transform targetMove;
 	public int spawnValue=0;
 	public bool isSpawn;
 	public GameObject FrisbeeAttached;
@@ -44,6 +44,9 @@ public class DogMovementFrisbee : MonoBehaviour {
 	Vector3 position;
 	bool isRestart;
 	int lastValue;
+	int currentValue;
+
+
 
 
 
@@ -178,8 +181,13 @@ public class DogMovementFrisbee : MonoBehaviour {
 
 	public void SpawnValueReset()
 	{
-		spawnValue=Random.Range(0,5);
+		spawnValue=Random.Range(0,3);
+		while(lastValue==spawnValue)
+		{
+			spawnValue=Random.Range(0,3);
+		}
 		targetMove=spawnPoint[spawnValue];
+		lastValue=spawnValue;
 	}
 
 
