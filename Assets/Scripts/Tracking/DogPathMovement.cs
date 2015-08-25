@@ -24,19 +24,29 @@ public class DogPathMovement : MonoBehaviour
     Vector3 currentposition;
     Vector3 pathEnd;
     Animator dogAnim;
+    Rigidbody dogRB;
     TrackingManager trackingManagerRef;
 
+    public delegate void DogPathMove();
+    public static event DogPathMove PathEnd;
+    public static event DogPathMove TargetReached;
+
     #endregion Variables
+
+    public void Awake()
+    {
+        dogAnim = dogRef.GetComponent<Animator>();
+        trackingManagerRef = FindObjectOfType<TrackingManager>();
+        dogRB = dogRef.GetComponent<Rigidbody>();
+    }
 
     // Use this for initialization
     void Start()
     {
-        dogAnim = dogRef.GetComponent<Animator>();
         pathData = new List<Vector3>();
         reachedPathEnd = false;
         nodeCount = 0;
         currentNode = 0;
-        trackingManagerRef = FindObjectOfType<TrackingManager>();
     }
 
     void Update()
@@ -106,7 +116,7 @@ public class DogPathMovement : MonoBehaviour
         }
 
         // Update position using rigidbody
-        GetComponent<Rigidbody>().MovePosition(Vector3.MoveTowards(transform.position, target, dogSpeed * Time.deltaTime));
+        dogRB.MovePosition(Vector3.MoveTowards(transform.position, target, dogSpeed * Time.deltaTime));
 
         // Update dog rotation based on target
         if (!(Vector3.Distance(transform.position, target) < 0.01f))
@@ -118,6 +128,9 @@ public class DogPathMovement : MonoBehaviour
         if (Vector3.Distance(pathEnd, transform.position) < 0.1f)
         {
             reachedPathEnd = true;
+            followPath = false;
+            if (PathEnd!=null)
+                PathEnd();
         }
     }
 
@@ -128,8 +141,8 @@ public class DogPathMovement : MonoBehaviour
         {
             followPath = false;
             reachedTarget = true;
-            //trackingManagerRef.points += 1;
-            //			Debug.Log ("Reached Target");
+            if (TargetReached != null)
+                TargetReached();
         }
     }
 }
