@@ -60,9 +60,6 @@ public class TrackingManager : MonoBehaviour
     bool reset; // Prevents the user from drawing path when dog capacity slider is filling up
     bool lineRendererActive;
     bool canReset; // Allows the user to reset path if true
-    bool trackCheck;
-    public bool allowTrack;
-    //public int scoreIncrement;
     float distanceCovered;
     float remainingCapacity;
 
@@ -139,7 +136,6 @@ public class TrackingManager : MonoBehaviour
         startPosition = dogRef.transform.position;
         startRotation = dogRef.transform.rotation;
         SpawnMarker();
-        allowTrack = true;
 
         // Add Event Listeners
         EventMgr.GameRestart += PlayAgain;
@@ -170,7 +166,10 @@ public class TrackingManager : MonoBehaviour
             trackingMarker = (GameObject) Instantiate(markerPrefab, drawingPoints.LastOrDefault(), Quaternion.AngleAxis(90f, new Vector3(1, 0f, 0f)));
         }
         else
+        {
             trackingMarker.transform.position = drawingPoints.LastOrDefault();
+            trackingMarker.SetActive(true);
+        }
 
     }
 
@@ -233,8 +232,6 @@ public class TrackingManager : MonoBehaviour
             return;
         pathEnable = true;
         isFirstRun = true;
-        trackCheck = true;
-        allowTrack = true;
         SpawnMarker();
         if(trackingMarker!=null)
             trackingMarker.SetActive(false);
@@ -284,23 +281,31 @@ public class TrackingManager : MonoBehaviour
     // Dog has tracked the target successfully
     IEnumerator TargetFound()
     {
-        // add success animation
-        yield return new WaitForEndOfFrame();
-        pathMove.reachedTarget = false;
-        dogAnim.SetTrigger("Win");
-        yield return new WaitForSeconds(3);
-        roundComplete = true;
+        if (!pathMove.reachedPathEnd)
+        {
+            yield return new WaitForEndOfFrame();
+            pathMove.reachedTarget = false;
+            dogAnim.SetTrigger("Win");
+            yield return new WaitForSeconds(3);
+            roundComplete = true;
+        }
+        else
+            yield return null;
     }
 
     // Dog has failed to track
     IEnumerator TargetNotFound()
     {
-        // add failure animation
-        yield return new WaitForEndOfFrame();
-        pathMove.reachedPathEnd = false;
-        dogAnim.SetTrigger("Lose");
-        yield return new WaitForSeconds(3);
-        roundComplete = true;
+        if (!pathMove.reachedTarget)
+        {
+            yield return new WaitForEndOfFrame();
+            pathMove.reachedPathEnd = false;
+            dogAnim.SetTrigger("Lose");
+            yield return new WaitForSeconds(3);
+            roundComplete = true;
+        }
+        else
+            yield return null;
     }
 
     // Reload Level
@@ -333,7 +338,7 @@ public class TrackingManager : MonoBehaviour
         var data=(PointerEventData)Data;
         if (resetChances >= 0)
         {
-            if (!isGameOn || pathEnable)
+            if (!isGameOn && pathEnable)
             {
                 if (!reset)
                 {
@@ -344,24 +349,18 @@ public class TrackingManager : MonoBehaviour
                     {
                         Debug.Log("Hit");
                         layerName = LayerMask.LayerToName(hit.collider.gameObject.layer);
-                        if (layerName == "UI" && allowTrack)
+                        if (layerName == "UI")
                         {
                             touchStartPosition = hit.point + (Vector3.up * 0.01f);
                             marker.gameObject.SetActive(false);
                             pathEnable = false;
                             isGameOn = true;
-                            allowTrack = false;
-                            if(trackingMarker!=null)
-                                trackingMarker.SetActive(true);
+                            dragData.Clear();
+                            isFirstRun = true;
                         }
                     }
                 }
             }
-        }
-        if (isGameOn)
-        {
-            dragData.Clear();
-            isFirstRun = true;
         }
     }
 
@@ -394,7 +393,7 @@ public class TrackingManager : MonoBehaviour
             if (Physics.Raycast(ray, out hit, 200f))
             {
                 layerName = LayerMask.LayerToName(hit.collider.gameObject.layer);
-                if (layerName == "Floor")
+                if (layerName == "Floor" || layerName == "UI")
                 {
                     worldPoint = hit.point + (Vector3.up * 0.01f);
 
@@ -470,7 +469,7 @@ public class TrackingManager : MonoBehaviour
                 life[resetChances].SetActive(false);
                 dragData.Clear();
                 isFirstRun = true;
-                allowTrack = true;
+                pathEnable = true;
                 trackingMarker.SetActive(false);
             }
             else
@@ -481,20 +480,18 @@ public class TrackingManager : MonoBehaviour
     // Signal Dog to track
     public void StartTracking()
     {
-        if (trackCheck)
+
+        if (dragData.Count < 2)
         {
-            if (dragData.Count < 2)
+            Debug.Log("Swipe data empty");
+        }
+        else
+        {
+            if (swipeFinished)
             {
-                Debug.Log("Swipe data empty");
-            }
-            else
-            {
-                if (swipeFinished)
-                {
-                    canReset = false; // Disable reset button once tracking is started
-                    startTracking = true;
-                    trackCheck = false;
-                }
+                canReset = false; // Disable reset button once tracking is started
+                startTracking = true;
+
             }
         }
     }

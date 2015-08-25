@@ -50,16 +50,7 @@ public class DogPathMovement : MonoBehaviour
 
     void Update()
     {
-        // Animation state update
-        if (reachedPathEnd || reachedTarget)
-        {
-            dogAnim.SetBool("Sniff", false);
-            followPath = false;
-        }
-        else if (!reachedPathEnd && followPath)
-        {
-            dogAnim.SetBool("Sniff", true);
-        }
+
     }
 
     // Update is called once per frame
@@ -90,6 +81,7 @@ public class DogPathMovement : MonoBehaviour
         followPath = enable;
         target = pathData[0];
         target.y = transform.position.y;
+        dogAnim.SetBool("Sniff", true);
     }
 
     // Move dog on the set path
@@ -118,18 +110,22 @@ public class DogPathMovement : MonoBehaviour
         dogRB.MovePosition(Vector3.MoveTowards(transform.position, target, dogSpeed * Time.deltaTime));
 
         // Update dog rotation based on target
-        if (!(Vector3.Distance(transform.position, target) < 0.01f))
+        if (!(Vector3.Distance(transform.position, target) < 0.015f))
         {
             transform.LookAt(target);
         }
 
         // Check if dog reached path end
-        if (Vector3.Distance(pathEnd, transform.position) < 0.1f)
+        if (currentNode >= nodeCount-2)
         {
-            reachedPathEnd = true;
-            followPath = false;
-            if (PathEnd!=null)
-                PathEnd();
+            if (Vector3.Distance(pathEnd, transform.position) < 0.5f)
+            {
+                reachedPathEnd = true;
+                followPath = false;
+                dogAnim.SetBool("Sniff", false);
+                if (PathEnd != null)
+                    PathEnd();
+            }
         }
     }
 
@@ -140,6 +136,7 @@ public class DogPathMovement : MonoBehaviour
         {
             followPath = false;
             reachedTarget = true;
+            dogAnim.SetBool("Sniff", false);
             if (TargetReached != null)
                 TargetReached();
         }

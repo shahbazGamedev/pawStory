@@ -154,6 +154,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 6409158, guid: 736e847efe7d1c0468403caac02e96ff, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 736e847efe7d1c0468403caac02e96ff, type: 2}
   m_IsPrefabParent: 0
@@ -1618,8 +1622,8 @@ LineRenderer:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}
   m_Parameters:
-    startWidth: .180000007
-    endWidth: .150000006
+    startWidth: .119999997
+    endWidth: .100000001
     m_StartColor:
       serializedVersion: 2
       rgba: 4294967295
@@ -1677,7 +1681,6 @@ MonoBehaviour:
   sliderUpdateSpeed: 10
   isGameOn: 0
   roundComplete: 0
-  allowTrack: 0
 --- !u!224 &1350542357 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 22475416, guid: 223a9d338d97efa4fab0c00d1e70471e,
