@@ -25,8 +25,8 @@ public class DogPathMovement : MonoBehaviour
     Vector3 pathEnd;
     Animator dogAnim;
     Rigidbody dogRB;
-    TrackingManager trackingManagerRef;
 
+    // Event System
     public delegate void DogPathMove();
     public static event DogPathMove PathEnd;
     public static event DogPathMove TargetReached;
@@ -36,7 +36,6 @@ public class DogPathMovement : MonoBehaviour
     public void Awake()
     {
         dogAnim = dogRef.GetComponent<Animator>();
-        trackingManagerRef = FindObjectOfType<TrackingManager>();
         dogRB = dogRef.GetComponent<Rigidbody>();
     }
 
