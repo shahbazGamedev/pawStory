@@ -103,6 +103,64 @@ MeshCollider:
   serializedVersion: 2
   m_Convex: 0
   m_Mesh: {fileID: 4300020, guid: 743ae5bcdfb94455eb0457ff367ff921, type: 3}
+--- !u!1001 &109345702
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 440182, guid: 736e847efe7d1c0468403caac02e96ff, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -6.28000021
+      objectReference: {fileID: 0}
+    - target: {fileID: 440182, guid: 736e847efe7d1c0468403caac02e96ff, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 440182, guid: 736e847efe7d1c0468403caac02e96ff, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -.99000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 440182, guid: 736e847efe7d1c0468403caac02e96ff, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: .707106829
+      objectReference: {fileID: 0}
+    - target: {fileID: 440182, guid: 736e847efe7d1c0468403caac02e96ff, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 440182, guid: 736e847efe7d1c0468403caac02e96ff, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 440182, guid: 736e847efe7d1c0468403caac02e96ff, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: .707106709
+      objectReference: {fileID: 0}
+    - target: {fileID: 440182, guid: 736e847efe7d1c0468403caac02e96ff, type: 2}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 440182, guid: 736e847efe7d1c0468403caac02e96ff, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 440182, guid: 736e847efe7d1c0468403caac02e96ff, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 440182, guid: 736e847efe7d1c0468403caac02e96ff, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6409158, guid: 736e847efe7d1c0468403caac02e96ff, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 736e847efe7d1c0468403caac02e96ff, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &141228056
 GameObject:
   m_ObjectHideFlags: 0
@@ -1564,8 +1622,8 @@ LineRenderer:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}
   m_Parameters:
-    startWidth: .180000007
-    endWidth: .150000006
+    startWidth: .119999997
+    endWidth: .100000001
     m_StartColor:
       serializedVersion: 2
       rgba: 4294967295
@@ -1610,12 +1668,13 @@ MonoBehaviour:
   - {fileID: 1813050889}
   - {fileID: 345070356}
   roundInfoDisplay: {fileID: 1852210272}
+  markerPrefab: {fileID: 158032, guid: 736e847efe7d1c0468403caac02e96ff, type: 2}
   round: 0
   resetChances: 3
   points: 0
   maxRounds: 3
   scoreIncrement: 10
-  minSqrDistance: 3
+  minSqrDistance: 2
   interpolationScale: .330000013
   maxTrackingCapacity: 20
   dragData: []
@@ -3100,7 +3159,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2063615976
 RectTransform:
   m_ObjectHideFlags: 0

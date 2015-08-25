@@ -26,6 +26,8 @@ public class TrackingManager : MonoBehaviour
     public GameObject dogRef;
     public GameObject[] life;
     public Text roundInfoDisplay;
+    public GameObject markerPrefab;
+    GameObject trackingMarker;
 
 
     public int round;
@@ -58,8 +60,6 @@ public class TrackingManager : MonoBehaviour
     bool reset; // Prevents the user from drawing path when dog capacity slider is filling up
     bool lineRendererActive;
     bool canReset; // Allows the user to reset path if true
-    bool trackCheck;
-    //public int scoreIncrement;
     float distanceCovered;
     float remainingCapacity;
 
@@ -100,15 +100,14 @@ public class TrackingManager : MonoBehaviour
             drawingPoints = bezierPath.GetDrawingPoints1();
             pathMove.SetPathData(drawingPoints);
             pathMove.EnableDogPathMovement(true);
-            swipeFinished = false;
             startTracking = false;
+            swipeFinished = false;
         }
 
         // initiates gameOver function
         if (gameOver)
         {
             GameOver();
-            //gameOver = false;
         }
 
         // initiates nextRound function
@@ -124,22 +123,6 @@ public class TrackingManager : MonoBehaviour
             gameOver = true;
             points += resetChances * 10;
         }
-
-        // checks if dog has reached the set path and initiates next round
-        if (pathMove.reachedPathEnd)
-        {
-            //roundComplete = true;
-            pathMove.reachedPathEnd = false;
-            StartCoroutine(TargetNotFound());
-        }
-
-        // bark if target found
-        if (pathMove.reachedTarget)
-        {
-            pathMove.reachedTarget = false;
-            points += scoreIncrement + (int) dogCapacity.value;
-            StartCoroutine(TargetFound());
-        }
     }
 
     // Initialize game
@@ -148,8 +131,6 @@ public class TrackingManager : MonoBehaviour
         dogCapacity.maxValue = maxTrackingCapacity;
         bezierPath = new BezierCurve();
         isFirstRun = true;
-        needToPop = false;
-        swipeFinished = false;
         roundComplete = true;
         StartCoroutine(UpdateSlider());
         startPosition = dogRef.transform.position;
@@ -158,12 +139,17 @@ public class TrackingManager : MonoBehaviour
 
         // Add Event Listeners
         EventMgr.GameRestart += PlayAgain;
+        DogPathMovement.PathEnd += ReachedPathEnd;
+        DogPathMovement.TargetReached += ReachedTarget;
+
     }
 
     // Decouple Event Listeners on disable
     public void OnDisable()
     {
         EventMgr.GameRestart -= PlayAgain;
+        DogPathMovement.PathEnd -= ReachedPathEnd;
+        DogPathMovement.TargetReached -= ReachedTarget;
     }
 
     #region BezierInterface
@@ -171,11 +157,20 @@ public class TrackingManager : MonoBehaviour
     // smooth and render curve each frame as player swipes/drags on screen
     void RenderBezier()
     {
-        //bezierPath = new BezierCurve();
         bezierPath.Interpolate(dragData, interpolationScale);
         drawingPoints = bezierPath.GetDrawingPoints1();
         SetLinePoints(drawingPoints);
         lineRendererActive = true;
+        if (trackingMarker == null)
+        {
+            trackingMarker = (GameObject) Instantiate(markerPrefab, drawingPoints.LastOrDefault(), Quaternion.AngleAxis(90f, new Vector3(1, 0f, 0f)));
+        }
+        else
+        {
+            trackingMarker.transform.position = drawingPoints.LastOrDefault();
+            trackingMarker.SetActive(true);
+        }
+
     }
 
     // update line renderer with fresh count and positions
@@ -219,9 +214,7 @@ public class TrackingManager : MonoBehaviour
         {
             live.SetActive(false);
         }
-        //score.gameObject.SetActive(false);
         touchMat.SetActive(false);
-        //gameOver = false;
     }
 
     // Starts next round and updates the corresponding variables
@@ -235,13 +228,13 @@ public class TrackingManager : MonoBehaviour
         round += 1;
         StartCoroutine(FillDogCapacity());
         StartCoroutine(UpdateRoundInfoDisplay());
-        //score.text = points + " / " + maxRounds;
         if (round > maxRounds)
             return;
         pathEnable = true;
         isFirstRun = true;
-        trackCheck = true;
         SpawnMarker();
+        if(trackingMarker!=null)
+            trackingMarker.SetActive(false);
     }
 
     #region Coroutines
@@ -266,7 +259,6 @@ public class TrackingManager : MonoBehaviour
     {
         while (!gameOver)
         {
-            //Debug.Log ("Alive");
             yield return new WaitForFixedUpdate();
             remainingCapacity = maxTrackingCapacity - distanceCovered;
             dogCapacity.value = remainingCapacity;
@@ -283,27 +275,39 @@ public class TrackingManager : MonoBehaviour
         {
             instructions.text = "Round " + round;
             yield return new WaitForSeconds(1.5f);
-            //roundInfoDisplay.text = "";
         }
     }
 
     // Dog has tracked the target successfully
     IEnumerator TargetFound()
     {
-        // add success animation
-        dogAnim.SetTrigger("Win");
-        yield return new WaitForSeconds(3);
-        roundComplete = true;
+        if (!pathMove.reachedPathEnd)
+        {
+            yield return new WaitForEndOfFrame();
+            pathMove.reachedTarget = false;
+            dogAnim.SetTrigger("Win");
+            yield return new WaitForSeconds(3);
+            roundComplete = true;
+        }
+        else
+            yield return null;
     }
 
     // Dog has failed to track
-    private IEnumerator TargetNotFound()
+    IEnumerator TargetNotFound()
     {
-        // add failure animation
-        dogAnim.SetTrigger("Lose");
-        yield return new WaitForSeconds(3);
-        roundComplete = true;
+        if (!pathMove.reachedTarget)
+        {
+            yield return new WaitForEndOfFrame();
+            pathMove.reachedPathEnd = false;
+            dogAnim.SetTrigger("Lose");
+            yield return new WaitForSeconds(3);
+            roundComplete = true;
+        }
+        else
+            yield return null;
     }
+
     // Reload Level
     IEnumerator Reload()
     {
@@ -315,38 +319,48 @@ public class TrackingManager : MonoBehaviour
 
     #region EventTriggers
 
+    // Event handler for target not found
+    void ReachedPathEnd()
+    {
+        StartCoroutine(TargetNotFound());
+    }
+
+    // Event handler for target found
+    private void ReachedTarget()
+    {
+        points += scoreIncrement + (int) dogCapacity.value;
+        StartCoroutine(TargetFound());
+    }
+
     // Clear previous Swipe on Drag Begin
     public void OnBeginDrag(BaseEventData Data)
     {
         var data=(PointerEventData)Data;
         if (resetChances >= 0)
         {
-            if ((!isGameOn || pathEnable) && !reset)
+            if (!isGameOn && pathEnable)
             {
-                Vector3 screenPoint = new Vector3(data.position.x, data.position.y, 0f);
-                RaycastHit hit;
-                Ray ray = Camera.main.ScreenPointToRay(screenPoint);
-                if (Physics.Raycast(ray, out hit, 200f))
+                if (!reset)
                 {
-                    layerName = LayerMask.LayerToName(hit.collider.gameObject.layer);
-                    if (layerName == "Floor")
+                    Vector3 screenPoint = new Vector3(data.position.x, data.position.y, 0f);
+                    RaycastHit hit;
+                    Ray ray = Camera.main.ScreenPointToRay(screenPoint);
+                    if (Physics.Raycast(ray, out hit, 200f))
                     {
-                        touchStartPosition = hit.point + (Vector3.up * 0.01f);
+                        Debug.Log("Hit");
+                        layerName = LayerMask.LayerToName(hit.collider.gameObject.layer);
+                        if (layerName == "UI")
+                        {
+                            touchStartPosition = hit.point + (Vector3.up * 0.01f);
+                            marker.gameObject.SetActive(false);
+                            pathEnable = false;
+                            isGameOn = true;
+                            dragData.Clear();
+                            isFirstRun = true;
+                        }
                     }
                 }
-
-                if (Vector3.Distance(startPosition, touchStartPosition) < 1.5f && isFirstRun)
-                {
-                    marker.gameObject.SetActive(false);
-                    pathEnable = false;
-                    isGameOn = true;
-                }
             }
-        }
-        if (isGameOn)
-        {
-            dragData.Clear();
-            isFirstRun = true;
         }
     }
 
@@ -369,7 +383,6 @@ public class TrackingManager : MonoBehaviour
     // Check dist between drag points and add points that are min dist apart
     public void OnDrag(BaseEventData Data)
     {
-        //Debug.Log("Dragging");
         var data=(PointerEventData)Data;
         var screenPoint = new Vector3(data.position.x, data.position.y, 0f);
         if (isGameOn)
@@ -380,7 +393,7 @@ public class TrackingManager : MonoBehaviour
             if (Physics.Raycast(ray, out hit, 200f))
             {
                 layerName = LayerMask.LayerToName(hit.collider.gameObject.layer);
-                if (layerName == "Floor")
+                if (layerName == "Floor" || layerName == "UI")
                 {
                     worldPoint = hit.point + (Vector3.up * 0.01f);
 
@@ -392,7 +405,6 @@ public class TrackingManager : MonoBehaviour
                     }
                     else if (dragData.Count == 2 && isFirstRun) // dragData has drag start point
                     {
-                        //dragData.Add(worldPoint);
                         potentialSamplePoint = worldPoint;
                         isFirstRun = false;
                     }
@@ -403,9 +415,9 @@ public class TrackingManager : MonoBehaviour
                             dragData.RemoveAt(dragData.Count - 1);
                             needToPop = false;
                         }
-                        if ((dragData.LastOrDefault() - worldPoint).sqrMagnitude >= minSqrDistance)
+                        if ((dragData.LastOrDefault() - potentialSamplePoint).sqrMagnitude >= minSqrDistance)
                         {
-                            dragData.Add(potentialSamplePoint);
+                            dragData.Add(worldPoint);
                         }
                         else // added to prevent visual lag - removed @ next frame
                         {
@@ -457,6 +469,8 @@ public class TrackingManager : MonoBehaviour
                 life[resetChances].SetActive(false);
                 dragData.Clear();
                 isFirstRun = true;
+                pathEnable = true;
+                trackingMarker.SetActive(false);
             }
             else
                 resetChances = 0;
@@ -466,20 +480,18 @@ public class TrackingManager : MonoBehaviour
     // Signal Dog to track
     public void StartTracking()
     {
-        if (trackCheck)
+
+        if (dragData.Count < 2)
         {
-            if (dragData.Count < 2)
+            Debug.Log("Swipe data empty");
+        }
+        else
+        {
+            if (swipeFinished)
             {
-                Debug.Log("Swipe data empty");
-            }
-            else
-            {
-                if (swipeFinished)
-                {
-                    canReset = false; // Disable reset button once tracking is started
-                    startTracking = true;
-                    trackCheck = false;
-                }
+                canReset = false; // Disable reset button once tracking is started
+                startTracking = true;
+
             }
         }
     }
