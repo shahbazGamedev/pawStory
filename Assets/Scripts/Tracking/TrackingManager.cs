@@ -59,6 +59,7 @@ public class TrackingManager : MonoBehaviour
     bool lineRendererActive;
     bool canReset; // Allows the user to reset path if true
     bool trackCheck;
+    public bool allowTrack;
     //public int scoreIncrement;
     float distanceCovered;
     float remainingCapacity;
@@ -100,8 +101,8 @@ public class TrackingManager : MonoBehaviour
             drawingPoints = bezierPath.GetDrawingPoints1();
             pathMove.SetPathData(drawingPoints);
             pathMove.EnableDogPathMovement(true);
-            swipeFinished = false;
             startTracking = false;
+            swipeFinished = false;
         }
 
         // initiates gameOver function
@@ -148,13 +149,12 @@ public class TrackingManager : MonoBehaviour
         dogCapacity.maxValue = maxTrackingCapacity;
         bezierPath = new BezierCurve();
         isFirstRun = true;
-        needToPop = false;
-        swipeFinished = false;
         roundComplete = true;
         StartCoroutine(UpdateSlider());
         startPosition = dogRef.transform.position;
         startRotation = dogRef.transform.rotation;
         SpawnMarker();
+        allowTrack = true;
 
         // Add Event Listeners
         EventMgr.GameRestart += PlayAgain;
@@ -241,6 +241,7 @@ public class TrackingManager : MonoBehaviour
         pathEnable = true;
         isFirstRun = true;
         trackCheck = true;
+        allowTrack = true;
         SpawnMarker();
     }
 
@@ -321,26 +322,34 @@ public class TrackingManager : MonoBehaviour
         var data=(PointerEventData)Data;
         if (resetChances >= 0)
         {
-            if ((!isGameOn || pathEnable) && !reset)
+            if (!isGameOn || pathEnable)
             {
-                Vector3 screenPoint = new Vector3(data.position.x, data.position.y, 0f);
-                RaycastHit hit;
-                Ray ray = Camera.main.ScreenPointToRay(screenPoint);
-                if (Physics.Raycast(ray, out hit, 200f))
+                if (!reset)
                 {
-                    layerName = LayerMask.LayerToName(hit.collider.gameObject.layer);
-                    if (layerName == "Floor")
+                    Vector3 screenPoint = new Vector3(data.position.x, data.position.y, 0f);
+                    RaycastHit hit;
+                    Ray ray = Camera.main.ScreenPointToRay(screenPoint);
+                    if (Physics.Raycast(ray, out hit, 200f))
                     {
-                        touchStartPosition = hit.point + (Vector3.up * 0.01f);
+                        Debug.Log("Hit");
+                        layerName = LayerMask.LayerToName(hit.collider.gameObject.layer);
+                        if (layerName == "UI" && allowTrack)
+                        {
+                            touchStartPosition = hit.point + (Vector3.up * 0.01f);
+                            marker.gameObject.SetActive(false);
+                            pathEnable = false;
+                            isGameOn = true;
+                            allowTrack = false;
+                        }
                     }
                 }
 
-                if (Vector3.Distance(startPosition, touchStartPosition) < 1.5f && isFirstRun)
-                {
-                    marker.gameObject.SetActive(false);
-                    pathEnable = false;
-                    isGameOn = true;
-                }
+                //if (Vector3.Distance(startPosition, touchStartPosition) < 1.5f && isFirstRun)
+                //{
+                //    marker.gameObject.SetActive(false);
+                //    pathEnable = false;
+                //    isGameOn = true;
+                //}
             }
         }
         if (isGameOn)
@@ -457,6 +466,7 @@ public class TrackingManager : MonoBehaviour
                 life[resetChances].SetActive(false);
                 dragData.Clear();
                 isFirstRun = true;
+                allowTrack = true;
             }
             else
                 resetChances = 0;
