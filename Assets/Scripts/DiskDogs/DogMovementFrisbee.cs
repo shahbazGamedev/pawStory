@@ -14,7 +14,6 @@ public class DogMovementFrisbee : MonoBehaviour {
 	public Transform target;
 	public GameObject Frisbee;
 	public int Score;
-	public GameObject Floor;
 	public bool isMoving;
 	public bool isGameover;
 	public Text chance;
@@ -44,6 +43,7 @@ public class DogMovementFrisbee : MonoBehaviour {
 	Rigidbody rb;
 	Vector3 position;
 	bool isRestart;
+	int lastValue;
 
 
 
@@ -178,7 +178,7 @@ public class DogMovementFrisbee : MonoBehaviour {
 
 	public void SpawnValueReset()
 	{
-		spawnValue=Random.Range(0,3);
+		spawnValue=Random.Range(0,5);
 		targetMove=spawnPoint[spawnValue];
 	}
 
