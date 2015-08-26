@@ -27,8 +27,8 @@ public class TrackingManager : MonoBehaviour
     public GameObject[] life;
     public Text roundInfoDisplay;
     public GameObject markerPrefab;
+    public GameObject dragStartRange;
     GameObject trackingMarker;
-
 
     public int round;
     public int resetChances;
@@ -67,6 +67,7 @@ public class TrackingManager : MonoBehaviour
     Vector3 previousPosition;
     Vector3 startPosition;
     Quaternion startRotation;
+    Rigidbody markerRB;
 
     BezierCurve bezierPath;
     List<Vector3> drawingPoints;
@@ -82,6 +83,9 @@ public class TrackingManager : MonoBehaviour
         pathMove = dogRef.GetComponent<DogPathMovement>();
         dogAnim = dogRef.GetComponent<Animator>();
         line = lineRenderer.GetComponent<LineRenderer>();
+        trackingMarker = (GameObject) Instantiate(markerPrefab, Vector3.one, Quaternion.AngleAxis(90f, new Vector3(1, 0f, 0f)));
+        trackingMarker.SetActive(false);
+        markerRB = trackingMarker.GetComponent<Rigidbody>();
     }
 
     // Use this for initialization
@@ -141,7 +145,6 @@ public class TrackingManager : MonoBehaviour
         EventMgr.GameRestart += PlayAgain;
         DogPathMovement.PathEnd += ReachedPathEnd;
         DogPathMovement.TargetReached += ReachedTarget;
-
     }
 
     // Decouple Event Listeners on disable
@@ -167,8 +170,10 @@ public class TrackingManager : MonoBehaviour
         }
         else
         {
-            trackingMarker.transform.position = drawingPoints.LastOrDefault();
             trackingMarker.SetActive(true);
+            markerRB.MovePosition(drawingPoints.LastOrDefault());
+            //trackingMarker.transform.position = drawingPoints.LastOrDefault();
+
         }
 
     }
@@ -281,31 +286,21 @@ public class TrackingManager : MonoBehaviour
     // Dog has tracked the target successfully
     IEnumerator TargetFound()
     {
-        if (!pathMove.reachedPathEnd)
-        {
-            yield return new WaitForEndOfFrame();
-            pathMove.reachedTarget = false;
-            dogAnim.SetTrigger("Win");
-            yield return new WaitForSeconds(3);
-            roundComplete = true;
-        }
-        else
-            yield return null;
+        yield return new WaitForEndOfFrame();
+        pathMove.reachedTarget = false;
+        dogAnim.SetTrigger("Win");
+        yield return new WaitForSeconds(3);
+        roundComplete = true;
     }
 
     // Dog has failed to track
     IEnumerator TargetNotFound()
     {
-        if (!pathMove.reachedTarget)
-        {
-            yield return new WaitForEndOfFrame();
-            pathMove.reachedPathEnd = false;
-            dogAnim.SetTrigger("Lose");
-            yield return new WaitForSeconds(3);
-            roundComplete = true;
-        }
-        else
-            yield return null;
+        yield return new WaitForEndOfFrame();
+        pathMove.reachedPathEnd = false;
+        dogAnim.SetTrigger("Lose");
+        yield return new WaitForSeconds(3);
+        roundComplete = true;
     }
 
     // Reload Level
@@ -347,11 +342,11 @@ public class TrackingManager : MonoBehaviour
                     Ray ray = Camera.main.ScreenPointToRay(screenPoint);
                     if (Physics.Raycast(ray, out hit, 200f))
                     {
-                        Debug.Log("Hit");
+                        //Debug.Log("Hit");
                         layerName = LayerMask.LayerToName(hit.collider.gameObject.layer);
-                        if (layerName == "UI")
+                        if (layerName == "Toys")
                         {
-                            touchStartPosition = hit.point + (Vector3.up * 0.01f);
+                            touchStartPosition = dragStartRange.transform.position;
                             marker.gameObject.SetActive(false);
                             pathEnable = false;
                             isGameOn = true;
@@ -393,7 +388,7 @@ public class TrackingManager : MonoBehaviour
             if (Physics.Raycast(ray, out hit, 200f))
             {
                 layerName = LayerMask.LayerToName(hit.collider.gameObject.layer);
-                if (layerName == "Floor" || layerName == "UI")
+                if (layerName == "Floor" || layerName == "Toys")
                 {
                     worldPoint = hit.point + (Vector3.up * 0.01f);
 

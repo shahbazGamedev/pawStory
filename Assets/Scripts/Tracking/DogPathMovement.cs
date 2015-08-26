@@ -19,6 +19,7 @@ public class DogPathMovement : MonoBehaviour
     public int nodeCount;
     public int currentNode;
     public float minDistToReach;
+    public bool checkForCollision;
 
     List<Vector3> pathData;
     Vector3 currentposition;
@@ -79,6 +80,7 @@ public class DogPathMovement : MonoBehaviour
     public void EnableDogPathMovement(bool enable)
     {
         followPath = enable;
+        checkForCollision = true;
         target = pathData[0];
         target.y = transform.position.y;
         dogAnim.SetBool("Sniff", true);
@@ -122,6 +124,7 @@ public class DogPathMovement : MonoBehaviour
             {
                 reachedPathEnd = true;
                 followPath = false;
+                checkForCollision = false;
                 dogAnim.SetBool("Sniff", false);
                 if (PathEnd != null)
                     PathEnd();
@@ -132,13 +135,14 @@ public class DogPathMovement : MonoBehaviour
     // Update score if dog collides with the target and stop
     void OnCollisionEnter(Collision other)
     {
-        if (other.transform.tag == "Finish")
+        if (other.transform.tag == "Finish" && checkForCollision)
         {
             followPath = false;
             reachedTarget = true;
             dogAnim.SetBool("Sniff", false);
             if (TargetReached != null)
                 TargetReached();
+            checkForCollision = false;
         }
     }
 }
