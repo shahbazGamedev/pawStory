@@ -14,7 +14,7 @@ public class LookAtMouse : MonoBehaviour
 	    Vector3 mouseScreenPosition = Input.mousePosition;
 		mouseScreenPosition.z = transform.position.z;
 		Vector3 mouseWorldSpace = Camera.main.ScreenToWorldPoint(mouseScreenPosition);
-		transform.LookAt(mouseWorldSpace, upAxis);
-		transform.eulerAngles = new Vector3(transform.eulerAngles.x,transform.eulerAngles.y,0);
+		headRef.transform.LookAt(mouseWorldSpace, upAxis);
+		//headRef.transform.eulerAngles = new Vector3(transform.eulerAngles.x,transform.eulerAngles.y,0);
 	}
 	}
