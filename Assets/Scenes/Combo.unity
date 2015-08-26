@@ -1074,12 +1074,12 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 995963019}
-  m_LocalRotation: {x: 0, y: .707106829, z: 0, w: .707106709}
-  m_LocalPosition: {x: -15.5, y: 4, z: -8.89999962}
+  m_LocalRotation: {x: 0, y: -.707106829, z: 0, w: .707106709}
+  m_LocalPosition: {x: 13.0699978, y: 3.25016761, z: 8.02807713}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1482494152}
-  m_RootOrder: 2
+  m_Father: {fileID: 1658210635}
+  m_RootOrder: 0
 --- !u!1 &1012385363
 GameObject:
   m_ObjectHideFlags: 0
@@ -1580,7 +1580,7 @@ Transform:
   - {fileID: 982061083}
   - {fileID: 141137799}
   m_Father: {fileID: 1482494152}
-  m_RootOrder: 3
+  m_RootOrder: 2
 --- !u!224 &1224032007 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 22446566, guid: 0e51a0cb9a48dab4391f0ffcdcd144e1,
@@ -2073,7 +2073,6 @@ Transform:
   m_Children:
   - {fileID: 1098652948}
   - {fileID: 464894864}
-  - {fileID: 995963024}
   - {fileID: 1166088700}
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -2249,9 +2248,10 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1658210634}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: -1.62920685e-07}
-  m_LocalPosition: {x: -2.45000005, y: -.400000006, z: -1.79999995}
+  m_LocalPosition: {x: -2.45000005, y: -.401034594, z: -1.79999995}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 995963024}
   - {fileID: 1936275259}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -2333,6 +2333,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5053badd8448fe141b882637292c04d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  runStart: 0
+  runSpeed: 1000
+  runDragFactor: .100000001
+  runDirection: {x: 0, y: 0, z: -1}
 --- !u!1 &1678470679
 GameObject:
   m_ObjectHideFlags: 0
@@ -2595,7 +2599,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400022, guid: f583c1e9ea9846442b60aba57d71c8fd, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 9500000, guid: f583c1e9ea9846442b60aba57d71c8fd, type: 3}

@@ -2,17 +2,16 @@
 Script Author : Vaikash 
 Description   : Pooler Interface for Platform Spawn
 **/
+
 using UnityEngine;
 using System.Collections;
 
 public class PlatformManager : MonoBehaviour {
 
-	// Use this for initialization
 	void Start () {
 	
 	}
 	
-	// Update is called once per frame
 	void Update () {
 	
 	}

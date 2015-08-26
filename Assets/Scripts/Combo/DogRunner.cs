@@ -6,15 +6,46 @@ Description   : Combo - Dog Movement Controller
 using UnityEngine;
 using System.Collections;
 
-public class DogRunner : MonoBehaviour {
+public class DogRunner : MonoBehaviour
+{
+    #region Variables
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    public static DogRunner instRef;
+
+    public bool runStart;
+    public float runSpeed;
+    public float runDragFactor;
+    public Vector3 runDirection;
+
+    Rigidbody dogRB;
+    Animator dogAnim;
+
+    #endregion Variables
+
+    public void Awake()
+    {
+        instRef = this;
+        dogRB = GetComponent<Rigidbody>();
+        dogAnim = GetComponent<Animator>();
+    }
+
+    void Start()
+    {
+
+    }
+
+    void Update()
+    {
+
+    }
+
+    public void FixedUpdate()
+    {
+        if(runStart)
+        {
+           // Moves dog using rigidbody
+           dogRB.AddForce(runDirection * runSpeed * Time.deltaTime);
+           dogRB.drag = dogRB.velocity.magnitude * runDragFactor;
+        }
+    }
 }
