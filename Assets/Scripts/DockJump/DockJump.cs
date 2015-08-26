@@ -44,6 +44,7 @@ public class DockJump : MonoBehaviour {
 	public Transform CamStartTrans;
 	public Animator CamAnim;
 	public bool isCamMove;
+    bool isStartCamAnim;
 
 	// HUD
 	public GameObject GameOverPanel;
@@ -105,6 +106,7 @@ public class DockJump : MonoBehaviour {
 		waitForTap = true;
 		isGameOver = false;
 		isInJumpZone = false;
+        isStartCamAnim = true;
 
 		// dog
 		ChangeDogState (DogStates.Idle);
@@ -148,18 +150,18 @@ public class DockJump : MonoBehaviour {
 	void Update () 	{
 		if (GameMgr.Inst.IsGamePaused ()) {
 			return;
-		} 
+		}
+
 		// Detect Tap
-		if ((Input.GetMouseButtonDown (0) || Input.GetKeyUp (KeyCode.Space)) 
-            && !isGameOver ) 
+		if ((Input.GetMouseButtonDown (0) || Input.GetKeyUp (KeyCode.Space))
+            && !isGameOver) 
 		{
-			if (waitForTap ) 
+			if (waitForTap) 
 			{
 				waitForTap = false;
 				TapToPlayTxt.text = "Tap to Jump";
 				ChangeDogState (DogStates.Run);
-				CamAnim.enabled = false;
-
+                CamAnim.enabled = false;
 			}
 			else if (isInJumpZone && dogState == DogStates.Run) 
 			{
@@ -341,6 +343,12 @@ public class DockJump : MonoBehaviour {
 			Transition();
 		}
 	}
+
+
+    public void OnStartCamAnim()
+    {
+        isStartCamAnim = false;
+    }
 	
 }
 
