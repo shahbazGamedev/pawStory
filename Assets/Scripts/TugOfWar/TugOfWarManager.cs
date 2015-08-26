@@ -3,9 +3,8 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class TugOfWarManager : MonoBehaviour {
-	public GameObject win;
+
 	public GameObject gameOver;
-	public GameObject dog;
 	public GameObject pulley;
 	public bool gameStart;
 	public Text winCondition;
@@ -24,7 +23,7 @@ public class TugOfWarManager : MonoBehaviour {
 	void Start () 
 	{
 		gameStart=false;
-		win.SetActive(false);
+		//win.SetActive(false);
 		gameOver.SetActive(false);
 	    rb=GetComponent<Rigidbody>();
 		dogAnim=GetComponent<Animator>();
@@ -72,7 +71,7 @@ public class TugOfWarManager : MonoBehaviour {
 	void Movement()
 	{
 		Debug.Log ("MovingForward");
-		rb.AddForce(transform.forward*speed);
+		rb.AddForce(0,0,5*speed);
 	}
 
 
@@ -87,19 +86,19 @@ public class TugOfWarManager : MonoBehaviour {
 	{
 	if(other.gameObject.tag=="Finish")
 		{
-			dog.SetActive(false);
+		//	dog.SetActive(false);
 			gameOver.SetActive(true);
 			Debug.Log ("win");
-			win.SetActive(true);
+			//win.SetActive(true);
 			winCondition.text="PLAYER WINS";
 			pulley.SetActive(false);
 			}
 	if(other.gameObject.tag=="LoseLine")
 		{
-			dog.SetActive(false);
+		//	dog.SetActive(false);
 			gameOver.SetActive(true);
 			Debug.Log ("lose");
-		    win.SetActive(true);
+		    //win.SetActive(true);
 		    winCondition.text="PUPPY WINS";
 		    pulley.SetActive(false);
 		}

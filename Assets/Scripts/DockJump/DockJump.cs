@@ -39,11 +39,13 @@ public class DockJump : MonoBehaviour {
 	List<float> jumpDistList;
 	Vector3 dir;// = new Vector3 (0, 0, 1);
 
+
 	// Camera
 	public GameObject CamObj;
 	public Transform CamStartTrans;
 	public Animator CamAnim;
 	public bool isCamMove;
+
 
 	// HUD
 	public GameObject GameOverPanel;
@@ -58,6 +60,7 @@ public class DockJump : MonoBehaviour {
 	int score;
 
 	bool waitForTap;
+	public bool play;
 	int jumpCount;
 	int maxJumpCount;
 	public Transform target;
@@ -142,16 +145,19 @@ public class DockJump : MonoBehaviour {
 	void Start ()
 	{
 		OnRestartGame ();
-    }
+		StartCoroutine(PlayGame());
+	}
 
 
 	void Update () 	{
+
+
 		if (GameMgr.Inst.IsGamePaused ()) {
 			return;
 		} 
 		// Detect Tap
 		if ((Input.GetMouseButtonDown (0) || Input.GetKeyUp (KeyCode.Space)) 
-            && !isGameOver ) 
+            && !isGameOver && play ) 
 		{
 			if (waitForTap ) 
 			{
@@ -340,6 +346,12 @@ public class DockJump : MonoBehaviour {
 			isCamMove = false;
 			Transition();
 		}
+	}
+	IEnumerator PlayGame()
+	{
+		yield return new WaitForSeconds(6.0f);
+		play=true;
+		
 	}
 	
 }
