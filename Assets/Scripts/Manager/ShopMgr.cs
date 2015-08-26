@@ -18,8 +18,6 @@ public class ShopItem
 	bool isLocked;
 	string imgName;
 	long cost;
-
-
 }
 
 
@@ -44,8 +42,6 @@ public class ShopMgr : MonoBehaviour
 	{
 		return true;
 	}
-
-
 
 }
 

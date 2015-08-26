@@ -100,7 +100,7 @@ public class GameMgr : MonoBehaviour
         {
             EventMgr.OnGamePause();
             isPaused = true;
-        }        
+        }
     }
 
     
