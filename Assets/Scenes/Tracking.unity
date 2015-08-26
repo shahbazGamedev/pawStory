@@ -154,11 +154,20 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 6409158, guid: 736e847efe7d1c0468403caac02e96ff, type: 2}
+    - target: {fileID: 0}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 158032, guid: 736e847efe7d1c0468403caac02e96ff, type: 2}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 158032, guid: 736e847efe7d1c0468403caac02e96ff, type: 2}
+      propertyPath: m_TagString
+      value: Respawn
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 5437278, guid: 736e847efe7d1c0468403caac02e96ff, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 736e847efe7d1c0468403caac02e96ff, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &141228056
@@ -192,10 +201,10 @@ RectTransform:
   - {fileID: 1670823055}
   m_Father: {fileID: 1828201171}
   m_RootOrder: 2
-  m_AnchorMin: {x: 1, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -18, y: -629.67334}
-  m_SizeDelta: {x: 250, y: 80.1435394}
+  m_AnchorMin: {x: .79231441, y: .21375154}
+  m_AnchorMax: {x: 1, y: .312503099}
+  m_AnchoredPosition: {x: -18, y: -.673339844}
+  m_SizeDelta: {x: -16, y: 1.14355469}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &141228058
 MonoBehaviour:
@@ -1065,6 +1074,7 @@ MonoBehaviour:
   nodeCount: 0
   currentNode: 0
   minDistToReach: .200000003
+  checkForCollision: 0
 --- !u!95 &912596051
 Animator:
   serializedVersion: 3
@@ -1113,11 +1123,11 @@ RectTransform:
   - {fileID: 1736086022}
   m_Father: {fileID: 1828201171}
   m_RootOrder: 3
-  m_AnchorMin: {x: 1, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -18.000061, y: -644.67334}
-  m_SizeDelta: {x: 250, y: 70}
-  m_Pivot: {x: 1, y: 1}
+  m_AnchorMin: {x: .79231441, y: .111295439}
+  m_AnchorMax: {x: .982819438, y: .193757668}
+  m_AnchoredPosition: {x: 3.99993896, y: -3.67333984}
+  m_SizeDelta: {x: 6, y: 4}
+  m_Pivot: {x: 1, y: 0}
 --- !u!114 &941735214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1630,7 +1640,7 @@ LineRenderer:
     m_EndColor:
       serializedVersion: 2
       rgba: 4294967295
-  m_UseWorldSpace: 1
+  m_UseWorldSpace: 0
 --- !u!4 &1348902427
 Transform:
   m_ObjectHideFlags: 0
@@ -1669,6 +1679,7 @@ MonoBehaviour:
   - {fileID: 345070356}
   roundInfoDisplay: {fileID: 1852210272}
   markerPrefab: {fileID: 158032, guid: 736e847efe7d1c0468403caac02e96ff, type: 2}
+  dragStartRange: {fileID: 1561429184}
   round: 0
   resetChances: 3
   points: 0
@@ -1895,6 +1906,10 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1525114362}
+--- !u!1 &1561429184 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 158032, guid: 736e847efe7d1c0468403caac02e96ff, type: 2}
+  m_PrefabInternal: {fileID: 109345702}
 --- !u!1001 &1609463709
 Prefab:
   m_ObjectHideFlags: 0
