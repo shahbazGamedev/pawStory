@@ -349,7 +349,7 @@ public class DockJump : MonoBehaviour {
 
 	IEnumerator PlayGame()
 	{
-		yield return new WaitForSeconds(6.0f);
+		yield return new WaitForSeconds(5.0f);
 		play=true;
 		
 	}
