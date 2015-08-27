@@ -28,7 +28,14 @@ public class TugOfWarManager : MonoBehaviour {
 	    rb=GetComponent<Rigidbody>();
 		dogAnim=GetComponent<Animator>();
 	}
+	void OnEnable() {
+		EventMgr.GameRestart += OnRestartGame;
+	}
 	
+	
+	void OnDisable() {
+		EventMgr.GameRestart -= OnRestartGame;
+	}
 
 	void Update ()
 	{
@@ -49,8 +56,10 @@ public class TugOfWarManager : MonoBehaviour {
 				Debug.Log (value);
 				Movement();
 			}
+
 			else
 			{
+
 				BackMovement();
 			}
 			preAngle=angle;
@@ -71,7 +80,7 @@ public class TugOfWarManager : MonoBehaviour {
 	void Movement()
 	{
 		Debug.Log ("MovingForward");
-		rb.AddForce(0,0,5*speed);
+		rb.AddForce(0,0,-25*speed);
 	}
 
 
@@ -105,7 +114,7 @@ public class TugOfWarManager : MonoBehaviour {
 	}
 
 
-	public void ReStart()
+	public void OnRestartGame()
 	{
 		gameStart=false;
 		value=0;
