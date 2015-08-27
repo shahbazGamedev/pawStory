@@ -2,15 +2,15 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class TugOfWarManager : MonoBehaviour {
-
-	public GameObject gameOver;
+public class TugOfWarManager : MonoBehaviour 
+{
+	public GameObject panelGameOver;
 	public GameObject pulley;
-	public bool gameStart;
+	public float speed;
 	public Text winCondition;
 	public Text play;
-	public float speed;
 	private Animator dogAnim;
+	bool gameStart;
 	Rigidbody rb;
 	float angle;
 	float preAngle;
@@ -18,16 +18,15 @@ public class TugOfWarManager : MonoBehaviour {
 	Vector2 normalizedPositions;
 
 
-
-
 	void Start () 
 	{
 		gameStart=false;
-		//win.SetActive(false);
-		gameOver.SetActive(false);
+		panelGameOver.SetActive(false);
 	    rb=GetComponent<Rigidbody>();
 		dogAnim=GetComponent<Animator>();
 	}
+
+
 	void OnEnable() {
 		EventMgr.GameRestart += OnRestartGame;
 	}
@@ -36,6 +35,7 @@ public class TugOfWarManager : MonoBehaviour {
 	void OnDisable() {
 		EventMgr.GameRestart -= OnRestartGame;
 	}
+
 
 	void Update ()
 	{
@@ -71,11 +71,14 @@ public class TugOfWarManager : MonoBehaviour {
 	{
 
 	}
+
+
     public void OnPointerDown()
 	{
 		gameStart=true;
 		play.text="";
 	}
+
 
 	void Movement()
 	{
@@ -95,20 +98,15 @@ public class TugOfWarManager : MonoBehaviour {
 	{
 	if(other.gameObject.tag=="Finish")
 		{
-		//	dog.SetActive(false);
-			gameOver.SetActive(true);
-			Debug.Log ("win");
-			//win.SetActive(true);
+		    panelGameOver.SetActive(true);
 			winCondition.text="PLAYER WINS";
 			pulley.SetActive(false);
-			}
+		}
 	if(other.gameObject.tag=="LoseLine")
 		{
-		//	dog.SetActive(false);
-			gameOver.SetActive(true);
-			Debug.Log ("lose");
-		    //win.SetActive(true);
-		    winCondition.text="PUPPY WINS";
+		
+			panelGameOver.SetActive(true);
+			winCondition.text="PUPPY WINS";
 		    pulley.SetActive(false);
 		}
 	}
