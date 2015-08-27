@@ -17,6 +17,9 @@ public class DogRunner : MonoBehaviour
     public float runDragFactor;
     public Vector3 runDirection;
 
+    bool updateAnim;
+    float dogVelocity;
+
     Rigidbody dogRB;
     Animator dogAnim;
 
@@ -31,12 +34,17 @@ public class DogRunner : MonoBehaviour
 
     void Start()
     {
-
+        runStart = true;
+        updateAnim = true;
     }
 
     void Update()
     {
-
+        if(updateAnim)
+        {
+            dogAnim.SetFloat("Speed", dogVelocity);
+            updateAnim = false;
+        }
     }
 
     public void FixedUpdate()
@@ -46,6 +54,11 @@ public class DogRunner : MonoBehaviour
            // Moves dog using rigidbody
            dogRB.AddForce(runDirection * runSpeed * Time.deltaTime);
            dogRB.drag = dogRB.velocity.magnitude * runDragFactor;
+           dogVelocity = 1;
+        }
+        else
+        {
+            dogVelocity = 0;
         }
     }
 }
