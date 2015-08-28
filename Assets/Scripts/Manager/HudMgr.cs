@@ -66,7 +66,10 @@ public class HudMgr : MonoBehaviour
                  curScene.Equals (GlobalConst.Scene_Skipping) ||
                  curScene.Equals (GlobalConst.Scene_Tugofwar) ||
                  curScene.Equals (GlobalConst.Scene_Agility) ||
-		         curScene.Equals (GlobalConst.Scene_Bubble)) 
+		         curScene.Equals (GlobalConst.Scene_Bubble) ||
+                curScene.Equals(GlobalConst.Scene_FollowTraining) ||
+                curScene.Equals(GlobalConst.Scene_CatchTraining)
+            )
 		{
 			if(GameMgr.Inst.IsGamePaused())
 				EventMgr.OnGameResume();

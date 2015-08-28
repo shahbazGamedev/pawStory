@@ -19,6 +19,10 @@ public class ColorLessonScr : MonoBehaviour
 	public List<Sprite> QuestionList;
 	public Animator DogAnimator;
 	public ParticleSystem Ps;
+    public GameObject Image_Life_01;
+    public GameObject Image_Life_02;
+    public GameObject Image_Life_03;
+
 
 	int dogAnimState = 0; // 0: Idle, 1: Idle 2, 2: Idle 3, 3: Run 
 	int dogSpeed = 10;
@@ -34,6 +38,8 @@ public class ColorLessonScr : MonoBehaviour
 	float pickupGap = 5.0f;
 	bool isGameOver = false;
 	Vector3 dogMoveOffset = Vector3.zero;
+    int wrongAnswer = 0;
+    int totalWrongAnswers = 3;
 
 	// Swipe
 	private Vector3 firstPos;
@@ -161,20 +167,25 @@ public class ColorLessonScr : MonoBehaviour
 		}
 		else
 		{
-			if (other.name.Contains ("Ans"))
-			{
-				Ps.gameObject.transform.position = other.gameObject.transform.position;
-				ScoreVal++;
-				Ps.Play();
-			}
+            if (other.name.Contains("Ans"))
+            {
+                Ps.gameObject.transform.position = other.gameObject.transform.position;
+                ScoreVal++;
+                Ps.Play();
+            }
+            else
+            {
+                wrongAnswer++;
+                if (wrongAnswer >= totalWrongAnswers)
+                    OnGameOver();
+                else
+                    UpdateLifeUI();
+            }
 			ScoreText.text = ScoreVal + " / "  + TotalQuestions;
 			curQuestion++;
 			if (curQuestion >= TotalQuestions)
 			{
-				isGameOver = true;
-				GameOverScreenObj.SetActive(true);
-				GameHudObj.SetActive(false);
-				GameOverText.text = "Collected " + ScoreVal +  " out of " + TotalQuestions;
+                OnGameOver();
 			}
 			else
 			{
@@ -311,6 +322,10 @@ public class ColorLessonScr : MonoBehaviour
 
 		dragDistance = Screen.height * 0.1f;
 		QuestionText.text = "Tap to start";
+
+        wrongAnswer = 0;
+        totalWrongAnswers = 3;
+        UpdateLifeUI();
 	}
 
 
@@ -321,6 +336,39 @@ public class ColorLessonScr : MonoBehaviour
 
 	void IdleStartFired(){
 	}
+
+
+    void UpdateLifeUI()
+    {
+        Image_Life_01.SetActive(true);
+        Image_Life_02.SetActive(true);
+        Image_Life_03.SetActive(true);
+
+        switch (wrongAnswer)
+        {
+            case 1:
+                Image_Life_03.SetActive(false);
+                break;
+            case 2:
+                Image_Life_02.SetActive(false);
+                Image_Life_03.SetActive(false);
+                break;
+            case 3:
+                Image_Life_01.SetActive(false);
+                Image_Life_02.SetActive(false);
+                Image_Life_03.SetActive(false);
+                break;
+        }
+    }
+
+
+    void OnGameOver()
+    {
+        isGameOver = true;
+        GameOverScreenObj.SetActive(true);
+        GameHudObj.SetActive(false);
+        GameOverText.text = "Collected " + ScoreVal + " out of " + TotalQuestions;
+    }
 
 
 }
