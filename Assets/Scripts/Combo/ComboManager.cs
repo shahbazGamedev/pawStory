@@ -9,6 +9,7 @@ using System.Collections;
 public class ComboManager : MonoBehaviour
 {
 
+
     // Event Dispatcher
     public delegate void ComboEventBroadcast();
     public static ComboEventBroadcast StartGame;
@@ -21,6 +22,7 @@ public class ComboManager : MonoBehaviour
 
     void Start()
     {
+        
         TouchManager.PatternRecognized += HandleSwipeDetection;
     }
 
@@ -48,5 +50,7 @@ public class ComboManager : MonoBehaviour
         }
     }
 
+
     #endregion EventHandlers
+ 
 }

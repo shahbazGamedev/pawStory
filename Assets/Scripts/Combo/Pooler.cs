@@ -6,7 +6,7 @@ Description   : Object Pooler
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using UnityEngine.UI;
 
 public class Pooler : MonoBehaviour
 {
@@ -17,6 +17,9 @@ public class Pooler : MonoBehaviour
 
     public int poolerObjLimit;
     public PoolerData[] PoolHolder;
+    public Text inst;
+    int count;
+    GameObject instance;
 
     [System.Serializable]
     public struct PoolerData
@@ -79,7 +82,7 @@ public class Pooler : MonoBehaviour
     {
         for (int i = 0; i < poolerObjLimit; i++)
         {
-            var instance=(GameObject)Instantiate(data.prefab, Vector3.zero, Quaternion.identity);
+            instance=(GameObject)Instantiate(data.prefab, Vector3.zero, data.prefab.transform.rotation);
             instance.transform.parent = transform;
             data.pool.Add(instance);
             instance.SetActive(false);
@@ -108,17 +111,18 @@ public class Pooler : MonoBehaviour
             if(!pooler.pool[i].activeInHierarchy)
             {
                 polledInst = pooler.pool[i];
-                polledInst.SetActive(true);
+                //polledInst.SetActive(true);
                 return polledInst;
             }
         }
         if (pooler.canGrow)
         {
-            Debug.Log("Growing");
-            var instance=(GameObject)Instantiate(pooler.prefab, Vector3.zero, Quaternion.identity);
+            count += 1;
+            inst.text = "" + count;
+            instance=(GameObject)Instantiate(pooler.prefab, Vector3.zero, pooler.prefab.transform.rotation);
             instance.transform.parent = this.gameObject.transform;
             pooler.pool.Add(instance);
-            instance.SetActive(true);
+            //instance.SetActive(true);
             return instance;
         }
         return null;
@@ -128,7 +132,7 @@ public class Pooler : MonoBehaviour
     public void Sleep(GameObject Obj)
     {
         Obj.transform.position = Vector3.zero;
-        Obj.transform.rotation = Quaternion.identity;
+        //Obj.transform.rotation = Quaternion.identity;
         Obj.SetActive(false);
     }
 

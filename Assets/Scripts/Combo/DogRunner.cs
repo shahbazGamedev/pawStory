@@ -39,6 +39,7 @@ public class DogRunner : MonoBehaviour
         runStart = true;
         updateAnim = true;
         ComboManager.Jump += HandleDogJump;
+        //dogRB.mass = 10;
     }
 
     public void OnDisable()
@@ -53,6 +54,7 @@ public class DogRunner : MonoBehaviour
             dogAnim.SetFloat("Speed", dogVelocity);
             updateAnim = false;
         }
+        CamUp();
     }
 
     public void FixedUpdate()
@@ -68,28 +70,30 @@ public class DogRunner : MonoBehaviour
         {
             dogVelocity = 0;
         }
+
     }
 
-    public void LateUpdate()
+    // Camera Movement
+    void CamUp()
     {
         var pos = Camera.main.transform.parent.transform.position;
         pos.z = dogRB.transform.position.z;
         Camera.main.transform.parent.transform.position = pos;
     }
 
-    void OnTriggerStay()
-    {
-        isGrounded = true;
-    }
-
-    void OnTriggerExit()
+    public void OnCollisionExit(Collision collision)
     {
         isGrounded = false;
     }
 
+    public void OnCollisionStay(Collision collision)
+    {
+        isGrounded = true;
+    }
+
     #region EventHandlers
 
-    // Handle Hump Event
+    // Handle Jump Event
     void HandleDogJump()
     {
         if (isGrounded)
