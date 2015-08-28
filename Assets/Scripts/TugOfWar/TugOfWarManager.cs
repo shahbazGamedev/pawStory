@@ -53,7 +53,6 @@ public class TugOfWarManager : MonoBehaviour
 			if(angle-preAngle>270)
 			{
 				value+=1;
-				Debug.Log (value);
 				Movement();
 			}
 
@@ -82,14 +81,12 @@ public class TugOfWarManager : MonoBehaviour
 
 	void Movement()
 	{
-		Debug.Log ("MovingForward");
 		rb.AddForce(0,0,-25*speed);
 	}
 
 
 	 void BackMovement()
 	{
-		Debug.Log("MovingBackwards");
 		rb.AddForce(0,0,1*speed);
 	}
 
@@ -104,8 +101,7 @@ public class TugOfWarManager : MonoBehaviour
 		}
 	if(other.gameObject.tag=="LoseLine")
 		{
-		
-			panelGameOver.SetActive(true);
+		    panelGameOver.SetActive(true);
 			winCondition.text="PUPPY WINS";
 		    pulley.SetActive(false);
 		}

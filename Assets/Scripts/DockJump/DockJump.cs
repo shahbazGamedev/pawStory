@@ -27,6 +27,7 @@ public class DockJump : MonoBehaviour {
 	// Dog
 	public GameObject DogObj;
 	public Animator DogAnim;
+	public GameObject TaptoPlay;
 	float runSpeed;
 	float jumpForce;
 	float jumpspeed;
@@ -145,6 +146,7 @@ public class DockJump : MonoBehaviour {
 	{
 		OnRestartGame ();
 		StartCoroutine(PlayGame());
+		TaptoPlay.SetActive(false);
 	}
 
 
@@ -351,6 +353,7 @@ public class DockJump : MonoBehaviour {
 	{
 		yield return new WaitForSeconds(5.0f);
 		play=true;
+		TaptoPlay.SetActive(true);
 		
 	}
 	

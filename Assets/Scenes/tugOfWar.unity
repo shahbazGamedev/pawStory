@@ -240,8 +240,9 @@ Transform:
   - {fileID: 30237921}
   - {fileID: 1841950354}
   - {fileID: 1691246064}
+  - {fileID: 1527792794}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
 --- !u!1001 &53037410
 Prefab:
   m_ObjectHideFlags: 0
@@ -279,7 +280,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 468178, guid: cf38f281d9bed456d971f1eb96c74a3b, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 170542, guid: cf38f281d9bed456d971f1eb96c74a3b, type: 2}
       propertyPath: m_Name
@@ -997,7 +998,7 @@ RectTransform:
   - {fileID: 1343506082}
   - {fileID: 1144326714}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -1216,11 +1217,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1527792790}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -275.058167, y: -171.865875, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_Father: {fileID: 33917881}
+  m_RootOrder: 6
 --- !u!1 &1587092837
 GameObject:
   m_ObjectHideFlags: 0
@@ -1522,10 +1523,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panelGameOver: {fileID: 451055519}
   pulley: {fileID: 918379341}
-  gameStart: 0
+  speed: 15
   winCondition: {fileID: 1102536800}
   play: {fileID: 1587092839}
-  speed: 15
 --- !u!1 &1841950352
 GameObject:
   m_ObjectHideFlags: 0
