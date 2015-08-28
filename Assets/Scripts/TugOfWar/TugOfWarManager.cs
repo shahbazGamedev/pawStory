@@ -10,6 +10,7 @@ public class TugOfWarManager : MonoBehaviour
 	public Text winCondition;
 	public Text play;
 	private Animator dogAnim;
+	public Vector3 dogPos;
 	bool gameStart;
 	Rigidbody rb;
 	float angle;
@@ -20,6 +21,7 @@ public class TugOfWarManager : MonoBehaviour
 
 	void Start () 
 	{
+		dogPos=transform.position;
 		gameStart=false;
 		panelGameOver.SetActive(false);
 	    rb=GetComponent<Rigidbody>();
@@ -98,12 +100,14 @@ public class TugOfWarManager : MonoBehaviour
 		    panelGameOver.SetActive(true);
 			winCondition.text="PLAYER WINS";
 			pulley.SetActive(false);
+
 		}
 	if(other.gameObject.tag=="LoseLine")
 		{
 		    panelGameOver.SetActive(true);
 			winCondition.text="PUPPY WINS";
 		    pulley.SetActive(false);
+
 		}
 	}
 
@@ -113,6 +117,10 @@ public class TugOfWarManager : MonoBehaviour
 		gameStart=false;
 		value=0;
 		play.text="Tap To Start";
+		panelGameOver.SetActive(false);
+		pulley.SetActive(true);
+		transform.position=dogPos;
+
 	}
 
 
