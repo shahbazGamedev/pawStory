@@ -100,6 +100,7 @@ public class TugOfWarManager : MonoBehaviour
 		    panelGameOver.SetActive(true);
 			winCondition.text="PLAYER WINS";
 			pulley.SetActive(false);
+			gameStart=false;
 
 		}
 	if(other.gameObject.tag=="LoseLine")
@@ -107,6 +108,7 @@ public class TugOfWarManager : MonoBehaviour
 		    panelGameOver.SetActive(true);
 			winCondition.text="PUPPY WINS";
 		    pulley.SetActive(false);
+			gameStart=false;
 
 		}
 	}
