@@ -8,6 +8,11 @@ using System.Collections;
 
 public class ComboManager : MonoBehaviour
 {
+    public static ComboManager instRef;
+    bool listenForStart;
+
+    //UI Components
+    public GameObject gameOverPanel;
 
 
     // Event Dispatcher
@@ -17,12 +22,12 @@ public class ComboManager : MonoBehaviour
 
     public void Awake()
     {
-
+        instRef = this;
     }
 
     void Start()
     {
-        
+        listenForStart = true;
         TouchManager.PatternRecognized += HandleSwipeDetection;
     }
 
@@ -48,8 +53,20 @@ public class ComboManager : MonoBehaviour
                 Jump();
             }
         }
+        else if (listenForStart)
+        {
+            if (pattern == SwipeRecognizer.TouchPattern.singleTap)
+            {
+                if (StartGame != null)
+                    StartGame();
+            }
+        }        
     }
 
+    public void GameOver()
+    {
+        gameOverPanel.SetActive(true);
+    }
 
     #endregion EventHandlers
  
