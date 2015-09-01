@@ -131,9 +131,22 @@ public class Pooler : MonoBehaviour
     // Pseudo Destroy Code
     public void Sleep(GameObject Obj)
     {
-        Obj.transform.position = Vector3.zero;
+        //Obj.transform.position = Vector3.zero;
         //Obj.transform.rotation = Quaternion.identity;
         Obj.SetActive(false);
+    }
+
+    // Disable all pooled Objects
+    public void HideAll()
+    {
+        foreach (var obj in PoolHolder)
+        {
+            for (int i = 0; i < obj.pool.Count; i++)
+            {
+                var pooledObj=obj.pool[i];
+                pooledObj.SetActive(false);
+            }
+        }
     }
 
     #endregion Interface

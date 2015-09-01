@@ -12,7 +12,6 @@ public class SpawnTrigger : MonoBehaviour
 
     public static int prevPlat;
     public static int beforePrevPlat;
-    public static int count;
     public float[] distBtnPlatforms; //  starts from index 1
 
     int randNo;

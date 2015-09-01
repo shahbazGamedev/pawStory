@@ -9,6 +9,10 @@ using System.Collections;
 public class ComboManager : MonoBehaviour
 {
     public static ComboManager instRef;
+
+    public GameObject initialPlat1;
+    public GameObject initialPlat2;
+    
     bool listenForStart;
 
     //UI Components
@@ -29,11 +33,13 @@ public class ComboManager : MonoBehaviour
     {
         listenForStart = true;
         TouchManager.PatternRecognized += HandleSwipeDetection;
+        EventMgr.GameRestart += OnReset;
     }
 
     public void OnDisable()
     {
         TouchManager.PatternRecognized -= HandleSwipeDetection;
+        EventMgr.GameRestart -= OnReset;
     }
 
     void Update()
@@ -66,6 +72,19 @@ public class ComboManager : MonoBehaviour
     public void GameOver()
     {
         gameOverPanel.SetActive(true);
+    }
+
+    // Game Reset
+    void OnReset()
+    {
+        initialPlat1.SetActive(true);
+        initialPlat2.SetActive(true);
+        Pooler.InstRef.HideAll();
+        DogRunner.instRef.ResetPos();
+        gameOverPanel.SetActive(false);
+
+        SpawnTrigger.beforePrevPlat = 1;
+        SpawnTrigger.prevPlat = 1;
     }
 
     #endregion EventHandlers

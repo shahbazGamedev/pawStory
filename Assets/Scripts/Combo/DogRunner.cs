@@ -20,6 +20,7 @@ public class DogRunner : MonoBehaviour
     public bool isGrounded;
 
     public bool updateAnim;
+    Vector3 startPos;
     float dogVelocity;
     bool gameOver;
 
@@ -41,6 +42,7 @@ public class DogRunner : MonoBehaviour
         ComboManager.StartGame += StartGame;
         gameOver = true;
         //dogRB.mass = 10;
+        startPos = transform.position;
     }
 
     public void OnDisable()
@@ -97,6 +99,12 @@ public class DogRunner : MonoBehaviour
             dogAnim.SetFloat("Speed", dogVelocity);
             updateAnim = false;
         }
+    }
+
+    // Reset Dog Pos
+    public void ResetPos()
+    {
+        transform.position = startPos;
     }
 
     public void OnCollisionExit(Collision collision)
