@@ -51,7 +51,7 @@ public class DogRunner : MonoBehaviour
         ComboManager.StartGame -= StartGame;
     }
 
-    void Update()
+    void LateUpdate()
     {
         CamUp();
     }

@@ -30,7 +30,7 @@ public class FloatingOrigin : MonoBehaviour
             for(int i=0;i<objects.Length;i++)
             {
                 t = (Transform)objects[i];
-                if(t.tag == "EditorOnly")
+                if(t.tag == "Stationary")
                 {
                     continue;
                 }
