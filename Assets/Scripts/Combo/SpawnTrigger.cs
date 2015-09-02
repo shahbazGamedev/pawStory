@@ -15,14 +15,12 @@ public class SpawnTrigger : MonoBehaviour
     public float[] distBtnPlatforms; //  starts from index 1
 
     int randNo;
-    Renderer myRend;
     GameObject instance;
 
     #endregion var
 
     public void Awake()
     {
-        myRend = GetComponentInChildren<Renderer>();
         prevPlat = 1;
     }
 
@@ -35,7 +33,7 @@ public class SpawnTrigger : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            randNo = Random.Range(1, 6);
+            randNo = Random.Range(1, 4);
             randNo = randNo > 1 ? 1 : 2;
             randNo = prevPlat == 2 ? 1 : randNo;
             instance = Pooler.InstRef.GetPooledObject(randNo);
@@ -48,7 +46,7 @@ public class SpawnTrigger : MonoBehaviour
 
     public void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player" && DogRunner.instRef.runStart)
         {
             Pooler.InstRef.Sleep(gameObject);
         }

@@ -6,7 +6,6 @@ Description   : Object Pooler
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.UI;
 
 public class Pooler : MonoBehaviour
 {
@@ -17,8 +16,7 @@ public class Pooler : MonoBehaviour
 
     public int poolerObjLimit;
     public PoolerData[] PoolHolder;
-    public Text inst;
-    int count;
+
     GameObject instance;
 
     [System.Serializable]
@@ -117,8 +115,6 @@ public class Pooler : MonoBehaviour
         }
         if (pooler.canGrow)
         {
-            count += 1;
-            inst.text = "" + count;
             instance=(GameObject)Instantiate(pooler.prefab, Vector3.zero, pooler.prefab.transform.rotation);
             instance.transform.parent = this.gameObject.transform;
             pooler.pool.Add(instance);
