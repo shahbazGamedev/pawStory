@@ -33,11 +33,11 @@ public class SpawnTrigger : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            randNo = Random.Range(1, 4);
-            randNo = randNo > 1 ? 1 : 2;
+            randNo = Random.Range(1, 8);
+            randNo = randNo > 3 ? 1 : randNo;
             randNo = prevPlat == 2 ? 1 : randNo;
             instance = Pooler.InstRef.GetPooledObject(randNo);
-            instance.transform.position = transform.position - new Vector3(0f, 0f, 2 * distBtnPlatforms[beforePrevPlat > prevPlat ? beforePrevPlat : prevPlat]);
+            instance.transform.position = transform.position - new Vector3(0f, 0f, 2 * distBtnPlatforms[beforePrevPlat == 2  ? 2 : prevPlat]);
             instance.SetActive(true);
             beforePrevPlat = prevPlat;
             prevPlat = randNo;
