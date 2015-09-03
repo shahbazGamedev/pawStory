@@ -105,9 +105,7 @@ public class ComboManager : MonoBehaviour
         SpawnTrigger.prevPlat = 1;
         DogRunner.instRef.ResetPos();
 
-        //if(!initialPlat1.activeInHierarchy)
         initialPlat1.SetActive(true);
-        //if (!initialPlat2.activeInHierarchy)
         initialPlat2.SetActive(true);
     }
 
