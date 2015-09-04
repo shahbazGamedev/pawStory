@@ -56,19 +56,7 @@ public class TugOfWarManager : MonoBehaviour
 		gameStart=true;
 		play.text="";
 	}
-
-
-	void Movement()
-	{
-		rb.AddForce(0,0,-25*speed);
-	}
-
-
-	 void BackMovement()
-	{
-		rb.AddForce(0,0,1*speed);
-	}
-
+	
 
 	 void OnTriggerEnter(Collider other)
 	{
@@ -107,13 +95,13 @@ public class TugOfWarManager : MonoBehaviour
 			if(angle-preAngle>270)
 			{
 				value+=1;
-				Movement();
+				rb.AddForce(0,0,-25*speed);
 			}
 			
 			else
 			{
 				
-				BackMovement();
+				rb.AddForce(0,0,1*speed);
 			}
 			preAngle=angle;
 		}
