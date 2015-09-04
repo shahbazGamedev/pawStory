@@ -25,7 +25,7 @@ public class DogRunner : MonoBehaviour
     bool gameOver;
 
     Rigidbody dogRB;
-    Animator dogAnim;
+    public Animator dogAnim;
 
     #endregion Variables
 

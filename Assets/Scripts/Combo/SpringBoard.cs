@@ -32,6 +32,7 @@ public class SpringBoard : MonoBehaviour
         {
             // code to slingshot dog
             other.GetComponent<Rigidbody>().AddForce(new Vector3(0f, 1f, -0.2f).normalized * springForce, ForceMode.Impulse);
+            DogRunner.instRef.dogAnim.SetTrigger("Fly");
         }
     }
 }
