@@ -41,30 +41,7 @@ public class TugOfWarManager : MonoBehaviour
 
 	void Update ()
 	{
-		if(gameStart==true)
-		{
-			normalizedPositions = new Vector2((Input.mousePosition.x/Screen.width-0.5f), ((Input.mousePosition.y/Screen.height)-0.5f));
-			angle = Mathf.Atan2(normalizedPositions.y, normalizedPositions.x)*Mathf.Rad2Deg; 
-			pulley.transform.eulerAngles = new Vector3( 0,0,angle);
-			if(angle<0)
-			{
-				angle += 360;
-				//Debug.Log (angle);
-			}
-			
-			if(angle-preAngle>270)
-			{
-				value+=1;
-				Movement();
-			}
-
-			else
-			{
-
-				BackMovement();
-			}
-			preAngle=angle;
-		}
+		DogMovement();
 	}
 
 
@@ -113,6 +90,34 @@ public class TugOfWarManager : MonoBehaviour
 		}
 	}
 
+
+	void DogMovement()
+	{
+		if(gameStart==true)
+		{
+			normalizedPositions = new Vector2((Input.mousePosition.x/Screen.width-0.5f), ((Input.mousePosition.y/Screen.height)-0.5f));
+			angle = Mathf.Atan2(normalizedPositions.y, normalizedPositions.x)*Mathf.Rad2Deg; 
+			pulley.transform.eulerAngles = new Vector3( 0,0,angle);
+			if(angle<0)
+			{
+				angle += 360;
+				//Debug.Log (angle);
+			}
+			
+			if(angle-preAngle>270)
+			{
+				value+=1;
+				Movement();
+			}
+			
+			else
+			{
+				
+				BackMovement();
+			}
+			preAngle=angle;
+		}
+	}
 
 	public void OnRestartGame()
 	{
