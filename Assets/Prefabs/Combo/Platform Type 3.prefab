@@ -48,6 +48,7 @@ GameObject:
   - 65: {fileID: 6548454}
   - 114: {fileID: 11474548}
   - 54: {fileID: 5469644}
+  - 65: {fileID: 6571938}
   m_Layer: 0
   m_Name: SpringBoard
   m_TagString: Untagged
@@ -204,11 +205,23 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 145268}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1.00000012, y: 2, z: 1.00000024}
   m_Center: {x: 5.96046448e-08, y: 0, z: -8.94069672e-08}
+--- !u!65 &6571938
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 145268}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .800000012, y: 1, z: .800000012}
+  m_Center: {x: 5.96046448e-08, y: 2, z: -8.94069672e-08}
 --- !u!114 &11450374
 MonoBehaviour:
   m_ObjectHideFlags: 1
