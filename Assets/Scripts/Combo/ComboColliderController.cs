@@ -46,6 +46,7 @@ public class ComboColliderController : MonoBehaviour {
             newCenter.y= boxColliderYBase * curveValue;
             boxCollider.center = newCenter;
         }
+
         else if (animStateBase.shortNameHash == stateRoll)
         {
             // get the jump animation's time passed

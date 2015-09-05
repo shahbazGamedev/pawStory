@@ -36,8 +36,8 @@ public class SpawnTrigger : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             randNo = Random.Range(1, 6);
-            randNo = randNo > 4 ? 1 : randNo;
-            if(prevPlat==2 || prevPlat==3 || beforePrevPlat == 2 || beforePrevPlat == 3 || twoBeforePrevPlat == 3 || prevPlat==4)
+            randNo = randNo > 5 ? 1 : randNo;
+            if(prevPlat==2 || prevPlat==3 || beforePrevPlat == 2 || beforePrevPlat == 3 || twoBeforePrevPlat == 3 || prevPlat==4 || prevPlat == 5)
             {
                 randNo = 1;
             }
