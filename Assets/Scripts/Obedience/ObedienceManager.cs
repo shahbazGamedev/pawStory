@@ -37,6 +37,7 @@ public class ObedienceManager : MonoBehaviour
     bool isDogSiting;
     bool waitForReset;
     bool instructON;
+    bool interrupt;
     int chance;
     int points;
     int randomNumber;
@@ -326,7 +327,7 @@ public class ObedienceManager : MonoBehaviour
             if (timer > instructionWaitTime)
             {
                 timer = 5;
-                nextInstruct = true;
+                //nextInstruct = true;
             }
         }
         else
@@ -476,11 +477,30 @@ public class ObedienceManager : MonoBehaviour
                 StartCoroutine(DetectHold());
                 //				}
                 nextInstruct = false;
-                yield return new WaitForSeconds(instructionWaitTime);
+
+                yield return StartCoroutine(InterruptableWait(instructionWaitTime));
+                //yield return new WaitForSeconds(instructionWaitTime);
                 //yield return null;
             }
         }
         instructON = false;
+        yield return null;
+    }
+
+    // Wait till timer that can be interrupted
+    IEnumerator InterruptableWait(float time)
+    {
+        var t=0f;
+        while(t<time)
+        {
+            yield return new WaitForFixedUpdate();
+            t += Time.fixedDeltaTime;
+            if(interrupt)
+            {
+                interrupt = false;
+                break;
+            }
+        }
         yield return null;
     }
 
@@ -650,19 +670,23 @@ public class ObedienceManager : MonoBehaviour
     // Restart button
     public void OnRestart()
     {
+        interrupt = true;
+        CancelInvoke();
         waitForReset = false;
         pattern = SwipeRecognizer.TouchPattern.reset;
         gameOn = true;
-        //nextInstruct = true;
+        nextInstruct = true;
         combo = false;
         chance = 0;
         points = 0;
         combo = false;
+        //timer = 0;
         gameOverPanel.SetActive(false);
         analogTimer.transform.parent.gameObject.SetActive(true);
         roundInfo.text = "Score: 0";
         dogRef.transform.position = startPosition;
         dogRef.transform.rotation = startRotation;
+        dogAnim.SetTrigger("Idle");
         if (!instructON)
         {
             StartCoroutine(Instruct());
