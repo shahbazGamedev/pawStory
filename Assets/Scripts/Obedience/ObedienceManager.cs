@@ -163,16 +163,26 @@ public class ObedienceManager : MonoBehaviour
                 }
             case SwipeRecognizer.TouchPattern.swipeUp:
                 {
-                    nextInstruct = false;
-                    registerAnimEvent = true;
-                    dogAnim.SetTrigger("Stand");
-                    gestureCache = SwipeRecognizer.TouchPattern.reset;
+                    if (isDogSiting)
+                    {
+                        nextInstruct = false;
+                        registerAnimEvent = true;
+                        dogAnim.SetTrigger("Stand");
+                        gestureCache = SwipeRecognizer.TouchPattern.reset;
+                        isDogSiting = false;
+                    }
+                    else
+                    {
+                        nextInstruct = false;
+                        registerAnimEvent = true;
+                        gestureCache = SwipeRecognizer.TouchPattern.reset;
+                    }
                     break;
                 }
             case SwipeRecognizer.TouchPattern.swipeDown:
                 {
-                    nextInstruct = false;
-                    registerAnimEvent = true;
+                    nextInstruct = true;
+                    //registerAnimEvent = true;
                     dogAnim.SetTrigger("Sit");
                     isDogSiting = true;
                     gestureCache = SwipeRecognizer.TouchPattern.reset;
@@ -446,7 +456,7 @@ public class ObedienceManager : MonoBehaviour
                 if (randomNumber == 0 && isDogSiting || isDogSiting)
                 {
                     randomNumber = 1;
-                    isDogSiting = false;
+                    
                 }
                 else
                 {
