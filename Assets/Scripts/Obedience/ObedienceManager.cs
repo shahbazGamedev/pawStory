@@ -36,6 +36,7 @@ public class ObedienceManager : MonoBehaviour
     bool isCoroutineON; // True when catchCombos coroutine is running
     bool isDogSiting;
     bool waitForReset;
+    bool instructON;
     int chance;
     int points;
     int randomNumber;
@@ -83,9 +84,9 @@ public class ObedienceManager : MonoBehaviour
     void Start()
     {
         Init();
-        OnRestart();
         startPosition = dogRef.transform.position;
         startRotation = dogRef.transform.rotation;
+        OnRestart();
     }
 
     // Update is called once per frame
@@ -169,8 +170,8 @@ public class ObedienceManager : MonoBehaviour
                 }
             case SwipeRecognizer.TouchPattern.swipeDown:
                 {
-                    nextInstruct = true;
-                    //registerAnimEvent = true;
+                    nextInstruct = false;
+                    registerAnimEvent = true;
                     dogAnim.SetTrigger("Sit");
                     isDogSiting = true;
                     gestureCache = SwipeRecognizer.TouchPattern.reset;
@@ -325,6 +326,7 @@ public class ObedienceManager : MonoBehaviour
             if (timer > instructionWaitTime)
             {
                 timer = 5;
+                nextInstruct = true;
             }
         }
         else
@@ -417,8 +419,10 @@ public class ObedienceManager : MonoBehaviour
     // Sets random instruction at fixed intervals
     IEnumerator Instruct()
     {
+        instructON = true;
         while (gameOn)
         {
+            //Debug.Log("A");
             if (chance >= maxChances) // if chances depleted gameOver
             {
                 yield return new WaitForSeconds(2);
@@ -473,8 +477,10 @@ public class ObedienceManager : MonoBehaviour
                 //				}
                 nextInstruct = false;
                 yield return new WaitForSeconds(instructionWaitTime);
+                //yield return null;
             }
         }
+        instructON = false;
         yield return null;
     }
 
@@ -647,7 +653,7 @@ public class ObedienceManager : MonoBehaviour
         waitForReset = false;
         pattern = SwipeRecognizer.TouchPattern.reset;
         gameOn = true;
-        nextInstruct = true;
+        //nextInstruct = true;
         combo = false;
         chance = 0;
         points = 0;
@@ -655,7 +661,12 @@ public class ObedienceManager : MonoBehaviour
         gameOverPanel.SetActive(false);
         analogTimer.transform.parent.gameObject.SetActive(true);
         roundInfo.text = "Score: 0";
-        StartCoroutine(Instruct());
+        dogRef.transform.position = startPosition;
+        dogRef.transform.rotation = startRotation;
+        if (!instructON)
+        {
+            StartCoroutine(Instruct());
+        }
     }
 
     #endregion ButtonCallbacks
