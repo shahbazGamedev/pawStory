@@ -11,6 +11,7 @@ using UnityEngine.UI;
 
 public class ObedienceManager : MonoBehaviour
 {
+    #region Var
     public Text instructions;
     public Text roundInfo; // (changed) displays score
     public Text gameOverText;
@@ -34,6 +35,7 @@ public class ObedienceManager : MonoBehaviour
     bool combo;
     bool isCoroutineON; // True when catchCombos coroutine is running
     bool isDogSiting;
+    bool waitForReset;
     int chance;
     int points;
     int randomNumber;
@@ -75,11 +77,15 @@ public class ObedienceManager : MonoBehaviour
     // Emulates hash-table in editor
     public SwipeDataCollection[] swipeDataCollection;
 
+    #endregion Var
+
     // Use this for initialization
     void Start()
     {
         Init();
         OnRestart();
+        startPosition = dogRef.transform.position;
+        startRotation = dogRef.transform.rotation;
     }
 
     // Update is called once per frame
@@ -332,8 +338,11 @@ public class ObedienceManager : MonoBehaviour
     // Flag for issuing next instruction
     void GotoNextInstruction()
     {
-        nextInstruct = true;
-        Debug.Log("Fired");
+        if (waitForReset)
+        {
+            nextInstruct = true;
+            Debug.Log("Fired");
+        }
     }
 
     // Decouple listener from event
@@ -505,6 +514,7 @@ public class ObedienceManager : MonoBehaviour
     // Makes the dog jump in the desired direction
     IEnumerator DogJump(SwipeRecognizer.TouchPattern touchPattern)
     {
+        waitForReset = true;
         if (touchPattern == SwipeRecognizer.TouchPattern.swipeUpLeft) // Left Jump
         {
             Quaternion targetRotation = directionRef[0].transform.rotation;
@@ -634,10 +644,9 @@ public class ObedienceManager : MonoBehaviour
     // Restart button
     public void OnRestart()
     {
+        waitForReset = false;
         pattern = SwipeRecognizer.TouchPattern.reset;
         gameOn = true;
-        startPosition = dogRef.transform.position;
-        startRotation = dogRef.transform.rotation;
         nextInstruct = true;
         combo = false;
         chance = 0;
