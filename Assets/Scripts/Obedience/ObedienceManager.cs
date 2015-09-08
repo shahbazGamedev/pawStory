@@ -135,7 +135,10 @@ public class ObedienceManager : MonoBehaviour
                     if (pattern == SwipeRecognizer.TouchPattern.singleTap || pattern == SwipeRecognizer.TouchPattern.tryAgain /*|| pattern == SwipeRecognizer.TouchPattern.swipeLeft || pattern == SwipeRecognizer.TouchPattern.swipeRight*/) // Uncomment if need arises
                     {
                         SwipeReset();
-                        Invoke("NotifyTryAgain", 0.2f);
+                        if (presentGesture != SwipeRecognizer.TouchPattern.doubleTap)
+                        {
+                            Invoke("NotifyTryAgain", 0.2f);
+                        }
                         return;
                     }
                 }
