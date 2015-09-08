@@ -94,7 +94,8 @@ public class SwipeRecognizer
         previousVector = startPoint - midPoint; // Transform the vector from screen origin to calculated midpoint
 
         var radius=previousVector.magnitude;
-        //Debug.Log(radius);
+        radius = (25.4f * radius) / (Screen.dpi <= 0 ? 240 : Screen.dpi);
+        Debug.Log(radius);
 
         // Preliminary check to avoid unwanted calculations
         if (AngleBetweenVectors(previousVector, (swipeData[swipeData.Count / 3] - midPoint)) > 20)
@@ -159,7 +160,7 @@ public class SwipeRecognizer
 
     static bool PreventSmallCircle(float radius)
     {
-        if (radius < 35)
+        if (radius < 12)
         {
             return true;
         }
@@ -293,8 +294,9 @@ public class SwipeRecognizer
         //	return false;
         //}
         var dist = Vector2.Distance(swipeData.swipeData[0], swipeData.swipeData[swipeData.swipeData.Count / 4]);
+        dist = (25.4f * dist) / (Screen.dpi <= 0 ? 240 : Screen.dpi);
         //Debug.Log(dist);
-        if (dist < 25f)
+        if (dist < 10f)
         {
             return false;
         }
