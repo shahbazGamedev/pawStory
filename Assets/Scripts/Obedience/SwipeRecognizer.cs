@@ -293,8 +293,9 @@ public class SwipeRecognizer
         //	return false;
         //}
         var dist = Vector2.Distance(swipeData.swipeData[0], swipeData.swipeData[swipeData.swipeData.Count / 4]);
+        dist = (25.4f * dist) / (Screen.dpi <= 0 ? 240 : Screen.dpi);
         //Debug.Log(dist);
-        if (dist < 25f)
+        if (dist < 10f)
         {
             return false;
         }
