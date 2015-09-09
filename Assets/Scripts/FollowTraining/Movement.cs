@@ -2,14 +2,16 @@
 using System.Collections;
 
 public class Movement : MonoBehaviour {
-    public float distance;
-    public Rigidbody rb;
-    Vector3 pos;
+    
     public float speed;
+    public bool isMoving;
     public Transform target;
     private Animator dogAnim;
-    public  bool isMoving;
+    float distance;
+    Rigidbody rb;
+    Vector3 pos;
     
+
 
 
     void Start ()

@@ -8,7 +8,7 @@ public class NewFollowTraining : MonoBehaviour
     public GameObject Dog;
     
   
- void Start()
+    void Start()
     {
        
     }
