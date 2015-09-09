@@ -39,7 +39,7 @@ public class SpawnTrigger : MonoBehaviour
             randNo = randNo > 5 ? 1 : randNo;
 
             // Added to make platform type 2 to appear after 30 secs.
-            if(ComboManager.instRef.distance<30)
+            if(ComboManager.instRef.distance<15)
             {
                 randNo = randNo == 2 ? 1 : randNo;
             }
