@@ -13,11 +13,12 @@ public class ComboManager : MonoBehaviour
 
     public GameObject initialPlat1;
     public GameObject initialPlat2;
-    
+    public GameObject initialPlat3;
+    public float distance;
+
     bool listenForStart;
     bool gameRunning;
-    float distance;
-
+    
     //UI Components
     public Text instructText;
     public Text gameOverText;
@@ -107,6 +108,7 @@ public class ComboManager : MonoBehaviour
 
         initialPlat1.SetActive(true);
         initialPlat2.SetActive(true);
+        initialPlat3.SetActive(true);
     }
 
     // game pause
