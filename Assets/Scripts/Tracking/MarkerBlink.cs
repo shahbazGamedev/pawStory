@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿/**
+Script Author : Vaikash 
+Description   : Makes the object to blink
+**/
+
+using UnityEngine;
 using System.Collections;
 
 public class MarkerBlink : MonoBehaviour {

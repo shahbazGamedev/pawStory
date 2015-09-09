@@ -286,6 +286,7 @@ public class TrackingManager : MonoBehaviour
     // Dog has tracked the target successfully
     IEnumerator TargetFound()
     {
+        TargetSpawner.instRef.KillMarkers();
         yield return new WaitForEndOfFrame();
         pathMove.reachedTarget = false;
         dogAnim.SetTrigger("Win");

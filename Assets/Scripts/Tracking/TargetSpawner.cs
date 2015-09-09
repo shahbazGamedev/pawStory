@@ -39,7 +39,7 @@ public class TargetSpawner : MonoBehaviour
     }
 
     // Destroy all alive markers
-    void KillMarkers()
+    public void KillMarkers()
     {
         foreach (var obj in markerStorage)
         {
