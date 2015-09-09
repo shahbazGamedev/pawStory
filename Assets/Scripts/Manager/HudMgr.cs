@@ -54,7 +54,8 @@ public class HudMgr : MonoBehaviour
 	public void OnButton_01()
 	{
 		string curScene = GameMgr.Inst.GetCurScene ();
-		if(curScene.Equals(GlobalConst.Scene_TournamentSelection))
+		if(curScene.Equals(GlobalConst.Scene_TournamentSelection) ||
+            curScene.Equals(GlobalConst.Scene_PuppySelection))
 		{
 			GameMgr.Inst.LoadScene(GlobalConst.Scene_MainMenu);
 		}

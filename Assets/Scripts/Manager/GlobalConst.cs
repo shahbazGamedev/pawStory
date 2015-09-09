@@ -24,5 +24,6 @@ public class GlobalConst
 	public static string Scene_Agility = "Agility";
 	public static string Scene_Bubble = "Bubble";
     public static string Scene_ComboJump = "Combo";
+    public static string Scene_InternationalTournament = "InternationalTournament";
 
 }
