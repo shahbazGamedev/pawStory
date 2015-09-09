@@ -23,5 +23,6 @@ public class GlobalConst
 	public static string Scene_Tugofwar = "tugOfWar";
 	public static string Scene_Agility = "Agility";
 	public static string Scene_Bubble = "Bubble";
+    public static string Scene_ComboJump = "Combo";
 
 }
