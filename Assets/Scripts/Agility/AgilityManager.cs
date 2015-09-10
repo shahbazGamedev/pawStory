@@ -54,6 +54,21 @@ public class AgilityManager : MonoBehaviour {
 
 	#endregion
 
+    void OnEnable()
+    {
+        EventMgr.GameRestart += OnRestartGame;
+    }
+
+
+    void OnDisable()
+    {
+        EventMgr.GameRestart -= OnRestartGame;
+        // Decouple listeners from events
+        TouchManager.PatternRecognized -= SwipeEventHandler;
+        EllipseMovement.LaneChangeComplete -= LaneChangeHandler;
+        EllipseMovement.LapTriggered -= LapComplete;
+    }
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -78,14 +93,6 @@ public class AgilityManager : MonoBehaviour {
 		TouchManager.PatternRecognized += SwipeEventHandler; //  Add Listener to touch manager
 		EllipseMovement.LaneChangeComplete += LaneChangeHandler;
 		EllipseMovement.LapTriggered += LapComplete;
-	}
-
-	// Decouple listeners from events
-	void OnDisable()
-	{
-		TouchManager.PatternRecognized -= SwipeEventHandler;
-		EllipseMovement.LaneChangeComplete -= LaneChangeHandler;
-		EllipseMovement.LapTriggered -= LapComplete;
 	}
 
 	// Update is called once per frame
@@ -236,7 +243,7 @@ public class AgilityManager : MonoBehaviour {
 	}
 
 	// Restart Btn callback
-	public void restartGameBtn()
+	public void OnRestartGame()
 	{
 		gameOver = false;
 		dogRef.transform.position = startPos;

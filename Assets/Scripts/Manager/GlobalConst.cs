@@ -12,7 +12,7 @@ public class GlobalConst
     public static string Scene_PuppySelection = "PuppySelection";
     public static string Scene_PuppyTraining = "PuppyTraining";
     public static string Scene_CatchTraining = "CatchTraining";
-    public static string Scene_FollowTraining = "FollowTraining";
+    public static string Scene_FollowTraining = "NewFollowTraining";
     
 	public static string Scene_DiscDogs = "DiscDogs";
 	public static string Scene_DockJump = "DockJump";

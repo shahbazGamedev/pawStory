@@ -87,7 +87,7 @@ public class ObedienceManager : MonoBehaviour
         Init();
         startPosition = dogRef.transform.position;
         startRotation = dogRef.transform.rotation;
-        OnRestart();
+        OnRestartGame();
     }
 
     // Update is called once per frame
@@ -361,11 +361,15 @@ public class ObedienceManager : MonoBehaviour
         }
     }
 
+    void OnEnable()
+    {
+        EventMgr.GameRestart += OnRestartGame;
+    }
     // Decouple listener from event
     void OnDisable()
     {
         dogManager.ResetComplete -= GotoNextInstruction;
-        EventMgr.GameRestart -= OnRestart;
+        EventMgr.GameRestart -= OnRestartGame;
     }
 
     // Initialize at start of game
@@ -377,7 +381,6 @@ public class ObedienceManager : MonoBehaviour
 
         // Add listener to reset complete event
         dogManager.ResetComplete += GotoNextInstruction;
-        EventMgr.GameRestart += OnRestart;
         analogTimer.transform.parent.gameObject.SetActive(true);
     }
 
@@ -674,14 +677,8 @@ public class ObedienceManager : MonoBehaviour
 
     #region ButtonCallbacks
 
-    // Back button
-    public void OnMainMenu()
-    {
-        GameMgr.Inst.LoadScene(GlobalConst.Scene_MainMenu);
-    }
-
     // Restart button
-    public void OnRestart()
+    public void OnRestartGame()
     {
         interrupt = true;
         CancelInvoke();
