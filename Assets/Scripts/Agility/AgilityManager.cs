@@ -113,6 +113,7 @@ public class AgilityManager : MonoBehaviour {
 		if(gameOver)
 		{
 			StartCoroutine (GameOver ());
+            gameOver = false;
 			startGame = false;
 		}
 	}
@@ -210,6 +211,8 @@ public class AgilityManager : MonoBehaviour {
 	// Activates End Game Display
 	IEnumerator GameOver()
 	{
+        //Debug.Log("GameOver");
+        freezeSkillBtn.SetActive(false);
 		dogCircuitManager.updatePos = false;
 		timerText.gameObject.transform.parent.gameObject.SetActive (false);
 		gameOverPannel.SetActive (true);
@@ -245,7 +248,8 @@ public class AgilityManager : MonoBehaviour {
 	// Restart Btn callback
 	public void OnRestartGame()
 	{
-		gameOver = false;
+        //Debug.Log("Restart");
+		//gameOver = false;
 		dogRef.transform.position = startPos;
 		dogRef.transform.rotation = startRot;
 		gameOverPannel.SetActive (false);
