@@ -104,10 +104,13 @@ public class DockJump : MonoBehaviour {
 	{
 		Debug.Log ("OnRestartGame");
 		rb = GetComponent<Rigidbody> ();
+        PlayGame();
 
+        play = false;
 		waitForTap = true;
 		isGameOver = false;
 		isInJumpZone = false;
+        TaptoPlay.SetActive(false);
 		
 		// dog
 		ChangeDogState (DogStates.Idle);
@@ -128,7 +131,7 @@ public class DockJump : MonoBehaviour {
 		// HUD
 		TapToPlayTxt.text = "Tap to Play";
 		JumpCountTxt.text = "Chances: " + jumpCount + " / " + maxJumpCount;
-		ScoreTxt.text = "Distance: " + distance;
+        ScoreTxt.text = "Distance: "  ;
 		GameOverPanel.SetActive (false);
         gameScreen.SetActive(true);
     }
