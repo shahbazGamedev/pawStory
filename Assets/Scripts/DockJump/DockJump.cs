@@ -123,6 +123,7 @@ public class DockJump : MonoBehaviour {
 		// Cam
 		CamObj.transform.position = CamStartTrans.position;
 		isCamMove = false;
+        CamAnim.enabled = true;
 
 		// HUD
 		TapToPlayTxt.text = "Tap to Play";
