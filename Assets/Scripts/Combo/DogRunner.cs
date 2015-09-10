@@ -14,6 +14,7 @@ public class DogRunner : MonoBehaviour
 
     public bool runStart;
     public float runSpeed;
+    public float maxSpeed;
     public float runDragFactor;
     public Vector3 runDirection;
     public Vector3 jumpForce;
@@ -60,8 +61,13 @@ public class DogRunner : MonoBehaviour
     {
         if (runStart)
         {
-            // Moves dog using rigidbody
+            // Moves dog using rigidbody - need to change
             dogRB.AddForce(runDirection * runSpeed * Time.deltaTime);
+            //Debug.Log(dogRB.velocity.magnitude);
+            //if (dogRB.velocity.magnitude > maxSpeed)
+            //{
+            //    dogRB.velocity = dogRB.velocity.normalized * maxSpeed;
+            //}
             dogRB.drag = dogRB.velocity.magnitude * runDragFactor;
             dogVelocity = 1;
             SyncAnim();

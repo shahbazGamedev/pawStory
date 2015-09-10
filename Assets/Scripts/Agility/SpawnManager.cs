@@ -29,6 +29,8 @@ public class SpawnManager : MonoBehaviour {
 	int dogPrevPos;
 	public bool spawnOn;
 	int partitionCount;
+    Vector3 direction;
+    Quaternion lookAngle;
 
 	[System.Serializable]
 	public struct spawnLocationHolder {
@@ -72,8 +74,26 @@ public class SpawnManager : MonoBehaviour {
 		randomNumber = Random.Range (0, collection.Length);
 		var cloneInstance = (GameObject)Instantiate (collection [randomNumber], positionRef.transform.position, Quaternion.identity);
 		cloneInstance.transform.parent = cloneHolder.transform;
-		return cloneInstance;
+
+        // Add code for obstacle rotation
+        if (randomNumber == 0)
+        {
+            direction = cloneInstance.transform.position + Vector3.forward * 0.1f;
+            lookAngle = Quaternion.LookRotation(direction);
+            lookAngle.x = 0;
+            lookAngle.z = 0;
+            cloneInstance.transform.rotation = lookAngle;
+        }
+        return cloneInstance;
 	}
+
+    //Vector3 CalcTangent(Vector3 normal)
+    //{
+    //    var angle  = 90;
+    //    var direction  = orbiter.counterclockwise? -1 : 1;
+    //    var tangent = Quaternion.AngleAxis(angle*direction, Vector3.forward*-1) * normal;
+    //    return tangent;
+    //}
 
 	// Event Handler for dogMovedNextPartition
 	void UpdateDogPosition()
