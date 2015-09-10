@@ -130,7 +130,8 @@ public class DockJump : MonoBehaviour {
 		JumpCountTxt.text = "Chances: " + jumpCount + " / " + maxJumpCount;
 		ScoreTxt.text = "Distance: " + distance;
 		GameOverPanel.SetActive (false);
-	}
+        gameScreen.SetActive(true);
+    }
 
 
 	void OnEnable() {
