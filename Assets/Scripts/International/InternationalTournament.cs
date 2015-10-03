@@ -36,7 +36,8 @@ public class InternationalTournament : MonoBehaviour {
     }
 
 
-	void Start () {
+	void Start ()
+    {
         OnRestartGame();
         rb = GetComponent<Rigidbody>();
         jumpForce = new Vector3(0f, 5f, 0f);
@@ -50,75 +51,19 @@ public class InternationalTournament : MonoBehaviour {
 
     void Update()
     {
-        if(isMoving && DogID == 1)
+        if (isMoving && DogID == 1)
         {
             Movement();
         }
         Timer += Time.deltaTime;
-        timer.text = "Total Time:" + (int) Timer;
+        timer.text = "Total Time:" + (int)Timer;
         TargetSelector();
-        //if (task1)
-        //{
-        //    Movement();
-        //}
-        //else if(tunnel)
-        //{
-        //    MovementTunnel();
-        //}
-        //if(pannel)
-        //{
-        //    MovementPannel();
-        //}
-        //if(temp)
-        //{
-        //    TempMove();
-        //}
-        //        if (waitForTap)
-        //        {
-        //#if UNITY_ANDROID || UNITY_IOS
-        //            if (Input.touchCount > 0)
-        //            {
-        //                Touch touch = Input.touches[0];
-        //                if (touch.phase == TouchPhase.Ended)
-        //                {
-        //                    waitForTap = false;
-        //                    dogAnimState = 3;
-        //                    DogAnimator.SetInteger("DogAnimState", dogAnimState);
-        //                    curNode = 0;
-        //                }
-        //            }
-        //#endif
-        //            if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonUp(0))
-        //            {
-        //                waitForTap = false;
-        //                dogAnimState = 3;
-        //                DogAnimator.SetInteger("DogAnimState", dogAnimState);
-        //                curNode = 0;
-        //            }
-        //        }
-        //    }
-        //else
-        //{
-        //    // move the dog
-        //    transform.LookAt(Nodes[curNode].transform, new Vector3(0, 1, 0));
-        //    transform.position = Vector3.MoveTowards(transform.position, Nodes[curNode].transform.position, Time.deltaTime * dogSpeed);
-
-        //    if (Vector3.Distance(transform.position, Nodes[curNode].transform.position) < 1f)
-        //    {
-        //        curNode++;
-
-        //    }
-        //               //transform.position += dogMoveOffset;
-        //           }
-        //}
     }
 
 
 	private void LateUpdate()
 	{
-		if (!waitForTap) {
-			//Camera.main.transform.position += dogMoveOffset;
-		}
+		
 	}
 
 
@@ -201,8 +146,10 @@ public class InternationalTournament : MonoBehaviour {
                 }
                 
             }
-            }
+          }
     }
+
+
     void gameOver()
     {
         Gameover.SetActive(true);
