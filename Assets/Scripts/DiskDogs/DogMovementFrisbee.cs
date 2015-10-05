@@ -43,9 +43,11 @@ public class DogMovementFrisbee : MonoBehaviour
     bool isCatching;
     Rigidbody rb;
     Vector3 position;
+    Vector3 pos;
     bool isRestart;
     int lastValue;
     int currentValue;
+    
 
     void OnEnable()
     {
@@ -108,6 +110,8 @@ public class DogMovementFrisbee : MonoBehaviour
         ChanceUi.text = "No Of Chances:" + chances + " / " + MaxChances;
         life.text = "Life : " + Life;
         score.text = "Score: " + Score;
+        
+          
     }
 
 
@@ -231,6 +235,28 @@ public class DogMovementFrisbee : MonoBehaviour
         {
             GameOver();
         }
+    }
+    public void FoulCollect()
+    {
+        distance = Vector3.Distance(target.position, transform.position);
+       
+    
+           // isMoving= true;
+            Debug.Log("new");
+            transform.LookAt(target);
+        dogAnim.SetTrigger("Foul");
+            float step = speed * Time.deltaTime;
+            pos = target.position;
+            rb.MovePosition(Vector3.MoveTowards(transform.position, pos, step));
+        
+        if (distance < 2f)
+        {
+            isMoving = false;
+
+            dogAnim.SetFloat("Walk", 0f);
+
+        }
+        Frisbee.GetComponent<FrisbeeMovement>().canCollect = false;
     }
 }
 

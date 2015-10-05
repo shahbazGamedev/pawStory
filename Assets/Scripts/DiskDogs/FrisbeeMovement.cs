@@ -24,6 +24,7 @@ public class FrisbeeMovement : MonoBehaviour {
 	bool isJumping=false;
 	bool detectLife;
 	Rigidbody rb;
+    public bool canCollect;
 
 
 	void Awake()
@@ -62,6 +63,11 @@ public class FrisbeeMovement : MonoBehaviour {
 				Debug.Log("jumpright");
 			}
 		}
+        if(canCollect)
+        {
+            Debug.Log("hisss");
+            dog.GetComponent<DogMovementFrisbee>().FoulCollect();
+        }
 	}
 
 
@@ -103,7 +109,7 @@ public class FrisbeeMovement : MonoBehaviour {
 
 	IEnumerator ReturnFrisbee ()
 	{
-		yield return new WaitForSeconds(4.0f);
+		yield return new WaitForSeconds(5.0f);
 		Debug.Log("Return Ball");
 		transform.position = currentPosition;
 		rb.velocity = Vector3.zero;
@@ -136,12 +142,16 @@ public class FrisbeeMovement : MonoBehaviour {
 		if (collision.gameObject.tag=="floor" && detectLife==true)
 		{
 			Debug.Log("coming here");
+            canCollect = true;
 			dog.GetComponent<DogMovementFrisbee>().Life--;
-			if(dog.GetComponent<DogMovementFrisbee>().chances==dog.GetComponent<DogMovementFrisbee>().MaxChances || dog.GetComponent<DogMovementFrisbee>().Life==0)
+            
+
+            if (dog.GetComponent<DogMovementFrisbee>().chances==dog.GetComponent<DogMovementFrisbee>().MaxChances || dog.GetComponent<DogMovementFrisbee>().Life==0)
 			{
 				Debug.Log ("gameover");
 				StartCoroutine(EndGame());
 			}
+            
 		}
 	}
 
