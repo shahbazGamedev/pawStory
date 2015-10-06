@@ -22,6 +22,7 @@ public class InternationalTournament : MonoBehaviour {
     string layerName;
     public Text Txt_GameOver;
     public GameObject Gameover;
+    public GameObject SwitchLane;
     
 
     void OnEnable()
@@ -45,6 +46,8 @@ public class InternationalTournament : MonoBehaviour {
         Timer = 0f;
         DogID = 1;
         Gameover.SetActive(false);
+        isMoving = true;
+        SwitchLane.SetActive(false);
        
 	}
 
@@ -83,6 +86,16 @@ public class InternationalTournament : MonoBehaviour {
             rb.AddForce(highJump, ForceMode.Impulse);
             Debug.Log("Working");
         }
+        if (coll.gameObject.tag == "Waypoint")
+        {
+            SwitchLane.SetActive(true);
+        }
+        if(coll.gameObject.tag == "Basket")
+        {
+            SwitchLane.SetActive(false);
+        }
+
+
         else if (coll.gameObject.tag == "target")
         {
             gameOver();
@@ -115,10 +128,13 @@ public class InternationalTournament : MonoBehaviour {
     {
         if (canTap && DogID == 1)
         {
+
             curNode++;
             isMoving = true;
             Debug.Log(curNode);
             canTap = false;
+
+
         }
     }
    
@@ -144,7 +160,8 @@ public class InternationalTournament : MonoBehaviour {
                     canTap = false;
 
                 }
-                
+              
+
             }
           }
     }
@@ -156,6 +173,9 @@ public class InternationalTournament : MonoBehaviour {
         Txt_GameOver.text = "Total Time:" + (int)Timer;
     }
   
-
+    public void TaptoStart()
+    {
+        isMoving = true;
+    }
 }
 
