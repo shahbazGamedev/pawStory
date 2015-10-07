@@ -284,7 +284,7 @@ Transform:
   - {fileID: 1878702085}
   - {fileID: 571746802}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
 --- !u!54 &69252295
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -342,6 +342,7 @@ MonoBehaviour:
   timer: {fileID: 686365834}
   Txt_GameOver: {fileID: 1426274342}
   Gameover: {fileID: 609749262}
+  SwitchLane: {fileID: 0}
 --- !u!65 &69252298
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -367,7 +368,7 @@ GameObject:
   - 23: {fileID: 121408445}
   m_Layer: 0
   m_Name: Node (6)
-  m_TagString: Untagged
+  m_TagString: Waypoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -418,8 +419,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 2.12168455, y: 1, z: 1}
+  m_Center: {x: -.560852051, y: 0, z: -2.74926424e-06}
 --- !u!33 &121408447
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -896,8 +897,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 1, z: 1.78437746}
+  m_Center: {x: 0, y: 0, z: -.392189026}
 --- !u!33 &668099632
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1162,8 +1163,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: .805600643, y: 1, z: 1}
-  m_Center: {x: .888523102, y: 0, z: 0}
+  m_Size: {x: .910233736, y: 1.67244625, z: 2.56617975}
+  m_Center: {x: 1.32629395, y: .336223245, z: .121040344}
 --- !u!33 &878099752
 MeshFilter:
   m_ObjectHideFlags: 0

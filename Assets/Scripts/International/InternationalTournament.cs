@@ -86,26 +86,28 @@ public class InternationalTournament : MonoBehaviour {
             rb.AddForce(highJump, ForceMode.Impulse);
             Debug.Log("Working");
         }
-        if (coll.gameObject.tag == "Waypoint")
-        {
-            SwitchLane.SetActive(true);
-        }
-        if(coll.gameObject.tag == "Basket")
-        {
-            SwitchLane.SetActive(false);
-        }
-
-
-        else if (coll.gameObject.tag == "target")
-        {
-            gameOver();
-        }
         else
         {
             Debug.Log("ComingHere");
             rb.AddForce(jumpForce, ForceMode.Impulse);
             DogAnimator.SetTrigger("Jump");
         }
+
+        if (coll.gameObject.tag == "target")
+        {
+            gameOver();
+        }
+        if (coll.gameObject.tag == "Waypoint")
+        {
+            SwitchLane.SetActive(true);
+        }
+        if(coll.gameObject.tag == "Stationary")
+        {
+            SwitchLane.SetActive(false);
+        }
+
+
+      
        
     }
     public void Movement()
