@@ -6,55 +6,65 @@ using UnityEngine;
 using System.Collections;
 
 public class DogMovementColorLesson : MonoBehaviour {
-	public GameObject Dog;
-	public Transform Target;
+	Transform Target;
 	Rigidbody rb;
-	bool isTargetRed;
-	private Vector3 direction;
-	public float Speed;
+	public bool isMoving;
+    public float Speed;
 	private Animator dogAnim;
 	public float speedDampTime;
 	public Transform red;
-		public Transform blue;
+	public Transform blue;
 	public Transform green;
 	public Transform yellow;
-	//public Transform ReturnPos;
-	//public bool isReturn;
+    public float distance;
+    
+	
 
 
-	// Use this for initialization
+	
 	void Start () {
 		rb=GetComponent<Rigidbody>();
-		isTargetRed=false;
-		//isReturn=false;
+        isMoving = false;
 		dogAnim = GetComponent<Animator>();
 
 
 	
 	}
 	
-	// Update is called once per frame
-	void Update () {
 
-	
-	}
+	void Update ()
+    {
+
+        distance = Vector3.Distance(Target.position, transform.position);
+        if (distance > 2f && isMoving == true)
+        {
+
+            Debug.Log(distance);
+            transform.LookAt(Target);
+            dogAnim.SetFloat("Walk", 1f);
+            float step = Speed * Time.deltaTime;
+            rb.MovePosition(Vector3.MoveTowards(transform.position, Target.position, step));
+        }
+        if (distance < 2f)
+        {
+            isMoving = false;
+
+            dogAnim.SetFloat("Walk", 0f);
+
+        }
+
+    }
 	void FixedUpdate()
 	{
-		if(isTargetRed==true)
-		   {
-			Debug.Log("working");
-			dogAnim.SetFloat ("Walk",1f, speedDampTime, Time.deltaTime);
-		
-			Movement();
-		}
-		
-//		if(isReturn==true)
-//		{
-//			isTargetRed=false;
-//			ReturnBack();
-//		}
-			
-	}
+
+
+
+
+    }
+       
+       
+
+    
 
 	
 
@@ -63,7 +73,7 @@ public class DogMovementColorLesson : MonoBehaviour {
 		Target=red;
 
 
-		isTargetRed=true;
+        isMoving = true;
 		
 			
 
@@ -72,7 +82,7 @@ public class DogMovementColorLesson : MonoBehaviour {
 	{
 		Target=blue;
 
-		isTargetRed=true;
+        isMoving = true;
 	
 
 	}
@@ -80,46 +90,41 @@ public class DogMovementColorLesson : MonoBehaviour {
 	{
 		Target=green;
 
-		isTargetRed=true;
+        isMoving = true;
 	}
 	public void YellowMove()
 	{
 	    Target=yellow;
-		isTargetRed=true;
+        isMoving = true;
 	}
-	void Movement()
-	{
-		if(Vector3.Distance(Dog.transform.position,Target.transform.position)>0.5f && isTargetRed==true)
-		{
-			direction=Target.transform.position-Dog.transform.position;
+	//void Movement()
+	//{
 
-		     transform.LookAt (Target);
-		//rb.AddForce(transform.forward*Speed);
-		rb.MovePosition(Vector3.MoveTowards (transform.position, Target.position, Speed* Time.deltaTime));
-		}
-		else
-		{
+ //       distance = Vector3.Distance(Target.position, transform.position);
+ //       if (distance < 3f)
+ //       {
 
-			//isReturn=true;
-			dogAnim.SetFloat ("Walk",0f, speedDampTime, Time.deltaTime);
-		}
-		 
+ //           Debug.Log(distance);
+ //           transform.LookAt(Target);
+ //           dogAnim.SetFloat("Walk", 1f);
+ //           float step = Speed * Time.deltaTime;
+ //           rb.MovePosition(Vector3.MoveTowards(transform.position, Target.position, step));
+ //       }
+ //       if (distance < 2f)
+ //       {
+ //           isMoving = false;
+
+ //           dogAnim.SetFloat("Walk", 0f);
+
+ //       }
 
 
-	}
-//	void ReturnBack()
-//	{
-//		if(Vector3.Distance(Dog.transform.position,ReturnPos.transform.position)>.5f)
-//		{
-//			Debug.Log ("tes");
-//		
-//		direction=ReturnPos.transform.position-Dog.transform.position;
-//		transform.LookAt (ReturnPos);
-//		rb.MovePosition(Vector3.MoveTowards (transform.position, ReturnPos.position, Speed* Time.deltaTime));
-//		}
-//
-//
-//	}
+
+
+
+    
+  
+    	
 }
 	
 
