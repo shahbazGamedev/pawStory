@@ -6,11 +6,17 @@ Description   : Process Touch Input
 using UnityEngine;
 using System.Collections;
 using UnityEngine.EventSystems;
+using System.Linq;
 
 public class TouchManager : MonoBehaviour
 {
 
 	public GameObject touchMat;
+    public bool detectHold;
+    public bool detectPinchOut;
+    public bool setTapPos;
+    bool pinchDetected;
+
 	public SwipeRecognizer.TouchDataCollection[] touchDataCollection;
 
 	SwipeRecognizer.TouchPattern pattern;
@@ -33,9 +39,52 @@ public class TouchManager : MonoBehaviour
 			if (PatternRecognized != null)
 				PatternRecognized (pattern);
 			gestureCache = pattern;
-			//Debug.Log (gestureCache);
+			// Debug.Log (gestureCache);
 			pattern = SwipeRecognizer.TouchPattern.reset;
 		}
+        if(detectHold)
+        {
+            // Touch Timer for hold down gesture
+            if (touchDataCollection[1].isActive)
+                touchDataCollection[1].holdTime += Time.deltaTime;
+            if (touchDataCollection[2].isActive)
+                touchDataCollection[2].holdTime += Time.deltaTime;
+
+            if (touchDataCollection[1].isActive && !touchDataCollection[2].isActive)
+            {
+                // Min. hold time of 1 sec
+                if (touchDataCollection[1].holdTime > 1 && touchDataCollection[1].swipeData.Count <= 3)
+                {
+                    pattern = SwipeRecognizer.TouchPattern.hold;
+                    touchDataCollection[1].holdTime = 0;
+                    touchDataCollection[1].isActive = false;
+                }
+                // move gesture disabled
+                //				else if(swipeDataCollection [1].swipeData.Count>3)
+                //				{
+                //					pattern = SwipeRecognizer.TouchPattern.move;
+                //					swipeDataCollection [1].isActive = false;
+                //				}
+            }
+        }
+
+        if(detectPinchOut)
+        {
+            if(touchDataCollection[1].isActive && touchDataCollection[2].isActive && !pinchDetected)
+            {
+                Debug.Log(touchDataCollection[1].swipeDelta);
+
+
+                if (touchDataCollection[1].swipeDelta > 15)
+                {
+                    Debug.Log("PinchOut");
+
+                    pinchDetected = true;
+                    pattern = SwipeRecognizer.TouchPattern.pinchOut;
+
+                }
+            }
+        }
 	}
 
 	// Reset previous touch input
@@ -57,35 +106,42 @@ public class TouchManager : MonoBehaviour
 	public void OnBeginDrag (BaseEventData data)
 	{
 		var pointData = (PointerEventData)data;
-		touchDataCollection [-pointData.pointerId].startPoint= pointData.position;
+        touchDataCollection[-pointData.pointerId].startPoint = pointData.position;
 	}
 
 	// Event trigger - EndDrag
 
 	public void OnEndDrag (BaseEventData data)
 	{
+       
 		var pointData = (PointerEventData)data;
 		touchDataCollection [-pointData.pointerId].endPoint= pointData.position;
 
-		if(pointData.pointerId==-1 && !touchDataCollection [2].isActive) 
+		if(pointData.pointerId==-1 && !touchDataCollection [2].isActive && !pinchDetected) 
 		{
 			SwipeRecognizer.RecogonizeSwipe (touchDataCollection [-pointData.pointerId], out pattern, false);
 		}
-		dataReset (-pointData.pointerId);
-	}
+        dataReset (-pointData.pointerId);
+        if (!touchDataCollection[1].isActive && !touchDataCollection[2].isActive)
+            pinchDetected = false;
+    }
 
 	// Event trigger - Drag
 	public void OnDrag (BaseEventData data)
 	{
 		var pointData = (PointerEventData)data;
+
+        // Debug.Log(pointData.pointerId);
 		touchDataCollection [-pointData.pointerId].swipeData.Add (pointData.position);
-	}
+        touchDataCollection[-pointData.pointerId].swipeDelta += pointData.delta.magnitude;
+
+    }
 
 	// Event trigger - Pointer Click
 	public void OnClickEnd(BaseEventData data)
 	{
 		var pointData = (PointerEventData)data;
-		if (pointData.pointerId == -1 && !touchDataCollection [2].isActive) 
+		if (pointData.pointerId == -1 && !touchDataCollection [2].isActive && !pinchDetected) 
 		{
 			// check for tap 
 			if (touchDataCollection [-pointData.pointerId].swipeData.Count <= 1) 
@@ -93,8 +149,13 @@ public class TouchManager : MonoBehaviour
 				// check for double tap
 				if (pointData.clickCount == 2) 
 				{
-					pattern = SwipeRecognizer.TouchPattern.doubleTap;
+                    if (setTapPos)
+                    {
+                        PettingManager.instRef.doubleTapPos = pointData.position;
+                    }
+                    pattern = SwipeRecognizer.TouchPattern.doubleTap;
 					//Debug.Log ("dTap");
+                    
 				} 
 				else 
 				{
@@ -116,9 +177,11 @@ public class TouchManager : MonoBehaviour
 	public void OnPointerUp(BaseEventData data)
 	{
 		var pointData = (PointerEventData)data;
-		touchDataCollection [-pointData.pointerId].isActive = false;
-		touchDataCollection [-pointData.pointerId].holdTime = 0;
-	}
+        //Debug.Log(pointData.pointerId);
+        touchDataCollection[-pointData.pointerId].isActive = false;
+        touchDataCollection[-pointData.pointerId].holdTime = 0;
+        touchDataCollection[-pointData.pointerId].swipeDelta = 0;
+    }
 
 	#endregion
 }

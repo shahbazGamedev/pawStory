@@ -23,8 +23,10 @@ public class DogProperties
 
 public class DogManager : MonoBehaviour 
 {
+    public static DogManager instRef;
 	public GameObject dogReference;
 	public DogProperties dogProps;
+    public bool disableDogControl;
 
 	public float turnSmoothing = 15f;   // A smoothing value for turning the player.
 	public float speedDampTime = 0.1f;  // The damping for the speed parameter
@@ -53,6 +55,7 @@ public class DogManager : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+        instRef = this;
 		dogAnim = dogReference.GetComponent<Animator>();
 		jumpHeight = new Vector3(0 , jumpForce, 0);
 	}
@@ -60,12 +63,14 @@ public class DogManager : MonoBehaviour
 	 
 	void FixedUpdate ()
 	{
+        if (!disableDogControl)
+        {
+            // Cache the inputs.
+            float h = CrossPlatformInputManager.GetAxis ("Horizontal");
+            float v = CrossPlatformInputManager.GetAxis ("Vertical");
 
-			// Cache the inputs.
-			float h = CrossPlatformInputManager.GetAxis ("Horizontal");
-			float v = CrossPlatformInputManager.GetAxis ("Vertical");
-
-			MovementManagement (h, v);
+            MovementManagement(h, v);
+        }
 	}
 
 	void MovementManagement (float horizontal, float vertical)
@@ -186,6 +191,12 @@ public class DogManager : MonoBehaviour
 	{
 		isCircuitRun=true;
 		isCoroutineOn = true;
+        if(disableDogControl)
+        {
+            dogAnim.SetFloat("Speed", 1f, 0f, Time.deltaTime);
+            yield return new WaitForSeconds(1f);
+            transform.LookAt(targetPosition);
+        }
 		while (transform.position != targetPosition)
 		{
 			yield return new WaitForFixedUpdate ();
@@ -193,7 +204,12 @@ public class DogManager : MonoBehaviour
 			transform.position = Vector3.MoveTowards (transform.position, targetPosition, moveSpeed * Time.deltaTime);
 			transform.LookAt (targetPosition);
 		}
-		isCircuitRun=false;
+        if (disableDogControl)
+        {
+            dogAnim.SetFloat("Speed", 0f, 0f, Time.deltaTime);
+            yield return new WaitForSeconds(0.5f);
+        }
+        isCircuitRun =false;
 		while (transform.rotation != targetRotation)
 		{
 			yield return new WaitForFixedUpdate ();

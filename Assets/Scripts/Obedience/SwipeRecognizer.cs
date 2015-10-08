@@ -18,6 +18,7 @@ public class SwipeRecognizer
         public Vector2 startPoint;
         public Vector2 endPoint;
         public List<Vector2> swipeData;
+        public float swipeDelta;
     }
 
     public enum TouchPattern // Possible gestures
