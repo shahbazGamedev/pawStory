@@ -42,7 +42,7 @@ public class DogMovementColorLesson : MonoBehaviour {
 	{
 		if(isTargetRed==true)
 		   {
-			//Debug.Log("working");
+			Debug.Log("working");
 			dogAnim.SetFloat ("Walk",1f, speedDampTime, Time.deltaTime);
 		
 			Movement();
@@ -84,7 +84,7 @@ public class DogMovementColorLesson : MonoBehaviour {
 	}
 	public void YellowMove()
 	{
-	Target=yellow;
+	    Target=yellow;
 		isTargetRed=true;
 	}
 	void Movement()
