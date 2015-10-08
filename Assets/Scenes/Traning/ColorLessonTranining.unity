@@ -260,11 +260,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400022, guid: f583c1e9ea9846442b60aba57d71c8fd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.02999997
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400022, guid: f583c1e9ea9846442b60aba57d71c8fd, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.8599999
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400022, guid: f583c1e9ea9846442b60aba57d71c8fd, type: 3}
       propertyPath: m_LocalRotation.x
@@ -286,7 +286,8 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9500000, guid: f583c1e9ea9846442b60aba57d71c8fd, type: 3}
   m_ParentPrefab: {fileID: 100100000, guid: f583c1e9ea9846442b60aba57d71c8fd, type: 3}
   m_IsPrefabParent: 0
 --- !u!1 &388327271 stripped
@@ -1772,10 +1773,10 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 2063488876}
-  - 65: {fileID: 2063488877}
   - 95: {fileID: 2063488878}
   - 114: {fileID: 2063488879}
   - 54: {fileID: 2063488880}
+  - 65: {fileID: 2063488877}
   m_Layer: 0
   m_Name: Dog
   m_TagString: Untagged
@@ -1790,7 +1791,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2063488875}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -6.34000015}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1827432892}
@@ -1806,8 +1807,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.44676638, z: 1.82722187}
-  m_Center: {x: 0, y: -.223383188, z: 4.53414679}
+  m_Size: {x: 1, y: 1.37313747, z: 2.20359802}
+  m_Center: {x: 0, y: .679236889, z: .383308887}
 --- !u!95 &2063488878
 Animator:
   serializedVersion: 3
@@ -1836,14 +1837,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f6ab496ba4217848b93c1995dc53bca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Dog: {fileID: 2063488875}
-  Target: {fileID: 0}
+  isMoving: 0
   Speed: 10
   speedDampTime: .5
   red: {fileID: 1243332965}
   blue: {fileID: 224999283}
   green: {fileID: 396893468}
   yellow: {fileID: 840606216}
+  distance: 0
 --- !u!54 &2063488880
 Rigidbody:
   m_ObjectHideFlags: 0

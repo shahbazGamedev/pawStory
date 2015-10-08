@@ -17,7 +17,8 @@ public class DogMovementColorLesson : MonoBehaviour {
 	public Transform green;
 	public Transform yellow;
     public float distance;
-    
+    public GameObject PanelGameOver;
+   
 	
 
 
@@ -27,6 +28,7 @@ public class DogMovementColorLesson : MonoBehaviour {
 		rb=GetComponent<Rigidbody>();
         isMoving = false;
 		dogAnim = GetComponent<Animator>();
+        PanelGameOver.SetActive(false);
 
 
 	
@@ -57,41 +59,42 @@ public class DogMovementColorLesson : MonoBehaviour {
 
 	void FixedUpdate()
 	{
-
-
-
-
     }
        
+
     public void RedMove()
 	{
 		Target=red;
-
-
         isMoving = true;
-		
-			
-
+        
 	}
+
+
 	public void BlueMove()
 	{
 		Target=blue;
-
         isMoving = true;
-	
-
 	}
+
+
 	public void GreenMove()
 	{
 		Target=green;
-
         isMoving = true;
 	}
+
+
 	public void YellowMove()
 	{
 	    Target=yellow;
         isMoving = true;
 	}
+
+
+    void Gameover()
+    {
+        PanelGameOver.SetActive(true);
+    }
 }
 	
 
