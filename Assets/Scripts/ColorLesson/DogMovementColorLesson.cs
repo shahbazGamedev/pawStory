@@ -1,6 +1,6 @@
 ﻿/**
 Script Author : Srivatsan 
-Description   : Color Lesson Dog Movements
+Description   : Color Lesson Training
 **/
 using UnityEngine;
 using System.Collections;
@@ -22,7 +22,8 @@ public class DogMovementColorLesson : MonoBehaviour {
 
 
 	
-	void Start () {
+	void Start ()
+    {
 		rb=GetComponent<Rigidbody>();
         isMoving = false;
 		dogAnim = GetComponent<Animator>();
@@ -38,8 +39,6 @@ public class DogMovementColorLesson : MonoBehaviour {
         distance = Vector3.Distance(Target.position, transform.position);
         if (distance > 2f && isMoving == true)
         {
-
-            Debug.Log(distance);
             transform.LookAt(Target);
             dogAnim.SetFloat("Walk", 1f);
             float step = Speed * Time.deltaTime;
@@ -54,6 +53,8 @@ public class DogMovementColorLesson : MonoBehaviour {
         }
 
     }
+
+
 	void FixedUpdate()
 	{
 
@@ -62,13 +63,7 @@ public class DogMovementColorLesson : MonoBehaviour {
 
     }
        
-       
-
-    
-
-	
-
-	public void RedMove()
+    public void RedMove()
 	{
 		Target=red;
 
@@ -97,34 +92,6 @@ public class DogMovementColorLesson : MonoBehaviour {
 	    Target=yellow;
         isMoving = true;
 	}
-	//void Movement()
-	//{
-
- //       distance = Vector3.Distance(Target.position, transform.position);
- //       if (distance < 3f)
- //       {
-
- //           Debug.Log(distance);
- //           transform.LookAt(Target);
- //           dogAnim.SetFloat("Walk", 1f);
- //           float step = Speed * Time.deltaTime;
- //           rb.MovePosition(Vector3.MoveTowards(transform.position, Target.position, step));
- //       }
- //       if (distance < 2f)
- //       {
- //           isMoving = false;
-
- //           dogAnim.SetFloat("Walk", 0f);
-
- //       }
-
-
-
-
-
-    
-  
-    	
 }
 	
 
