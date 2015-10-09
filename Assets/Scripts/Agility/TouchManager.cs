@@ -15,7 +15,8 @@ public class TouchManager : MonoBehaviour
     public bool detectHold;
     public bool detectPinchOut;
     public bool setTapPos;
-    bool pinchDetected;
+    public bool detectTickling;
+    bool skipRecognizer;
 
 	public SwipeRecognizer.TouchDataCollection[] touchDataCollection;
 
@@ -70,7 +71,7 @@ public class TouchManager : MonoBehaviour
 
         if(detectPinchOut)
         {
-            if(touchDataCollection[1].isActive && touchDataCollection[2].isActive && !pinchDetected)
+            if(touchDataCollection[1].isActive && touchDataCollection[2].isActive && !skipRecognizer)
             {
                 Debug.Log(touchDataCollection[1].swipeDelta);
 
@@ -79,7 +80,7 @@ public class TouchManager : MonoBehaviour
                 {
                     Debug.Log("PinchOut");
 
-                    pinchDetected = true;
+                    skipRecognizer = true;
                     pattern = SwipeRecognizer.TouchPattern.pinchOut;
 
                 }
@@ -110,30 +111,45 @@ public class TouchManager : MonoBehaviour
 	}
 
 	// Event trigger - EndDrag
-
 	public void OnEndDrag (BaseEventData data)
 	{
        
 		var pointData = (PointerEventData)data;
 		touchDataCollection [-pointData.pointerId].endPoint= pointData.position;
 
-		if(pointData.pointerId==-1 && !touchDataCollection [2].isActive && !pinchDetected) 
+		if(pointData.pointerId==-1 && !touchDataCollection [2].isActive && !skipRecognizer) 
 		{
 			SwipeRecognizer.RecogonizeSwipe (touchDataCollection [-pointData.pointerId], out pattern, false);
 		}
         dataReset (-pointData.pointerId);
+
         if (!touchDataCollection[1].isActive && !touchDataCollection[2].isActive)
-            pinchDetected = false;
+            skipRecognizer = false;
+
+        if(detectTickling)
+        {
+            PettingManager.instRef.tickle = false;
+        }
     }
 
 	// Event trigger - Drag
 	public void OnDrag (BaseEventData data)
 	{
 		var pointData = (PointerEventData)data;
-
         // Debug.Log(pointData.pointerId);
 		touchDataCollection [-pointData.pointerId].swipeData.Add (pointData.position);
         touchDataCollection[-pointData.pointerId].swipeDelta += pointData.delta.magnitude;
+        if(detectTickling)
+        {
+            Debug.Log(touchDataCollection[-pointData.pointerId].swipeDelta);
+            if(touchDataCollection[-pointData.pointerId].swipeDelta > 400f)
+            {
+                skipRecognizer = true;
+                PettingManager.instRef.tickle = true;
+                Debug.Log("Tickle");
+            }
+        }
+
 
     }
 
@@ -141,7 +157,7 @@ public class TouchManager : MonoBehaviour
 	public void OnClickEnd(BaseEventData data)
 	{
 		var pointData = (PointerEventData)data;
-		if (pointData.pointerId == -1 && !touchDataCollection [2].isActive && !pinchDetected) 
+		if (pointData.pointerId == -1 && !touchDataCollection [2].isActive && !skipRecognizer) 
 		{
 			// check for tap 
 			if (touchDataCollection [-pointData.pointerId].swipeData.Count <= 1) 

@@ -875,6 +875,10 @@ Prefab:
       propertyPath: setTapPos
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11493010, guid: 68fa63d9f40117d4eaddaac8a3e3c6fb, type: 2}
+      propertyPath: detectTickling
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 68fa63d9f40117d4eaddaac8a3e3c6fb, type: 2}
   m_IsPrefabParent: 0
@@ -1211,7 +1215,8 @@ MonoBehaviour:
   puppyState: 0
   puppyAnim: {fileID: 1996009496}
   doubleTapPos: {x: 0, y: 0}
-  tapOnFloor: 0
+  tickle: 0
+  idleTime: 5
 --- !u!4 &1157815469
 Transform:
   m_ObjectHideFlags: 0

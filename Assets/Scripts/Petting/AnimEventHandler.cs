@@ -17,5 +17,6 @@ public class AnimEventHandler : MonoBehaviour {
     {
         Debug.Log("Fired");
         PettingManager.instRef.puppyState = PettingManager.Petting.idle;
+        PettingManager.PuppyHandle = PettingManager.instRef.Idle;
     }
 }

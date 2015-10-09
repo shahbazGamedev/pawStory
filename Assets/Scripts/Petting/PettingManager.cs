@@ -10,11 +10,13 @@ public class PettingManager : MonoBehaviour
 {
 
     #region Var
+
     public static PettingManager instRef;
 
     public enum Petting
     {
         idle, // Default State
+        puppyReact,
         tickling,
         holdTwoFoot,
         stretch,
@@ -35,33 +37,30 @@ public class PettingManager : MonoBehaviour
     public Petting puppyState;
     public Animator puppyAnim;
     public Vector2 doubleTapPos;
-    public bool tapOnFloor;
+    //public bool tapOnFloor;
+    public bool tickle;
+    public float idleTime;
 
     float time;
 
-    delegate void StateHandle();
-    StateHandle PuppyHandle;
+    public delegate void StateHandle();
+    public static StateHandle PuppyHandle;
 
     #endregion Var
 
-
-
     public void Awake()
     {
-        instRef = this;
-
-        
+        instRef = this;        
     }
 
     void Start()
     {
         time = 0;
-
+        PuppyHandle = Idle;
         // Add event listeners - TouchInput
         TouchManager.PatternRecognized += PatternRecognizedEvent;
         DogManager.instRef.ResetComplete += ResetMoveFlag;
         // EventMgr.GameRestart += OnResetBtn;
-
     }
 
     // Decouple Event Listeners
@@ -75,7 +74,6 @@ public class PettingManager : MonoBehaviour
 
     void Update()
     {
-
         if (PuppyHandle != null)
         {
             PuppyHandle();
@@ -84,35 +82,55 @@ public class PettingManager : MonoBehaviour
 
     #region PuppyStateHandlers
 
-    void Idle()
+    public void Idle()
     {
         Timer();
-        if(time>10f)
+        if(tickle)
         {
-            // random behavior
+            Debug.Log("tick");
+            puppyAnim.SetTrigger("Stretch");
+            puppyState = Petting.tickling;
+            ResetTimer();
+            PuppyHandle = Tickling;
+            // need to reset to idle
         }
+        if(time>idleTime)
+        {
+            // TODO
+            // Random Puppy Behavior from a list
+            ResetTimer();
+            puppyAnim.SetTrigger("Idle01");
+            puppyState = Petting.puppyReact;
+            PuppyHandle = PuppyReact;
+        }
+    }
+
+    void PuppyReact()
+    {
+
     }
 
     void Tickling()
     {
         Timer();
+        if(!tickle)
+        {
+            ResetToIdle();
+        }
     }
 
     void HoldTwoFoot()
     {
         Timer();
-        if(time>10f)
+        if(time>5f)
         {
-            puppyAnim.SetInteger("PuppyState", 0);
-            ResetTimer();
-            puppyState = Petting.idle;
+            ResetToIdle();
         }
     }
 
     void Stretch()
     {
         Timer();
-
     }
 
     void PlayBall()
@@ -128,6 +146,10 @@ public class PettingManager : MonoBehaviour
     void PickOneFoot()
     {
         Timer();
+        if (time > 5f)
+        {
+            ResetToIdle();
+        }
     }
 
     void MoveAround()
@@ -170,6 +192,13 @@ public class PettingManager : MonoBehaviour
         time = 0;
     }
 
+    void ResetToIdle()
+    {
+        puppyAnim.SetInteger("PuppyState", 0);
+        ResetTimer();
+        puppyState = Petting.idle;
+    }
+
     #endregion PuppyStateHandlers
 
     #region EventHandlers
@@ -183,7 +212,6 @@ public class PettingManager : MonoBehaviour
         {
             if (pattern == SwipeRecognizer.TouchPattern.doubleTap)
             {
-                //tapOnFloor = false;
                 PuppyHandle = MoveAround;
                 puppyState = Petting.moveAround;
 
@@ -196,28 +224,26 @@ public class PettingManager : MonoBehaviour
                     if (layerName == "Toys")
                     {
                         var worldPoint = hit.point + (Vector3.up * 0.01f);
+
                         // code for move dog to target
                         StartCoroutine(DogManager.instRef.MoveToPosition(worldPoint, Quaternion.identity));
+
                         puppyState = Petting.moveAround;
                         ResetTimer();
                         PuppyHandle = MoveAround;
                     }
                     else if (layerName == "Dog")
                     {
-
-
                         puppyAnim.SetInteger("PuppyState", 1);
                         puppyState = Petting.holdTwoFoot;
                         ResetTimer();
                         PuppyHandle = HoldTwoFoot;
-                        // need to reset to idle
                     }
                 }
             }
 
             else if (pattern == SwipeRecognizer.TouchPattern.hold)
             {
-
                 puppyAnim.SetInteger("PuppyState", 2);
                 puppyState = Petting.pickOneFoot;
                 ResetTimer();
@@ -231,7 +257,6 @@ public class PettingManager : MonoBehaviour
                 puppyState = Petting.stretch;
                 ResetTimer();
                 PuppyHandle = Stretch;
-                // need to reset to idle
             }
 
             else if (pattern == SwipeRecognizer.TouchPattern.swipeDown)
@@ -247,14 +272,12 @@ public class PettingManager : MonoBehaviour
         {
             if ((pattern == SwipeRecognizer.TouchPattern.swipeLeft || pattern == SwipeRecognizer.TouchPattern.swipeRight))
             {
-
                 puppyAnim.SetTrigger("Rotate");
                 ResetTimer();
                 puppyState = Petting.rollOnFloor;
             }
             else if (pattern == SwipeRecognizer.TouchPattern.swipeUp)
             {
-
                 puppyAnim.SetInteger("PuppyState", 0);
                 ResetTimer();
                 puppyState = Petting.idle;
@@ -275,17 +298,13 @@ public class PettingManager : MonoBehaviour
                 PuppyHandle = Idle;
                 puppyState = Petting.idle;
             }
-
         }
-
     }
 
     void ResetMoveFlag()
     {
         puppyState = Petting.idle;
     }
-
-
 
     #endregion EventHandlers
 
