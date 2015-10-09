@@ -192,11 +192,12 @@ public class PettingManager : MonoBehaviour
         time = 0;
     }
 
-    void ResetToIdle()
+    public void ResetToIdle()
     {
         puppyAnim.SetInteger("PuppyState", 0);
         ResetTimer();
         puppyState = Petting.idle;
+        PuppyHandle = Idle;
     }
 
     #endregion PuppyStateHandlers
