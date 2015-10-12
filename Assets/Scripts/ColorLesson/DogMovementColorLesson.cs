@@ -29,6 +29,7 @@ public class DogMovementColorLesson : MonoBehaviour {
         isMoving = false;
 		dogAnim = GetComponent<Animator>();
         PanelGameOver.SetActive(false);
+        
 
 
 	
