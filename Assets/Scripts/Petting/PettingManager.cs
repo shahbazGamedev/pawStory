@@ -41,7 +41,8 @@ public class PettingManager : MonoBehaviour
     public bool tickle;
     public float idleTime;
 
-    float time;
+    public float time;
+    Vector3 startPos;
 
     public delegate void StateHandle();
     public static StateHandle PuppyHandle;
@@ -57,9 +58,11 @@ public class PettingManager : MonoBehaviour
     {
         time = 0;
         PuppyHandle = Idle;
+        startPos = DogManager.instRef.dogReference.transform.position;
         // Add event listeners - TouchInput
         TouchManager.PatternRecognized += PatternRecognizedEvent;
         DogManager.instRef.ResetComplete += ResetMoveFlag;
+        EventMgr.GameRestart += OnReset;
         // EventMgr.GameRestart += OnResetBtn;
     }
 
@@ -107,6 +110,12 @@ public class PettingManager : MonoBehaviour
 
     void PuppyReact()
     {
+        Timer();
+        if(time>10f)
+        {
+            ResetTimer();
+            PuppyHandle = Idle;
+        }
 
     }
 
@@ -141,6 +150,10 @@ public class PettingManager : MonoBehaviour
     void RollOnFloor()
     {
         Timer();
+        if (time > 5f)
+        {
+            ResetToIdle();
+        }
     }
 
     void PickOneFoot()
@@ -304,7 +317,7 @@ public class PettingManager : MonoBehaviour
 
     void ResetMoveFlag()
     {
-        puppyState = Petting.idle;
+        ResetToIdle();
     }
 
     #endregion EventHandlers
@@ -315,14 +328,31 @@ public class PettingManager : MonoBehaviour
     IEnumerator ResetFlagAferSecs(float time, bool resetAnim)
     {
         yield return new WaitForSeconds(time);
-        if (resetAnim)
-        {
-            puppyAnim.SetInteger("PuppyState", 0);
-        }
-        puppyState = Petting.idle;
+        //if (resetAnim)
+        //{
+        //    puppyAnim.SetInteger("PuppyState", 0);
+        //}
+        //puppyState = Petting.idle;
+        ResetToIdle();
         yield return null;
     }
 
-
+    IEnumerator Reset()
+    {
+        yield return StartCoroutine(DogManager.instRef.MoveToPosition(startPos, Quaternion.identity));
+        ResetToIdle();
+    }
     #endregion Coroutines
+
+
+    #region BtnCallbacks
+
+    void OnReset()
+    {
+
+        StartCoroutine(Reset());
+
+    }
+
+    #endregion BtnCallbacks
 }
