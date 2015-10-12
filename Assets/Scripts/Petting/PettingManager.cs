@@ -168,6 +168,10 @@ public class PettingManager : MonoBehaviour
     void MoveAround()
     {
         Timer();
+        if (time > 10f)
+        {
+            ResetToIdle();
+        }
     }
 
     void Eating()

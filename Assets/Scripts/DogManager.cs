@@ -200,7 +200,7 @@ public class DogManager : MonoBehaviour
         if (disableDogControl)
         {
             dogAnim.SetFloat("Speed", 1f, 0f, Time.deltaTime);
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.2f);
             transform.LookAt(targetPosition);
         }
         while (Vector3.Distance(transform.position, targetPosition)+0.7f >1f)
@@ -213,7 +213,7 @@ public class DogManager : MonoBehaviour
         if (disableDogControl)
         {
             dogAnim.SetFloat("Speed", 0f, 0f, Time.deltaTime);
-            yield return new WaitForSeconds(0.8f);
+            yield return new WaitForSeconds(0f);
         }
         isCircuitRun = false;
         while (transform.rotation != targetRotation)
