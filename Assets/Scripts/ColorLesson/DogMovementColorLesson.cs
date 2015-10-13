@@ -6,24 +6,28 @@ using UnityEngine;
 using System.Collections;
 
 public class DogMovementColorLesson : MonoBehaviour {
-	Transform Target;
-	Rigidbody rb;
-	public bool isMoving;
+	
+	
+	
     public float Speed;
-	private Animator dogAnim;
-	public float speedDampTime;
-	public Transform red;
+    public float speedDampTime;
+    public GameObject PanelGameOver;
+    public Transform Target;
+    public Transform red;
 	public Transform blue;
 	public Transform green;
 	public Transform yellow;
     public float distance;
-    public GameObject PanelGameOver;
-    string layerName;
-    bool collectRed;
+    public bool isMoving;
+    public bool collectRed;
     public bool collectBlue;
-    bool collectGreen;
-    bool collectWhite;
-    bool canClick;
+    public bool collectGreen;
+    public bool collectWhite;
+    public bool canClick;
+    public bool gameStart;
+    Animator dogAnim;
+    Rigidbody rb;
+    string layerName;
 
 
 
@@ -62,25 +66,51 @@ public class DogMovementColorLesson : MonoBehaviour {
             dogAnim.SetFloat("Walk", 0f);
 
         }
-        
+        TargetCreator();
+
     }
 
 
     void TargetCreator()
     {
-        Debug.Log("yes yes yes");
+      
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit, 1000f))
+            if (Physics.Raycast(ray, out hit, 300f))
             {
                 Debug.Log("Hit");
                 layerName = LayerMask.LayerToName(hit.collider.gameObject.layer);
+                if (layerName == "Toys")
+                {
+                    collectGreen = true;
+                    Debug.Log("S");
+                    Target = green;
+                    //isMoving = true;
+
+                }
                 if (layerName == "Floor")
                 {
-                    collectBlue=true;
-                    Debug.Log("steve");
+                    collectBlue = true;
+                    Debug.Log("t");
+                    Target = blue;
+                    //isMoving = true;
+
+                }
+                if (layerName == "Dog")
+                {
+                    collectWhite = true;
+                    Debug.Log("e");
+                    Target = yellow;
+                    //isMoving = true;
+
+                }
+                if (layerName == "Back")
+                {
+                    collectRed = true;
+                    Debug.Log("v");
+                    Target = red;
                     
                     //isMoving = true;
 
@@ -96,10 +126,10 @@ public class DogMovementColorLesson : MonoBehaviour {
 
     public void RedMove()
 	{
-        if (canClick)
+        if (canClick && collectRed)
         {
             canClick = false;
-            Target = red;
+            
             isMoving = true;
         }
         
@@ -108,11 +138,11 @@ public class DogMovementColorLesson : MonoBehaviour {
 
     public void BlueMove()
     {
-        if (canClick)
+        if (canClick && collectBlue)
         {
 
             canClick = false;
-            Target = blue;
+            
             isMoving = true;
         }
     }
@@ -120,11 +150,11 @@ public class DogMovementColorLesson : MonoBehaviour {
 
 	public void GreenMove()
 	{
-        if (canClick)
+        if (canClick && collectGreen)
         {
 
             canClick = false;
-            Target = green;
+            
             isMoving = true;
         }
 	}
@@ -132,10 +162,10 @@ public class DogMovementColorLesson : MonoBehaviour {
 
 	public void YellowMove()
 	{
-        if (canClick)
+        if (canClick && collectWhite)
         {
             canClick = false;
-            Target = yellow;
+            
             isMoving = true;
         }
 	}
