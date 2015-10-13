@@ -5,6 +5,7 @@ Description   : Game Manager for Petting
 
 using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 public class PettingManager : MonoBehaviour
 {
@@ -36,13 +37,18 @@ public class PettingManager : MonoBehaviour
 
     public Petting puppyState;
     public Animator puppyAnim;
+    public GameObject ballRef;
+    Rigidbody ballRb;
     public Vector2 doubleTapPos;
     //public bool tapOnFloor;
     public bool tickle;
+    public bool playBall;
+    public bool holdBall;
     public float idleTime;
 
     public float time;
     Vector3 startPos;
+    Vector3 targetPosBall;
 
     public delegate void StateHandle();
     public static StateHandle PuppyHandle;
@@ -51,7 +57,8 @@ public class PettingManager : MonoBehaviour
 
     public void Awake()
     {
-        instRef = this;        
+        instRef = this;
+        ballRb = ballRef.GetComponent<Rigidbody>();
     }
 
     void Start()
@@ -59,6 +66,8 @@ public class PettingManager : MonoBehaviour
         time = 0;
         PuppyHandle = Idle;
         startPos = DogManager.instRef.dogReference.transform.position;
+
+
         // Add event listeners - TouchInput
         TouchManager.PatternRecognized += PatternRecognizedEvent;
         DogManager.instRef.ResetComplete += ResetMoveFlag;
@@ -145,6 +154,31 @@ public class PettingManager : MonoBehaviour
     void PlayBall()
     {
         Timer();
+        // TODO code for moving ball
+        if (TouchManager.instRef.touchDataCollection[1].isActive)
+        {
+            targetPosBall = ballRef.transform.position;
+
+            var screenPoint = new Vector3( TouchManager.instRef.touchDataCollection[1].swipeData.LastOrDefault().x,  TouchManager.instRef.touchDataCollection[1].swipeData.LastOrDefault().y, 0f);
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(screenPoint);
+            if (Physics.Raycast(ray, out hit, 300f))
+            {
+                string layerName = LayerMask.LayerToName(hit.collider.gameObject.layer);
+                if (layerName == "Toys")
+                {
+                    var worldPoint = hit.point + (Vector3.up * 0.01f);
+                    targetPosBall.x = worldPoint.x;
+                    ballRb.MovePosition(targetPosBall);
+                }
+            }
+        }
+        else
+        {
+            // reset dog state
+            ResetToIdle();
+        }
+
     }
 
     void RollOnFloor()
@@ -262,11 +296,44 @@ public class PettingManager : MonoBehaviour
 
             else if (pattern == SwipeRecognizer.TouchPattern.hold)
             {
-                puppyAnim.SetInteger("PuppyState", 2);
-                puppyState = Petting.pickOneFoot;
-                ResetTimer();
-                PuppyHandle = PickOneFoot;
-                // need to reset to idle
+
+                if (playBall)
+                {
+                    var screenPoint = new Vector3(doubleTapPos.x, doubleTapPos.y, 0f);
+                    RaycastHit hit;
+                    Ray ray = Camera.main.ScreenPointToRay(screenPoint);
+                    if (Physics.Raycast(ray, out hit, 300f))
+                    {
+                        string layerName = LayerMask.LayerToName(hit.collider.gameObject.layer);
+                        if (layerName == "Toys")
+                        {
+                            Debug.Log("PlayBall");
+                            var worldPoint = hit.point + (Vector3.up * 0.01f);
+
+                            holdBall = true;
+
+                            puppyState = Petting.playBall;
+                            ResetTimer();
+                            PuppyHandle = PlayBall;
+                        }
+                        else
+                        {
+                            puppyAnim.SetInteger("PuppyState", 2);
+                            puppyState = Petting.pickOneFoot;
+                            ResetTimer();
+                            PuppyHandle = PickOneFoot;
+                            // need to reset to idle
+                        }
+                    }
+                }
+                else
+                {
+                    puppyAnim.SetInteger("PuppyState", 2);
+                    puppyState = Petting.pickOneFoot;
+                    ResetTimer();
+                    PuppyHandle = PickOneFoot;
+                    // need to reset to idle
+                }
             }
 
             else if (pattern == SwipeRecognizer.TouchPattern.pinchOut)
