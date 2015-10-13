@@ -200,6 +200,7 @@ public class DogManager : MonoBehaviour
         if (disableDogControl)
         {
             dogAnim.SetFloat("Speed", 1f, 0f, Time.deltaTime);
+            dogAnim.SetTrigger("Start");
             yield return new WaitForSeconds(0.2f);
             transform.LookAt(targetPosition);
         }

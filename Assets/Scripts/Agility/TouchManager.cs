@@ -141,8 +141,9 @@ public class TouchManager : MonoBehaviour
         touchDataCollection[-pointData.pointerId].swipeDelta += pointData.delta.magnitude;
         if(detectTickling)
         {
-            Debug.Log(touchDataCollection[-pointData.pointerId].swipeDelta);
-            if(touchDataCollection[-pointData.pointerId].swipeDelta > 400f)
+            var tick=touchDataCollection[-pointData.pointerId].swipeDelta / (Screen.dpi > 0 ? Screen.dpi : 240);
+            Debug.Log(tick);
+            if(tick>6 && !touchDataCollection[2].isActive)
             {
                 skipRecognizer = true;
                 PettingManager.instRef.tickle = true;
