@@ -1,9 +1,15 @@
-﻿using UnityEngine;
+﻿/**
+Script Author : Vaikash
+Description   : Manages Ball Behaviour - Petting
+**/
+
+using UnityEngine;
 using System.Collections;
 
 public class PettingBall : MonoBehaviour
 {
     public GameObject dogRef;
+    public bool isActive;
 
     // Use this for initialization
     void Start()
@@ -20,5 +26,30 @@ public class PettingBall : MonoBehaviour
     public void OnEnable()
     {
         Physics.IgnoreCollision(dogRef.GetComponent<Collider>(), GetComponent<Collider>());
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if(other.tag=="Player")
+        {
+            if(isActive)
+            {
+                Debug.Log("Disable");
+                // disable switch
+                // Code to make dog jump
+            }
+        }
+    }
+
+    public void OnTriggerExit(Collider other)
+    {
+        if(other.tag=="Player")
+        {
+            if (isActive)
+            {
+                Debug.Log("Enable");
+                // enable switch
+            }
+        }
     }
 }

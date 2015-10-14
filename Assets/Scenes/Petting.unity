@@ -1258,6 +1258,7 @@ GameObject:
   - 23: {fileID: 1197681573}
   - 54: {fileID: 1197681577}
   - 114: {fileID: 1197681578}
+  - 65: {fileID: 1197681579}
   m_Layer: 11
   m_Name: Ball
   m_TagString: Untagged
@@ -1296,8 +1297,8 @@ SphereCollider:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1197681572}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
+  m_IsTrigger: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: .5
   m_Center: {x: 0, y: 0, z: 0}
@@ -1315,8 +1316,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1197681572}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.66999996, y: .747117877, z: 3.39526844}
-  m_LocalScale: {x: .5, y: .5, z: .5}
+  m_LocalPosition: {x: -1.91999996, y: 2.20000005, z: 3.39526844}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 8
@@ -1347,6 +1348,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dogRef: {fileID: 1996009489}
+  isActive: 0
+--- !u!65 &1197681579
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1197681572}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2, z: 1}
+  m_Center: {x: 0, y: -1, z: 0}
 --- !u!1 &1208918083
 GameObject:
   m_ObjectHideFlags: 0

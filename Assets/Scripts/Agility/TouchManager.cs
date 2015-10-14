@@ -152,7 +152,7 @@ public class TouchManager : MonoBehaviour
         if (detectTickling)
         {
             var tick=touchDataCollection[-pointData.pointerId].swipeDelta / (Screen.dpi > 0 ? Screen.dpi : 240);
-            Debug.Log(tick);
+            //Debug.Log(tick);
             if (tick > 6 && !touchDataCollection[2].isActive)
             {
                 skipRecognizer = true;
