@@ -48,6 +48,11 @@ public class PettingManager : MonoBehaviour
     public float idleTime;
 
     public float time;
+
+    bool setPrevData;
+    public float prevTouch;
+    public float ballMoveDelta;
+
     bool skipResetToIdle;
     Vector3 startPos;
     Vector3 targetPosBall;
@@ -67,6 +72,7 @@ public class PettingManager : MonoBehaviour
     {
         time = 0;
         PuppyHandle = Idle;
+        setPrevData = true;
         startPos = DogManager.instRef.dogReference.transform.position;
 
 
@@ -156,25 +162,39 @@ public class PettingManager : MonoBehaviour
     void PlayBall()
     {
         Timer();
-
+        ballRb.isKinematic = true;
         if (TouchManager.instRef.touchDataCollection[1].isActive)
         {
+            //if (setPrevData)
+            //{
+            //    prevTouch = TouchManager.instRef.touchDataCollection[1].startPoint.x;
+            //    setPrevData = false;
+            //}
+
             targetPosBall = ballRef.transform.position;
 
+            //ballMoveDelta = TouchManager.instRef.touchDataCollection[1].swipeData.Last().x-setPrevData;
+            //ballRef.transform.position += new Vector3(ballMoveDelta, 0, 0);
+
             var screenPoint = new Vector3( TouchManager.instRef.touchDataCollection[1].swipeData.LastOrDefault().x,  TouchManager.instRef.touchDataCollection[1].swipeData.LastOrDefault().y, 0f);
+
+
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(screenPoint);
             if (Physics.Raycast(ray, out hit, 300f))
             {
                 string layerName = LayerMask.LayerToName(hit.collider.gameObject.layer);
-                if (layerName == "Toys")
+                if (layerName == "Back" || layerName == "Toys")
                 {
                     var worldPoint = hit.point + (Vector3.up * 0.01f);
                     targetPosBall.x = worldPoint.x;
+                    targetPosBall.y = worldPoint.y;
                     ballRb.MovePosition(targetPosBall);
                 }
             }
-            if(puppyReactBall)
+
+
+            if (puppyReactBall)
             {
                 puppyReactBall = false;
                 puppyAnim.SetTrigger("Jump");
@@ -185,6 +205,8 @@ public class PettingManager : MonoBehaviour
         else
         {
             // reset dog state
+            ballRb.isKinematic = false;
+            setPrevData = true;
             ResetToIdle();
         }
 

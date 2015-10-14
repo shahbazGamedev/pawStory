@@ -30,5 +30,10 @@ public class MainMenu : MonoBehaviour {
         GameMgr.Inst.LoadScene(GlobalConst.Scene_TournamentSelection);
     }
 
+    public void OnPetting()
+    {
+        GameMgr.Inst.LoadScene("Petting");
+    }
+
 }
 		

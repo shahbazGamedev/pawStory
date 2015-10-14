@@ -149,6 +149,7 @@ public class TouchManager : MonoBehaviour
         // Debug.Log(pointData.pointerId);
         touchDataCollection[-pointData.pointerId].swipeData.Add(pointData.position);
         touchDataCollection[-pointData.pointerId].swipeDelta += pointData.delta.magnitude;
+        touchDataCollection[-pointData.pointerId].swipeDeltaPetting = pointData.delta.magnitude;
         if (detectTickling)
         {
             var tick=touchDataCollection[-pointData.pointerId].swipeDelta / (Screen.dpi > 0 ? Screen.dpi : 240);

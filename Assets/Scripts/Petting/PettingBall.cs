@@ -25,7 +25,7 @@ public class PettingBall : MonoBehaviour
 
     public void OnEnable()
     {
-        Physics.IgnoreCollision(dogRef.GetComponent<Collider>(), GetComponent<Collider>());
+         Physics.IgnoreCollision(dogRef.GetComponent<Collider>(), GetComponent<Collider>());
     }
 
     public void OnTriggerEnter(Collider other)
