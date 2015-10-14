@@ -34,9 +34,8 @@ public class PettingBall : MonoBehaviour
         {
             if(isActive)
             {
-                Debug.Log("Disable");
-                // disable switch
-                // Code to make dog jump
+                Debug.Log("PuppyReact");
+                PettingManager.instRef.puppyReactBall = true;
             }
         }
     }
@@ -47,8 +46,7 @@ public class PettingBall : MonoBehaviour
         {
             if (isActive)
             {
-                Debug.Log("Enable");
-                // enable switch
+
             }
         }
     }

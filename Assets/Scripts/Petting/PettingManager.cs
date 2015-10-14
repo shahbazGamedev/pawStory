@@ -44,9 +44,11 @@ public class PettingManager : MonoBehaviour
     public bool tickle;
     public bool playBall;
     public bool holdBall;
+    public bool puppyReactBall;
     public float idleTime;
 
     public float time;
+    bool skipResetToIdle;
     Vector3 startPos;
     Vector3 targetPosBall;
 
@@ -154,7 +156,7 @@ public class PettingManager : MonoBehaviour
     void PlayBall()
     {
         Timer();
-        // TODO code for moving ball
+
         if (TouchManager.instRef.touchDataCollection[1].isActive)
         {
             targetPosBall = ballRef.transform.position;
@@ -171,6 +173,13 @@ public class PettingManager : MonoBehaviour
                     targetPosBall.x = worldPoint.x;
                     ballRb.MovePosition(targetPosBall);
                 }
+            }
+            if(puppyReactBall)
+            {
+                puppyReactBall = false;
+                puppyAnim.SetTrigger("Jump");
+                skipResetToIdle = true;
+                ResetTimer();
             }
         }
         else
@@ -245,10 +254,15 @@ public class PettingManager : MonoBehaviour
 
     public void ResetToIdle()
     {
-        puppyAnim.SetInteger("PuppyState", 0);
-        ResetTimer();
-        puppyState = Petting.idle;
-        PuppyHandle = Idle;
+        if (!skipResetToIdle)
+        {
+            puppyAnim.SetInteger("PuppyState", 0);
+            ResetTimer();
+            puppyState = Petting.idle;
+            PuppyHandle = Idle;
+        }
+        else
+            skipResetToIdle = false;
     }
 
     #endregion PuppyStateHandlers
