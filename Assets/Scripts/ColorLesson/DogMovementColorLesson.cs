@@ -87,6 +87,9 @@ public class DogMovementColorLesson : MonoBehaviour {
                     collectGreen = true;
                     Debug.Log("S");
                     Target = green;
+                    collectBlue = false;
+                    collectRed = false;
+                    collectWhite = false;
                     //isMoving = true;
 
                 }
@@ -95,6 +98,9 @@ public class DogMovementColorLesson : MonoBehaviour {
                     collectBlue = true;
                     Debug.Log("t");
                     Target = blue;
+                    collectGreen = false;
+                    collectRed = false;
+                    collectWhite = false;
                     //isMoving = true;
 
                 }
@@ -103,6 +109,9 @@ public class DogMovementColorLesson : MonoBehaviour {
                     collectWhite = true;
                     Debug.Log("e");
                     Target = yellow;
+                    collectBlue = false;
+                    collectRed = false;
+                    collectGreen = false;
                     //isMoving = true;
 
                 }
@@ -111,7 +120,10 @@ public class DogMovementColorLesson : MonoBehaviour {
                     collectRed = true;
                     Debug.Log("v");
                     Target = red;
-                    
+                    collectBlue = false;
+                    collectGreen = false;
+                    collectWhite = false;
+
                     //isMoving = true;
 
                 }
