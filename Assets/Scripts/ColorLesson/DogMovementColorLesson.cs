@@ -4,6 +4,7 @@ Description   : Color Lesson Training
 **/
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class DogMovementColorLesson : MonoBehaviour {
 	
@@ -12,6 +13,10 @@ public class DogMovementColorLesson : MonoBehaviour {
     public float Speed;
     public float speedDampTime;
     public GameObject PanelGameOver;
+    public GameObject redBtn;
+    public GameObject blueBtn;
+    public GameObject greenBtn;
+    public GameObject whiteBtn;
     public Transform Target;
     public Transform red;
 	public Transform blue;
@@ -28,6 +33,9 @@ public class DogMovementColorLesson : MonoBehaviour {
     Animator dogAnim;
     Rigidbody rb;
     string layerName;
+    public Text teachingTxt;
+    public GameObject TeachingPnl;
+    
 
 
 
@@ -40,6 +48,10 @@ public class DogMovementColorLesson : MonoBehaviour {
 		dogAnim = GetComponent<Animator>();
         PanelGameOver.SetActive(false);
         canClick = true;
+        teachingTxt.text = "Teach Green";
+        blueBtn.SetActive(false);
+        redBtn.SetActive(false);
+        whiteBtn.SetActive(false);
 
 
 
@@ -182,10 +194,36 @@ public class DogMovementColorLesson : MonoBehaviour {
         }
 	}
 
-
-    void Gameover()
+    void OnTriggerEnter(Collider other)
     {
-        PanelGameOver.SetActive(true);
+        if(other.gameObject.tag == "Toys")
+        {
+            greenBtn.SetActive(false);
+            teachingTxt.text = "Teach Red";
+            redBtn.SetActive(true);
+           
+        }
+        if (other.gameObject.tag == "Basket")
+        {
+            redBtn.SetActive(false);
+            teachingTxt.text = "Teach Blue";
+            blueBtn.SetActive(true);
+
+        }
+        if (other.gameObject.tag == "MovePoints")
+        {
+            PanelGameOver.SetActive(true);
+            TeachingPnl.SetActive(false);
+
+
+        }
+        if (other.gameObject.tag == "Ball")
+        {
+            blueBtn.SetActive(false);
+            teachingTxt.text = "Teach white";
+            whiteBtn.SetActive(true);
+
+        }
     }
 }
 	
