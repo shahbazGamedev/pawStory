@@ -4,17 +4,11 @@ using System.Collections.Generic;
 
 public class NewFollowTraningMgr : MonoBehaviour
 {
-    public List<GameObject> Nodes1;
-    public List<GameObject> Nodes2;
-    public List<GameObject> Nodes3;
+    public List<GameObject> Nodes;
     public GameObject startPos;
     public GameObject dog;
-    int curNode1 = -1;
-    int curNode2 =-1;
-    int curNode3 = -1;
-    public bool isMovingB;
-    public bool isMovingG;
-    public bool isMovingR;
+    int curNode = -1;
+    public bool isMoving;
     bool canTap;
     public float dogSpeed;
     Animator dogAnim;
@@ -32,65 +26,30 @@ public class NewFollowTraningMgr : MonoBehaviour
 
     void Update()
     {
-        if(isMovingB)
+        if(isMoving)
         {
-            MovementB();
+            Movement();
         }
-        if (isMovingG)
-        {
-            MovementG();
-        }
-        if (isMovingR)
-        {
-            MovementR();
-        }
+     
       
     }
 
-    public void MovementB()
+    public void Movement()
     {
 
-        transform.LookAt(Nodes1[curNode1].transform, new Vector3(0, 1, 0));
-        transform.position = Vector3.MoveTowards(transform.position, Nodes1[curNode1].transform.position, Time.deltaTime * dogSpeed);
+        transform.LookAt(Nodes[curNode].transform, new Vector3(0, 1, 0));
+        transform.position = Vector3.MoveTowards(transform.position, Nodes[curNode].transform.position, Time.deltaTime * dogSpeed);
         dogAnim.SetFloat("Walk", 1f);
-        if (Vector3.Distance(transform.position, Nodes1[curNode1].transform.position) < 1f)
+        if (Vector3.Distance(transform.position, Nodes[curNode].transform.position) < 1f)
         {
             dogAnim.SetFloat("Walk", 0f);
-            isMovingB = false;
+            isMoving = false;
             canTap = true;
 
         }
     }
 
-    public void MovementG()
-    {
-
-        transform.LookAt(Nodes2[curNode2].transform, new Vector3(0, 1, 0));
-        transform.position = Vector3.MoveTowards(transform.position, Nodes2[curNode2].transform.position, Time.deltaTime * dogSpeed);
-        dogAnim.SetFloat("Walk", 1f);
-        if (Vector3.Distance(transform.position, Nodes2[curNode2].transform.position) < 1f)
-        {
-            dogAnim.SetFloat("Walk", 0f);
-            isMovingG = false;
-            canTap = true;
-
-        }
-    }
-
-    public void MovementR()
-    {
-
-        transform.LookAt(Nodes3[curNode3].transform, new Vector3(0, 1, 0));
-        transform.position = Vector3.MoveTowards(transform.position, Nodes3[curNode3].transform.position, Time.deltaTime * dogSpeed);
-        dogAnim.SetFloat("Walk", 1f);
-        if (Vector3.Distance(transform.position, Nodes3[curNode3].transform.position) < 1f)
-        {
-            dogAnim.SetFloat("Walk", 0f);
-            isMovingR = false;
-            canTap = true;
-
-        }
-    }
+   
 
     void OnTriggerEnter(Collider coll)
     {
@@ -108,43 +67,17 @@ public class NewFollowTraningMgr : MonoBehaviour
     {
         if (canTap)
         {
-            curNode1++;
-            isMovingB = true;
-            Debug.Log(curNode1);
+            curNode++;
+            isMoving = true;
+            Debug.Log(curNode);
             canTap = false;
 
 
         }
     }
 
-    public void GreenMove()
-    {
-        if (canTap)
-        {
-            curNode2++;
-            isMovingG = true;
-            canTap = false;
-
-
-        }
-    }
-
-    public void RedMove()
-    {
-        if (canTap)
-        {
-            curNode3++;
-            isMovingR = true;
-            canTap = false;
-
-
-        }
-    }
-    void BackToStart()
-    {
-        transform.LookAt(startPos.transform, new Vector3(0, 1, 0));
-        transform.position = Vector3.MoveTowards(transform.position, startPos.transform.position, Time.deltaTime * dogSpeed);
-    }
+   
+    
    
 }
 
