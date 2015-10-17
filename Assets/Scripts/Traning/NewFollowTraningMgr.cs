@@ -5,14 +5,15 @@ using System.Collections.Generic;
 public class NewFollowTraningMgr : MonoBehaviour
 {
     public List<GameObject> Nodes;
-    public GameObject startPos;
     public GameObject dog;
+    public GameObject gameOverPanel;
     int curNode = -1;
     public bool isMoving;
     bool canTap;
     public float dogSpeed;
     Animator dogAnim;
     bool gotoStart;
+    public Vector3 StartPos;
    
 
 
@@ -20,7 +21,21 @@ public class NewFollowTraningMgr : MonoBehaviour
     {
         dogAnim = GetComponent<Animator>();
         canTap = true;
+        gameOverPanel.SetActive(false);
+        StartPos = transform.position;
+        OnRestartGame();
           
+    }
+
+    void OnEnable()
+    {
+        EventMgr.GameRestart += OnRestartGame;
+    }
+
+
+    void OnDisable()
+    {
+        EventMgr.GameRestart -= OnRestartGame;
     }
 
 
@@ -57,7 +72,7 @@ public class NewFollowTraningMgr : MonoBehaviour
         {
             
             Debug.Log("collided");
-            gotoStart = true;
+            gameOverPanel.SetActive(true);
             
             
         }
@@ -74,6 +89,13 @@ public class NewFollowTraningMgr : MonoBehaviour
 
 
         }
+    }
+
+    void OnRestartGame()
+    {
+        dog.transform.position = StartPos;
+        gameOverPanel.SetActive(false);
+        transform.LookAt(new Vector3(0, 0, 0));
     }
 
    
