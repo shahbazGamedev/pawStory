@@ -8,8 +8,14 @@ using System.Collections;
 using UnityEngine.EventSystems;
 using System.Linq;
 
+using UnityEngine.UI;
+
 public class TouchManager : MonoBehaviour
 {
+    public Text touch1;
+    public Text touch2;
+
+
     public static TouchManager instRef;
 
     public GameObject touchMat;
@@ -150,6 +156,11 @@ public class TouchManager : MonoBehaviour
         touchDataCollection[-pointData.pointerId].swipeData.Add(pointData.position);
         touchDataCollection[-pointData.pointerId].swipeDelta += pointData.delta.magnitude;
         touchDataCollection[-pointData.pointerId].swipeDeltaPetting = pointData.delta.magnitude;
+        //if (pointData.pointerId == -1)
+        //    touch1.text = "" + pointData.position;
+        //else if (pointData.pointerId == -2)
+        //    touch2.text = "" + pointData.position;
+
         if (detectTickling)
         {
             var tick=touchDataCollection[-pointData.pointerId].swipeDelta / (Screen.dpi > 0 ? Screen.dpi : 240);
