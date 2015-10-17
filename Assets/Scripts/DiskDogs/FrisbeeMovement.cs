@@ -46,17 +46,18 @@ public class FrisbeeMovement : MonoBehaviour {
 		if (Vector3.Distance (dog.transform.position, frisbee.transform.position) < 2.5f && isJumping == false) 
 		{
 			direction = frisbee.transform.position - dog.transform.position;
+            Debug.Log(direction);
 			distance = direction.magnitude;
 		    angleRadians = shootingAngle * Mathf.Deg2Rad;
 			velocity = Mathf.Sqrt (distance * Physics.gravity.magnitude / Mathf.Sin (2 * angleRadians));
 			frisbeeForce = velocity * direction.normalized;
-			if(direction.x<0)
+			if(direction.x<0 && direction.x>-1f)
 			{
 			dog.GetComponent<DogMovementFrisbee> ().jumpingLeft(frisbeeForce);
 			isJumping = true;
 				Debug.Log("leftjump");
 			}
-			else if(direction.x>0)
+			else if(direction.x>0 && direction.x<1f)
 			{
 				dog.GetComponent<DogMovementFrisbee> ().jumpingRight(frisbeeForce);
 				isJumping=true;
