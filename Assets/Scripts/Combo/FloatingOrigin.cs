@@ -30,11 +30,11 @@ public class FloatingOrigin : MonoBehaviour
             for(int i=0;i<objects.Length;i++)
             {
                 t = (Transform)objects[i];
-                if(t.tag == "Stationary")
+                if(t.CompareTag("Stationary"))
                 {
                     continue;
                 }
-                if(t.parent == null || t.parent.name=="Pooler")
+                else if(t.parent == null || t.parent.name=="Pooler")
                 {
                     t.position -= cameraPosition;
                 }
@@ -43,6 +43,7 @@ public class FloatingOrigin : MonoBehaviour
             objects = FindObjectsOfType(typeof(ParticleEmitter));
             for (int i = 0; i < objects.Length; i++)
             {
+                Debug.Log("Particle");
                 pe = (ParticleEmitter)objects[i];
                 Particle[] emitterParticles = pe.particles;
                 for (int j = 0; j < emitterParticles.Length; j++)
@@ -52,24 +53,24 @@ public class FloatingOrigin : MonoBehaviour
                 pe.particles = emitterParticles;
             }
 
-            if (physicsThreshold >= 0f)
-            {
-                objects = FindObjectsOfType(typeof(Rigidbody));
-                for (int i = 0; i < objects.Length; i++)
-                {
-                    r = (Rigidbody)objects[i];
-                    if (r.gameObject.transform.position.magnitude > physicsThreshold)
-                    {
-                        r.sleepAngularVelocity = float.MaxValue;
-                        r.sleepVelocity = float.MaxValue;
-                    }
-                    else
-                    {
-                        r.sleepAngularVelocity = defaultSleepVelocity;
-                        r.sleepVelocity = defaultAngularVelocity;
-                    }
-                }
-            }
+            //if (physicsThreshold >= 0f)
+            //{
+            //    objects = FindObjectsOfType(typeof(Rigidbody));
+            //    for (int i = 0; i < objects.Length; i++)
+            //    {
+            //        r = (Rigidbody)objects[i];
+            //        if (r.gameObject.transform.position.magnitude > physicsThreshold)
+            //        {
+            //            r.sleepAngularVelocity = float.MaxValue;
+            //            r.sleepVelocity = float.MaxValue;
+            //        }
+            //        else
+            //        {
+            //            r.sleepAngularVelocity = defaultSleepVelocity;
+            //            r.sleepVelocity = defaultAngularVelocity;
+            //        }
+            //    }
+            //}
         }
     }
 }

@@ -39,17 +39,17 @@ public class SpawnTrigger : MonoBehaviour
             randNo = randNo > 5 ? 1 : randNo;
 
             // Added to make platform type 2 to appear after 30 secs.
-            if(ComboManager.instRef.distance<15)
+            if (ComboManager.instRef.distance < 15)
             {
                 randNo = randNo == 2 ? 1 : randNo;
             }
 
-            if(prevPlat==2 || prevPlat==3 || beforePrevPlat == 2 || beforePrevPlat == 3 || twoBeforePrevPlat == 3 || prevPlat==4 || prevPlat == 5)
+            if (prevPlat == 2 || prevPlat == 3 || beforePrevPlat == 2 || beforePrevPlat == 3 || twoBeforePrevPlat == 3 || prevPlat == 4 || prevPlat == 5)
             {
                 randNo = 1;
             }
             instance = Pooler.InstRef.GetPooledObject(randNo);
-            instance.transform.position = transform.position - new Vector3(0f, 0f, 2 * distBtnPlatforms[beforePrevPlat == 2  ? 2 : prevPlat]);
+            instance.transform.position = transform.position - new Vector3(0f, 0f, 2 * distBtnPlatforms[beforePrevPlat == 2 ? 2 : prevPlat]);
             instance.SetActive(true);
 
             // Update spawn history
@@ -59,12 +59,15 @@ public class SpawnTrigger : MonoBehaviour
         }
     }
 
+
+
     // De-spawning takes place here
     public void OnTriggerExit(Collider other)
     {
         if (other.gameObject.tag == "Player" && DogRunner.instRef.runStart)
         {
-            Pooler.InstRef.Sleep(gameObject);
+            if (Vector3.Distance(other.gameObject.transform.position, transform.position) > 30f)
+                Pooler.InstRef.Sleep(gameObject);
         }
     }
 }

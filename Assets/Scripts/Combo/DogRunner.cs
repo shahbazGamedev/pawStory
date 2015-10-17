@@ -14,9 +14,7 @@ public class DogRunner : MonoBehaviour
 
     public bool runStart;
     public float runSpeed;
-    //public float runDragFactor;
     public Vector3 runDirection;
-    //public Vector3 jumpForce;
     public bool isGrounded;
 
 
@@ -32,7 +30,6 @@ public class DogRunner : MonoBehaviour
     public Animator dogAnim;
 
     public float jumpSpeed;
-    //Vector3 direction = Vector3.zero;
     float verticalVelocity = 0f;
 
     // Camera 
@@ -56,7 +53,6 @@ public class DogRunner : MonoBehaviour
         ComboManager.Jump += HandleDogJump;
         ComboManager.StartGame += StartGame;
         gameOver = true;
-        //dogRB.mass = 10;
         startPos = transform.position;
     }
 
@@ -90,7 +86,7 @@ public class DogRunner : MonoBehaviour
             // Handle Jump
             if (dogCC.isGrounded && jump)
             {
-                Debug.Log(verticalVelocity);
+                //Debug.Log(verticalVelocity);
                 StartCoroutine(JumpForce(jumpSpeed));
                 jump = false;
             }
@@ -230,15 +226,12 @@ public class DogRunner : MonoBehaviour
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        Rigidbody body = hit.collider.attachedRigidbody;
-        if (body == null)
-            return;
-        if (body.tag == "target" && !isCoroutineON)
+        if (hit.gameObject.tag == "target" && !isCoroutineON)
         {
             dogAnim.SetTrigger("Fly");
             StartCoroutine(JumpForce(springForce));
         }
-        else if(body.tag == "LoseLine")
+        else if(hit.gameObject.tag == "LoseLine")
         {
             GameOver();
         }

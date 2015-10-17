@@ -120,6 +120,7 @@ public class ComboManager : MonoBehaviour
     // game resume
     void OnGameResume()
     {
+        // need to check if user has started game
         gameRunning = true;
     }
     #endregion EventHandlers
