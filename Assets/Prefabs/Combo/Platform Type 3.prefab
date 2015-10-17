@@ -48,10 +48,9 @@ GameObject:
   - 65: {fileID: 6548454}
   - 114: {fileID: 11474548}
   - 54: {fileID: 5469644}
-  - 65: {fileID: 6571938}
   m_Layer: 0
   m_Name: SpringBoard
-  m_TagString: Untagged
+  m_TagString: LoseLine
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -73,6 +72,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &191304
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 418304}
+  - 54: {fileID: 5473272}
+  - 65: {fileID: 6531352}
+  m_Layer: 0
+  m_Name: Spring
+  m_TagString: target
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &409286
 Transform:
   m_ObjectHideFlags: 1
@@ -85,6 +101,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 468830}
   m_RootOrder: 2
+--- !u!4 &418304
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 191304}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 493914}
+  m_RootOrder: 0
 --- !u!4 &468830
 Transform:
   m_ObjectHideFlags: 1
@@ -121,7 +149,8 @@ Transform:
   m_LocalRotation: {x: -.000174532935, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.45000029, y: 1.03957748, z: -1.21036577}
   m_LocalScale: {x: 3, y: .200000003, z: 3}
-  m_Children: []
+  m_Children:
+  - {fileID: 418304}
   m_Father: {fileID: 468830}
   m_RootOrder: 1
 --- !u!23 &2321660
@@ -243,10 +272,37 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: .0500000007
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!54 &5473272
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 191304}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: .0500000007
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &6531352
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 191304}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .600000024, y: .00100000005, z: .600000024}
+  m_Center: {x: 5.96046448e-08, y: 1.29999995, z: -8.94069672e-08}
 --- !u!65 &6548018
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -271,18 +327,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.00000012, y: 2, z: 1.00000024}
   m_Center: {x: 5.96046448e-08, y: 0, z: -8.94069672e-08}
---- !u!65 &6571938
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 145268}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: .600000024, y: .00100000005, z: .600000024}
-  m_Center: {x: 5.96046448e-08, y: 1.29999995, z: -8.94069672e-08}
 --- !u!114 &11450374
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -307,12 +351,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 145268}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 45a32c828bdf4f54cbdeb1cd8ed2e6c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  springForce: 15
+  springForce: 14
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -338,7 +382,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_IsKinematic
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_UseGravity
@@ -346,7 +390,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: springForce
-      value: 18
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.x
@@ -362,6 +406,14 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_TagString
+      value: target
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
