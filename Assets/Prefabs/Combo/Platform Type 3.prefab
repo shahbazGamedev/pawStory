@@ -301,7 +301,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: .600000024, y: .00100000005, z: .600000024}
+  m_Size: {x: 1.16999996, y: .00100000005, z: .920000017}
   m_Center: {x: 5.96046448e-08, y: 1.29999995, z: -8.94069672e-08}
 --- !u!65 &6548018
 BoxCollider:
@@ -313,8 +313,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 9.52000046, y: 10, z: 25}
-  m_Center: {x: -2.45000005, y: 6, z: -11.6000004}
+  m_Size: {x: 9.52000046, y: 11, z: 36}
+  m_Center: {x: -2.45000005, y: 6, z: -15}
 --- !u!65 &6548454
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -370,7 +370,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Size.y
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: distBtnPlatforms.Array.data[3]
@@ -415,6 +415,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Center.z
+      value: -15
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Size.z
+      value: 36
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

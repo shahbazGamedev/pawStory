@@ -25,6 +25,7 @@ public class DogRunner : MonoBehaviour
     float dogVelocity;
     bool jump;
     bool gameOver;
+    bool isCoroutineON;
     float time;
 
     CharacterController dogCC;
@@ -209,7 +210,8 @@ public class DogRunner : MonoBehaviour
 
     IEnumerator JumpForce(float force)
     {
-        while(time<0.2f)
+        isCoroutineON = true;
+        while (time<0.2f)
         {
             verticalVelocity += force * Time.deltaTime;
             time += Time.deltaTime;
@@ -217,6 +219,7 @@ public class DogRunner : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         time = 0;
+        isCoroutineON = false;
         yield return null;
     }
 
@@ -230,7 +233,7 @@ public class DogRunner : MonoBehaviour
         Rigidbody body = hit.collider.attachedRigidbody;
         if (body == null)
             return;
-        if (body.tag == "target")
+        if (body.tag == "target" && !isCoroutineON)
         {
             dogAnim.SetTrigger("Fly");
             StartCoroutine(JumpForce(springForce));
