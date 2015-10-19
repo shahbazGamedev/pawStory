@@ -67,22 +67,24 @@ public class ComboManager : MonoBehaviour
     // Handle Swipe Detected Event
     void HandleSwipeDetection(SwipeRecognizer.TouchPattern pattern)
     {
-        if (pattern == SwipeRecognizer.TouchPattern.swipeUp)
+       
+        if (listenForStart)
+        {
+            if (pattern == SwipeRecognizer.TouchPattern.singleTap)
+            {
+                gameRunning = true;
+                listenForStart = false;
+                if (StartGame != null)
+                    StartGame();
+            }
+        }
+        else if (pattern == SwipeRecognizer.TouchPattern.singleTap)
         {
             if (Jump != null)
             {
                 Jump();
             }
         }
-        else if (listenForStart)
-        {
-            if (pattern == SwipeRecognizer.TouchPattern.singleTap)
-            {
-                gameRunning = true;
-                if (StartGame != null)
-                    StartGame();
-            }
-        }        
     }
 
     public void GameOver()
@@ -96,6 +98,7 @@ public class ComboManager : MonoBehaviour
     void OnReset()
     {
         gameRunning = false;
+        listenForStart = true;
         Pooler.InstRef.HideAll();
         
         distance = 0;

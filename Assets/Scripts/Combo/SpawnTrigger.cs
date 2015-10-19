@@ -13,8 +13,11 @@ public class SpawnTrigger : MonoBehaviour
     public static int prevPlat;
     public static int beforePrevPlat;
     public static int twoBeforePrevPlat;
+    //public static float timer;
     public float[] distBtnPlatforms; //  starts from index 1
 
+    bool hasSpawned;
+    //float dist;
     int randNo;
     GameObject instance;
 
@@ -33,29 +36,39 @@ public class SpawnTrigger : MonoBehaviour
     // Spawning takes place here
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        //dist = Vector3.Distance(other.gameObject.transform.position, transform.position);
+        //Debug.Log("dist: "+dist);
+        if (other.gameObject.CompareTag("Player"))
         {
-            randNo = Random.Range(1, 6);
-            randNo = randNo > 5 ? 1 : randNo;
 
-            // Added to make platform type 2 to appear after 30 secs.
-            if (ComboManager.instRef.distance < 15)
+            if (/*dist < 12f && dist > 0.1f && Time.time - timer > 0.8f &&*/ !hasSpawned)
             {
-                randNo = randNo == 2 ? 1 : randNo;
-            }
+                //Debug.LogError(Time.time - timer);
+                //timer = Time.time;
 
-            if (prevPlat == 2 || prevPlat == 3 || beforePrevPlat == 2 || beforePrevPlat == 3 || twoBeforePrevPlat == 3 || prevPlat == 4 || prevPlat == 5)
-            {
-                randNo = 1;
-            }
-            instance = Pooler.InstRef.GetPooledObject(randNo);
-            instance.transform.position = transform.position - new Vector3(0f, 0f, 2 * distBtnPlatforms[beforePrevPlat == 2 ? 2 : prevPlat]);
-            instance.SetActive(true);
+                randNo = Random.Range(1, 6);
+                randNo = randNo > 5 ? 1 : randNo;
 
-            // Update spawn history
-            twoBeforePrevPlat = beforePrevPlat;
-            beforePrevPlat = prevPlat;
-            prevPlat = randNo;
+                // Added to make platform type 2 to appear after 30 secs.
+                if (ComboManager.instRef.distance < 15)
+                {
+                    randNo = randNo == 2 ? 1 : randNo;
+                }
+
+                if (prevPlat == 2 || prevPlat == 3 || beforePrevPlat == 2 || beforePrevPlat == 3 || twoBeforePrevPlat == 3 || prevPlat == 4 || prevPlat == 5)
+                {
+                    randNo = 1;
+                }
+                instance = Pooler.InstRef.GetPooledObject(randNo);
+                instance.transform.position = transform.position - new Vector3(0f, 0f, 2 * distBtnPlatforms[beforePrevPlat == 2 ? 2 : prevPlat]);
+                instance.SetActive(true);
+                hasSpawned = true;
+
+                // Update spawn history
+                twoBeforePrevPlat = beforePrevPlat;
+                beforePrevPlat = prevPlat;
+                prevPlat = randNo;
+            }
         }
     }
 
@@ -66,8 +79,12 @@ public class SpawnTrigger : MonoBehaviour
     {
         if (other.gameObject.tag == "Player" && DogRunner.instRef.runStart)
         {
-            if (Vector3.Distance(other.gameObject.transform.position, transform.position) > 30f)
+            //Debug.Log(Vector3.Distance(other.gameObject.transform.position, transform.position));
+            if (Vector3.Distance(other.gameObject.transform.position, transform.position) > 20f)
+            {
                 Pooler.InstRef.Sleep(gameObject);
+                hasSpawned = false;
+            }
         }
     }
 }

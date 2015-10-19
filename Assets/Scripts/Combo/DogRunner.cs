@@ -181,7 +181,7 @@ public class DogRunner : MonoBehaviour
     void HandleDogJump()
     {
 
-        if(dogCC.isGrounded && runStart)
+        if(dogCC.isGrounded && runStart && !isCoroutineON)
         {
             jump = true;
             dogAnim.SetTrigger("Jump");
