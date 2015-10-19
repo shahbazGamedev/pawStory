@@ -36,6 +36,8 @@ public class DogRunner : MonoBehaviour
     public float smoothDampTime;
     public Vector3 cameraOffset;
     Vector3 smoothDampVelocity;
+    Vector3 dist;
+    Vector3 pos;
 
     public float springForce;
 
@@ -67,13 +69,14 @@ public class DogRunner : MonoBehaviour
         CamUp();
     }
 
+    // New method using character controller for smooth movement
     public void Update()
     {
        
         if (runStart)
         {
             // Handle Movement
-            Vector3 dist = runDirection * runSpeed * Time.deltaTime;
+            dist = runDirection * runSpeed * Time.deltaTime;
             if (dogCC.isGrounded && verticalVelocity < 0)
             {
                 verticalVelocity = Physics.gravity.y * Time.deltaTime;
@@ -96,15 +99,14 @@ public class DogRunner : MonoBehaviour
 
             dogVelocity = 1;
             SyncAnim();
-            //dogCC.SimpleMove(runDirection * runSpeed * Time.deltaTime);
-
         }
 
     }
 
+    // Old Method using rigidbody & box collider
     //public void FixedUpdate()
     //{
-        //if (runStart)
+        //if (runStart) 
         //{
         //    //Moves dog using rigidbody - need to change
         //    dogRB.AddForce(runDirection * runSpeed * Time.deltaTime);
@@ -124,7 +126,7 @@ public class DogRunner : MonoBehaviour
     // Camera Movement
     void CamUp()
     {
-        var pos = Camera.main.transform.parent.transform.position;
+        pos = Camera.main.transform.parent.transform.position;
         pos.z = transform.position.z;
         // Camera.main.transform.parent.transform.position = pos;
         Camera.main.transform.parent.transform.position = Vector3.SmoothDamp(Camera.main.transform.parent.transform.position, pos - cameraOffset, ref smoothDampVelocity, smoothDampTime); ;

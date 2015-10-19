@@ -15,9 +15,11 @@ public class SpawnTrigger : MonoBehaviour
     public static int twoBeforePrevPlat;
     //public static float timer;
     public float[] distBtnPlatforms; //  starts from index 1
+    public bool isStatic;
 
     bool hasSpawned;
-    //float dist;
+    float dist;
+    Vector3 offset;
     int randNo;
     GameObject instance;
 
@@ -33,19 +35,19 @@ public class SpawnTrigger : MonoBehaviour
         //prevPlat = 1;
     }
 
+    public void OnDisable()
+    {
+        //Debug.Log("Off");
+        hasSpawned = false;
+    }
+
     // Spawning takes place here
     public void OnTriggerEnter(Collider other)
     {
-        //dist = Vector3.Distance(other.gameObject.transform.position, transform.position);
-        //Debug.Log("dist: "+dist);
         if (other.gameObject.CompareTag("Player"))
         {
-
-            if (/*dist < 12f && dist > 0.1f && Time.time - timer > 0.8f &&*/ !hasSpawned)
+            if (!hasSpawned) // Floating Origin Fix
             {
-                //Debug.LogError(Time.time - timer);
-                //timer = Time.time;
-
                 randNo = Random.Range(1, 6);
                 randNo = randNo > 5 ? 1 : randNo;
 
@@ -62,7 +64,8 @@ public class SpawnTrigger : MonoBehaviour
                 instance = Pooler.InstRef.GetPooledObject(randNo);
                 instance.transform.position = transform.position - new Vector3(0f, 0f, 2 * distBtnPlatforms[beforePrevPlat == 2 ? 2 : prevPlat]);
                 instance.SetActive(true);
-                hasSpawned = true;
+                if(!isStatic)
+                    hasSpawned = true;
 
                 // Update spawn history
                 twoBeforePrevPlat = beforePrevPlat;
@@ -79,11 +82,12 @@ public class SpawnTrigger : MonoBehaviour
     {
         if (other.gameObject.tag == "Player" && DogRunner.instRef.runStart)
         {
-            //Debug.Log(Vector3.Distance(other.gameObject.transform.position, transform.position));
-            if (Vector3.Distance(other.gameObject.transform.position, transform.position) > 20f)
+            offset = other.gameObject.transform.position - transform.position;
+            dist = offset.sqrMagnitude;
+            Debug.Log(dist);
+            if (dist > 1000f) // Floating Origin Fix
             {
                 Pooler.InstRef.Sleep(gameObject);
-                hasSpawned = false;
             }
         }
     }

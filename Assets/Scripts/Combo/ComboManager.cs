@@ -14,6 +14,7 @@ public class ComboManager : MonoBehaviour
     public GameObject initialPlat1;
     public GameObject initialPlat2;
     public GameObject initialPlat3;
+    public Transform cameraStartPos;
     public float distance;
 
     bool listenForStart;
@@ -97,17 +98,19 @@ public class ComboManager : MonoBehaviour
     // Game Reset
     void OnReset()
     {
+        DogRunner.instRef.GameOver();
+        gameOverPanel.SetActive(false);
         gameRunning = false;
         listenForStart = true;
-        Pooler.InstRef.HideAll();
-        
+        Pooler.InstRef.HideAll();        
+
         distance = 0;
         instructText.text = "Distance Covered: " + (int) distance + " m";
-        gameOverPanel.SetActive(false);
 
         SpawnTrigger.beforePrevPlat = 1;
         SpawnTrigger.prevPlat = 1;
         DogRunner.instRef.ResetPos();
+        Camera.main.transform.parent.transform.position = cameraStartPos.position;
 
         initialPlat1.SetActive(true);
         initialPlat2.SetActive(true);
