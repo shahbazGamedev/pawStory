@@ -19,6 +19,8 @@ public class ComboManager : MonoBehaviour
 
     bool listenForStart;
     bool gameRunning;
+    bool pause;
+    Touch touch;
     
     //UI Components
     public Text instructText;
@@ -34,6 +36,7 @@ public class ComboManager : MonoBehaviour
     public void Awake()
     {
         instRef = this;
+        Input.multiTouchEnabled = false;
     }
 
     void Start()
@@ -56,6 +59,39 @@ public class ComboManager : MonoBehaviour
 
     void Update()
     {
+        //Debug.Log(Input.touchCount);
+    #if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Fire1"))
+        {          
+                if (listenForStart)
+                {
+                    gameRunning = true;
+                    listenForStart = false;
+                    if (StartGame != null)
+                        StartGame();
+                }
+                else
+                    DogRunner.instRef.HandleDogJump();            
+        }
+
+    #endif
+        if (Input.touchCount > 0)
+        {
+            touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Ended && touch.tapCount == 1)
+            {
+                if (listenForStart && !pause)
+                {
+                    gameRunning = true;
+                    listenForStart = false;
+                    if (StartGame != null)
+                        StartGame();
+                }
+                else if(!pause)
+                    DogRunner.instRef.HandleDogJump();
+            }
+        }
         if (gameRunning)
         {
             distance += Time.deltaTime;
@@ -81,10 +117,11 @@ public class ComboManager : MonoBehaviour
         }
         else if (pattern == SwipeRecognizer.TouchPattern.singleTap)
         {
-            if (Jump != null)
-            {
-                Jump();
-            }
+            //if (Jump != null)
+            //{
+            //    Jump();
+            //}
+            DogRunner.instRef.HandleDogJump();
         }
     }
 
@@ -121,6 +158,7 @@ public class ComboManager : MonoBehaviour
     void OnGamePause()
     {
         gameRunning = false;
+        pause = true;
     }
 
     // game resume
@@ -128,6 +166,7 @@ public class ComboManager : MonoBehaviour
     {
         // need to check if user has started game
         gameRunning = true;
+        pause = false;
     }
     #endregion EventHandlers
  

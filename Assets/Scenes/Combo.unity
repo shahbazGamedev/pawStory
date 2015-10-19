@@ -439,19 +439,19 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 464894860}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 1997211142, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ForceModuleActive: 0
+  m_ForceModuleActive: 1
 --- !u!114 &464894862
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 464894860}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 1077351063, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
@@ -460,9 +460,9 @@ MonoBehaviour:
   m_VerticalAxis: Vertical
   m_SubmitButton: Submit
   m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
+  m_InputActionsPerSecond: 3
   m_RepeatDelay: .5
-  m_ForceModuleActive: 1
+  m_ForceModuleActive: 0
 --- !u!114 &464894863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -560,8 +560,8 @@ Transform:
   m_LocalPosition: {x: -2.45000005, y: -.401445687, z: -150}
   m_LocalScale: {x: 1, y: 1, z: 40}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_Father: {fileID: 1482494152}
+  m_RootOrder: 3
 --- !u!1 &523951144
 GameObject:
   m_ObjectHideFlags: 0
@@ -782,6 +782,33 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0e51a0cb9a48dab4391f0ffcdcd144e1, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &715082478
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 715082479}
+  m_Layer: 0
+  m_Name: CameraStartPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &715082479
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 715082478}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -14.4099998, y: 2, z: .400000006}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1482494152}
+  m_RootOrder: 2
 --- !u!1 &757099610
 GameObject:
   m_ObjectHideFlags: 0
@@ -1229,7 +1256,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 995963019}
   m_LocalRotation: {x: 0, y: .707106829, z: 0, w: .707106709}
-  m_LocalPosition: {x: 2, y: 0, z: -7}
+  m_LocalPosition: {x: 2, y: 0, z: -9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1424061639}
@@ -1280,6 +1307,7 @@ MonoBehaviour:
   initialPlat1: {fileID: 1745791233}
   initialPlat2: {fileID: 259815003}
   initialPlat3: {fileID: 1330839785}
+  cameraStartPos: {fileID: 715082479}
   distance: 0
   instructText: {fileID: 118750066}
   gameOverText: {fileID: 1309711176}
@@ -1507,6 +1535,10 @@ Prefab:
       propertyPath: m_TagString
       value: Stationary
       objectReference: {fileID: 0}
+    - target: {fileID: 117646, guid: 68fa63d9f40117d4eaddaac8a3e3c6fb, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 68fa63d9f40117d4eaddaac8a3e3c6fb, type: 2}
   m_IsPrefabParent: 0
@@ -1711,7 +1743,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 188282, guid: b277afcde5431224e9c824abf4b57288, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b277afcde5431224e9c824abf4b57288, type: 2}
@@ -2112,7 +2144,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1424061638}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -14.4099998, y: 2, z: -1.79999995}
+  m_LocalPosition: {x: -14.4099998, y: 2, z: .400000006}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 995963024}
@@ -2287,6 +2319,8 @@ Transform:
   m_Children:
   - {fileID: 1098652948}
   - {fileID: 464894864}
+  - {fileID: 715082479}
+  - {fileID: 467331018}
   m_Father: {fileID: 0}
   m_RootOrder: 4
 --- !u!1 &1525389934
@@ -2448,7 +2482,6 @@ GameObject:
   - 95: {fileID: 1658210637}
   - 114: {fileID: 1658210636}
   - 114: {fileID: 1658210641}
-  - 114: {fileID: 1658210638}
   - 143: {fileID: 1658210642}
   m_Layer: 10
   m_Name: Dog
@@ -2498,17 +2531,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &1658210638
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1658210634}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e49d973cb0df59f4cb0001c604896493, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1658210641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2526,10 +2548,10 @@ MonoBehaviour:
   isGrounded: 0
   updateAnim: 0
   dogAnim: {fileID: 0}
-  jumpSpeed: 65
-  smoothDampTime: .200000003
+  jumpSpeed: 60
+  smoothDampTime: .300000012
   cameraOffset: {x: 0, y: 0, z: 0}
-  springForce: 100
+  springForce: 90
 --- !u!143 &1658210642
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2545,7 +2567,7 @@ CharacterController:
   m_SlopeLimit: 45
   m_StepOffset: .300000012
   m_SkinWidth: .100000001
-  m_MinMoveDistance: .100000001
+  m_MinMoveDistance: .00100000005
   m_Center: {x: 0, y: 2.00999999, z: -.5}
 --- !u!1 &1678470679
 GameObject:

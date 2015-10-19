@@ -52,7 +52,7 @@ public class DogRunner : MonoBehaviour
 
     void Start()
     {
-        ComboManager.Jump += HandleDogJump;
+        //ComboManager.Jump += HandleDogJump;
         ComboManager.StartGame += StartGame;
         gameOver = true;
         startPos = transform.position;
@@ -60,7 +60,7 @@ public class DogRunner : MonoBehaviour
 
     public void OnDisable()
     {
-        ComboManager.Jump -= HandleDogJump;
+        //ComboManager.Jump -= HandleDogJump;
         ComboManager.StartGame -= StartGame;
     }
 
@@ -106,30 +106,33 @@ public class DogRunner : MonoBehaviour
     // Old Method using rigidbody & box collider
     //public void FixedUpdate()
     //{
-        //if (runStart) 
-        //{
-        //    //Moves dog using rigidbody - need to change
-        //    dogRB.AddForce(runDirection * runSpeed * Time.deltaTime);
-        //    Debug.Log(Vector3.Distance(dogRB.position, prevPos));
-        //    //if (dogRB.velocity.magnitude > maxSpeed)
-        //    //{
-        //    //    dogRB.velocity = dogRB.velocity.normalized * maxSpeed;
-        //    //}
-        //    dogRB.drag = dogRB.velocity.magnitude * runDragFactor;
-        //    //dogRB.MovePosition(dogRB.position + runDirection * runSpeed * Time.deltaTime);
-        //    //prevPos = dogRB.position;
-        //    dogVelocity = 1;
-        //    SyncAnim();
-        //}
+    //if (runStart) 
+    //{
+    //    //Moves dog using rigidbody - need to change
+    //    dogRB.AddForce(runDirection * runSpeed * Time.deltaTime);
+    //    Debug.Log(Vector3.Distance(dogRB.position, prevPos));
+    //    //if (dogRB.velocity.magnitude > maxSpeed)
+    //    //{
+    //    //    dogRB.velocity = dogRB.velocity.normalized * maxSpeed;
+    //    //}
+    //    dogRB.drag = dogRB.velocity.magnitude * runDragFactor;
+    //    //dogRB.MovePosition(dogRB.position + runDirection * runSpeed * Time.deltaTime);
+    //    //prevPos = dogRB.position;
+    //    dogVelocity = 1;
+    //    SyncAnim();
+    //}
     //}
 
     // Camera Movement
     void CamUp()
     {
-        pos = Camera.main.transform.parent.transform.position;
-        pos.z = transform.position.z;
-        // Camera.main.transform.parent.transform.position = pos;
-        Camera.main.transform.parent.transform.position = Vector3.SmoothDamp(Camera.main.transform.parent.transform.position, pos - cameraOffset, ref smoothDampVelocity, smoothDampTime); ;
+        if (runStart)
+        {
+            pos = Camera.main.transform.parent.transform.position;
+            pos.z = transform.position.z;
+            // Camera.main.transform.parent.transform.position = pos;
+            Camera.main.transform.parent.transform.position = Vector3.SmoothDamp(Camera.main.transform.parent.transform.position, pos - cameraOffset, ref smoothDampVelocity, smoothDampTime); ;
+        }
     }
 
     // Reset GameOver Flag
@@ -180,7 +183,7 @@ public class DogRunner : MonoBehaviour
     #region EventHandlers
 
     // Handle Jump Event
-    void HandleDogJump()
+    public void HandleDogJump()
     {
 
         if(dogCC.isGrounded && runStart && !isCoroutineON)

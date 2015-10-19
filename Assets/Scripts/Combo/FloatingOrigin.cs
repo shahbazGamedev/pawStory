@@ -18,15 +18,18 @@ public class FloatingOrigin : MonoBehaviour
     ParticleEmitter pe;
     Rigidbody r;
     Transform t;
+    Vector3 cameraPosition;
+    Object[] objects;
+    Particle[] emitterParticles;
 
     void LateUpdate()
     {
-        Vector3 cameraPosition = gameObject.transform.position;
+        cameraPosition = gameObject.transform.position;
         cameraPosition.y = 0f;
         cameraPosition.x = 0f;
         if (cameraPosition.magnitude > threshold)
         {
-            Object[] objects = FindObjectsOfType(typeof(Transform));
+            objects = FindObjectsOfType(typeof(Transform));
             for(int i=0;i<objects.Length;i++)
             {
                 t = (Transform)objects[i];
@@ -45,7 +48,7 @@ public class FloatingOrigin : MonoBehaviour
             {
                 Debug.Log("Particle");
                 pe = (ParticleEmitter)objects[i];
-                Particle[] emitterParticles = pe.particles;
+                emitterParticles = pe.particles;
                 for (int j = 0; j < emitterParticles.Length; j++)
                 {
                     emitterParticles[j].position -= cameraPosition;

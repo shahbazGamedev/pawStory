@@ -57,13 +57,14 @@ public class SpawnTrigger : MonoBehaviour
                     randNo = randNo == 2 ? 1 : randNo;
                 }
 
-                if (prevPlat == 2 || prevPlat == 3 || beforePrevPlat == 2 || beforePrevPlat == 3 || twoBeforePrevPlat == 3 || prevPlat == 4 || prevPlat == 5)
+                if (prevPlat !=1 || beforePrevPlat == 2 || beforePrevPlat == 3 || twoBeforePrevPlat == 3 )
                 {
                     randNo = 1;
                 }
                 instance = Pooler.InstRef.GetPooledObject(randNo);
                 instance.transform.position = transform.position - new Vector3(0f, 0f, 2 * distBtnPlatforms[beforePrevPlat == 2 ? 2 : prevPlat]);
                 instance.SetActive(true);
+
                 if(!isStatic)
                     hasSpawned = true;
 
@@ -85,9 +86,10 @@ public class SpawnTrigger : MonoBehaviour
             offset = other.gameObject.transform.position - transform.position;
             dist = offset.sqrMagnitude;
             Debug.Log(dist);
-            if (dist > 1000f) // Floating Origin Fix
+            if (dist > 550f) // Floating Origin Fix
             {
                 Pooler.InstRef.Sleep(gameObject);
+                hasSpawned = false;
             }
         }
     }

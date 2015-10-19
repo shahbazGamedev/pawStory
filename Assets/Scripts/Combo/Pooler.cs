@@ -18,6 +18,8 @@ public class Pooler : MonoBehaviour
     public PoolerData[] PoolHolder;
 
     GameObject instance;
+    GameObject pooledObj;
+    PoolerData pooler;
 
     [System.Serializable]
     public struct PoolerData
@@ -103,7 +105,7 @@ public class Pooler : MonoBehaviour
     public GameObject GetPooledObject(int ID)
     {
         GameObject polledInst = null;
-        var pooler=PoolHolder[ID];
+        pooler=PoolHolder[ID];
         for (int i = 0; i < pooler.pool.Count; i++)
         {
             if(!pooler.pool[i].activeInHierarchy)
@@ -139,7 +141,7 @@ public class Pooler : MonoBehaviour
         {
             for (int i = 0; i < obj.pool.Count; i++)
             {
-                var pooledObj=obj.pool[i];
+                pooledObj=obj.pool[i];
                 pooledObj.SetActive(false);
             }
         }
