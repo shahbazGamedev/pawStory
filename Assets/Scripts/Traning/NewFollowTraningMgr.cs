@@ -14,7 +14,7 @@ public class NewFollowTraningMgr : MonoBehaviour
     Animator dogAnim;
     bool gotoStart;
     public Vector3 StartPos;
-   
+
 
 
     void Start()
@@ -24,8 +24,8 @@ public class NewFollowTraningMgr : MonoBehaviour
         gameOverPanel.SetActive(false);
         StartPos = transform.position;
         OnRestartGame();
-          
     }
+
 
     void OnEnable()
     {
@@ -45,9 +45,8 @@ public class NewFollowTraningMgr : MonoBehaviour
         {
             Movement();
         }
-     
-      
     }
+
 
     public void Movement()
     {
@@ -63,7 +62,6 @@ public class NewFollowTraningMgr : MonoBehaviour
 
         }
     }
-
    
 
     void OnTriggerEnter(Collider coll)
@@ -78,6 +76,7 @@ public class NewFollowTraningMgr : MonoBehaviour
         }
     }
 
+
     public void OnPointerDown()
     {
         if (canTap)
@@ -90,6 +89,7 @@ public class NewFollowTraningMgr : MonoBehaviour
 
         }
     }
+
 
     void OnRestartGame()
     {
