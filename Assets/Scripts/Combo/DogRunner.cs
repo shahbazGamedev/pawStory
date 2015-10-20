@@ -28,12 +28,13 @@ public class DogRunner : MonoBehaviour
     public Animator dogAnim;
 
     public float jumpSpeed;
+    public float camFactor;
     float verticalVelocity = 0f;
 
     // Camera 
     public float smoothDampTime;
     public Vector3 cameraOffset;
-    Vector3 smoothDampVelocity;
+    Vector3 smoothDampVelocity = Vector3.zero;
     Vector3 dist;
     Vector3 pos;
 
@@ -70,7 +71,6 @@ public class DogRunner : MonoBehaviour
     // New method using character controller for smooth movement
     public void Update()
     {
-       
         if (runStart)
         {
             // Handle Movement
@@ -99,6 +99,7 @@ public class DogRunner : MonoBehaviour
             SyncAnim();
         }
 
+
     }
 
     // Old Method using rigidbody & box collider
@@ -122,14 +123,13 @@ public class DogRunner : MonoBehaviour
     //}
 
     // Camera Movement
-    void CamUp()
+    public void CamUp()
     {
         if (runStart)
         {
             pos = Camera.main.transform.parent.transform.position;
             pos.z = transform.position.z;
-            // Camera.main.transform.parent.transform.position = pos;
-            Camera.main.transform.parent.transform.position = Vector3.SmoothDamp(Camera.main.transform.parent.transform.position, pos - cameraOffset, ref smoothDampVelocity, smoothDampTime); ;
+            Camera.main.transform.parent.transform.position = Vector3.MoveTowards(Camera.main.transform.parent.transform.position, pos, camFactor * Time.deltaTime);
         }
     }
 
@@ -174,7 +174,7 @@ public class DogRunner : MonoBehaviour
     public void HandleDogJump()
     {
 
-        if(dogCC.isGrounded && runStart && !isCoroutineON)
+        if (dogCC.isGrounded && runStart && !isCoroutineON)
         {
             jump = true;
             dogAnim.SetTrigger("Jump");
@@ -200,7 +200,7 @@ public class DogRunner : MonoBehaviour
     IEnumerator JumpForce(float force)
     {
         isCoroutineON = true;
-        while (time<0.2f)
+        while (time < 0.2f)
         {
             verticalVelocity += force * Time.deltaTime;
             time += Time.deltaTime;
@@ -224,7 +224,7 @@ public class DogRunner : MonoBehaviour
             dogAnim.SetTrigger("Fly");
             StartCoroutine(JumpForce(springForce));
         }
-        else if(hit.gameObject.CompareTag("LoseLine"))
+        else if (hit.gameObject.CompareTag("LoseLine"))
         {
             GameOver();
         }

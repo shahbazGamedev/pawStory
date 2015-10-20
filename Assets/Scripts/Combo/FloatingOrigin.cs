@@ -24,10 +24,10 @@ public class FloatingOrigin : MonoBehaviour
 
     void LateUpdate()
     {
-        cameraPosition = gameObject.transform.position;
+        cameraPosition = gameObject.transform.parent.transform.position;
         cameraPosition.y = 0f;
         cameraPosition.x = 0f;
-        if (cameraPosition.magnitude > threshold)
+        if (cameraPosition.sqrMagnitude > threshold)
         {
             objects = FindObjectsOfType(typeof(Transform));
             for(int i=0;i<objects.Length;i++)

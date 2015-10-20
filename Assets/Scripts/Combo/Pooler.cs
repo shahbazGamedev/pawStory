@@ -108,7 +108,7 @@ public class Pooler : MonoBehaviour
         pooler=PoolHolder[ID];
         for (int i = 0; i < pooler.pool.Count; i++)
         {
-            if(!pooler.pool[i].activeInHierarchy)
+            if(!pooler.pool[i].activeSelf)
             {
                 polledInst = pooler.pool[i];
                 //polledInst.SetActive(true);

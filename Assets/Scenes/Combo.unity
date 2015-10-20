@@ -51,7 +51,7 @@ LightmapSettings:
     m_TemporalCoherenceThreshold: 1
     m_EnvironmentLightingMode: 0
     m_EnableBakedLightmaps: 1
-    m_EnableRealtimeLightmaps: 1
+    m_EnableRealtimeLightmaps: 0
   m_LightmapEditorSettings:
     serializedVersion: 3
     m_Resolution: 2
@@ -561,7 +561,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 40}
   m_Children: []
   m_Father: {fileID: 1482494152}
-  m_RootOrder: 3
+  m_RootOrder: 2
 --- !u!1 &523951144
 GameObject:
   m_ObjectHideFlags: 0
@@ -804,11 +804,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 715082478}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -14.4099998, y: 2, z: .400000006}
+  m_LocalPosition: {x: -14.4099998, y: 2, z: -1.79999995}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1482494152}
-  m_RootOrder: 2
+  m_RootOrder: 3
 --- !u!1 &757099610
 GameObject:
   m_ObjectHideFlags: 0
@@ -1256,7 +1256,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 995963019}
   m_LocalRotation: {x: 0, y: .707106829, z: 0, w: .707106709}
-  m_LocalPosition: {x: 2, y: 0, z: -9}
+  m_LocalPosition: {x: 2, y: 0, z: -7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1424061639}
@@ -1272,7 +1272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068a79b9e01e69d4eaa4ad1622c55a27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  threshold: 150
+  threshold: 10000
   physicsThreshold: 0
   defaultSleepVelocity: .140000001
   defaultAngularVelocity: .140000001
@@ -2144,7 +2144,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1424061638}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -14.4099998, y: 2, z: .400000006}
+  m_LocalPosition: {x: -14.4099998, y: 2, z: -1.79999995}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 995963024}
@@ -2319,8 +2319,8 @@ Transform:
   m_Children:
   - {fileID: 1098652948}
   - {fileID: 464894864}
-  - {fileID: 715082479}
   - {fileID: 467331018}
+  - {fileID: 715082479}
   m_Father: {fileID: 0}
   m_RootOrder: 4
 --- !u!1 &1525389934
@@ -2545,10 +2545,10 @@ MonoBehaviour:
   runStart: 0
   runSpeed: 10
   runDirection: {x: 0, y: 0, z: -1}
-  isGrounded: 0
   updateAnim: 0
   dogAnim: {fileID: 0}
   jumpSpeed: 55
+  camFactor: 12
   smoothDampTime: .300000012
   cameraOffset: {x: 0, y: 0, z: 0}
   springForce: 85
@@ -2567,7 +2567,7 @@ CharacterController:
   m_SlopeLimit: 45
   m_StepOffset: .300000012
   m_SkinWidth: .100000001
-  m_MinMoveDistance: .00100000005
+  m_MinMoveDistance: 0
   m_Center: {x: 0, y: 2.00999999, z: -.5}
 --- !u!1 &1678470679
 GameObject:

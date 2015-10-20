@@ -13,7 +13,7 @@ public class SpawnTrigger : MonoBehaviour
     public static int prevPlat;
     public static int beforePrevPlat;
     public static int twoBeforePrevPlat;
-    //public static float timer;
+    public static float timer;
     public float[] distBtnPlatforms; //  starts from index 1
     public bool isStatic;
 
@@ -45,16 +45,19 @@ public class SpawnTrigger : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            if (!hasSpawned) // Floating Origin Fix
+            if (!hasSpawned && Time.time - timer > 0.8f) // Floating Origin Fix
             {
                 randNo = Random.Range(1, 6);
                 randNo = randNo > 5 ? 1 : randNo;
 
                 // Added to make platform type 2 to appear after 30 secs.
-                if (ComboManager.instRef.distance < 15)
-                {
-                    randNo = randNo == 2 ? 1 : randNo;
-                }
+                //if (ComboManager.instRef.distance < 15)
+                //{
+                //    randNo = randNo == 2 ? 1 : randNo;
+                //}
+
+                //Debug.LogError(Time.time - timer);
+                timer = Time.time;
 
                 if (prevPlat !=1 || beforePrevPlat == 2 || beforePrevPlat == 3 || twoBeforePrevPlat == 3 )
                 {
@@ -83,7 +86,8 @@ public class SpawnTrigger : MonoBehaviour
         if (other.gameObject.CompareTag("Player") && DogRunner.instRef.runStart)
         {
             offset = other.gameObject.transform.position - transform.position;
-            if (offset.sqrMagnitude > 550f) // Floating Origin Fix
+            Debug.Log(offset.sqrMagnitude);
+            if (offset.sqrMagnitude > 600f) // Floating Origin Fix
             {
                 Pooler.InstRef.Sleep(gameObject);
                 hasSpawned = false;
