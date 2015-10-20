@@ -93,9 +93,14 @@ public class NewFollowTraningMgr : MonoBehaviour
 
     void OnRestartGame()
     {
+       
         dog.transform.position = StartPos;
+        transform.rotation = Quaternion.identity;
         gameOverPanel.SetActive(false);
-        transform.LookAt(new Vector3(0, 0, 0));
+        isMoving = false;
+        dogAnim.SetFloat("Walk", 0f);
+        canTap = true;
+        curNode = -1;
     }
 
    
