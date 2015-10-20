@@ -15,8 +15,6 @@ public class DogRunner : MonoBehaviour
     public bool runStart;
     public float runSpeed;
     public Vector3 runDirection;
-    public bool isGrounded;
-
 
     public bool updateAnim;
     Vector3 startPos;
@@ -170,16 +168,6 @@ public class DogRunner : MonoBehaviour
         transform.position = startPos;
     }
 
-    public void OnCollisionExit(Collision collision)
-    {
-        isGrounded = false;
-    }
-
-    public void OnCollisionStay(Collision collision)
-    {
-        isGrounded = true;
-    }
-
     #region EventHandlers
 
     // Handle Jump Event
@@ -231,12 +219,12 @@ public class DogRunner : MonoBehaviour
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (hit.gameObject.tag == "target" && !isCoroutineON)
+        if (hit.gameObject.CompareTag("target") && !isCoroutineON)
         {
             dogAnim.SetTrigger("Fly");
             StartCoroutine(JumpForce(springForce));
         }
-        else if(hit.gameObject.tag == "LoseLine")
+        else if(hit.gameObject.CompareTag("LoseLine"))
         {
             GameOver();
         }

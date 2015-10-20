@@ -18,7 +18,6 @@ public class SpawnTrigger : MonoBehaviour
     public bool isStatic;
 
     bool hasSpawned;
-    float dist;
     Vector3 offset;
     int randNo;
     GameObject instance;
@@ -81,12 +80,10 @@ public class SpawnTrigger : MonoBehaviour
     // De-spawning takes place here
     public void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Player" && DogRunner.instRef.runStart)
+        if (other.gameObject.CompareTag("Player") && DogRunner.instRef.runStart)
         {
             offset = other.gameObject.transform.position - transform.position;
-            dist = offset.sqrMagnitude;
-            Debug.Log(dist);
-            if (dist > 550f) // Floating Origin Fix
+            if (offset.sqrMagnitude > 550f) // Floating Origin Fix
             {
                 Pooler.InstRef.Sleep(gameObject);
                 hasSpawned = false;
