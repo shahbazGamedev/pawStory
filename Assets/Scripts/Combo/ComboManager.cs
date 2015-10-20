@@ -16,6 +16,7 @@ public class ComboManager : MonoBehaviour
     public GameObject initialPlat3;
     public Transform cameraStartPos;
     public float distance;
+    float prevTime;
 
     bool listenForStart;
     bool gameRunning;
@@ -59,8 +60,12 @@ public class ComboManager : MonoBehaviour
 
     void Update()
     {
-        //Debug.Log(Input.touchCount);
-    #if UNITY_EDITOR
+        if (Time.frameCount % 30 == 0)
+        {
+            System.GC.Collect();
+        }
+        //Debug.Log(Time.frameCount);
+#if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Fire1"))
         {          
                 if (listenForStart)
@@ -81,6 +86,7 @@ public class ComboManager : MonoBehaviour
 
             if (touch.phase == TouchPhase.Ended && touch.tapCount == 1)
             {
+                //  TODO: Not working with restart
                 if (listenForStart && !pause)
                 {
                     gameRunning = true;
@@ -95,7 +101,11 @@ public class ComboManager : MonoBehaviour
         if (gameRunning)
         {
             distance += Time.deltaTime;
-            instructText.text = "Distance Covered: " + (int) distance + " m";
+            if (distance - prevTime > 1f) // Memory Leak Fix
+            {
+                instructText.text = ((int)distance).ToString();
+                prevTime = distance;
+            }
         }
     }
 
@@ -142,7 +152,7 @@ public class ComboManager : MonoBehaviour
         Pooler.InstRef.HideAll();        
 
         distance = 0;
-        instructText.text = "Distance Covered: " + (int) distance + " m";
+        instructText.text ="0";
 
         SpawnTrigger.beforePrevPlat = 1;
         SpawnTrigger.prevPlat = 1;
@@ -165,8 +175,8 @@ public class ComboManager : MonoBehaviour
     void OnGameResume()
     {
         // need to check if user has started game
-        gameRunning = true;
         pause = false;
+        gameRunning = true;
     }
     #endregion EventHandlers
  
