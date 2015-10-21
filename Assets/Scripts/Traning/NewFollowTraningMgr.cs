@@ -14,6 +14,11 @@ public class NewFollowTraningMgr : MonoBehaviour
     Animator dogAnim;
     bool gotoStart;
     public Vector3 StartPos;
+    public GameObject canvas;
+    public GameObject enemyCar;
+    GameObject createImage;
+   
+
 
 
 
@@ -24,6 +29,9 @@ public class NewFollowTraningMgr : MonoBehaviour
         gameOverPanel.SetActive(false);
         StartPos = transform.position;
         OnRestartGame();
+        CreateEnemy();
+
+
     }
 
 
@@ -44,6 +52,13 @@ public class NewFollowTraningMgr : MonoBehaviour
         if(isMoving)
         {
             Movement();
+        }
+
+        createImage.transform.Translate(100*Time.deltaTime, 0, 0);
+        if(createImage.transform.position.x > 2000f)
+        {
+            Debug.Log("yes");
+            createImage.transform.Translate(0, 0, 0);
         }
     }
 
@@ -102,10 +117,20 @@ public class NewFollowTraningMgr : MonoBehaviour
         canTap = true;
         curNode = -1;
     }
-
-   
     
-   
+
+    void CreateEnemy()
+    {
+        
+            createImage = Instantiate(enemyCar) as GameObject;
+            createImage.transform.SetParent(canvas.transform, false);
+            
+
+    }
+
+
+
+
 }
 
 
