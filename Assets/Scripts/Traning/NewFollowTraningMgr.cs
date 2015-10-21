@@ -53,12 +53,12 @@ public class NewFollowTraningMgr : MonoBehaviour
         {
             Movement();
         }
-
+        Debug.Log(createImage.transform.position.x);
         createImage.transform.Translate(100*Time.deltaTime, 0, 0);
-        if(createImage.transform.position.x > 2000f)
+        if(createImage.transform.position.x >400f)
         {
             Debug.Log("yes");
-            createImage.transform.Translate(0, 0, 0);
+            createImage.transform.position = new Vector2(0, 20f);
         }
     }
 
