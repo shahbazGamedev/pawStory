@@ -54,11 +54,6 @@ public class Pooler : MonoBehaviour
         ShutDown();
     }
 
-    void Update()
-    {
-
-    }
-
     // Initialize Pooler
     void Init()
     {

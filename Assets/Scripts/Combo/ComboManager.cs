@@ -5,7 +5,9 @@ Description   : Game Manager - Jump and Combo
 
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class ComboManager : MonoBehaviour
 {
@@ -15,12 +17,14 @@ public class ComboManager : MonoBehaviour
     public GameObject initialPlat2;
     public GameObject initialPlat3;
     public Transform cameraStartPos;
+    public Canvas canvas;
     public float distance;
     float prevTime;
 
     bool listenForStart;
     bool gameRunning;
     bool pause;
+    bool hasResumed;
     Touch touch;
     
     //UI Components
@@ -37,13 +41,13 @@ public class ComboManager : MonoBehaviour
     public void Awake()
     {
         instRef = this;
-        Input.multiTouchEnabled = false;
+        //Input.multiTouchEnabled = false;
     }
 
     void Start()
     {
         listenForStart = true;
-        TouchManager.PatternRecognized += HandleSwipeDetection;
+        //TouchManager.PatternRecognized += HandleSwipeDetection;
         EventMgr.GameRestart += OnReset;
         EventMgr.GamePause += OnGamePause;
         EventMgr.GameResume += OnGameResume;
@@ -51,7 +55,7 @@ public class ComboManager : MonoBehaviour
 
     public void OnDisable()
     {
-        TouchManager.PatternRecognized -= HandleSwipeDetection;
+        //TouchManager.PatternRecognized -= HandleSwipeDetection;
         EventMgr.GameRestart -= OnReset;
         EventMgr.GamePause -= OnGamePause;
         EventMgr.GameResume -= OnGameResume;
@@ -66,7 +70,7 @@ public class ComboManager : MonoBehaviour
         }
         //Debug.Log(Time.frameCount);
 #if UNITY_EDITOR
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Fire1"))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Fire1") && !EventSystem.current.IsPointerOverGameObject())
         {          
                 if (listenForStart)
                 {
@@ -79,25 +83,29 @@ public class ComboManager : MonoBehaviour
                     DogRunner.instRef.HandleDogJump();            
         }
 
-    #endif
-        if (Input.touchCount > 0)
+#else
+        if (Input.touchCount == 1)
         {
             touch = Input.GetTouch(0);
 
-            if (touch.phase == TouchPhase.Ended && touch.tapCount == 1)
+            if (touch.phase == TouchPhase.Ended && touch.tapCount == 1 && !IsPointerOverUIObject(canvas, touch.position))
             {
                 //  TODO: Not working with restart
-                if (listenForStart && !pause)
+                if (listenForStart && !hasResumed)
                 {
                     gameRunning = true;
                     listenForStart = false;
                     if (StartGame != null)
                         StartGame();
                 }
-                else if(!pause)
+                else if(!pause && !hasResumed)
                     DogRunner.instRef.HandleDogJump();
+                else
+                    hasResumed=false;
+
             }
         }
+#endif
         if (gameRunning)
         {
             distance += Time.deltaTime;
@@ -107,33 +115,11 @@ public class ComboManager : MonoBehaviour
                 prevTime = distance;
             }
         }
+
     }
+
 
     #region EventHandlers
-
-    // Handle Swipe Detected Event
-    void HandleSwipeDetection(SwipeRecognizer.TouchPattern pattern)
-    {
-       
-        if (listenForStart)
-        {
-            if (pattern == SwipeRecognizer.TouchPattern.singleTap)
-            {
-                gameRunning = true;
-                listenForStart = false;
-                if (StartGame != null)
-                    StartGame();
-            }
-        }
-        else if (pattern == SwipeRecognizer.TouchPattern.singleTap)
-        {
-            //if (Jump != null)
-            //{
-            //    Jump();
-            //}
-            DogRunner.instRef.HandleDogJump();
-        }
-    }
 
     public void GameOver()
     {
@@ -162,6 +148,8 @@ public class ComboManager : MonoBehaviour
         initialPlat1.SetActive(true);
         initialPlat2.SetActive(true);
         initialPlat3.SetActive(true);
+
+        OnGameResume();
     }
 
     // game pause
@@ -169,15 +157,40 @@ public class ComboManager : MonoBehaviour
     {
         gameRunning = false;
         pause = true;
+        Debug.Log("OnPause");
     }
 
     // game resume
     void OnGameResume()
     {
+        Debug.Log("OnResume");
         // need to check if user has started game
         pause = false;
-        gameRunning = true;
+        hasResumed = true;
+        if (!listenForStart)
+        {
+            gameRunning = true;
+        }
     }
-    #endregion EventHandlers
- 
+#endregion EventHandlers
+
+
+    // Sourced from Internet
+
+    /// <summary>
+    /// Cast a ray to test if screenPosition is over any UI object in canvas. This is a replacement
+    /// for IsPointerOverGameObject() which does not work on Android in 4.6.0f3
+    /// </summary>
+    private bool IsPointerOverUIObject(Canvas canvas, Vector2 screenPosition)
+    {
+        // the ray cast appears to require only eventData.position.
+        PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+        eventDataCurrentPosition.position = screenPosition;
+
+        GraphicRaycaster uiRaycaster = canvas.gameObject.GetComponent<GraphicRaycaster>();
+        List<RaycastResult> results = new List<RaycastResult>();
+        uiRaycaster.Raycast(eventDataCurrentPosition, results);
+        return results.Count > 0;
+    }
+
 }

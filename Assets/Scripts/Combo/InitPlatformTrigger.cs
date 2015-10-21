@@ -15,12 +15,6 @@ public class InitPlatformTrigger : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void OnTriggerExit(Collider other)
     {
         if (other.gameObject.tag == "Player" && DogRunner.instRef.runStart)
