@@ -86,7 +86,7 @@ public class SpawnTrigger : MonoBehaviour
         if (other.gameObject.CompareTag("Player") && DogRunner.instRef.runStart)
         {
             offset = other.gameObject.transform.position - transform.position;
-            Debug.Log(offset.sqrMagnitude);
+            //Debug.Log(offset.sqrMagnitude);
             if (offset.sqrMagnitude > 600f) // Floating Origin Fix
             {
                 Pooler.InstRef.Sleep(gameObject);

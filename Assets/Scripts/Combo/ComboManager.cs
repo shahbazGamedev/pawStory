@@ -22,7 +22,7 @@ public class ComboManager : MonoBehaviour
     float prevTime;
 
     bool listenForStart;
-    bool gameRunning;
+    public bool gameRunning;
     bool pause;
     bool hasResumed;
     Touch touch;
@@ -64,11 +64,19 @@ public class ComboManager : MonoBehaviour
 
     void Update()
     {
-        if (Time.frameCount % 30 == 0)
+        if (Time.frameCount % 60 == 0)
         {
             System.GC.Collect();
         }
-        //Debug.Log(Time.frameCount);
+        if (gameRunning)
+        {
+            distance += Time.deltaTime;
+            if (distance - prevTime > 1f) // Memory Leak Fix
+            {
+                instructText.text = ((int) distance).ToString();
+                prevTime = distance;
+            }
+        }
 #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Fire1") && !EventSystem.current.IsPointerOverGameObject())
         {          
@@ -106,16 +114,6 @@ public class ComboManager : MonoBehaviour
             }
         }
 #endif
-        if (gameRunning)
-        {
-            distance += Time.deltaTime;
-            if (distance - prevTime > 1f) // Memory Leak Fix
-            {
-                instructText.text = ((int)distance).ToString();
-                prevTime = distance;
-            }
-        }
-
     }
 
 

@@ -51,7 +51,6 @@ public class DogRunner : MonoBehaviour
 
     void Start()
     {
-        //ComboManager.Jump += HandleDogJump;
         ComboManager.StartGame += StartGame;
         gameOver = true;
         startPos = transform.position;
@@ -59,7 +58,6 @@ public class DogRunner : MonoBehaviour
 
     public void OnDisable()
     {
-        //ComboManager.Jump -= HandleDogJump;
         ComboManager.StartGame -= StartGame;
     }
 
@@ -87,7 +85,6 @@ public class DogRunner : MonoBehaviour
             // Handle Jump
             if (dogCC.isGrounded && jump)
             {
-                //Debug.Log(verticalVelocity);
                 StartCoroutine(JumpForce(jumpSpeed));
                 jump = false;
             }
@@ -102,34 +99,14 @@ public class DogRunner : MonoBehaviour
 
     }
 
-    // Old Method using rigidbody & box collider
-    //public void FixedUpdate()
-    //{
-    //if (runStart) 
-    //{
-    //    //Moves dog using rigidbody - need to change
-    //    dogRB.AddForce(runDirection * runSpeed * Time.deltaTime);
-    //    Debug.Log(Vector3.Distance(dogRB.position, prevPos));
-    //    //if (dogRB.velocity.magnitude > maxSpeed)
-    //    //{
-    //    //    dogRB.velocity = dogRB.velocity.normalized * maxSpeed;
-    //    //}
-    //    dogRB.drag = dogRB.velocity.magnitude * runDragFactor;
-    //    //dogRB.MovePosition(dogRB.position + runDirection * runSpeed * Time.deltaTime);
-    //    //prevPos = dogRB.position;
-    //    dogVelocity = 1;
-    //    SyncAnim();
-    //}
-    //}
-
     // Camera Movement
     public void CamUp()
     {
         if (runStart)
         {
             pos = Camera.main.transform.parent.transform.position;
-            pos.z = transform.position.z;
-            Camera.main.transform.parent.transform.position = Vector3.MoveTowards(Camera.main.transform.parent.transform.position, pos, camFactor * Time.deltaTime);
+            pos.z = transform.position.z;        
+            Camera.main.transform.parent.transform.position = Vector3.SmoothDamp(Camera.main.transform.parent.transform.position, pos, ref smoothDampVelocity, smoothDampTime);
         }
     }
 
@@ -179,11 +156,6 @@ public class DogRunner : MonoBehaviour
             jump = true;
             dogAnim.SetTrigger("Jump");
         }
-        //if (isGrounded && runStart)
-        //{
-        //    dogAnim.SetTrigger("Jump");
-        //    GetComponent<CharacterController>().AddForce(jumpForce, ForceMode.Impulse);
-        //}
     }
 
     // Game start event handler
