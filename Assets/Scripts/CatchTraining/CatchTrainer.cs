@@ -121,7 +121,7 @@ public class CatchTrainer : MonoBehaviour {
 			Vector3 pos = new Vector3 (pStartPosition.x + dx, pStartPosition.y + dy, 0);
 			markerList [i].transform.position = pos;
 			markerList[i].GetComponent <Renderer>().enabled = true;
-			markerList[i].transform.eulerAngles = new Vector3(0,0,Mathf.Atan2(pVelocity.y - (Physics.gravity.magnitude)*fTime,pVelocity.x)*Mathf.Rad2Deg);
+            markerList[i].transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2(pVelocity.y - (Physics.gravity.magnitude) * fTime, pVelocity.x) * Mathf.Rad2Deg);
 			fTime += 0.1f;
 		}
 	}
@@ -182,6 +182,7 @@ public class CatchTrainer : MonoBehaviour {
 	// Event trigger - Pointer Click
 	public void OnClickEnd(BaseEventData data)
 	{
+
 	}
 
 	// Event Trigger - Pointer Down

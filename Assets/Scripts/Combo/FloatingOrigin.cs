@@ -32,7 +32,7 @@ public class FloatingOrigin : MonoBehaviour
             objects = FindObjectsOfType(typeof(Transform));
             for(int i=0;i<objects.Length;i++)
             {
-                t = (Transform)objects[i];
+                t = objects[i] as Transform;
                 if(t.CompareTag("Stationary"))
                 {
                     continue;
@@ -47,7 +47,7 @@ public class FloatingOrigin : MonoBehaviour
             for (int i = 0; i < objects.Length; i++)
             {
                 Debug.Log("Particle");
-                pe = (ParticleEmitter)objects[i];
+                pe = objects[i] as ParticleEmitter;
                 emitterParticles = pe.particles;
                 for (int j = 0; j < emitterParticles.Length; j++)
                 {
