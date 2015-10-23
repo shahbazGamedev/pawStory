@@ -159,7 +159,7 @@ public class EllipseMovement : MonoBehaviour
 		else
 		{
 			while(majorAxis!=circuitLaneData [targetLane].majorAxis.transform.position 
-				|| minorAxis!=circuitLaneData [targetLane].minorAxis.transform.position )
+				|| minorAxis!=circuitLaneData [targetLane].minorAxis.transform.position)
 			{
 				yield return new WaitForFixedUpdate ();
 
@@ -201,13 +201,13 @@ public class EllipseMovement : MonoBehaviour
 	// Maintains isGrounded flag based on dog movement
 	void OnTriggerStay(Collider other)
 	{
-		if(other.gameObject.tag=="floor")
+		if(other.gameObject.CompareTag("floor"))
 			isGrounded=true;
 	}
 
 	void OnTriggerExit(Collider other)
 	{
-		if(other.gameObject.tag=="floor")
+		if(other.gameObject.CompareTag("floor"))
 			isGrounded=false;
 	}
 

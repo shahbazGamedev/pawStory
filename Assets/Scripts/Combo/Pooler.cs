@@ -40,11 +40,6 @@ public class Pooler : MonoBehaviour
         InstRef = this;
     }
 
-    void Start()
-    {
-
-    }
-
     public void OnEnable()
     {
         Init();

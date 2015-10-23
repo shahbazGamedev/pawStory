@@ -64,10 +64,10 @@ public class ComboManager : MonoBehaviour
 
     void Update()
     {
-        if (Time.frameCount % 60 == 0)
-        {
-            System.GC.Collect();
-        }
+        //if (Time.frameCount % 60 == 0)
+        //{
+        //    System.GC.Collect();
+        //}
         if (gameRunning)
         {
             distance += Time.deltaTime;

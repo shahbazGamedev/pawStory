@@ -40,8 +40,9 @@ public class AgilityManager : MonoBehaviour {
 	public Vector3 targetColliderCenter;
 	Vector3 boxColliderSize;
 	Vector3 boxColliderCenter;
+    BoxCollider boxCollider;
 
-	public float currentCheckpointTimer; // In secs
+    public float currentCheckpointTimer; // In secs
 	int currentLane;
 
 	bool startGame;
@@ -181,7 +182,7 @@ public class AgilityManager : MonoBehaviour {
 			dogAnim.SetTrigger ("Slide");
 
 			// Reduce dog collider size
-			var boxCollider = (BoxCollider)dogRef.GetComponent <Collider> ();
+			boxCollider = dogRef.GetComponent <Collider> () as BoxCollider;
 			boxCollider.size=targetColliderSize;
 			boxCollider.center = targetColliderCenter;
 		}
@@ -190,7 +191,7 @@ public class AgilityManager : MonoBehaviour {
 	// Reset box collider size afer sliding
 	public void ResetColliderSize()
 	{
-		var boxCollider = (BoxCollider)dogRef.GetComponent <Collider> ();
+		boxCollider = dogRef.GetComponent <Collider> () as BoxCollider;
 		boxCollider.size = boxColliderSize;
 		boxCollider.center = boxColliderCenter;
 	}

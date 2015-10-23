@@ -14,15 +14,10 @@ public class LapTrigger : MonoBehaviour {
 	void Start () {
 		dogMove = FindObjectOfType <EllipseMovement> ();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
 	void OnTriggerEnter(Collider other)
 	{
-		if(other.gameObject.tag=="Player")
+		if(other.gameObject.CompareTag("Player"))
 			dogMove.FireLapTriggeredEvent ();
 	}
 }

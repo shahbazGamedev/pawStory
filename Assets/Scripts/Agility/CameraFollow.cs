@@ -16,8 +16,9 @@ public class CameraFollow : MonoBehaviour {
 	Vector3 minorAxis;
 	Vector3 target;
 	Vector3 currentPosition;
+    Quaternion rotation;
 
-	float x;
+    float x;
 	float y;
 	float xForward;
 	float yForward;
@@ -38,11 +39,6 @@ public class CameraFollow : MonoBehaviour {
 		minorAxis = dogRef.GetComponent <EllipseMovement> ().circuitLaneData [1].minorAxis.transform.position;
 		startPos = transform.position;
 		startRot = transform.rotation;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
 	}
 
 	// Decouple event listener
@@ -80,7 +76,7 @@ public class CameraFollow : MonoBehaviour {
 	{
 		// Camera position update
 		Camera.main.transform.position = Vector3.Scale (transform.position, new Vector3(1f,0f,1f)) + transform.rotation * new Vector3 (0f, 8f, -8f);
-		var rotation = Quaternion.LookRotation(transform.position-Camera.main.transform.position, Vector3.up);
+		rotation = Quaternion.LookRotation(transform.position-Camera.main.transform.position, Vector3.up);
 		rotation = Quaternion.Euler (21.5f, rotation.eulerAngles.y, 0f);
 		Camera.main.transform.rotation = rotation;
 	}

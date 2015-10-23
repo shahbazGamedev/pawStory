@@ -15,9 +15,15 @@ public class SpawnManager : MonoBehaviour {
 	public GameObject[] powSpawnPts;
 	public container[] spacePartition;
 
-	GameObject powerUpRef;
+    public int powerMin;
+    public int powerMax;
+    public int obstacleMin;
+    public int obstacleMax;
 
-	public GameObject cloneHolder;
+    GameObject powerUpRef;
+    GameObject cloneInstance;
+
+    public GameObject cloneHolder;
 
 	[System.Serializable]
 	public struct container {
@@ -61,29 +67,30 @@ public class SpawnManager : MonoBehaviour {
 		EllipseMovement.DogMovedNextPartition -= UpdateDogPosition;
 		spawnOn = false;
 	}
-	
-	// Update is called once per frame
-	void Update () 
-	{
-	
-	}
 
 	// Random spawn code
 	GameObject CheckForProbability(GameObject positionRef, GameObject[] collection)
 	{
-		randomNumber = Random.Range (0, collection.Length);
-		var cloneInstance = (GameObject)Instantiate (collection [randomNumber], positionRef.transform.position, Quaternion.identity);
-		cloneInstance.transform.parent = cloneHolder.transform;
+		randomNumber = Random.Range (obstacleMin, obstacleMax);
+
+		//cloneInstance = (GameObject)Instantiate (collection [randomNumber], positionRef.transform.position, Quaternion.identity);
+
+        cloneInstance = Pooler.InstRef.GetPooledObject(randomNumber);
+        cloneInstance.transform.position = positionRef.transform.position;
+        cloneInstance.transform.rotation = positionRef.transform.rotation;
+
+        //cloneInstance.transform.parent = cloneHolder.transform;
 
         // Add code for obstacle rotation
-        if (randomNumber == 0)
-        {
-            direction = cloneInstance.transform.position + Vector3.forward * 0.1f;
-            lookAngle = Quaternion.LookRotation(direction);
-            lookAngle.x = 0;
-            lookAngle.z = 0;
-            cloneInstance.transform.rotation = lookAngle;
-        }
+        //if (randomNumber == 0)
+        //{
+        //    direction = cloneInstance.transform.position + Vector3.forward * 0.1f;
+        //    lookAngle = Quaternion.LookRotation(direction);
+        //    lookAngle.x = 0;
+        //    lookAngle.z = 0;
+        //    cloneInstance.transform.rotation = lookAngle;
+        //}
+        cloneInstance.SetActive(true);
         return cloneInstance;
 	}
 
@@ -106,22 +113,33 @@ public class SpawnManager : MonoBehaviour {
 	// Destroy spawned objects when no longer seen
 	void ClearObstacles(List<GameObject> spawnHodler)
 	{
-		foreach(var gameObj in spawnHodler)
+		//foreach(var gameObj in spawnHodler)
+        for(int i=0; i<spawnHodler.Count; i++)
 		{
-			Destroy (gameObj);
-		}
+            //Destroy (gameObj);
+            Pooler.InstRef.Sleep(spawnHodler[i].gameObject);
+        }
 		spawnHodler.Clear ();
 	}
 
 	// Spawn powerUp
 	public void SpawnPowerUp()
 	{
-		if (powerUpRef != null)
-			Destroy (powerUpRef);
-		powerUpRef = (GameObject)Instantiate (collectibleCollection [Random.Range (0, collectibleCollection.Length)], 
-			powSpawnPts [Random.Range (0, powSpawnPts.Length)].transform.position, 
-			Quaternion.identity);
-		powerUpRef.transform.parent = cloneHolder.transform;
+        if (powerUpRef != null)
+        {
+            Pooler.InstRef.Sleep(powerUpRef);
+            powerUpRef = null;
+        }
+
+			//Destroy (powerUpRef);
+		//powerUpRef = (GameObject)Instantiate (collectibleCollection [Random.Range (0, collectibleCollection.Length)], 
+		//	powSpawnPts [Random.Range (0, powSpawnPts.Length)].transform.position, 
+		//	Quaternion.identity);
+
+        powerUpRef = Pooler.InstRef.GetPooledObject(Random.Range(powerMin, powerMax));
+        powerUpRef.transform.position = powSpawnPts[Random.Range(0, powSpawnPts.Length)].transform.position;
+        // powerUpRef.transform.parent = cloneHolder.transform;
+        powerUpRef.SetActive(true);
 	}
 
 	// Actual spawning takes place here 
