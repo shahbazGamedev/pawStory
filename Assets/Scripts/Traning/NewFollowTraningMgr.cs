@@ -19,9 +19,9 @@ public class NewFollowTraningMgr : MonoBehaviour
     public float timer;
     public Text TxtTimer;
     public Text TxtGameOver;
-    
-    
-   
+
+
+
 
 
 
@@ -32,13 +32,9 @@ public class NewFollowTraningMgr : MonoBehaviour
         gameOverPanel.SetActive(false);
         StartPos = transform.position;
         OnRestartGame();
-       // CreateEnemy();
-        
-
-
     }
-
-
+    
+       
     void OnEnable()
     {
         EventMgr.GameRestart += OnRestartGame;
@@ -75,6 +71,7 @@ public class NewFollowTraningMgr : MonoBehaviour
       
     }
 
+
     void FixedUpdate()
     {
         timer += Time.deltaTime;
@@ -93,8 +90,6 @@ public class NewFollowTraningMgr : MonoBehaviour
         {
             dogAnim.SetFloat("Walk", 0f);
             isMoving = false;
-            
-
         }
     }
    
@@ -107,8 +102,6 @@ public class NewFollowTraningMgr : MonoBehaviour
             Debug.Log("collided");
             gameOverPanel.SetActive(true);
             TxtGameOver.text = "Follow Traning Sucessful!!";
-            
-            
         }
     }
 
@@ -139,11 +132,9 @@ public class NewFollowTraningMgr : MonoBehaviour
         movingTarget.SetActive(true);
         movingTarget.transform.position = new Vector2(0, 0);
         timer = 0f;
-
     }
     
 
-  
     void GameOver()
     {
         if(timer >= 45)

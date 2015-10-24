@@ -6,10 +6,11 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
-public class DogMovementColorLesson : MonoBehaviour {
-	
-	
-	
+public class ColorLessonTraningMgr : MonoBehaviour
+{
+
+
+
     public float Speed;
     public float speedDampTime;
     public GameObject PanelGameOver;
@@ -19,9 +20,9 @@ public class DogMovementColorLesson : MonoBehaviour {
     public GameObject whiteBtn;
     public Transform Target;
     public Transform red;
-	public Transform blue;
-	public Transform green;
-	public Transform yellow;
+    public Transform blue;
+    public Transform green;
+    public Transform yellow;
     public Text TxtTimer;
     float timer;
     float distance;
@@ -39,32 +40,41 @@ public class DogMovementColorLesson : MonoBehaviour {
     public Text teachingTxt;
     public GameObject TeachingPnl;
     public Text TxtGameOver;
-    
 
 
 
 
 
-    void Start ()
+
+    void Start()
     {
-		rb=GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         startPos = transform.position;
         isMoving = false;
-		dogAnim = GetComponent<Animator>();
+        dogAnim = GetComponent<Animator>();
         PanelGameOver.SetActive(false);
         canClick = true;
         teachingTxt.text = "Teach Green";
         blueBtn.SetActive(false);
         redBtn.SetActive(false);
         whiteBtn.SetActive(false);
-
-
-
-
     }
-	
 
-	void Update ()
+
+    void OnEnable()
+    {
+        EventMgr.GameRestart += OnRestartGame;
+    }
+
+
+    void OnDisable()
+    {
+        EventMgr.GameRestart -= OnRestartGame;
+    }
+
+
+
+    void Update()
     {
 
         distance = Vector3.Distance(Target.position, transform.position);
@@ -91,7 +101,7 @@ public class DogMovementColorLesson : MonoBehaviour {
 
     void TargetCreator()
     {
-      
+
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
@@ -108,9 +118,9 @@ public class DogMovementColorLesson : MonoBehaviour {
                     collectBlue = false;
                     collectRed = false;
                     collectWhite = false;
-                    //isMoving = true;
-
                 }
+
+
                 if (layerName == "Floor")
                 {
                     collectBlue = true;
@@ -119,9 +129,9 @@ public class DogMovementColorLesson : MonoBehaviour {
                     collectGreen = false;
                     collectRed = false;
                     collectWhite = false;
-                    //isMoving = true;
-
                 }
+
+
                 if (layerName == "Dog")
                 {
                     collectWhite = true;
@@ -130,9 +140,9 @@ public class DogMovementColorLesson : MonoBehaviour {
                     collectBlue = false;
                     collectRed = false;
                     collectGreen = false;
-                    //isMoving = true;
+                }  
 
-                }
+                
                 if (layerName == "Back")
                 {
                     collectRed = true;
@@ -141,27 +151,24 @@ public class DogMovementColorLesson : MonoBehaviour {
                     collectBlue = false;
                     collectGreen = false;
                     collectWhite = false;
-
-                    //isMoving = true;
-
                 }
             }
         }
     }
 
+
     void FixedUpdate()
-	{
+    {
         timer += Time.deltaTime;
-        TxtTimer.text = "Time:"  + (int)timer;
+        TxtTimer.text = "Time:" + (int)timer;
     }
-       
+
 
     public void RedMove()
-	{
+    {
         if (canClick && collectRed)
         {
             canClick = false;
-            
             isMoving = true;
         }
         else
@@ -177,7 +184,6 @@ public class DogMovementColorLesson : MonoBehaviour {
         {
 
             canClick = false;
-            
             isMoving = true;
         }
         else
@@ -187,29 +193,28 @@ public class DogMovementColorLesson : MonoBehaviour {
     }
 
 
-	public void GreenMove()
-	{
+    public void GreenMove()
+    {
         if (canClick && collectGreen)
         {
-
             canClick = false;
-            
             isMoving = true;
         }
         else
         {
             teachingTxt.text = "Wrong Color";
         }
-	}
+    }
 
 
-	public void YellowMove()
-	{
+    public void YellowMove()
+    {
         if (canClick && collectWhite)
         {
             canClick = false;
-            
             isMoving = true;
+
+
         }
         else
         {
@@ -219,12 +224,12 @@ public class DogMovementColorLesson : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Toys")
+        if (other.gameObject.tag == "Toys")
         {
             greenBtn.SetActive(false);
             teachingTxt.text = "Teach Red";
             redBtn.SetActive(true);
-           
+
         }
         if (other.gameObject.tag == "Basket")
         {
@@ -240,8 +245,8 @@ public class DogMovementColorLesson : MonoBehaviour {
             TxtGameOver.text = "Puppy Learned Well!!";
             timer = 0f;
 
-
         }
+
         if (other.gameObject.tag == "Ball")
         {
             blueBtn.SetActive(false);
@@ -254,12 +259,12 @@ public class DogMovementColorLesson : MonoBehaviour {
 
     void GameOver()
     {
-        if(timer>= 20)
+        if (timer >= 20)
         {
             PanelGameOver.SetActive(true);
             TeachingPnl.SetActive(false);
-            TxtGameOver.text = "Traning Session Failed";
-            
+            TxtGameOver.text = "Traning Session Failed!!";
+
         }
     }
 
@@ -272,13 +277,10 @@ public class DogMovementColorLesson : MonoBehaviour {
         canClick = true;
         isMoving = false;
         teachingTxt.text = "Teach Green";
+        greenBtn.SetActive(true);
         blueBtn.SetActive(false);
         redBtn.SetActive(false);
         whiteBtn.SetActive(false);
-
+        transform.rotation = Quaternion.identity;
     }
 }
-	
-
-
-
