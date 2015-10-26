@@ -2,30 +2,27 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class TugOfWarManager : MonoBehaviour 
+public class RunningTrainingMgr : MonoBehaviour 
 {
 	public GameObject panelGameOver;
 	public GameObject pulley;
-	public float speed;
-	public Text winCondition;
-	public Text play;
-	private Animator dogAnim;
-	public Vector3 dogPos;
-	bool gameStart;
+    private Animator dogAnim;
+    bool gameStart;
+    public bool canSpin;
 	Rigidbody rb;
 	float angle;
 	float preAngle;
-	int value;
-	Vector2 normalizedPositions;
+	float value;
+    Vector2 normalizedPositions;
 
 
 	void Start () 
 	{
-		dogPos=transform.position;
 		gameStart=false;
 		panelGameOver.SetActive(false);
 	    rb=GetComponent<Rigidbody>();
 		dogAnim=GetComponent<Animator>();
+        
 	}
 
 
@@ -54,30 +51,16 @@ public class TugOfWarManager : MonoBehaviour
     public void OnPointerDown()
 	{
 		gameStart=true;
-		play.text="";
+		
 	}
+	public void OnPointerUp()
+    {
+        gameStart = false;
+        value = 0f;
+        dogAnim.SetFloat("Walk", 0f);
+    }
+
 	
-
-	 void OnTriggerEnter(Collider other)
-	{
-	if(other.gameObject.tag=="Finish")
-		{
-		    panelGameOver.SetActive(true);
-			winCondition.text="PLAYER WINS";
-			pulley.SetActive(false);
-			gameStart=false;
-
-		}
-	if(other.gameObject.tag=="LoseLine")
-		{
-		    panelGameOver.SetActive(true);
-			winCondition.text="PUPPY WINS";
-		    pulley.SetActive(false);
-			gameStart=false;
-
-		}
-	}
-
 
 	void DogMovement()
 	{
@@ -90,21 +73,28 @@ public class TugOfWarManager : MonoBehaviour
 			if(angle<0)
 			{
 				angle += 360;
-				//Debug.Log (angle);
+                
+				
 			}
+           
 			
 			if(angle-preAngle>270)
 			{
-				value+=1;
-				rb.AddForce(0,0,-25*speed);
-			}
-			
-			else
-			{
+				value+=1*Time.deltaTime;
+                Debug.Log(value);
+                
 				
-				rb.AddForce(0,0,1*speed);
 			}
+           if(value>0.01 && value<0.5)
+            {
+                dogAnim.SetFloat("Walk", 0.8f);
+            }
+            if(value>0.5)
+            {
+                dogAnim.SetFloat("Walk", 1.5f);
+            }
 			preAngle=angle;
+            
 		}
 	}
 
@@ -112,11 +102,8 @@ public class TugOfWarManager : MonoBehaviour
 	{
 		gameStart=false;
 		value=0;
-		play.text="Tap To Start";
-		panelGameOver.SetActive(false);
-		pulley.SetActive(true);
-		transform.position=dogPos;
-
+	    panelGameOver.SetActive(false);
+		
 	}
 
 

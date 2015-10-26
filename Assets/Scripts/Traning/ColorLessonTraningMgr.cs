@@ -174,6 +174,7 @@ public class ColorLessonTraningMgr : MonoBehaviour
         else
         {
             teachingTxt.text = "Wrong Color";
+            timer += 2f;
         }
     }
 
@@ -189,6 +190,7 @@ public class ColorLessonTraningMgr : MonoBehaviour
         else
         {
             teachingTxt.text = "Wrong Color";
+            timer += 2f;
         }
     }
 
@@ -203,6 +205,7 @@ public class ColorLessonTraningMgr : MonoBehaviour
         else
         {
             teachingTxt.text = "Wrong Color";
+            timer += 2f;
         }
     }
 
@@ -219,6 +222,7 @@ public class ColorLessonTraningMgr : MonoBehaviour
         else
         {
             teachingTxt.text = "Wrong Color";
+            timer += 2f;
         }
     }
 
