@@ -22,4 +22,18 @@ public class PuppyTraining : MonoBehaviour {
         GameMgr.Inst.LoadScene(GlobalConst.Scene_FollowTraining);
     }
 
+
+    public void OnColourLessonTraining()
+    {
+        GameMgr.Inst.LoadScene(GlobalConst.Scene_ColourLessonTraining);
+    }
+
+
+    public void OnRunningTraining()
+    {
+        GameMgr.Inst.LoadScene(GlobalConst.Scene_RunningTraining);
+    }
+
+
+
 }
