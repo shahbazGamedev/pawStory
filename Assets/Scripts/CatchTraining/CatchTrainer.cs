@@ -36,7 +36,15 @@ public class CatchTrainer : MonoBehaviour {
 	Vector3 projectileVelocity;
 	Vector3 direction;
 
-	List<GameObject> markerList;
+    bool toySelected;
+    GameObject toyRef;
+    string layerName;
+
+
+    public GameObject[] toys;
+    public LayerMask mask;
+
+    List<GameObject> markerList;
 
 	// UI Components
 	public Text instruction;
@@ -49,7 +57,7 @@ public class CatchTrainer : MonoBehaviour {
 		markerList = new List<GameObject> ();
 		InitMarker ();
 		instruction.text="Aim for Puppy!";
-	}
+    }
 
 	// Listen for restart
 	void OnEnable() {
@@ -82,7 +90,7 @@ public class CatchTrainer : MonoBehaviour {
 		{
 			GameObject instanceRef = Instantiate (markerPrefab);
 			instanceRef.GetComponent<Renderer>().enabled = false;
-			instanceRef.transform.parent = transform;
+			instanceRef.transform.parent = cannonRef.transform;
 			markerList.Insert(i, instanceRef);
 		}
 	}
@@ -129,8 +137,8 @@ public class CatchTrainer : MonoBehaviour {
 	// throw ball
 	void ThrowBall()
 	{
-		if(!gameOver) {
-			var ballRef = (GameObject)Instantiate (ballPrefab, cannonRef.transform.position, Quaternion.identity);
+		if(!gameOver && toyRef !=null) {
+			var ballRef = (GameObject)Instantiate (ballPrefab, toyRef.transform.position, Quaternion.identity);
 			var force = Quaternion.Euler (new Vector3 (0, projAngle, 0)) * (projectileVelocity);
 			ballRef.GetComponent <Rigidbody> ().AddForce (force, ForceMode.Impulse);
 			HideMarker ();
@@ -145,6 +153,29 @@ public class CatchTrainer : MonoBehaviour {
 			markerList[i].GetComponent <Renderer>().enabled = false;
 		}
 	}
+
+    // Raycast at touch
+    void findToySelected(Vector3 touchPos)
+    {
+        toyRef = null;
+        Vector3 screenPoint = new Vector3(touchPos.x, touchPos.y, -5f);
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(screenPoint);
+        if (Physics.Raycast(ray, out hit, 100f, mask))
+        {
+            //Debug.DrawRay(screenPoint, hit.point, Color.yellow);
+            //Debug.Log("Hit");
+            layerName = LayerMask.LayerToName(hit.collider.gameObject.layer);
+            //Debug.Log(layerName);
+            if (layerName == "Toys")
+            {
+                toyRef = hit.collider.gameObject;
+                cannonRef.transform.position = toyRef.transform.position;
+            }
+            if(toyRef!=null)
+               Debug.Log(toyRef.name);
+        }
+    }
 
 	#region EventTriggers
 
@@ -166,17 +197,36 @@ public class CatchTrainer : MonoBehaviour {
 	// Event trigger - Drag
 	public void OnDrag (BaseEventData data)
 	{
-		var pointData = (PointerEventData)data;
-		touchCurPos = pointData.position;
-		projectileVelocity = CalcForce (touchStartPos, touchCurPos);
-//		Debug.Log (projectileVelocity);
-		direction = CalcDirection (touchStartPos, touchCurPos);
-		projAngle = Mathf.Atan2 (direction.y, direction.x) * Mathf.Rad2Deg;
-		projAngle = projAngle < 0 ? projAngle += 360 : projAngle;
-		projAngle = 360 - projAngle;
-		transform.eulerAngles = new Vector3 (0, 0, 0);
-		setMarker (cannonRef.transform.position, projectileVelocity);
-		transform.eulerAngles = new Vector3 (0, projAngle, 0);
+        if (toyRef == null)
+        {
+            return;
+        }
+        else
+        {
+            var pointData = (PointerEventData)data;
+            touchCurPos = pointData.position;
+            projectileVelocity = CalcForce(touchStartPos, touchCurPos);
+            direction = CalcDirection(touchStartPos, touchCurPos);
+            projAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            projAngle = projAngle < 0 ? projAngle += 360 : projAngle;
+            projAngle = 360 - projAngle;
+            Debug.Log(projAngle);
+            if (toyRef == toys[0])
+            {
+                
+            }
+            else if (toyRef == toys[1])
+            {
+                //projAngle -= 45;
+            }
+            else if (toyRef == toys[2])
+            {
+                //projAngle -= 60;
+            }
+            cannonRef.transform.eulerAngles = new Vector3(0, 0, 0);
+            setMarker(toyRef.transform.position, projectileVelocity);
+            cannonRef.transform.eulerAngles = new Vector3(0, projAngle, 0);
+        }
 	}
 
 	// Event trigger - Pointer Click
@@ -193,6 +243,9 @@ public class CatchTrainer : MonoBehaviour {
 			touchStartPos = pointData.position;
 			isPressed = true;
 		}
+
+        // raycast to find the toy
+        findToySelected(touchStartPos);
 	}
 
 	// Event Trigger - Pointer Up
