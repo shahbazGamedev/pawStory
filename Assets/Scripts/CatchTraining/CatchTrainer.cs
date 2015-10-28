@@ -11,7 +11,9 @@ using UnityEngine.UI;
 
 public class CatchTrainer : MonoBehaviour {
 
-	public static CatchTrainer instRef;
+    #region Var
+
+    public static CatchTrainer instRef;
 	public GameObject dogRef;
 	public GameObject ballPrefab;
 	public GameObject markerPrefab;
@@ -49,8 +51,10 @@ public class CatchTrainer : MonoBehaviour {
 	// UI Components
 	public Text instruction;
 
-	// Use this for initialization
-	void Start () {
+    #endregion Var
+
+    // Use this for initialization
+    void Start () {
 		instRef = this;
 		dogRef = GameObject.FindGameObjectWithTag ("Player");
 		targetPos = dogRef.transform.position;
@@ -71,10 +75,6 @@ public class CatchTrainer : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKeyUp (KeyCode.Space))
-		{
-			ThrowBall ();
-		}
 		if (isHoldingBall) {
 			ballCatched.SetActive (true);
 			gameOver = true;
@@ -110,7 +110,6 @@ public class CatchTrainer : MonoBehaviour {
 		var dir=(toPos - fromPos);
 		dir = new Vector2 (dir.x < 0 ? -dir.x : 0, dir.y < 0 ? -dir.y : 0);
 		return dir;
-
 	}
 
 	// updates the position of markers
@@ -138,7 +137,7 @@ public class CatchTrainer : MonoBehaviour {
 	void ThrowBall()
 	{
 		if(!gameOver && toyRef !=null) {
-			var ballRef = (GameObject)Instantiate (ballPrefab, toyRef.transform.position, Quaternion.identity);
+			var ballRef = Instantiate (ballPrefab, toyRef.transform.position, Quaternion.identity) as GameObject;
 			var force = Quaternion.Euler (new Vector3 (0, projAngle, 0)) * (projectileVelocity);
 			ballRef.GetComponent <Rigidbody> ().AddForce (force, ForceMode.Impulse);
 			HideMarker ();
@@ -164,16 +163,12 @@ public class CatchTrainer : MonoBehaviour {
         if (Physics.Raycast(ray, out hit, 100f, mask))
         {
             //Debug.DrawRay(screenPoint, hit.point, Color.yellow);
-            //Debug.Log("Hit");
             layerName = LayerMask.LayerToName(hit.collider.gameObject.layer);
-            //Debug.Log(layerName);
             if (layerName == "Toys")
             {
                 toyRef = hit.collider.gameObject;
                 cannonRef.transform.position = toyRef.transform.position;
             }
-            if(toyRef!=null)
-               Debug.Log(toyRef.name);
         }
     }
 
@@ -190,7 +185,6 @@ public class CatchTrainer : MonoBehaviour {
 	{
 		if (projVel > 5) {
 			ThrowBall ();
-//			instruction.text="";
 		}
 	}
 
@@ -210,21 +204,20 @@ public class CatchTrainer : MonoBehaviour {
             projAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             projAngle = projAngle < 0 ? projAngle += 360 : projAngle;
             projAngle = 360 - projAngle;
-            Debug.Log(projAngle);
+            cannonRef.transform.eulerAngles = new Vector3(0, 0, 0);
+            setMarker(toyRef.transform.position, projectileVelocity);
             if (toyRef == toys[0])
             {
-                
+
             }
             else if (toyRef == toys[1])
             {
-                //projAngle -= 45;
+                projAngle -= 10;
             }
             else if (toyRef == toys[2])
             {
-                //projAngle -= 60;
+                projAngle -= 20;
             }
-            cannonRef.transform.eulerAngles = new Vector3(0, 0, 0);
-            setMarker(toyRef.transform.position, projectileVelocity);
             cannonRef.transform.eulerAngles = new Vector3(0, projAngle, 0);
         }
 	}

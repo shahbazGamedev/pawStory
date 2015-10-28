@@ -24,11 +24,13 @@ public class FloatingOrigin : MonoBehaviour
 
     void LateUpdate()
     {
+        //SpawnTrigger.floatingOriginInProgress = false;
         cameraPosition = gameObject.transform.parent.transform.position;
         cameraPosition.y = 0f;
         cameraPosition.x = 0f;
         if (cameraPosition.sqrMagnitude > threshold)
         {
+            SpawnTrigger.floatingOriginInProgress = true;
             objects = FindObjectsOfType(typeof(Transform));
             for(int i=0;i<objects.Length;i++)
             {
@@ -42,7 +44,6 @@ public class FloatingOrigin : MonoBehaviour
                     t.position -= cameraPosition;
                 }
             }
-
             objects = FindObjectsOfType(typeof(ParticleEmitter));
             for (int i = 0; i < objects.Length; i++)
             {
@@ -55,7 +56,6 @@ public class FloatingOrigin : MonoBehaviour
                 }
                 pe.particles = emitterParticles;
             }
-
             //if (physicsThreshold >= 0f)
             //{
             //    objects = FindObjectsOfType(typeof(Rigidbody));
@@ -74,6 +74,14 @@ public class FloatingOrigin : MonoBehaviour
             //        }
             //    }
             //}
+            StartCoroutine(ResetFlag());
         }
+    }
+
+    IEnumerator ResetFlag()
+    {
+        yield return new WaitForFixedUpdate();
+        SpawnTrigger.floatingOriginInProgress = false;
+        yield return null;
     }
 }

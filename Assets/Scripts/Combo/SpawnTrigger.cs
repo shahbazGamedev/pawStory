@@ -14,6 +14,7 @@ public class SpawnTrigger : MonoBehaviour
     public static int beforePrevPlat;
     public static int twoBeforePrevPlat;
     public static float timer;
+    public static bool floatingOriginInProgress;
     public float[] distBtnPlatforms; //  starts from index 1
     public bool isStatic;
 
@@ -85,10 +86,11 @@ public class SpawnTrigger : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player") && DogRunner.instRef.runStart)
         {
-            offset = other.gameObject.transform.position - transform.position;
+            //offset = other.gameObject.transform.position - transform.position;
             //Debug.Log(offset.sqrMagnitude);
-            if (offset.sqrMagnitude > 600f) // Floating Origin Fix
+            if (/*offset.sqrMagnitude > 600f*/ !floatingOriginInProgress) // Floating Origin Fix
             {
+                //Debug.Log(floatingOriginInProgress);
                 Pooler.InstRef.Sleep(gameObject);
                 hasSpawned = false;
             }
