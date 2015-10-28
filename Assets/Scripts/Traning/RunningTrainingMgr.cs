@@ -85,7 +85,7 @@ public class RunningTrainingMgr : MonoBehaviour
                 
 				
 			}
-           if(value>0.01 && value<0.5)
+           if(value>0.1 && value<0.5)
             {
                 dogAnim.SetFloat("Walk", 0.8f);
             }

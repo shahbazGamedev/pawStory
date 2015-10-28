@@ -55,11 +55,11 @@ public class NewFollowTraningMgr : MonoBehaviour
         }
         movingTarget.transform.Translate(250 * Time.deltaTime, 0, 0);
         Debug.Log(movingTarget.transform.position.x);
-        if(movingTarget.transform.position.x >= 1000)
+        if(movingTarget.transform.position.x >= 1350)
         {
             movingTarget.transform.position = new Vector2(0, 0);
         }
-        if(movingTarget.transform.position.x>485 && movingTarget.transform.position.x<500)
+        if(movingTarget.transform.position.x>680 && movingTarget.transform.position.x<700)
         {
             Debug.Log("yes");
             canTap = true;
