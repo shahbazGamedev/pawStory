@@ -32,12 +32,12 @@ public class MainMenu : MonoBehaviour {
 
     public void OnPetting()
     {
-        GameMgr.Inst.LoadScene("Petting");
+        GameMgr.Inst.LoadScene(GlobalConst.Scene_Petting);
     }
 
     public void OnPark()
     {
-        GameMgr.Inst.LoadScene("park new set");
+        GameMgr.Inst.LoadScene(GlobalConst.Scene_Park);
     }
 
 }

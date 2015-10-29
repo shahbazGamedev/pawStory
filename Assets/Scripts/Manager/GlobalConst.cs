@@ -15,6 +15,9 @@ public class GlobalConst
     public static string Scene_FollowTraining = "FollowTraning";
     public static string Scene_ColourLessonTraining = "ColorLessonTranining";
     public static string Scene_RunningTraining = "RunningTraining";
+    public static string Scene_Petting = "Petting";
+    public static string Scene_Park = "new low park";
+
 
 
     public static string Scene_DiscDogs = "DiscDogs";
