@@ -36,7 +36,10 @@ public class DogNavigation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if(Time.frameCount%60==0)
+        {
+            System.GC.Collect();
+        }
     }
 
     public IEnumerator MoveToPosition(Vector3 targetPosition, Quaternion targetRotation)
