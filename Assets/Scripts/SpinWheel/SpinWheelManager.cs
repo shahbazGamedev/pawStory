@@ -16,9 +16,8 @@ public class SpinWheelManager : MonoBehaviour
     public int torqueMax;
     public float timerMax;
     public float timer;
-    public int sectionCount;
+    public int sectionCount; // starts from 0 && current image has 8 sections
     public Text result;
-    public InputField no;
     public int[] torqCollection; // pre-calculated torque list
 
     int section;
@@ -64,7 +63,7 @@ public class SpinWheelManager : MonoBehaviour
     void SpinWheel()
     {
         result.text = "";
-        //randomTorque = -Random.Range(torqueMin, torqueMax);
+        //randomTorque = -Random.Range(torqueMin, torqueMax); // produces random results
         wheelRigidbody.AddTorque(randomTorque);
         Debug.Log(randomTorque);
     }
@@ -88,6 +87,7 @@ public class SpinWheelManager : MonoBehaviour
         endSpin = true;
         yield return null;
     }
+
     #region BtnCallbacks
 
     // spins the wheel
