@@ -6,6 +6,7 @@ public class RunningTrainingMgr : MonoBehaviour
 {
 	public GameObject panelGameOver;
 	public GameObject pulley;
+    public GameObject PanelGameScreen;
     private Animator dogAnim;
     bool gameStart;
     public bool canSpin;
@@ -14,7 +15,12 @@ public class RunningTrainingMgr : MonoBehaviour
 	float preAngle;
 	float value;
     Vector2 normalizedPositions;
-
+    float timer;
+    public Text TxtTimer;
+    public Text TxtGameOver;
+    
+    
+   
 
 	void Start () 
 	{
@@ -39,25 +45,32 @@ public class RunningTrainingMgr : MonoBehaviour
 	void Update ()
 	{
 		DogMovement();
-	}
+        GameOver();
+    }
 
 
 	void FixedUpdate()
 	{
-
+        timer += Time.deltaTime;
+        TxtTimer.text = "Time :" + (int)timer;
+       
 	}
 
 
     public void OnPointerDown()
 	{
 		gameStart=true;
-		
+       
 	}
 	public void OnPointerUp()
     {
         gameStart = false;
         value = 0f;
         dogAnim.SetFloat("Walk", 0f);
+        panelGameOver.SetActive(true);
+        TxtGameOver.text = "Traning Session Faild!!!";
+        Time.timeScale = 0f;
+        PanelGameScreen.SetActive(false);
     }
 
 	
@@ -80,18 +93,20 @@ public class RunningTrainingMgr : MonoBehaviour
 			
 			if(angle-preAngle>270)
 			{
-				value+=1*Time.deltaTime;
+				value+=5*Time.deltaTime;
                 Debug.Log(value);
                 
 				
 			}
-           if(value>0.1 && value<0.5)
+           if(value>0.01f)
             {
                 dogAnim.SetFloat("Walk", 0.8f);
+               
             }
-            if(value>0.5)
+            if(value>3)
             {
                 dogAnim.SetFloat("Walk", 1.5f);
+               
             }
 			preAngle=angle;
             
@@ -102,7 +117,9 @@ public class RunningTrainingMgr : MonoBehaviour
 	{
 		gameStart=false;
 		value=0;
+        Time.timeScale = 1;
 	    panelGameOver.SetActive(false);
+        PanelGameScreen.SetActive(true);
 		
 	}
 
@@ -111,4 +128,16 @@ public class RunningTrainingMgr : MonoBehaviour
 	{
 		GameMgr.Inst.LoadScene(GlobalConst.Scene_MainMenu);
 	}
+
+    void GameOver()
+    {
+        if(timer>30)
+        {
+            panelGameOver.SetActive(true);
+            TxtGameOver.text = "Training Sesson Sucessful!!!";
+            Time.timeScale = 0;
+            PanelGameScreen.SetActive(false);
+
+        }
+    }
 }
