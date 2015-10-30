@@ -6,6 +6,7 @@ public class DogNavigation : MonoBehaviour
 
     public static DogNavigation instRef;
 
+    public bool joystick;
     public float moveSpeed;
     public float rotationSpeed;
 
@@ -25,12 +26,14 @@ public class DogNavigation : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        DoubleTap.PatternRecognized += PatternRecognizedEvent;
+        if(!joystick)
+            DoubleTap.PatternRecognized += PatternRecognizedEvent;
     }
 
     public void OnDisable()
     {
-        DoubleTap.PatternRecognized -= PatternRecognizedEvent;
+        if (!joystick)
+            DoubleTap.PatternRecognized -= PatternRecognizedEvent;
     }
 
     // Update is called once per frame
@@ -40,6 +43,8 @@ public class DogNavigation : MonoBehaviour
         {
             System.GC.Collect();
         }
+
+        //if()
     }
 
     public IEnumerator MoveToPosition(Vector3 targetPosition, Quaternion targetRotation)
