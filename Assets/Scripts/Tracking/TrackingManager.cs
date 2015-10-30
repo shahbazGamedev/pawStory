@@ -60,6 +60,7 @@ public class TrackingManager : MonoBehaviour
     bool reset; // Prevents the user from drawing path when dog capacity slider is filling up
     bool lineRendererActive;
     bool canReset; // Allows the user to reset path if true
+    bool justStarted;
     float distanceCovered;
     float remainingCapacity;
 
@@ -103,7 +104,7 @@ public class TrackingManager : MonoBehaviour
             RenderBezier();
             drawingPoints = bezierPath.GetDrawingPoints1();
             pathMove.SetPathData(drawingPoints);
-            pathMove.EnableDogPathMovement(true);
+            pathMove.EnableDogPathMovement(true, false);
             startTracking = false;
             swipeFinished = false;
         }
@@ -132,10 +133,12 @@ public class TrackingManager : MonoBehaviour
     // Initialize game
     void Init()
     {
+        justStarted = true;
         dogCapacity.maxValue = maxTrackingCapacity;
         bezierPath = new BezierCurve();
         isFirstRun = true;
         roundComplete = true;
+
         StartCoroutine(UpdateSlider());
         startPosition = dogRef.transform.position;
         startRotation = dogRef.transform.rotation;
@@ -145,6 +148,7 @@ public class TrackingManager : MonoBehaviour
         EventMgr.GameRestart += PlayAgain;
         DogPathMovement.PathEnd += ReachedPathEnd;
         DogPathMovement.TargetReached += ReachedTarget;
+        DogPathMovement.DogReturned += DogReturned;
     }
 
     // Decouple Event Listeners on disable
@@ -153,6 +157,7 @@ public class TrackingManager : MonoBehaviour
         EventMgr.GameRestart -= PlayAgain;
         DogPathMovement.PathEnd -= ReachedPathEnd;
         DogPathMovement.TargetReached -= ReachedTarget;
+        DogPathMovement.DogReturned -= DogReturned;
     }
 
     #region BezierInterface
@@ -201,7 +206,7 @@ public class TrackingManager : MonoBehaviour
             layerName = LayerMask.LayerToName(hit.collider.gameObject.layer);
             if (layerName == "Floor")
             {
-                worldPoint = hit.point + (Vector3.up * 0.01f);
+                worldPoint = hit.point + (Vector3.up * 0.02f);
                 dragData.Add(worldPoint);
             }
         }
@@ -222,12 +227,9 @@ public class TrackingManager : MonoBehaviour
         touchMat.SetActive(false);
     }
 
-    // Starts next round and updates the corresponding variables
-    void StartNextRound()
+    // Event handler for dog returned
+    void DogReturned()
     {
-        dragData.Clear();
-        if (round >= 1)
-            StartCoroutine(dogRef.GetComponent<DogManager>().MoveToPosition(startPosition, startRotation));
         line.SetVertexCount(0);
         lineRendererActive = false;
         round += 1;
@@ -238,8 +240,23 @@ public class TrackingManager : MonoBehaviour
         pathEnable = true;
         isFirstRun = true;
         SpawnMarker();
-        if(trackingMarker!=null)
+        if (trackingMarker != null)
             trackingMarker.SetActive(false);
+    }
+
+    // Starts next round and updates the corresponding variables
+    void StartNextRound()
+    {
+        dragData.Clear();
+        if (round >= 1)
+            pathMove.EnableDogPathMovement(false, true);
+        if (justStarted)
+        {
+            justStarted = false;
+            DogReturned();
+        }
+        //StartCoroutine(dogRef.GetComponent<DogManager>().MoveToPosition(startPosition, startRotation));
+
     }
 
     #region Coroutines
@@ -422,6 +439,10 @@ public class TrackingManager : MonoBehaviour
                         }
                         potentialSamplePoint = worldPoint;
                     }
+                }
+                else if(layerName == "Back")
+                {
+                    // code for disrupting tracking
                 }
                 distanceCovered += Vector3.Distance(worldPoint, previousPosition);
                 previousPosition = worldPoint;

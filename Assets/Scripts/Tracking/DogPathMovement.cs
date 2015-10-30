@@ -12,9 +12,11 @@ public class DogPathMovement : MonoBehaviour
 
     public GameObject dogRef;
     public bool followPath;
+    public bool reversePath;
     public Vector3 target;
     public bool reachedPathEnd;
     public float dogSpeed;
+    public float dogRunSpeed;
     public bool reachedTarget;
     public int nodeCount;
     public int currentNode;
@@ -31,6 +33,8 @@ public class DogPathMovement : MonoBehaviour
     public delegate void DogPathMove();
     public static event DogPathMove PathEnd;
     public static event DogPathMove TargetReached;
+    public static event DogPathMove DogReturned;
+
 
     #endregion Variables
 
@@ -63,6 +67,11 @@ public class DogPathMovement : MonoBehaviour
             currentposition = transform.position;
             FollowPath();
         }
+        else if(reversePath)
+        {
+            currentposition = transform.position;
+            ReversePath();
+        }
     }
 
     // Set path data and reset parameter for each swipe
@@ -77,13 +86,26 @@ public class DogPathMovement : MonoBehaviour
     }
 
     // Set followPath flag
-    public void EnableDogPathMovement(bool enable)
+    public void EnableDogPathMovement(bool enable, bool reverse)
     {
-        followPath = enable;
-        checkForCollision = true;
-        target = pathData[0];
-        target.y = transform.position.y;
-        dogAnim.SetBool("Sniff", true);
+        if (enable)
+        {
+            followPath = enable;
+            checkForCollision = true;
+            target = pathData[0];
+            target.y = transform.position.y;
+            dogAnim.SetBool("Sniff", true);
+        }
+        else if(reverse)
+        {
+            currentNode = 0;
+            reversePath = reverse;
+            checkForCollision = false;
+            pathEnd = pathData[0];
+            target = pathData[nodeCount-1];
+            target.y = transform.position.y;
+            dogAnim.SetFloat("Speed", 1f, 0f, Time.deltaTime);
+        }
     }
 
     // Move dog on the set path
@@ -128,6 +150,57 @@ public class DogPathMovement : MonoBehaviour
                 dogAnim.SetBool("Sniff", false);
                 if (PathEnd != null)
                     PathEnd();
+            }
+        }
+    }
+
+    // Move dog on the set path in reverse order
+    void ReversePath()
+    {
+        if (currentNode < (nodeCount))
+        {
+            if (nodeCount == 0)
+            {
+                Debug.Log("Path Data is Empty");
+            }
+            else
+            {
+                // Update target once target is reached
+                if ((transform.position - target).sqrMagnitude <= minDistToReach)
+                {
+                    target = pathData[nodeCount-currentNode-1];
+                    target.y = currentposition.y;
+                    pathEnd.y = currentposition.y;
+                    currentNode += 1;
+                    //Debug.Log(currentNode);
+                }
+            }
+        }
+        dogAnim.SetFloat("Speed", 1f);
+        // Update position using rigidbody
+        dogRB.MovePosition(Vector3.MoveTowards(transform.position, target, dogRunSpeed * Time.deltaTime));
+
+        // Update dog rotation based on target
+        if (!(Vector3.Distance(transform.position, target) < 0.015f))
+        {
+            transform.LookAt(target);
+        }
+
+        // Check if dog reached path end
+        if (currentNode >= nodeCount - 2)
+        {
+            //Debug.Log("Hhit");
+            Debug.Log(Vector3.Distance(pathEnd, transform.position));
+            if (Vector3.Distance(pathEnd, transform.position) < 0.01f)
+            {
+                //reachedPathEnd = true;
+                reversePath = false;
+                //checkForCollision = false;
+                dogAnim.SetFloat("Speed", 0f);
+                dogRef.transform.rotation = Quaternion.identity;
+                if (DogReturned != null)
+                    DogReturned();
+
             }
         }
     }
