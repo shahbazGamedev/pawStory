@@ -19,6 +19,7 @@ public class NewFollowTraningMgr : MonoBehaviour
     public float timer;
     public Text TxtTimer;
     public Text TxtGameOver;
+    public GameObject Traget;
 
 
 
@@ -54,21 +55,23 @@ public class NewFollowTraningMgr : MonoBehaviour
             Movement();
         }
         movingTarget.transform.Translate(250 * Time.deltaTime, 0, 0);
-        Debug.Log(movingTarget.transform.position.x);
-        if(movingTarget.transform.position.x >= 1350)
+       // Debug.Log(movingTarget.transform.position.x);
+        if(movingTarget.transform.position.x >Screen.width)
         {
             movingTarget.transform.position = new Vector2(0, 0);
         }
-        if(movingTarget.transform.position.x>680 && movingTarget.transform.position.x<700)
+        if(movingTarget.transform.position.x >Traget.transform.position.x && movingTarget.transform.position.x<Screen.width/2)
         {
             Debug.Log("yes");
+           
             canTap = true;
         }
         else
         {
             canTap = false;
         }
-      
+        Debug.Log("Traget:"+Traget.transform.position.x);
+        Debug.Log(Screen.width / 2);
     }
 
 

@@ -118,6 +118,8 @@ public class RunningTrainingMgr : MonoBehaviour
 		gameStart=false;
 		value=0;
         Time.timeScale = 1;
+        timer = 0f;
+        dogAnim.SetFloat("Walk", 0f);
 	    panelGameOver.SetActive(false);
         PanelGameScreen.SetActive(true);
 		
@@ -138,6 +140,13 @@ public class RunningTrainingMgr : MonoBehaviour
             Time.timeScale = 0;
             PanelGameScreen.SetActive(false);
 
+        }
+        if(timer>5 && value==0)
+        {
+            panelGameOver.SetActive(true);
+            TxtGameOver.text = "Training Sesson Failed!!!";
+            PanelGameScreen.SetActive(false);
+            Time.timeScale = 0;
         }
     }
 }
