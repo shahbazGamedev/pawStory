@@ -15,6 +15,9 @@ public class DogStickControl : MonoBehaviour
     public float moveSpeed;
     //public float rotationSpeed;
 
+    float h;
+    float v;
+
     public void OnEnable()
     {
         dogAnim = GetComponent<Animator>();
@@ -26,8 +29,8 @@ public class DogStickControl : MonoBehaviour
     void FixedUpdate()
     {
         // Cache the inputs.
-        float h = CrossPlatformInputManager.GetAxis ("Horizontal");
-        float v = CrossPlatformInputManager.GetAxis ("Vertical");
+        h = CrossPlatformInputManager.GetAxis ("Horizontal");
+        v = CrossPlatformInputManager.GetAxis ("Vertical");
 
         MovementManagement(-v, h);
     }
@@ -57,7 +60,7 @@ public class DogStickControl : MonoBehaviour
         //forward = Vector3.forward * horizontal;
 
         //dogRb.MovePosition(dogRb.position + moveDirection * moveSpeed * Time.deltaTime);
-        moveDirection.y = transform.position.y;
+        //moveDirection.y = 0.09059119f;
         cc.SimpleMove(moveDirection * moveSpeed * Time.deltaTime);
 
         //dogRb.drag = dogRb.velocity.magnitude * dragFactor;
