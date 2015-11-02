@@ -46,6 +46,7 @@ public class RunningTrainingMgr : MonoBehaviour
 	{
 		DogMovement();
         GameOver();
+       
     }
 
 
@@ -53,8 +54,10 @@ public class RunningTrainingMgr : MonoBehaviour
 	{
         timer += Time.deltaTime;
         TxtTimer.text = "Time :" + (int)timer;
-       
-	}
+        value -= .35f * Time.deltaTime;
+        
+
+    }
 
 
     public void OnPointerDown()
@@ -93,7 +96,7 @@ public class RunningTrainingMgr : MonoBehaviour
 			
 			if(angle-preAngle>270)
 			{
-				value+=5*Time.deltaTime;
+				value+=10*Time.deltaTime;
                 Debug.Log(value);
                 
 				
