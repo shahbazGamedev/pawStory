@@ -11,7 +11,7 @@ public class GlobalConst
 	public static string Scene_TournamentSelection = "TournamentSelection";
     public static string Scene_PuppySelection = "PuppySelection";
     public static string Scene_PuppyTraining = "PuppyTraining";
-    public static string Scene_CatchTraining = "CatchTraining";
+    public static string Scene_CatchTraining = "CatchTraining_Trial_LightMap";
     public static string Scene_FollowTraining = "FollowTraning";
     public static string Scene_ColourLessonTraining = "ColorLessonTranining";
     public static string Scene_RunningTraining = "RunningTraining";
@@ -25,7 +25,7 @@ public class GlobalConst
 	public static string Scene_Tracking = "Tracking";
 	public static string Scene_Obedience = "Obedience";
 	public static string Scene_ColorLesson = "ColorLesson";
-	public static string Scene_Skipping = "Skipping";
+	public static string Scene_Skipping = "Skipping_Trial_LightMap";
 	public static string Scene_Tugofwar = "tugOfWar";
 	public static string Scene_Agility = "Agility";
 	public static string Scene_Bubble = "Bubble";
