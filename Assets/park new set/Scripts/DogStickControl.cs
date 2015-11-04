@@ -23,14 +23,23 @@ public class DogStickControl : MonoBehaviour
         dogAnim = GetComponent<Animator>();
         cc = GetComponent<CharacterController>();
         //dogRb = GetComponent<Rigidbody>();
+
+        // Event Listener
+        EventMgr.GameRestart += OnResetGame;
+    }
+
+    public void OnDisable()
+    {
+        // Event Listener
+        EventMgr.GameRestart -= OnResetGame;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         // Cache the inputs.
-        h = CrossPlatformInputManager.GetAxis ("Horizontal");
-        v = CrossPlatformInputManager.GetAxis ("Vertical");
+        h = CrossPlatformInputManager.GetAxis("Horizontal");
+        v = CrossPlatformInputManager.GetAxis("Vertical");
 
         MovementManagement(-v, h);
     }
@@ -40,7 +49,7 @@ public class DogStickControl : MonoBehaviour
 
         moveDirection = new Vector3(horizontal, 0f, vertical);
 
-        
+
 
         // If there is some axis input...
         if (horizontal != 0f || vertical != 0f)
@@ -64,5 +73,10 @@ public class DogStickControl : MonoBehaviour
         cc.SimpleMove(moveDirection * moveSpeed * Time.deltaTime);
 
         //dogRb.drag = dogRb.velocity.magnitude * dragFactor;
+    }
+
+    public void OnResetGame()
+    {
+        Application.LoadLevel(Application.loadedLevel);
     }
 }
