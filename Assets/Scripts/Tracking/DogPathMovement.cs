@@ -22,6 +22,8 @@ public class DogPathMovement : MonoBehaviour
     public int currentNode;
     public float minDistToReach;
     public bool checkForCollision;
+    public int prevNode;
+    bool setPrevCount;
 
     List<Vector3> pathData;
     Vector3 currentposition;
@@ -67,7 +69,7 @@ public class DogPathMovement : MonoBehaviour
             currentposition = transform.position;
             FollowPath();
         }
-        else if(reversePath)
+        else if (reversePath)
         {
             currentposition = transform.position;
             ReversePath();
@@ -82,6 +84,7 @@ public class DogPathMovement : MonoBehaviour
         reachedPathEnd = false;
         reachedTarget = false;
         currentNode = 0;
+        prevNode = 0;
         pathEnd = pathData[nodeCount - 1];
     }
 
@@ -96,13 +99,18 @@ public class DogPathMovement : MonoBehaviour
             target.y = transform.position.y;
             dogAnim.SetBool("Sniff", true);
         }
-        else if(reverse)
+        else if (reverse)
         {
             currentNode = 0;
+            if (setPrevCount)
+            {                
+                currentNode = nodeCount - prevNode - 1;
+                setPrevCount = false;
+            }
             reversePath = reverse;
             checkForCollision = false;
             pathEnd = pathData[0];
-            target = pathData[nodeCount-1];
+            target = pathData[nodeCount - currentNode - 1];
             target.y = transform.position.y;
             dogAnim.SetFloat("Speed", 1f, 0f, Time.deltaTime);
         }
@@ -140,7 +148,7 @@ public class DogPathMovement : MonoBehaviour
         }
 
         // Check if dog reached path end
-        if (currentNode >= nodeCount-2)
+        if (currentNode >= nodeCount - 2)
         {
             if (Vector3.Distance(pathEnd, transform.position) < 0.5f)
             {
@@ -168,7 +176,7 @@ public class DogPathMovement : MonoBehaviour
                 // Update target once target is reached
                 if ((transform.position - target).sqrMagnitude <= minDistToReach)
                 {
-                    target = pathData[nodeCount-currentNode-1];
+                    target = pathData[nodeCount - currentNode - 1];
                     target.y = currentposition.y;
                     pathEnd.y = currentposition.y;
                     currentNode += 1;
@@ -177,6 +185,7 @@ public class DogPathMovement : MonoBehaviour
             }
         }
         dogAnim.SetFloat("Speed", 1f);
+
         // Update position using rigidbody
         dogRB.MovePosition(Vector3.MoveTowards(transform.position, target, dogRunSpeed * Time.deltaTime));
 
@@ -189,9 +198,7 @@ public class DogPathMovement : MonoBehaviour
         // Check if dog reached path end
         if (currentNode >= nodeCount - 2)
         {
-            //Debug.Log("Hhit");
-            Debug.Log(Vector3.Distance(pathEnd, transform.position));
-            if (Vector3.Distance(pathEnd, transform.position) < 0.01f)
+            if (Vector3.Distance(pathEnd, transform.position) < 0.1f)
             {
                 //reachedPathEnd = true;
                 reversePath = false;
@@ -212,10 +219,14 @@ public class DogPathMovement : MonoBehaviour
         {
             followPath = false;
             reachedTarget = true;
+            prevNode = currentNode;
+            setPrevCount = true;
             dogAnim.SetBool("Sniff", false);
             if (TargetReached != null)
                 TargetReached();
             checkForCollision = false;
         }
     }
+
+
 }
