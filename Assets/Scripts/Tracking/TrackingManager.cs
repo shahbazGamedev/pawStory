@@ -43,6 +43,8 @@ public class TrackingManager : MonoBehaviour
     public float sliderUpdateSpeed;
     public bool isGameOn;
     public bool roundComplete;
+    public GameObject[] obstacleCollection;
+    public bool lastChance;
 
     DogPathMovement pathMove;
     Animator dogAnim;
@@ -143,6 +145,7 @@ public class TrackingManager : MonoBehaviour
         startPosition = dogRef.transform.position;
         startRotation = dogRef.transform.rotation;
         SpawnMarker();
+        obstacleCollection[Random.Range(0, 5)].SetActive(true);
 
         // Add Event Listeners
         EventMgr.GameRestart += PlayAgain;
@@ -443,6 +446,11 @@ public class TrackingManager : MonoBehaviour
                 else if(layerName == "Back")
                 {
                     // code for disrupting tracking
+                    isGameOn = false;
+                    if (!lastChance)
+                        ResetPathBtn();
+                    else
+                        gameOver = true;
                 }
                 distanceCovered += Vector3.Distance(worldPoint, previousPosition);
                 previousPosition = worldPoint;
@@ -463,7 +471,7 @@ public class TrackingManager : MonoBehaviour
     // Back button
     public void GoBack()
     {
-        Application.LoadLevel("MainMenu");
+        Application.LoadLevel(GlobalConst.Scene_MainMenu);
     }
 
     // Replay button
@@ -488,6 +496,8 @@ public class TrackingManager : MonoBehaviour
                 isFirstRun = true;
                 pathEnable = true;
                 trackingMarker.SetActive(false);
+                if (resetChances == 0)
+                    lastChance = true;
             }
             else
                 resetChances = 0;
