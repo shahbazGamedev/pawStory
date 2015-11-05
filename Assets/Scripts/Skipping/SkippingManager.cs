@@ -103,7 +103,10 @@ public class SkippingManager : MonoBehaviour
 
     void SliderFunction()
     {
+        //sliderValue = skipRope.angle;
+        //sliderValue = sliderValue < 0 ? sliderValue + 360 : sliderValue;
         sliderValue = skipRope.angle * 2 / 360;
+        Debug.Log(sliderValue);
         if (sliderValue > 1)
         {
             sliderValue = 2 - sliderValue;
@@ -142,7 +145,22 @@ public class SkippingManager : MonoBehaviour
         scoreText.gameObject.transform.parent.gameObject.SetActive(false);
         comboText.gameObject.SetActive(false);
         slider.gameObject.SetActive(false);
-        maxCombo = tapCount < 1 ? 0 : maxCombo;
+        //maxCombo = tapCount < 1 ? 0 : maxCombo;
+
+        // gameover screen full life - 0 maxCombo bug fix
+        if (tapCount < 1)
+        {
+            maxCombo = 0;
+        }
+        //else if(maxCombo==0)
+        //{
+            if(comboCount > maxCombo && comboCount != 1)
+            {
+                maxCombo = comboCount;
+            }
+        //}
+
+
         gameOverText.text = "Score: " + score + "\n\n" + "Max Combo: "
             + maxCombo + "\n\nTotal Taps: " + tapCount; // Game Play Stats
     }
@@ -218,7 +236,7 @@ public class SkippingManager : MonoBehaviour
     //Event Handler for PatternRecognized Event
     void PatternRecognizedEvent(SwipeRecognizer.TouchPattern pattern)
     {
-        //		if(pattern==SwipeRecognizer.TouchPattern.singleTap && gameStart)
+        // if(pattern==SwipeRecognizer.TouchPattern.singleTap && gameStart)
         if (pattern != SwipeRecognizer.TouchPattern.hold)
         {
             Debug.Log("Tap");
@@ -249,7 +267,6 @@ public class SkippingManager : MonoBehaviour
     // Reset Btn Callback
     public void OnResetBtn()
     {
-
         dogLives = dogMaxLives;
         timer = 0;
         gameOverPannel.SetActive(false);
