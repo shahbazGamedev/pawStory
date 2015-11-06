@@ -37,6 +37,7 @@ public class ScoreSystem : MonoBehaviour
     // Increase combo count
     public void UpdateCombo()
     {
+        Debug.Log("Combo");
         if(!comboDisp.gameObject.activeSelf)
         {
             comboDisp.gameObject.SetActive(true);

@@ -8,6 +8,7 @@ public class ComboBreaker : MonoBehaviour
         if(other.gameObject.CompareTag("Player"))
         {
             // code for breaking combo
+            ScoreSystem.instRef.ComboBroken();
         }
     }
 }

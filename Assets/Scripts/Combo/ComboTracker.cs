@@ -5,9 +5,10 @@ public class ComboTracker : MonoBehaviour
 {
     public void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag(""))
+        if(other.gameObject.CompareTag("Player"))
         {
             // update combo
+            ScoreSystem.instRef.UpdateCombo();
         }
     }
 }

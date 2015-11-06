@@ -129,25 +129,26 @@ public class ComboManager : MonoBehaviour
     // Game Reset
     void OnReset()
     {
-        DogRunner.instRef.GameOver();
-        gameOverPanel.SetActive(false);
-        gameRunning = false;
-        listenForStart = true;
-        Pooler.InstRef.HideAll();        
+        //DogRunner.instRef.GameOver();
+        //gameOverPanel.SetActive(false);
+        //gameRunning = false;
+        //listenForStart = true;
+        //Pooler.InstRef.HideAll();        
 
-        distance = 0;
-        instructText.text ="0";
+        //distance = 0;
+        //instructText.text ="0";
 
-        SpawnTrigger.beforePrevPlat = 1;
-        SpawnTrigger.prevPlat = 1;
-        DogRunner.instRef.ResetPos();
-        Camera.main.transform.parent.transform.position = cameraStartPos.position;
+        //SpawnTrigger.beforePrevPlat = 1;
+        //SpawnTrigger.prevPlat = 1;
+        //DogRunner.instRef.ResetPos();
+        //Camera.main.transform.parent.transform.position = cameraStartPos.position;
 
-        initialPlat1.SetActive(true);
-        initialPlat2.SetActive(true);
-        initialPlat3.SetActive(true);
+        //initialPlat1.SetActive(true);
+        //initialPlat2.SetActive(true);
+        //initialPlat3.SetActive(true);
 
-        OnGameResume();
+        //OnGameResume();
+        Application.LoadLevel(Application.loadedLevel);
     }
 
     // game pause
