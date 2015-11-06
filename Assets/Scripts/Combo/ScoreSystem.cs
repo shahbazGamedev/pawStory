@@ -17,6 +17,7 @@ public class ScoreSystem : MonoBehaviour
 
     // UI 
     public Text scoreDisp;
+    public Text comboDisp;
 
     int score;
     int comboCount;
@@ -30,6 +31,7 @@ public class ScoreSystem : MonoBehaviour
     void UpdateScore()
     {
         score += scoreIncrement * comboCount;
+        UpdateScoreUI();
     }
 
     // Increase combo count
@@ -44,12 +46,14 @@ public class ScoreSystem : MonoBehaviour
     public void ComboBroken()
     {
         comboCount = 0;
+        UpdateScoreUI();
     }
 
     // update Score Display
     void UpdateScoreUI()
     {
-
+        scoreDisp.text="Score: "+score+" Pts.";
+        comboDisp.text = ""+comboCount+"X";
     }
 
 }
