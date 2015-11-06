@@ -200,7 +200,5 @@ public class DogRunner : MonoBehaviour
         {
             GameOver();
         }
-
-        // add code for score system
     }
 }

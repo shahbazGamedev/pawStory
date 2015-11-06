@@ -37,14 +37,20 @@ public class ScoreSystem : MonoBehaviour
     // Increase combo count
     public void UpdateCombo()
     {
+        if(!comboDisp.gameObject.activeSelf)
+        {
+            comboDisp.gameObject.SetActive(true);
+        }
         comboCount += 1;
         comboCount = comboCount > maxComboAllowed ? maxComboAllowed : comboCount;
+        comboDisp.text = "" + comboCount + "X";
         UpdateScore();
     }
 
     // Reset combo count
     public void ComboBroken()
     {
+        comboDisp.gameObject.SetActive(false);
         comboCount = 0;
         UpdateScoreUI();
     }
@@ -53,7 +59,6 @@ public class ScoreSystem : MonoBehaviour
     void UpdateScoreUI()
     {
         scoreDisp.text="Score: "+score+" Pts.";
-        comboDisp.text = ""+comboCount+"X";
     }
 
 }
