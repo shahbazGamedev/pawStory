@@ -123,7 +123,7 @@ public class ComboManager : MonoBehaviour
     {
         gameRunning = false;
         gameOverPanel.SetActive(true);
-        gameOverText.text = "Distance Covered: " + (int)distance +" m";
+        gameOverText.text = "Distance Covered: " + (int)distance +" m\n\n"+"Score: " + ScoreSystem.instRef.GetScore()+" Pts.";
     }
 
     // Game Reset

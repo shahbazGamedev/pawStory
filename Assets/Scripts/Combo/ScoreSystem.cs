@@ -62,4 +62,9 @@ public class ScoreSystem : MonoBehaviour
         scoreDisp.text="Score: "+score+" Pts.";
     }
 
+    public int GetScore()
+    {
+        return score;
+    }
+
 }
