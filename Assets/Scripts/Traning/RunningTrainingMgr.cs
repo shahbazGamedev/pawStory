@@ -54,8 +54,10 @@ public class RunningTrainingMgr : MonoBehaviour
 	{
         timer += Time.deltaTime;
         TxtTimer.text = "Time :" + (int)timer;
-        value -= .35f * Time.deltaTime;
-        
+        if (gameStart)
+        {
+            value -= .35f * Time.deltaTime;
+        }
 
     }
 
@@ -101,7 +103,7 @@ public class RunningTrainingMgr : MonoBehaviour
                 
 				
 			}
-           if(value>0.01f)
+           if(value>0f)
             {
                 dogAnim.SetFloat("Walk", 0.8f);
                
