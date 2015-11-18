@@ -1819,6 +1819,7 @@ RectTransform:
   - {fileID: 1744388596}
   - {fileID: 637968674}
   - {fileID: 1812396770}
+  - {fileID: 1510793092}
   m_Father: {fileID: 1863049812}
   m_RootOrder: 1
   m_AnchorMin: {x: 0, y: 0}
@@ -1951,6 +1952,73 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: .0048559797, y: .00371273002, z: .0046470901}
   m_Center: {x: -1.05800573e-05, y: .00168135506, z: -.000444815028}
+--- !u!1 &1510793091
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 224: {fileID: 1510793092}
+  - 222: {fileID: 1510793094}
+  - 114: {fileID: 1510793093}
+  m_Layer: 0
+  m_Name: Image (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1510793092
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1510793091}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: .424693942, y: .46185416, z: .424693942}
+  m_Children: []
+  m_Father: {fileID: 1157507680}
+  m_RootOrder: 4
+  m_AnchorMin: {x: .662218928, y: .816248417}
+  m_AnchorMax: {x: .695218921, y: .877499402}
+  m_AnchoredPosition: {x: .5, y: -2.5}
+  m_SizeDelta: {x: 57, y: 51}
+  m_Pivot: {x: .5, y: .5}
+--- !u!114 &1510793093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1510793091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &1510793094
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1510793091}
 --- !u!1 &1682218613
 GameObject:
   m_ObjectHideFlags: 0
@@ -2532,6 +2600,7 @@ MonoBehaviour:
   greenBtn: {fileID: 762724516}
   whiteBtn: {fileID: 909440652}
   Target: {fileID: 224999283}
+  refImage: {fileID: 1510793093}
   red: {fileID: 1243332965}
   blue: {fileID: 224999283}
   green: {fileID: 396893468}

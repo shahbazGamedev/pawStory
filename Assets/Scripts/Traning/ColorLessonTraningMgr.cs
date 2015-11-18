@@ -14,6 +14,7 @@ public class ColorLessonTraningMgr : MonoBehaviour
     public float Speed;
     public float speedDampTime;
     public GameObject PanelGameOver;
+    
     public GameObject redBtn;
     public GameObject blueBtn;
     public GameObject greenBtn;
@@ -24,6 +25,7 @@ public class ColorLessonTraningMgr : MonoBehaviour
     public Transform green;
     public Transform yellow;
     public Text TxtTimer;
+    public Image refImage;
     float timer;
     float distance;
     bool isMoving;
@@ -40,6 +42,7 @@ public class ColorLessonTraningMgr : MonoBehaviour
     public Text teachingTxt;
     public GameObject TeachingPnl;
     public Text TxtGameOver;
+    
 
 
 
@@ -58,6 +61,10 @@ public class ColorLessonTraningMgr : MonoBehaviour
         blueBtn.SetActive(false);
         redBtn.SetActive(false);
         whiteBtn.SetActive(false);
+        refImage.color = Color.green;
+        Time.timeScale = 1;
+        
+       
     }
 
 
@@ -233,6 +240,8 @@ public class ColorLessonTraningMgr : MonoBehaviour
             greenBtn.SetActive(false);
             teachingTxt.text = "Teach Red";
             redBtn.SetActive(true);
+            refImage.color = Color.red;
+            
 
         }
         if (other.gameObject.tag == "Basket")
@@ -240,6 +249,7 @@ public class ColorLessonTraningMgr : MonoBehaviour
             redBtn.SetActive(false);
             teachingTxt.text = "Teach Blue";
             blueBtn.SetActive(true);
+            refImage.color = Color.blue;
 
         }
         if (other.gameObject.tag == "MovePoints")
@@ -247,7 +257,7 @@ public class ColorLessonTraningMgr : MonoBehaviour
             PanelGameOver.SetActive(true);
             TeachingPnl.SetActive(false);
             TxtGameOver.text = "Puppy Learned Well!!";
-            timer = 0f;
+            Time.timeScale = 0;
 
         }
 
@@ -256,6 +266,7 @@ public class ColorLessonTraningMgr : MonoBehaviour
             blueBtn.SetActive(false);
             teachingTxt.text = "Teach white";
             whiteBtn.SetActive(true);
+            refImage.color = Color.white;
 
         }
     }
@@ -268,6 +279,7 @@ public class ColorLessonTraningMgr : MonoBehaviour
             PanelGameOver.SetActive(true);
             TeachingPnl.SetActive(false);
             TxtGameOver.text = "Traning Session Failed!!";
+            Time.timeScale = 0;
 
         }
     }
@@ -286,5 +298,7 @@ public class ColorLessonTraningMgr : MonoBehaviour
         redBtn.SetActive(false);
         whiteBtn.SetActive(false);
         transform.rotation = Quaternion.identity;
+        refImage.color = Color.green;
+        Time.timeScale = 1;
     }
 }
