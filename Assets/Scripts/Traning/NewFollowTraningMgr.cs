@@ -33,6 +33,7 @@ public class NewFollowTraningMgr : MonoBehaviour
         gameOverPanel.SetActive(false);
         StartPos = transform.position;
         OnRestartGame();
+        Time.timeScale = 1;
     }
     
        
@@ -54,7 +55,7 @@ public class NewFollowTraningMgr : MonoBehaviour
         {
             Movement();
         }
-        movingTarget.transform.Translate(250 * Time.deltaTime, 0, 0);
+        movingTarget.transform.Translate(350 * Time.deltaTime, 0, 0);
         
         if (movingTarget.transform.position.x > Screen.width)
         {
@@ -104,6 +105,7 @@ public class NewFollowTraningMgr : MonoBehaviour
             Debug.Log("collided");
             gameOverPanel.SetActive(true);
             TxtGameOver.text = "Follow Traning Sucessful!!";
+            Time.timeScale = 0;
         }
     }
 
@@ -134,6 +136,7 @@ public class NewFollowTraningMgr : MonoBehaviour
         movingTarget.SetActive(true);
         movingTarget.transform.position = new Vector2(0, 0);
         timer = 0f;
+        Time.timeScale = 1;
     }
     
 
@@ -144,6 +147,7 @@ public class NewFollowTraningMgr : MonoBehaviour
             gameOverPanel.SetActive(true);
             TxtGameOver.text = "Traning Session Failed!!!";
             movingTarget.SetActive(false);
+            Time.timeScale = 0;
 
         }
     }
