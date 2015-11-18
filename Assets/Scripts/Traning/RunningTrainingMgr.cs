@@ -146,7 +146,7 @@ public class RunningTrainingMgr : MonoBehaviour
             PanelGameScreen.SetActive(false);
 
         }
-        if(timer>5 && value==0)
+        if(timer>5 && value==0 || value<=-2)
         {
             panelGameOver.SetActive(true);
             TxtGameOver.text = "Training Sesson Failed!!!";
