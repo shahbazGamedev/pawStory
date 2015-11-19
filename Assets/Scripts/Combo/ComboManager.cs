@@ -138,8 +138,8 @@ public class ComboManager : MonoBehaviour
         //distance = 0;
         //instructText.text ="0";
 
-        //SpawnTrigger.beforePrevPlat = 1;
-        //SpawnTrigger.prevPlat = 1;
+        SpawnTrigger.beforePrevPlat = 1;
+        SpawnTrigger.prevPlat = 1;
         //DogRunner.instRef.ResetPos();
         //Camera.main.transform.parent.transform.position = cameraStartPos.position;
 
@@ -148,6 +148,7 @@ public class ComboManager : MonoBehaviour
         //initialPlat3.SetActive(true);
 
         //OnGameResume();
+
         Application.LoadLevel(Application.loadedLevel);
     }
 
