@@ -104,7 +104,7 @@ public class DockJump : MonoBehaviour {
 	{
 		Debug.Log ("OnRestartGame");
 		rb = GetComponent<Rigidbody> ();
-        PlayGame();
+        StartCoroutine( PlayGame());
 
         play = false;
 		waitForTap = true;
@@ -362,5 +362,7 @@ public class DockJump : MonoBehaviour {
 		
 	}
 	
+
+    
 }
 
