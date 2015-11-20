@@ -64,7 +64,7 @@ public class GameMgr : MonoBehaviour
 	
 	void OnDisable()
 	{
-		EventMgr.SceneLoaded += OnSceneLoaded;
+		EventMgr.SceneLoaded -= OnSceneLoaded;
 		EventMgr.GamePause -= OnGamePause;
 		EventMgr.GameResume -= OnGameResume;
 		EventMgr.GameRestart -= OnRestartGame;

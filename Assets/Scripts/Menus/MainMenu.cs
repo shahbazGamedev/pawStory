@@ -1,22 +1,18 @@
 using UnityEngine;
 using System.Collections;
 
-public class MainMenu : MonoBehaviour {
+public class MainMenu : MonoBehaviour
+{
+    public void Awake()
+    {
+        // Time Scale Glitch Fix
+        Time.timeScale = 1f;
+    }
 
-	void Start () 
-	{
-	}
-
-
-	void Update () 
-	{
-	}
-
-
-	public void OnDogSelection()
-	{
-		GameMgr.Inst.LoadScene (GlobalConst.Scene_PuppySelection);
-	}
+    public void OnDogSelection()
+    {
+        GameMgr.Inst.LoadScene(GlobalConst.Scene_PuppySelection);
+    }
 
 
     public void OnTraining()
