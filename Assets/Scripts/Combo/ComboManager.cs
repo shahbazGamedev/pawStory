@@ -138,6 +138,7 @@ public class ComboManager : MonoBehaviour
         //distance = 0;
         //instructText.text ="0";
 
+        SpawnTrigger.twoBeforePrevPlat = 1;
         SpawnTrigger.beforePrevPlat = 1;
         SpawnTrigger.prevPlat = 1;
         //DogRunner.instRef.ResetPos();
