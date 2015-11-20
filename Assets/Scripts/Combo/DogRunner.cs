@@ -79,7 +79,7 @@ public class DogRunner : MonoBehaviour
             }
             else
             {
-                verticalVelocity += 2.5f * Physics.gravity.y * Time.deltaTime;
+                verticalVelocity += 2.75f * Physics.gravity.y * Time.deltaTime;
             }
 
             // Handle Jump
