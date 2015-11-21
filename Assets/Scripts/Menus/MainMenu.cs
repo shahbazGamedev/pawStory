@@ -36,5 +36,9 @@ public class MainMenu : MonoBehaviour
         GameMgr.Inst.LoadScene(GlobalConst.Scene_Park);
     }
 
+    public void OnDailyBonus()
+    {
+        GameMgr.Inst.LoadScene(GlobalConst.Scene_DailyBonus);
+    }
 }
 

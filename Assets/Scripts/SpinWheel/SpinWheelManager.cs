@@ -42,16 +42,24 @@ public class SpinWheelManager : MonoBehaviour
     {
         timer = timerMax;
         endSpin = true;
+
+        // Event Listeners
+        EventMgr.GameRestart += Reset;
+    }
+
+    public void OnDisable()
+    {
+        EventMgr.GameRestart += Reset;
     }
 
     void Update()
     {
-        if(startSpin)
+        if (startSpin)
         {
             // applies angular drag based on timer
             timer -= Time.deltaTime;
             wheelRigidbody.angularDrag = angularDragCurve.Evaluate(1 - (timer / timerMax));
-            if(timer<=0f)
+            if (timer <= 0f)
             {
                 startSpin = false;
                 Invoke("EndSpin", 3f); // delay before displaying result
@@ -64,6 +72,7 @@ public class SpinWheelManager : MonoBehaviour
     {
         result.text = "";
         //randomTorque = -Random.Range(torqueMin, torqueMax); // produces random results
+        randomTorque = torqCollection[Random.Range(0, 8)];
         wheelRigidbody.AddTorque(randomTorque);
         Debug.Log(randomTorque);
     }
@@ -75,16 +84,22 @@ public class SpinWheelManager : MonoBehaviour
         angle = spinWheel.transform.rotation.eulerAngles.z;
         section = (int) angle / (360 / sectionCount) + 1;
         result.text = "You have won item: " + section;
-        StartCoroutine(ResetSpin());
+        //StartCoroutine(ResetSpin());
 
+    }
+
+    public void Reset()
+    {
+        StartCoroutine(ResetSpin());
     }
 
     // reset wheel rotation after 3 secs
     IEnumerator ResetSpin()
     {
-        yield return new WaitForSeconds(3f);
+        //yield return new WaitForSeconds(3f);
         spinWheel.transform.rotation = Quaternion.Euler(0, 0, 0);
         endSpin = true;
+        result.text = "";
         yield return null;
     }
 
