@@ -82,6 +82,7 @@ public class DogMovementFrisbee : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         isGameover = false;
         Movement();
+        Time.timeScale = 1;
     }
 
 
@@ -173,6 +174,7 @@ public class DogMovementFrisbee : MonoBehaviour
         Frisbee.SetActive(false);
         chance.text = "SCORE: " + Score;
         EndPanel.SetActive(true);
+        Time.timeScale = 0;
     }
 
 
@@ -229,7 +231,9 @@ public class DogMovementFrisbee : MonoBehaviour
         startPanel.SetActive(true);
         dog.SetActive(true);
         Frisbee.SetActive(true);
+        FrisbeeAttached.SetActive(false);
         EndPanel.SetActive(false);
+        Time.timeScale = 1;
         isRestart = false;
         if (isGameover == true)
         {
