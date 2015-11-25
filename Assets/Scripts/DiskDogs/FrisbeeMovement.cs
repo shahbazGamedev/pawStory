@@ -20,7 +20,7 @@ public class FrisbeeMovement : MonoBehaviour {
 	private float angleRadians;
 	private float velocity;
 	private Vector3 frisbeeForce;
-	private Vector3 currentPosition;
+	public Vector3 currentPosition;
 	bool isJumping=false;
 	bool detectLife;
 	Rigidbody rb;

@@ -48,6 +48,7 @@ public class DogMovementFrisbee : MonoBehaviour
     int lastValue;
     int currentValue;
     
+    
 
     void OnEnable()
     {
@@ -83,6 +84,8 @@ public class DogMovementFrisbee : MonoBehaviour
         isGameover = false;
         Movement();
         Time.timeScale = 1;
+        
+        
     }
 
 
@@ -239,6 +242,11 @@ public class DogMovementFrisbee : MonoBehaviour
         {
             GameOver();
         }
+        Frisbee.GetComponent<FrisbeeMovement>().dummyFrisbee.SetActive(true);
+        Frisbee.transform.position = new Vector3(-0.143f, .156f, -1.96f);
+
+
+
     }
     public void FoulCollect()
     {
