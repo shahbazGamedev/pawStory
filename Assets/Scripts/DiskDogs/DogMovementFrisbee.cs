@@ -103,7 +103,7 @@ public class DogMovementFrisbee : MonoBehaviour
 
         if (isCatching)
         {
-            Debug.Log("nowcatching");
+            
             FrisebeeCatch();
         }
         if (isSpawn)
@@ -135,8 +135,7 @@ public class DogMovementFrisbee : MonoBehaviour
 
     public void Movement()
     {
-        //		spawnValue=Random.Range(0,3);
-        //		targetMove=spawnPoint[spawnValue];
+        
         distance = Vector3.Distance(targetMove.position, transform.position);
         if (distance > 1f)
         {
@@ -254,7 +253,7 @@ public class DogMovementFrisbee : MonoBehaviour
        
     
            // isMoving= true;
-            Debug.Log("new");
+            
             transform.LookAt(target);
         dogAnim.SetTrigger("Foul");
             float step = speed * Time.deltaTime;

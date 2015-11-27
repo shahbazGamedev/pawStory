@@ -30,10 +30,9 @@ public class NewFollowTraningMgr : MonoBehaviour
     void Start()
     {
         dogAnim = GetComponent<Animator>();
-        gameOverPanel.SetActive(false);
         StartPos = transform.position;
         OnRestartGame();
-        Time.timeScale = 1;
+       
     }
     
        
