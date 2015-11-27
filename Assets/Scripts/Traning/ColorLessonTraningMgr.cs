@@ -106,7 +106,7 @@ public class ColorLessonTraningMgr : MonoBehaviour
                 if (layerName == "Toys")
                 {
                     collectGreen = true;
-                    Debug.Log("S");
+                    Debug.Log("GREEN");
                     Target = green;
                     collectBlue = false;
                     collectRed = false;
@@ -117,7 +117,7 @@ public class ColorLessonTraningMgr : MonoBehaviour
                 if (layerName == "Floor")
                 {
                     collectBlue = true;
-                    Debug.Log("t");
+                    Debug.Log("BLUE");
                     Target = blue;
                     collectGreen = false;
                     collectRed = false;
@@ -128,7 +128,7 @@ public class ColorLessonTraningMgr : MonoBehaviour
                 if (layerName == "Dog")
                 {
                     collectWhite = true;
-                    Debug.Log("e");
+                    Debug.Log("YELLOW");
                     Target = yellow;
                     collectBlue = false;
                     collectRed = false;
@@ -139,7 +139,7 @@ public class ColorLessonTraningMgr : MonoBehaviour
                 if (layerName == "Back")
                 {
                     collectRed = true;
-                    Debug.Log("v");
+                    Debug.Log("RED");
                     Target = red;
                     collectBlue = false;
                     collectGreen = false;
@@ -163,6 +163,7 @@ public class ColorLessonTraningMgr : MonoBehaviour
         {
             canClick = false;
             isMoving = true;
+            Debug.Log("R");
         }
         else
         {
@@ -179,6 +180,7 @@ public class ColorLessonTraningMgr : MonoBehaviour
 
             canClick = false;
             isMoving = true;
+            Debug.Log("B");
         }
         else
         {
@@ -194,6 +196,7 @@ public class ColorLessonTraningMgr : MonoBehaviour
         {
             canClick = false;
             isMoving = true;
+            Debug.Log("G");
         }
         else
         {
@@ -209,6 +212,7 @@ public class ColorLessonTraningMgr : MonoBehaviour
         {
             canClick = false;
             isMoving = true;
+            Debug.Log("W");
 
 
         }
@@ -286,5 +290,6 @@ public class ColorLessonTraningMgr : MonoBehaviour
         transform.rotation = Quaternion.identity;
         refImage.color = Color.green;
         Time.timeScale = 1;
+        collectWhite = false;
     }
 }
