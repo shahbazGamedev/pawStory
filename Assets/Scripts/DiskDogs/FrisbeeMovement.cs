@@ -46,7 +46,7 @@ public class FrisbeeMovement : MonoBehaviour {
 		if (Vector3.Distance (dog.transform.position, frisbee.transform.position) < 2.5f && isJumping == false) 
 		{
 			direction = frisbee.transform.position - dog.transform.position;
-            Debug.Log(direction);
+            
 			distance = direction.magnitude;
 		    angleRadians = shootingAngle * Mathf.Deg2Rad;
 			velocity = Mathf.Sqrt (distance * Physics.gravity.magnitude / Mathf.Sin (2 * angleRadians));
@@ -55,18 +55,18 @@ public class FrisbeeMovement : MonoBehaviour {
 			{
 			dog.GetComponent<DogMovementFrisbee> ().jumpingLeft(frisbeeForce);
 			isJumping = true;
-				Debug.Log("leftjump");
+				
 			}
 			else if(direction.x>0 && direction.x<1f)
 			{
 				dog.GetComponent<DogMovementFrisbee> ().jumpingRight(frisbeeForce);
 				isJumping=true;
-				Debug.Log("jumpright");
+				
 			}
 		}
         if(canCollect)
         {
-            Debug.Log("hisss");
+           
             dog.GetComponent<DogMovementFrisbee>().FoulCollect();
         }
 	}
@@ -111,7 +111,7 @@ public class FrisbeeMovement : MonoBehaviour {
 	IEnumerator ReturnFrisbee ()
 	{
 		yield return new WaitForSeconds(5.0f);
-		Debug.Log("Return Ball");
+		
 		transform.position = currentPosition;
 		rb.velocity = Vector3.zero;
 		GetComponent<MeshRenderer>().enabled=true;
@@ -134,7 +134,7 @@ public class FrisbeeMovement : MonoBehaviour {
 		    StartCoroutine(Dogmovement());
 			if(dog.GetComponent<DogMovementFrisbee>().chances==dog.GetComponent<DogMovementFrisbee>().MaxChances || dog.GetComponent<DogMovementFrisbee>().Life==0)
 			{
-				Debug.Log ("gameover");
+				
 				StartCoroutine(EndGame());
 			}
 			dog.GetComponent<DogMovementFrisbee>().isSpawn=true;
@@ -142,14 +142,14 @@ public class FrisbeeMovement : MonoBehaviour {
 		}
 		if (collision.gameObject.tag=="floor" && detectLife==true)
 		{
-			Debug.Log("coming here");
+			
             canCollect = true;
 			dog.GetComponent<DogMovementFrisbee>().Life--;
             
 
             if (dog.GetComponent<DogMovementFrisbee>().chances==dog.GetComponent<DogMovementFrisbee>().MaxChances || dog.GetComponent<DogMovementFrisbee>().Life==0)
 			{
-				Debug.Log ("gameover");
+				
 				StartCoroutine(EndGame());
 			}
             
