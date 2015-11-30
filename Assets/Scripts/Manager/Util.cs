@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Facebook.MiniJSON;
+//using Facebook.MiniJSON;
 
 public class Util : ScriptableObject
 {
-    public static string GetPictureURL(string facebookID, int? width = null, int? height = null, string type = null)
+   /* public static string GetPictureURL(string facebookID, int? width = null, int? height = null, string type = null)
     {
         string url = string.Format("/{0}/picture", facebookID);
         string query = width != null ? "&width=" + width.ToString() : "";
@@ -123,5 +123,6 @@ public class Util : ScriptableObject
         if (Application.isWebPlayer)
             JavascriptLog(message);
     }
+    */
     
 }

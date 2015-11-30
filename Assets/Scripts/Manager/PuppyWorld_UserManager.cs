@@ -1,16 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
-using com.shephertz.app42.paas.sdk.csharp;
+/*using com.shephertz.app42.paas.sdk.csharp;
 using com.shephertz.app42.paas.sdk.csharp.social;
-using UnityEngine.SocialPlatforms;
-using AssemblyCSharp;
+using UnityEngine.SocialPlatforms;*/
+//using AssemblyCSharp;
 
 // Class to create a user in the server and maintain the data.
 
 public class PuppyWorld_UserManager : MonoBehaviour 
 {
-	PuppyWorld_UserManagerResponseCallBack userResponseCallBack = new PuppyWorld_UserManagerResponseCallBack();
+	//PuppyWorld_UserManagerResponseCallBack userResponseCallBack = new PuppyWorld_UserManagerResponseCallBack();
 
 	// Use this for initialization
 	void Start () 
@@ -25,7 +25,7 @@ public class PuppyWorld_UserManager : MonoBehaviour
 	}
 }
 
-public class PuppyWorld_UserManagerResponseCallBack : App42CallBack
+/*public class PuppyWorld_UserManagerResponseCallBack : App42CallBack
 {
 	
 	public void OnSuccess(object response)  
@@ -36,4 +36,4 @@ public class PuppyWorld_UserManagerResponseCallBack : App42CallBack
 	{  
 		App42Log.Console("Exception : " + e);  
 	}  
-}
+}*/

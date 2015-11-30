@@ -4,18 +4,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Facebook.MiniJSON;
+//using Facebook.MiniJSON;
 
-using com.shephertz.app42.paas.sdk.csharp;
-using com.shephertz.app42.paas.sdk.csharp.social;
+/*using com.shephertz.app42.paas.sdk.csharp;
+using com.shephertz.app42.paas.sdk.csharp.social;*/
 using UnityEngine.SocialPlatforms;
-using AssemblyCSharp;
+//using AssemblyCSharp;
 
 
 public class FacebookManager : MonoBehaviour 
 {
 
-	public static FacebookManager instance;
+	/*public static FacebookManager instance;
 	public string userId, userName;
 	public string accessToken;
 	public string linkToTheApp, linkName, linkDescription, linkCaption, pictureURL; 
@@ -448,5 +448,5 @@ public class FacebookManager : MonoBehaviour
 //		 
 //		socialService.UpdateFacebookStatus(userName, "Hi How are u ?", new UnityCallBack());   
 	}
-	 
+	 */
 }

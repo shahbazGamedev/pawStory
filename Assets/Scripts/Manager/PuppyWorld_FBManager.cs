@@ -4,17 +4,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Facebook.MiniJSON;
+//using Facebook.MiniJSON;
 
-using com.shephertz.app42.paas.sdk.csharp;
-using com.shephertz.app42.paas.sdk.csharp.social;
-using UnityEngine.SocialPlatforms;
-using AssemblyCSharp;
+//using com.shephertz.app42.paas.sdk.csharp;
+//using com.shephertz.app42.paas.sdk.csharp.social;
+//using UnityEngine.SocialPlatforms;
+//using AssemblyCSharp;
 
 public class PuppyWorld_FBManager : MonoBehaviour 
 {
 
-	private string lastResponse = "";
+	/*private string lastResponse = "";
 	private string accessToken;
 	private string userID;
 	private string get_data;
@@ -148,7 +148,7 @@ public class PuppyWorld_FBManager : MonoBehaviour
 		PuppyWorld_GlobalVariables.instance.userName = dict["first_name"].ToString();
 		userName  = dict["first_name"].ToString();
 		
-		/*userNameText.text = userName;*/
+		/*userNameText.text = userName;
  
 		Debug.Log("Player Name " +dict["first_name"].ToString());// userName); 
 		//PuppyWorld_FileManager.instance.CheckForFile();
@@ -246,4 +246,5 @@ public class PuppyWorld_FBManager : MonoBehaviour
 	{
 	
 	}
+	*/
 }

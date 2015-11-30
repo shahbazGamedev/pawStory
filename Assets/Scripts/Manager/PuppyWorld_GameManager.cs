@@ -2,11 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
-using com.shephertz.app42.paas.sdk.csharp;
+/*using com.shephertz.app42.paas.sdk.csharp;
 using com.shephertz.app42.paas.sdk.csharp.social;
-using UnityEngine.SocialPlatforms;
-using AssemblyCSharp;
-using SimpleJSON;
+using UnityEngine.SocialPlatforms;*/
+//using AssemblyCSharp;
+//using SimpleJSON;
 
 
 public class PuppyWorld_GameManager : MonoBehaviour 
@@ -23,9 +23,9 @@ public class PuppyWorld_GameManager : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		App42Log.SetDebug(true); 
+		/*App42Log.SetDebug(true); 
 		App42API.Initialize(PuppyWorld_GlobalVariables.instance.APIKEY,PuppyWorld_GlobalVariables.instance.SECRETKEY);  
-		Debug.Log("App42 Registered");
+		Debug.Log("App42 Registered");*/
 	}
 	
 	// Update is called once per frame

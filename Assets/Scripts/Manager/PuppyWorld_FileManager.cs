@@ -3,11 +3,11 @@ using UnityEngine.SocialPlatforms;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
-using com.shephertz.app42.paas.sdk.csharp;
+/*using com.shephertz.app42.paas.sdk.csharp;
 using com.shephertz.app42.paas.sdk.csharp.storage;
-using SimpleJSON;
-using AssemblyCSharp;
-using App42Json;
+using SimpleJSON;*/
+//using AssemblyCSharp;
+//using App42Json;
 using System;
 
  
@@ -23,7 +23,7 @@ public class PuppyDBase
 
 public class PuppyWorld_FileManager : MonoBehaviour 
 {
-	public static PuppyWorld_FileManager instance;
+	/*public static PuppyWorld_FileManager instance;
 
 	public List<PuppyDBase> puppyDBase;
 	public List<PuppyDBase> successDase;
@@ -137,4 +137,5 @@ public class PuppyWorld_FileManagerResponseCallBack : App42CallBack
 	{
 		return error;
 	}
+	*/
 }

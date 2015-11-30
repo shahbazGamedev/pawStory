@@ -12,7 +12,7 @@ using System.IO;
 using System; 
 using System.Text;
 //using System.Web;
-using MiniJSON;
+//using MiniJSON;
 //using SimpleJSON;
 
 [System.Serializable]
@@ -146,9 +146,9 @@ public class PlayerCustomizationManager : MonoBehaviour
 	{ 
 		SaveWeaponDataListToXML(weaponList);
 
-		string jsonText =  MiniJSON.Json.Serialize(weaponList);
+		//string jsonText =  MiniJSON.Json.Serialize(weaponList);
 
-		Debug.Log(jsonText.ToString());
+		//Debug.Log(jsonText.ToString());
 		//SaveArmorDataListToXML(armorList);
 		//SavePlayerModelDataListToXML(playerModelList);
 		 
