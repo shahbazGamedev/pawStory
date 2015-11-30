@@ -10,7 +10,7 @@ public class Basket : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		spawnerRef = GameObject.FindObjectOfType <BasketSpawner> ();
+		spawnerRef = FindObjectOfType <BasketSpawner> ();
 	}
 	
 	// Update is called once per frame
