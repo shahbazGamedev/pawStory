@@ -15,6 +15,7 @@ public class ShootManager : MonoBehaviour {
 
 	SwipeRecognizer.Swipe swipe;
 	DogManager dogManager;
+    public Food foodRef;
 
 	bool tap;
 	bool jump;
@@ -71,18 +72,18 @@ public class ShootManager : MonoBehaviour {
 		if(jump)
 		{
 			// Limit dog jump force to make it realistic
-			swipeLength = Mathf.Clamp (swipe.swipeLength, 250, 420);
+			swipeLength = Mathf.Clamp (swipe.swipeLength, 250, 1000);
 			startPosition = transform.position;
 
 			// check if dog is on ground
-			if(dogManager.isGrounded)
+			if(foodRef.isGrounded)
 			{
 				// Jump only in forward direction
 				if(swipe.swipeAngle <= 90 || swipe.swipeAngle >= 275)
 				{
 					transform.rotation = Quaternion.Euler (0, swipe.swipeAngle, 0);
 					jumpForce = Quaternion.Euler (0, swipe.swipeAngle, 0) * (new Vector3 (0f, 1f, 0.8f) * swipeLength * jumpFactor);
-					dogManager.Jump (jumpForce);
+                    foodRef.Jump (jumpForce);
 					jump = false;
 					StartCoroutine (CalcDistance ());
 					slowMotionOn = true;
@@ -94,7 +95,7 @@ public class ShootManager : MonoBehaviour {
 		}
 
 		// dog can shoot only if it has already jumped
-		if(!dogManager.isGrounded)
+		if(!foodRef.isGrounded)
 		{
 			if(shoot)
 			{
@@ -179,7 +180,7 @@ public class ShootManager : MonoBehaviour {
 		yield return new WaitForFixedUpdate ();
 
 		while (slowMotionOn) {
-			if(dogManager.isGrounded || !hasBall)
+			if(foodRef.isGrounded || !hasBall)
 			{
 				slowMotionOn = false;
 			}

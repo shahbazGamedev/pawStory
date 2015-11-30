@@ -84,18 +84,19 @@ public class BasketSpawner : MonoBehaviour {
 	// Resets dog position onClick - reset button
 	public void ResetDog()
 	{
-		if(!resetInProgress) {
-			resetInProgress = true;
+        //if(!resetInProgress) {
+        //	resetInProgress = true;
 
-			// Resets ball status in ShootManager
-			dogRef.GetComponent <ShootManager> ().hasBall = true;
+        //	// Resets ball status in ShootManager
+        //	dogRef.GetComponent <ShootManager> ().hasBall = true;
 
-			StartCoroutine (dogManager.MoveToPosition (startPosition, startRotation));
-			Destroyer ("Ball");
-			Destroyer ("Basket");
+        //	StartCoroutine (dogManager.MoveToPosition (startPosition, startRotation));
+        //	Destroyer ("Ball");
+        //	Destroyer ("Basket");
 
-			StartCoroutine (SetSpawnFlag ());
-		}
+        //	StartCoroutine (SetSpawnFlag ());
+        //}
+        Application.LoadLevel(Application.loadedLevel);
 	}
 
 	// Waits for dog to come to initial position to spawn basket
