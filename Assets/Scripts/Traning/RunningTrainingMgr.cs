@@ -4,25 +4,30 @@ using UnityEngine.UI;
 
 public class RunningTrainingMgr : MonoBehaviour 
 {
+    //UI Elements
 	public GameObject panelGameOver;
 	public GameObject pulley;
     public GameObject PanelGameScreen;
-    private Animator dogAnim;
-    bool gameStart;
-    public bool canSpin;
-	Rigidbody rb;
-	float angle;
-	float preAngle;
-	float value;
-    Vector2 normalizedPositions;
-    float timer;
     public Text TxtTimer;
     public Text TxtGameOver;
-    
-    
-   
 
-	void Start () 
+    //GamePlay Elements
+    bool gameStart;
+    public bool canSpin;
+    float angle;
+	float preAngle;
+	float value;  
+    Vector2 normalizedPositions;
+    float timer;
+
+
+    //Defaults
+    Animator dogAnim;
+    Rigidbody rb;
+
+
+
+    void Start () 
 	{
 		gameStart=false;
 		panelGameOver.SetActive(false);
@@ -56,7 +61,7 @@ public class RunningTrainingMgr : MonoBehaviour
         TxtTimer.text = "Time :" + (int)timer;
         if (gameStart)
         {
-            value -= .35f * Time.deltaTime;
+            value -= .35f * Time.deltaTime;  //To calculate Rotating speed 
         }
 
     }

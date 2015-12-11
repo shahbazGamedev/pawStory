@@ -8,24 +8,27 @@ using UnityEngine.UI;
 
 public class ColorLessonTraningMgr : MonoBehaviour
 {
-    public float Speed;
+    //UI Elements
     public GameObject PanelGameOver;
     public GameObject redBtn;
     public GameObject blueBtn;
     public GameObject greenBtn;
     public GameObject whiteBtn;
+    public Text TxtTimer;
+    public Image refImage;
+    public Text TxtGameOver;
+    public Text teachingTxt;
+    public GameObject TeachingPnl;
+
+    //GamePLay Elements
     public Transform Target;
     public Transform red;
     public Transform blue;
     public Transform green;
     public Transform yellow;
-    public Text TxtTimer;
-    public Image refImage;
     string layerName;
-    public Text teachingTxt;
-    public GameObject TeachingPnl;
-    public Text TxtGameOver;
     float speedDampTime;
+    public float Speed;
     float timer;
     float distance;
     bool isMoving;
@@ -36,6 +39,8 @@ public class ColorLessonTraningMgr : MonoBehaviour
     bool canClick;
     bool gameStart;
     Vector3 startPos;
+
+    //Defaults
     Animator dogAnim;
     Rigidbody rb;
     

@@ -6,28 +6,35 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
-public class FrisbeeMovement : MonoBehaviour {
+public class FrisbeeMovement : MonoBehaviour
+{
+
+    //UI Elements
 	public GameObject dummyFrisbee;
+
+    //GamePlay Elements
 	public GameObject dog;
 	public GameObject frisbee;
 	public float power;
-	private Vector3 endPos;
-	private Vector3 force;
-	private Vector3 startPos;
-	private Vector3 direction;
-	private float shootingAngle=45f;
-	private float distance;
-	private float angleRadians;
-	private float velocity;
-	private Vector3 frisbeeForce;
-	public Vector3 currentPosition;
+    Vector3 endPos;
+    Vector3 force;
+    Vector3 startPos;
+	Vector3 direction;
+	float shootingAngle=45f;
+	float distance;
+	float angleRadians;
+	float velocity;
+	Vector3 frisbeeForce;
+	Vector3 currentPosition;
 	bool isJumping=false;
 	bool detectLife;
-	Rigidbody rb;
-    public bool canCollect;
+	bool canCollect;
+
+    //Defaults
+    Rigidbody rb;
 
 
-	void Awake()
+    void Awake()
 	{
 	
 

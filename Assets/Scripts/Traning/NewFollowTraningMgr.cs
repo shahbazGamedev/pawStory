@@ -5,21 +5,26 @@ using UnityEngine.UI;
 
 public class NewFollowTraningMgr : MonoBehaviour
 {
-    public List<GameObject> Nodes;
-    public GameObject dog;
+   //UI Elements
     public GameObject gameOverPanel;
     public GameObject failPanel;
+    public Text TxtTimer;
+    public Text TxtGameOver;
+
+    //GamePlay
     int curNode = -1;
     public bool isMoving;
     public bool canTap;
     public float dogSpeed;
-    Animator dogAnim;
+    public GameObject Traget;
+    public List<GameObject> Nodes;
+    public GameObject dog;
+    public float timer;
     public Vector3 StartPos;
     public GameObject movingTarget;
-    public float timer;
-    public Text TxtTimer;
-    public Text TxtGameOver;
-    public GameObject Traget;
+
+    //Defaults
+    Animator dogAnim;
 
 
 

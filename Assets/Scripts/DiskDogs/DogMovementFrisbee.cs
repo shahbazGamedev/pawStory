@@ -8,6 +8,19 @@ using UnityEngine.UI;
 
 public class DogMovementFrisbee : MonoBehaviour
 {
+
+    //UI Elements
+    public Text score;
+    public GameObject EndPanel;
+    public Text life;
+    public Text chance;
+    public Text ChanceUi;
+    public GameObject startPanel;
+    public GameObject flagRed;
+    public GameObject flagGreen;
+    public GameObject flagYellow;
+
+    //GamePlay Elements
     public Transform[] spawnPoint;
     public float jumpForce = 200f;
     public Transform Dog;
@@ -17,38 +30,32 @@ public class DogMovementFrisbee : MonoBehaviour
     public int Score;
     public bool isMoving;
     public bool isGameover;
-    public Text chance;
-    public int chances;
-    public Text ChanceUi;
-    private Transform targetMove;
     public int spawnValue = 0;
+    public int chances;
     public bool isSpawn;
     public GameObject FrisbeeAttached;
-    public GameObject EndPanel;
     public int MaxChances;
     public int Life;
-    public Text score;
-    public Text life;
-    public GameObject startPanel;
-    public GameObject flagRed;
-    public GameObject flagGreen;
-    public GameObject flagYellow;
-    private Animator dogAnim;
-    private Vector3 frisbeedirection;
-    private Vector3 dogPos;
-    private float distance;
     public float speed;
-    private Vector3 jumpHeight;
-    private Vector3 direction;
+    Vector3 frisbeedirection;
+    Vector3 dogPos;
+    Transform targetMove;
+    float distance; 
+    Vector3 jumpHeight;
+    Vector3 direction;
     bool isCatching;
-    Rigidbody rb;
     Vector3 position;
     Vector3 pos;
     bool isRestart;
     int lastValue;
     int currentValue;
-    
-    
+
+
+    //Defaults
+    Rigidbody rb;
+    Animator dogAnim;
+
+
 
     void OnEnable()
     {
