@@ -28,7 +28,7 @@ public class FrisbeeMovement : MonoBehaviour
 	Vector3 currentPosition;
 	bool isJumping=false;
 	bool detectLife;
-	bool canCollect;
+	public bool canCollect;
 
     //Defaults
     Rigidbody rb;
