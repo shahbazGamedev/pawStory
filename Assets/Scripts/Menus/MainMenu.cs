@@ -18,6 +18,7 @@ public class MainMenu : MonoBehaviour
     public void OnTraining()
     {
         GameMgr.Inst.LoadScene(GlobalConst.Scene_PuppyTraining);
+
     }
 
 
