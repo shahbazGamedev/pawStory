@@ -60,7 +60,7 @@ public class PlayerManager : MonoBehaviour
 
 	public void CreateUpdateParseUser()
 	{
-		Task<ParseUser> logInTask = ParseFacebookUtils.LogInAsync(userId, accessToken, DateTime.Now.ToUniversalTime());
+		Task<ParseUser> logInTask = ParseFacebookUtils.LogInAsync(userId, accessToken,System.DateTime.Now);
 		//ParseFacebookUtils.LogInAsync(userId, accessToken, DateTime.Now);
 	}
 
