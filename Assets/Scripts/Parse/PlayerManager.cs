@@ -58,9 +58,38 @@ public class PlayerManager : MonoBehaviour
 		
 	}
 
+	IEnumerator CreateUser()
+	{
+		Debug.Log("creating player ");
+		 
+
+		Task<ParseUser> logInTask = ParseFacebookUtils.LogInAsync(userId, accessToken,System.DateTime.Now);
+
+		 
+		Debug.Log("created user ");
+		yield return new WaitForEndOfFrame();
+
+
+	}
 	public void CreateUpdateParseUser()
 	{
-		Task<ParseUser> logInTask = ParseFacebookUtils.LogInAsync(userId, accessToken,System.DateTime.Now);
+
+		Debug.Log("creating user ");
+		 
+		 
+		//Task signUpTask = user.SignUpAsync();
+
+		 
+
+		StartCoroutine(CreateUser());
+		 
+		//ParseUserManagement.instance.SaveData();
+
+		//user["player"] = PlayerManager.instance.userId;
+
+		//ParseUser.CurrentUser.ObjectId = PlayerManager.instance.userId;
+		//ParseUserManagement.instance.SaveData();
+		//ParseUserManagement.instance.GetData();
 		//ParseFacebookUtils.LogInAsync(userId, accessToken, DateTime.Now);
 	}
 

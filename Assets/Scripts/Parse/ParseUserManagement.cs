@@ -22,15 +22,13 @@ public class PuppyData :ParseObject
 
 }
 
-public enum GameState
+public enum UserState
 {
 	
 	LOGIN,
 	SIGNUP,
 	LOADING,
-	MENU,
-	GAME,
-	FINISH,
+	DELETE,
 	NONE =0
 
 }
@@ -43,9 +41,11 @@ public class ParseUserManagement : MonoBehaviour
 
 	//public GameStates state;
 
+	public static ParseUserManagement instance ;
+
 	public InputField userName, email, password;
 
-	public GameObject createNewObjectPanel;
+	public GameObject createNewObjectPanel , dataStorePanel;
 
 	ParseUser user;
 
@@ -55,6 +55,7 @@ public class ParseUserManagement : MonoBehaviour
 
 	void Awake()
 	{
+		instance = this;
 		ParseObject.RegisterSubclass<PuppyData>();
 
 		//createNewObjectPanel.SetActive(false);
@@ -62,23 +63,38 @@ public class ParseUserManagement : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		Debug.Log("Calling user login");
+		/*Debug.Log("Calling user login");
 		if (ParseUser.CurrentUser != null)
 		{
 			 //Login with User credentials.
-			Debug.Log(Parse.ParseUser.CurrentUser.Username);
+			Debug.Log(ParseUser.CurrentUser.Username);
 			createNewObjectPanel.SetActive(false);
+			dataStorePanel.SetActive(true);
 		}
 
 		else
 		{
 			createNewObjectPanel.SetActive(true);
+			dataStorePanel.SetActive(false);
 		}
+*/
+	}
 
+	void DisplayLogin()
+	{
+		createNewObjectPanel.SetActive(true);
+		dataStorePanel.SetActive(false);
+	}
+
+	void DisplayDataStorage()
+	{
+		createNewObjectPanel.SetActive(false);
+		dataStorePanel.SetActive(true);
 	}
 
 	public void CreateOrUpdateUser()
 	{
+		
 		 	user = new ParseUser()
 			{
 				Username = email.text,
@@ -93,19 +109,44 @@ public class ParseUserManagement : MonoBehaviour
 			{
 				if(t.IsFaulted || t.IsCanceled)
 				{
+
 					Debug.Log("user isnt created try again");
+					foreach (var currError in t.Exception.InnerExceptions)
+					{
+						var error = (ParseException)currError;
+						Debug.LogError("Login error:" + error.Code);
+					
+						/*switch (error.Code)
+						{
+						case ParseException.ErrorCode.UsernameMissing:
+							Debug.LogError("Username not exists!");
+							yield break;
+						case ParseException.ErrorCode.PasswordMissing:
+							Debug.LogError("Password incorrect!");
+							yield break;
+						default:
+							Debug.LogError("Login error:" + error.Code);
+							yield break;
+						}*/
+					}
 				}
 				else
 				{
 					Debug.Log("UserCreated");
 					Debug.Log(Parse.ParseUser.CurrentUser.Username);
+
+
+					//DisplayDataStorage();
+					 
 				}
 			});
 		 
 		 
-		 
+		SaveData();
 	 
 	}
+
+
 
 	/*private IEnumerator SignUpHandler()
 	{
@@ -129,45 +170,20 @@ public class ParseUserManagement : MonoBehaviour
 	}*/
 
 
+	 
 	public void SaveData()
 	{
 
 		StartCoroutine(SaveDataToParse());
-		/*ParseObject pData = new ParseObject("PData");
-
-
-		pData["player"] = ParseUser.CurrentUser;
-		pData["finalScore"] = 1000;
-
-		pData.SaveAsync().ContinueWith(t => {
-			if (!t.IsFaulted) {
-				Debug.Log("DataSaved successfully");
-				pData.ObjectId = pData["player"];
-				objectID = pData.ObjectId;
-				Debug.Log(objectID);
-				// Game history was saved successfully!
-			}
-			else
-			{
-				Debug.Log("Not saved");
-			}
-		});*/
-	
-
-
-
-		//Task saveTask
-
-		/*var puppyDataObject = new ParseObject("PuppyDataObject");
-		//puppyDataObject["puppydataList"] = puppyData;
-		Task saveTask = puppyDataObject.SaveAsync();*/
-
+		 
 	}
 
 	IEnumerator SaveDataToParse()
 	{
 		ParseObject pupData;
 		var user = ParseUser.CurrentUser;
+		//user.ObjectId = PlayerManager.instance.userId;
+		//user.Add("player",PlayerManager.instance.userId);
 
 		if(!user.ContainsKey("player"))
 		{
@@ -175,10 +191,13 @@ public class ParseUserManagement : MonoBehaviour
 		}
 		else
 		{
+			//user.Add("player",PlayerManager.instance.userId);
 			pupData = ParseObject.CreateWithoutData("PuppyDataBase", user.Get<string>("player"));
+
 		}
 
-		pupData["player"] = ParseUser.CurrentUser;
+		pupData["player"] =ParseUser.CurrentUser; //PlayerManager.instance.userId;
+		pupData["fbUserId"] = PlayerManager.instance.userId;
 		pupData["pupLevel"] = 2;
 		// add or modify the elements here which has to be stored for the game
 
@@ -189,41 +208,25 @@ public class ParseUserManagement : MonoBehaviour
 		user["player"] = pupData.ObjectId;
 		var userSaveTask = user.SaveAsync();
 
-		while (!userSaveTask.IsCompleted)
+		while (!userSaveTask.IsCompleted)	 
 			yield return null;
 
+			
+
 		Debug.Log("Data saved!");
+
+		//GetData();
 	}
 
 	public void GetData()
 	{
-		/*Debug.Log("Getting Data...");
-		ParseQuery<ParseObject> query = ParseObject.GetQuery("PData");
-		query.GetAsync(objectID).ContinueWith(t =>
-			{
-				if(!t.IsFaulted)
-				{
-					ParseObject pGetData = t.Result;
-					string playerName = pGetData.Get<String>("player");
-					Debug.Log("Player Name : "+ playerName);
-					int score = pGetData.Get<int>("finalScore");
-
-					Debug.Log("Score : "+ score);
-				} 
-
-				else
-				{
-					Debug.Log("Cant Get Data");
-				}
-
-			});
-*/
 
 		StartCoroutine(GetDataFromParse());
 	}
 
 	IEnumerator GetDataFromParse()
 	{
+		Debug.Log("getting data");
 		var user = ParseUser.CurrentUser;
 		if (user.ContainsKey("player"))
 		{
@@ -255,10 +258,6 @@ public class ParseUserManagement : MonoBehaviour
 
 				var pupLevel = pupDB.Get<int>("pupLevel");
 
-
-
-				//Best = dbScores.Get<int>("bestScores");
-
 				Debug.Log("Get Data loaded!");
 				Debug.Log("puppy level from server : " + pupLevel);
 			}
@@ -267,17 +266,25 @@ public class ParseUserManagement : MonoBehaviour
 		{
 			// handle file corrupted error and redirect to new game.
 			//Best = 0;
+			Debug.Log("cant get data..");
 		}
 	}
 
+	public void LinkFaceBook()
+	{
+		
+	}
 
-	public void UserLogginIn()
+
+
+	/*public void UserLogginIn()
 	{
 		ParseUser.LogInAsync("myname", "mypass").ContinueWith(t =>
 			{
 				if (t.IsFaulted || t.IsCanceled)
 				{
 					// The login failed. Check the error to see why.
+					 
 				}
 				else
 				{
@@ -286,7 +293,8 @@ public class ParseUserManagement : MonoBehaviour
 					Debug.Log("Login Sucessful");
 				}
 			});
-	}
+	}*/
+
 	// Update is called once per frame
 	void Update () 
 	{

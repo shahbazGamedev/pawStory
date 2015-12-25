@@ -55,9 +55,18 @@ public class FBManager : MonoBehaviour
 		testObject["foo"] = "bar";
 		testObject.SaveAsync();*/
 
+		if(ParseUser.CurrentUser==null)
 		CallFBInit();
 
-	
+		// check for condition and call the login..
+		/*else
+		{
+			Debug.Log("User already exists");
+			Debug.Log(ParseUser.CurrentUser.Username);
+		}*/
+
+		//ParseUserManagement.instance.SaveData();
+		//ParseUserManagement.instance.GetData();
 	}
 
 
