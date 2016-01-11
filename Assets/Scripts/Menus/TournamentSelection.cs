@@ -77,4 +77,10 @@ public class TournamentSelection : MonoBehaviour
         GameMgr.Inst.LoadScene(GlobalConst.Scene_InternationalTournament);
     }
 
+
+    public void OnHome()
+    {
+        GameMgr.Inst.LoadScene(GlobalConst.Scene_MainMenu);
+    }
+
 }
