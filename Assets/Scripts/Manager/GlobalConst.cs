@@ -7,7 +7,7 @@ public class GlobalConst
 
 	// Scenes
 	public static string Scene_LoadingScene = "LoadingScene";
-	public static string Scene_MainMenu = "home";
+	public static string Scene_MainMenu = "MainMenu";
 	public static string Scene_TournamentSelection = "TournamentSelection";
     public static string Scene_PuppySelection = "PuppySelection";
     public static string Scene_PuppyTraining = "PuppyTraining";
