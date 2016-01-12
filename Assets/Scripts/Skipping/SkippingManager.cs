@@ -106,7 +106,7 @@ public class SkippingManager : MonoBehaviour
         //sliderValue = skipRope.angle;
         //sliderValue = sliderValue < 0 ? sliderValue + 360 : sliderValue;
         sliderValue = skipRope.angle * 2 / 360;
-        Debug.Log(sliderValue);
+       // Debug.Log(sliderValue);
         if (sliderValue > 1)
         {
             sliderValue = 2 - sliderValue;
