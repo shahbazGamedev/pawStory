@@ -8,6 +8,11 @@ public class EventManager : MonoBehaviour
 
 	public static event Action SceneStart, GamePaused, GameResumed, UpdateUI ,GameRestart, SceneEnd;
 
+	public delegate void ServerAction();
+
+	public static event ServerAction GetFromServer;
+
+	//public static event ServerAction 
 
 	public static void OnSceneStart()
 	{
