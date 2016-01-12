@@ -13,7 +13,7 @@ public class PuppyTraining : MonoBehaviour {
 
     public void OnCatchTraining()
     {
-        GameMgr.Inst.LoadScene(GlobalConst.Scene_CatchTraining);
+        GameMgr.Inst.LoadScene(GlobalConst.Scene_Skipping);
     }
 
 
