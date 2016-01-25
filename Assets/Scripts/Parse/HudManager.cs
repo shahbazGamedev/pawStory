@@ -23,11 +23,12 @@ public class HudManager : MonoBehaviour
 	{
 	
 	}
-	 
+	  
 
 	public void OnPauseButtonClicked()
 	{
 		Debug.Log("Hudmanager on game pause");
+
 		GameManager.Instance.GamePause(); 
 		 
 	}

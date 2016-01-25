@@ -88,7 +88,7 @@ public class FBManager : MonoBehaviour
 
 	private void OnHideUnity(bool isGameShown)
 	{
-		Status = "Success - Check logk for details";
+		Status = "Success - Check log for details";
 		LastResponse = string.Format("Success Response: OnHideUnity Called {0}\n", isGameShown);
 		 
 	}

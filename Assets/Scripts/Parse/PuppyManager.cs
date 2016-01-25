@@ -40,7 +40,7 @@ public class PuppyManager : MonoBehaviour
 
 	}
 
-
+     
 	 
 	void OnGamePaused()
 	{

@@ -32,7 +32,7 @@ namespace Facebook.Unity
 
         string SDKName { get; }
 
-        string SDKVersion { get; }
+        string SDKVersion { get; } 
 
         string SDKUserAgent { get; }
 
