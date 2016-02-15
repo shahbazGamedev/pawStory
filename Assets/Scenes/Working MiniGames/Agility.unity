@@ -406,7 +406,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 4f339c44956935e47aac20daf27a1c94, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b48b5c469cb04f54bbfd39d97e0ff16c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -586,6 +586,7 @@ MonoBehaviour:
   targetColliderSize: {x: 0.6, y: 0.6, z: 2}
   targetColliderCenter: {x: 0, y: 0.3, z: 0.5}
   currentCheckpointTimer: 20
+  startGame: 0
 --- !u!4 &185955424
 Transform:
   m_ObjectHideFlags: 0
@@ -806,7 +807,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22457796, guid: b277afcde5431224e9c824abf4b57288, type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: .5
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 22457796, guid: b277afcde5431224e9c824abf4b57288, type: 2}
       propertyPath: m_SizeDelta.x
@@ -830,27 +831,27 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22457796, guid: b277afcde5431224e9c824abf4b57288, type: 2}
       propertyPath: m_AnchorMax.y
-      value: .871217906
+      value: 0.8712179
       objectReference: {fileID: 0}
     - target: {fileID: 22457796, guid: b277afcde5431224e9c824abf4b57288, type: 2}
       propertyPath: m_Pivot.x
-      value: .5
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 22457796, guid: b277afcde5431224e9c824abf4b57288, type: 2}
       propertyPath: m_Pivot.y
-      value: .5
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 22457796, guid: b277afcde5431224e9c824abf4b57288, type: 2}
       propertyPath: m_LocalScale.x
-      value: 2.6761241
+      value: 2.676124
       objectReference: {fileID: 0}
     - target: {fileID: 22457796, guid: b277afcde5431224e9c824abf4b57288, type: 2}
       propertyPath: m_LocalScale.y
-      value: 2.6761241
+      value: 2.676124
       objectReference: {fileID: 0}
     - target: {fileID: 22457796, guid: b277afcde5431224e9c824abf4b57288, type: 2}
       propertyPath: m_LocalScale.z
-      value: 2.6761241
+      value: 2.676124
       objectReference: {fileID: 0}
     - target: {fileID: 11415316, guid: b277afcde5431224e9c824abf4b57288, type: 2}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -1512,7 +1513,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.15294118, g: 0.10588236, b: 0.019607844, a: 1}
+  m_Color: {r: 0.8308824, g: 0.8308824, b: 0.8308824, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3736,11 +3737,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22475416, guid: 223a9d338d97efa4fab0c00d1e70471e, type: 2}
       propertyPath: m_Pivot.x
-      value: .5
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 22475416, guid: 223a9d338d97efa4fab0c00d1e70471e, type: 2}
       propertyPath: m_Pivot.y
-      value: .5
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 146842, guid: 223a9d338d97efa4fab0c00d1e70471e, type: 2}
       propertyPath: m_IsActive
@@ -3757,6 +3758,22 @@ Prefab:
     - target: {fileID: 11490032, guid: 223a9d338d97efa4fab0c00d1e70471e, type: 2}
       propertyPath: m_Color.a
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11439738, guid: 223a9d338d97efa4fab0c00d1e70471e, type: 2}
+      propertyPath: m_Text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11457638, guid: 223a9d338d97efa4fab0c00d1e70471e, type: 2}
+      propertyPath: m_Color.r
+      value: 0.8235294
+      objectReference: {fileID: 0}
+    - target: {fileID: 11457638, guid: 223a9d338d97efa4fab0c00d1e70471e, type: 2}
+      propertyPath: m_Color.g
+      value: 0.7660035
+      objectReference: {fileID: 0}
+    - target: {fileID: 11457638, guid: 223a9d338d97efa4fab0c00d1e70471e, type: 2}
+      propertyPath: m_Color.b
+      value: 0.7084775
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 223a9d338d97efa4fab0c00d1e70471e, type: 2}
@@ -4616,6 +4633,10 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 100016, guid: 296a10160a824a545bcfd5d1b4e30a44, type: 3}
+      propertyPath: m_TagString
+      value: floor
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 296a10160a824a545bcfd5d1b4e30a44, type: 3}
   m_IsPrefabParent: 0
@@ -4907,8 +4928,8 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0.114711516, y: 0.3784153}
   m_AnchorMax: {x: 0.88500005, y: 0.81186163}
-  m_AnchoredPosition: {x: 0, y: -3.5}
-  m_SizeDelta: {x: -4, y: 1}
+  m_AnchoredPosition: {x: -23, y: -20}
+  m_SizeDelta: {x: -4, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1863632274
 MonoBehaviour:
@@ -4923,7 +4944,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.63529414, g: 0.4666667, b: 0.20000002, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -4932,10 +4953,10 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 8ec3e0624f0853841a3b315266c8cb6e, type: 3}
-    m_FontSize: 40
+    m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 3
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0

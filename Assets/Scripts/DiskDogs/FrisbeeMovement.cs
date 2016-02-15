@@ -108,10 +108,8 @@ public class FrisbeeMovement : MonoBehaviour
 		dog.GetComponent<DogMovementFrisbee>().chances= dog.GetComponent<DogMovementFrisbee>().chances+1;
 		dummyFrisbee.SetActive(false);
 		detectLife=true;
-
-
-		StartCoroutine(  ReturnFrisbee() );
-		isJumping=false;
+        StartCoroutine(ReturnFrisbee());
+        isJumping=false;
 	}
 
 
@@ -128,6 +126,7 @@ public class FrisbeeMovement : MonoBehaviour
 		GetComponent<Rigidbody>().detectCollisions=true;
 		detectLife=false;
 		dummyFrisbee.SetActive(true);
+        
 	}
 
 		

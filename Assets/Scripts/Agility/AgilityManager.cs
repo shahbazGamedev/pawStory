@@ -45,7 +45,7 @@ public class AgilityManager : MonoBehaviour {
     public float currentCheckpointTimer; // In secs
     int currentLane;
 
-    bool startGame;
+    public bool startGame;
     bool gameOver;
     bool pauseTimer;
 
@@ -73,6 +73,7 @@ public class AgilityManager : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        
         instanceRef = this;
         dogRef = GameObject.FindGameObjectWithTag("Player");
         touchManagerRef = FindObjectOfType<TouchManager>();
@@ -135,6 +136,7 @@ public class AgilityManager : MonoBehaviour {
         {
             if (pattern == SwipeRecognizer.TouchPattern.swipeUp)
             {
+                Debug.Log("Jumping");           
                 Jump();
             }
             else if (pattern == SwipeRecognizer.TouchPattern.swipeLeft || pattern == SwipeRecognizer.TouchPattern.swipeUpLeft || pattern == SwipeRecognizer.TouchPattern.swipeDownLeft)
@@ -262,6 +264,8 @@ public class AgilityManager : MonoBehaviour {
         currentCheckpointTimer = 20;
         hurdlesCollided = 0;
         checkPointCount = 0;
+        startGame = false;
+        dogCircuitManager.updatePos = false;
         GetComponent<SpawnManager>().spawnOn = true;
         GetComponent<SpawnManager>().ClearHurdles();
         StartCoroutine(GetComponent<SpawnManager>().Spawner());

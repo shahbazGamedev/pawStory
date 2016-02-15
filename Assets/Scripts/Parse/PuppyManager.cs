@@ -22,6 +22,7 @@ public class PuppyManager : MonoBehaviour
 		Debug.Log("Events are registered :- PuppyManager");
 		 
 		EventManager.GamePaused += OnGamePaused;
+       
 		 
 	}
 
@@ -31,8 +32,8 @@ public class PuppyManager : MonoBehaviour
 		Debug.Log("Events are deregistered :- PuppyManager");
 
 		EventManager.GamePaused -= OnGamePaused;
-		 
-	}
+       
+    }
 
 	// Use this for initialization
 	void Start () 
@@ -48,6 +49,5 @@ public class PuppyManager : MonoBehaviour
 	}
 
 	 
-	
 	 
 }
