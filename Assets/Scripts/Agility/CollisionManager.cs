@@ -13,6 +13,8 @@ public class CollisionManager : MonoBehaviour
     public int triggerID; // starts from 1
     public static int previousID;
     public static GameObject dogRef;
+    
+
 
     EllipseMovement dogMovement;
 
@@ -59,6 +61,8 @@ public class CollisionManager : MonoBehaviour
                 // Dog movement speed boost
                 // Debug.Log ("Turbo Mode");
                 dogMovement.RunCoroutine(28);
+                
+                
                 //Destroy(gameObject.transform.parent.gameObject);
                 Pooler.InstRef.Sleep(gameObject.transform.parent.gameObject);
             }
