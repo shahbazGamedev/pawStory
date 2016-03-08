@@ -21,7 +21,9 @@ public class NewFollowTraningMgr : MonoBehaviour
     public GameObject dog;
     public float timer;
     public Vector3 StartPos;
-    public GameObject movingTarget;
+    public List<GameObject> movingTargetPattern;
+    private int movingPatternNo;
+      
 
     //Defaults
     Animator dogAnim;
@@ -55,17 +57,20 @@ public class NewFollowTraningMgr : MonoBehaviour
 
     void Update()
     {
+       
         if (isMoving)
         {
             Movement();
         }
-        movingTarget.transform.Translate(350 * Time.deltaTime, 0, 0);
+        movingTargetPattern[movingPatternNo].transform.Translate(350 * Time.deltaTime, 0, 0);
         
-        if (movingTarget.transform.position.x > Screen.width)
+        if (movingTargetPattern[movingPatternNo].transform.position.x-400 > Screen.width)
         {
-            movingTarget.transform.position = new Vector2(0, 0);
+            //Random choise of movingPattern
+            movingPatternNo = Random.Range(0, 3);
+            movingTargetPattern[movingPatternNo].transform.position = new Vector2(-100, 0);
         }
-        if (movingTarget.transform.position.x > Traget.transform.position.x && movingTarget.transform.position.x < Screen.width / 2)
+        if (movingTargetPattern[movingPatternNo].transform.position.x > Traget.transform.position.x && movingTargetPattern[movingPatternNo].transform.position.x < Screen.width / 2)
         {
             Debug.Log("yes");
 
@@ -75,7 +80,6 @@ public class NewFollowTraningMgr : MonoBehaviour
         {
             canTap = false;
         }
-
     }
 
 
@@ -110,6 +114,10 @@ public class NewFollowTraningMgr : MonoBehaviour
             gameOverPanel.SetActive(true);
             TxtGameOver.text = "Follow Traning Sucessful!!";
             Time.timeScale = 0;
+            //if(coll.gameObject.tag == "target")
+            //{
+            //    Debug.Log("UI Collision Sucess");
+            //}
         }
     }
 
@@ -137,8 +145,8 @@ public class NewFollowTraningMgr : MonoBehaviour
         isMoving = false;
         dogAnim.SetFloat("Walk", 0f);
         curNode = -1;
-        movingTarget.SetActive(true);
-        movingTarget.transform.position = new Vector2(0, 0);
+        movingTargetPattern[movingPatternNo].SetActive(true);
+        movingTargetPattern[movingPatternNo].transform.position = new Vector2(0, 0);
         timer = 0f;
         Time.timeScale = 1;
     }
@@ -150,7 +158,7 @@ public class NewFollowTraningMgr : MonoBehaviour
         {
             gameOverPanel.SetActive(true);
             TxtGameOver.text = "Traning Session Failed!!!";
-            movingTarget.SetActive(false);
+            movingTargetPattern[movingPatternNo].SetActive(false);
             Time.timeScale = 0;
 
         }

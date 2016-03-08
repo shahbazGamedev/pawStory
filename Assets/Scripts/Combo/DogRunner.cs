@@ -1,10 +1,11 @@
-﻿/**
-Script Author : Vaikash 
+﻿using System.Collections;
+
+/**
+Script Author : Vaikash
 Description   : Combo - Dog Movement Controller
 **/
 
 using UnityEngine;
-using System.Collections;
 
 public class DogRunner : MonoBehaviour
 {
@@ -17,26 +18,27 @@ public class DogRunner : MonoBehaviour
     public Vector3 runDirection;
 
     public bool updateAnim;
-    Vector3 startPos;
-    float dogVelocity;
-    bool jump;
-    bool gameOver;
-    bool isCoroutineON;
-    float time;
+    private Vector3 startPos;
+    private float dogVelocity;
+    private bool jump;
+    private bool gameOver;
+    private bool isCoroutineON;
+    private float time;
 
-    CharacterController dogCC;
+    private CharacterController dogCC;
     public Animator dogAnim;
 
     public float jumpSpeed;
     public float camFactor;
-    float verticalVelocity = 0f;
+    private float verticalVelocity = 0f;
 
-    // Camera 
+    // Camera
     public float smoothDampTime;
+
     public Vector3 cameraOffset;
-    Vector3 smoothDampVelocity = Vector3.zero;
-    Vector3 dist;
-    Vector3 pos;
+    private Vector3 smoothDampVelocity = Vector3.zero;
+    private Vector3 dist;
+    private Vector3 pos;
 
     public float springForce;
 
@@ -49,7 +51,7 @@ public class DogRunner : MonoBehaviour
         dogAnim = GetComponent<Animator>();
     }
 
-    void Start()
+    private void Start()
     {
         ComboManager.StartGame += StartGame;
         gameOver = true;
@@ -61,7 +63,7 @@ public class DogRunner : MonoBehaviour
         ComboManager.StartGame -= StartGame;
     }
 
-    void LateUpdate()
+    private void LateUpdate()
     {
         CamUp();
     }
@@ -91,12 +93,9 @@ public class DogRunner : MonoBehaviour
 
             dist.y = verticalVelocity * Time.deltaTime;
             dogCC.Move(dist);
-
             dogVelocity = 1;
             SyncAnim();
         }
-
-
     }
 
     // Camera Movement
@@ -105,19 +104,19 @@ public class DogRunner : MonoBehaviour
         if (runStart)
         {
             pos = Camera.main.transform.parent.transform.position;
-            pos.z = transform.position.z;        
+            pos.z = transform.position.z;
             Camera.main.transform.parent.transform.position = Vector3.SmoothDamp(Camera.main.transform.parent.transform.position, pos, ref smoothDampVelocity, smoothDampTime);
         }
     }
 
     // Reset GameOver Flag
-    void ResetGameOverFlag()
+    private void ResetGameOverFlag()
     {
         gameOver = false;
     }
 
     // Sync Animation
-    void SyncAnim()
+    private void SyncAnim()
     {
         if (updateAnim)
         {
@@ -129,14 +128,12 @@ public class DogRunner : MonoBehaviour
     // GameOver
     public void GameOver()
     {
-
         gameOver = true;
         ComboManager.instRef.GameOver();
         runStart = false;
         dogVelocity = 0;
         updateAnim = true;
         SyncAnim();
-
     }
 
     // Reset Dog Pos
@@ -150,7 +147,6 @@ public class DogRunner : MonoBehaviour
     // Handle Jump Event
     public void HandleDogJump()
     {
-
         if (dogCC.isGrounded && runStart && !isCoroutineON)
         {
             jump = true;
@@ -159,17 +155,18 @@ public class DogRunner : MonoBehaviour
     }
 
     // Game start event handler
-    void StartGame()
+    private void StartGame()
     {
         runStart = true;
         updateAnim = true;
         Invoke("ResetGameOverFlag", 2f);
     }
+
     #endregion EventHandlers
 
     #region Coroutines
 
-    IEnumerator JumpForce(float force)
+    private IEnumerator JumpForce(float force)
     {
         isCoroutineON = true;
         while (time < 0.2f)
@@ -184,12 +181,9 @@ public class DogRunner : MonoBehaviour
         yield return null;
     }
 
-
-
     #endregion Coroutines
 
-
-    void OnControllerColliderHit(ControllerColliderHit hit)
+    private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         if (hit.gameObject.CompareTag("target") && !isCoroutineON)
         {

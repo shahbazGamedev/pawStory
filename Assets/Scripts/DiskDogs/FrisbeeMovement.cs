@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class FrisbeeMovement : MonoBehaviour
 {
+    public static FrisbeeMovement instRef;
 
     //UI Elements
 	public GameObject dummyFrisbee;
@@ -29,6 +30,9 @@ public class FrisbeeMovement : MonoBehaviour
 	bool isJumping=false;
 	bool detectLife;
 	public bool canCollect;
+    string layerName;
+    public float curveAmount;
+
 
     //Defaults
     Rigidbody rb;
@@ -36,7 +40,7 @@ public class FrisbeeMovement : MonoBehaviour
 
     void Awake()
 	{
-	
+        instRef = this;
 
 	}
 
@@ -60,29 +64,32 @@ public class FrisbeeMovement : MonoBehaviour
 			frisbeeForce = velocity * direction.normalized;
 			if(direction.x<0 && direction.x>-1f)
 			{
-			dog.GetComponent<DogMovementFrisbee> ().jumpingLeft(frisbeeForce);
+			DogMovementFrisbee.instRef.jumpingLeft(frisbeeForce);
 			isJumping = true;
 				
 			}
 			else if(direction.x>0 && direction.x<1f)
 			{
-				dog.GetComponent<DogMovementFrisbee> ().jumpingRight(frisbeeForce);
+                DogMovementFrisbee.instRef.jumpingRight(frisbeeForce);
 				isJumping=true;
 				
 			}
 		}
         if(canCollect)
         {
-           
-            dog.GetComponent<DogMovementFrisbee>().FoulCollect();
+
+            DogMovementFrisbee.instRef.FoulCollect();
         }
 	}
 
 
 	void FixedUpdate()
 	{
+        Vector3 sideDir = Vector3.Cross(transform.up, rb.velocity).normalized;
+        rb.AddForce(sideDir * curveAmount);
 
-	}
+
+    }
 
 
 	void  OnMouseDown ()
@@ -103,9 +110,10 @@ public class FrisbeeMovement : MonoBehaviour
 		force= endPos - startPos;
 		force.z = force.magnitude;
 		force.Normalize();
-		
-		rb.AddForce(force * power);
-		dog.GetComponent<DogMovementFrisbee>().chances= dog.GetComponent<DogMovementFrisbee>().chances+1;
+        
+        rb.AddForce(force * power);
+        Debug.Log(force * power);
+        DogMovementFrisbee.instRef.chances= DogMovementFrisbee.instRef.chances +1;
 		dummyFrisbee.SetActive(false);
 		detectLife=true;
         StartCoroutine(ReturnFrisbee());
@@ -121,8 +129,8 @@ public class FrisbeeMovement : MonoBehaviour
 		rb.velocity = Vector3.zero;
 		GetComponent<MeshRenderer>().enabled=true;
 		isJumping = false;
-		dog.GetComponent<DogMovementFrisbee>().isMoving=true;
-		dog.GetComponent<DogMovementFrisbee>().FrisbeeAttached.SetActive(false);
+        DogMovementFrisbee.instRef.isMoving =true;
+        DogMovementFrisbee.instRef.FrisbeeAttached.SetActive(false);
 		GetComponent<Rigidbody>().detectCollisions=true;
 		detectLife=false;
 		dummyFrisbee.SetActive(true);
@@ -136,24 +144,24 @@ public class FrisbeeMovement : MonoBehaviour
 		{
 			GetComponent<MeshRenderer>().enabled=false;
 			GetComponent<Rigidbody>().detectCollisions=false;
-			dog.GetComponent<DogMovementFrisbee> ().Score++;
+            DogMovementFrisbee.instRef.Score++;
 		    StartCoroutine(Dogmovement());
-			if(dog.GetComponent<DogMovementFrisbee>().chances==dog.GetComponent<DogMovementFrisbee>().MaxChances || dog.GetComponent<DogMovementFrisbee>().Life==0)
+			if(DogMovementFrisbee.instRef.chances == DogMovementFrisbee.instRef.MaxChances || DogMovementFrisbee.instRef.Life ==0)
 			{
 				
 				StartCoroutine(EndGame());
 			}
-			dog.GetComponent<DogMovementFrisbee>().isSpawn=true;
-			dog.GetComponent<DogMovementFrisbee>().FrisbeeAttached.SetActive(true);
+            DogMovementFrisbee.instRef.isSpawn =true;
+            DogMovementFrisbee.instRef.FrisbeeAttached.SetActive(true);
 		}
 		if (collision.gameObject.tag=="floor" && detectLife==true)
 		{
 			
             canCollect = true;
-			dog.GetComponent<DogMovementFrisbee>().Life--;
+            DogMovementFrisbee.instRef.Life--;
             
 
-            if (dog.GetComponent<DogMovementFrisbee>().chances==dog.GetComponent<DogMovementFrisbee>().MaxChances || dog.GetComponent<DogMovementFrisbee>().Life==0)
+            if (DogMovementFrisbee.instRef.chances== DogMovementFrisbee.instRef.MaxChances || DogMovementFrisbee.instRef.Life ==0)
 			{
 				
 				StartCoroutine(EndGame());
@@ -166,13 +174,13 @@ public class FrisbeeMovement : MonoBehaviour
 	IEnumerator Dogmovement()
 	{
 		yield return new WaitForSeconds(1.5f);
-			dog.GetComponent<DogMovementFrisbee>().isMoving=true;
+        DogMovementFrisbee.instRef.isMoving =true;
 
 	}
 	IEnumerator EndGame()
 	{
 		yield return new WaitForSeconds(3.0f);
-		dog.GetComponent<DogMovementFrisbee>().isGameover=true;
+        DogMovementFrisbee.instRef.isGameover =true;
 		
 	}
 
