@@ -24,7 +24,7 @@ public class FrisbeeMovement : MonoBehaviour
 	float shootingAngle=45f;
 	float distance;
 	float angleRadians;
-	float velocity;
+	float frisbeeVelocity;
 	Vector3 frisbeeForce;
 	Vector3 currentPosition;
 	bool isJumping=false;
@@ -60,8 +60,8 @@ public class FrisbeeMovement : MonoBehaviour
             
 			distance = direction.magnitude;
 		    angleRadians = shootingAngle * Mathf.Deg2Rad;
-			velocity = Mathf.Sqrt (distance * Physics.gravity.magnitude / Mathf.Sin (2 * angleRadians));
-			frisbeeForce = velocity * direction.normalized;
+			frisbeeVelocity = Mathf.Sqrt (distance * Physics.gravity.magnitude / Mathf.Sin (2 * angleRadians));
+			frisbeeForce =frisbeeVelocity * direction.normalized;
 			if(direction.x<0 && direction.x>-1f)
 			{
 			DogMovementFrisbee.instRef.jumpingLeft(frisbeeForce);
@@ -113,7 +113,7 @@ public class FrisbeeMovement : MonoBehaviour
         
         rb.AddForce(force * power);
         Debug.Log(force * power);
-        DogMovementFrisbee.instRef.chances= DogMovementFrisbee.instRef.chances +1;
+       // DogMovementFrisbee.instRef.chances= DogMovementFrisbee.instRef.chances +1;
 		dummyFrisbee.SetActive(false);
 		detectLife=true;
         StartCoroutine(ReturnFrisbee());
@@ -135,6 +135,10 @@ public class FrisbeeMovement : MonoBehaviour
 		detectLife=false;
 		dummyFrisbee.SetActive(true);
         
+        
+        
+
+        
 	}
 
 		
@@ -142,7 +146,8 @@ public class FrisbeeMovement : MonoBehaviour
 	{
 		if (collision.rigidbody)
 		{
-			GetComponent<MeshRenderer>().enabled=false;
+            DogMovementFrisbee.instRef.chances = DogMovementFrisbee.instRef.chances + 1;
+            GetComponent<MeshRenderer>().enabled=false;
 			GetComponent<Rigidbody>().detectCollisions=false;
             DogMovementFrisbee.instRef.Score++;
 		    StartCoroutine(Dogmovement());
@@ -156,7 +161,7 @@ public class FrisbeeMovement : MonoBehaviour
 		}
 		if (collision.gameObject.tag=="floor" && detectLife==true)
 		{
-			
+            DogMovementFrisbee.instRef.chances = DogMovementFrisbee.instRef.chances + 1;
             canCollect = true;
             DogMovementFrisbee.instRef.Life--;
             

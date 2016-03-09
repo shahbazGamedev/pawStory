@@ -72,7 +72,7 @@ public class RunningTrainingMgr : MonoBehaviour
 		gameStart=true;
        
 	}
-	public void OnPointerUp()
+    public void OnPointerUp()
     {
         gameStart = false;
         value = 0f;
@@ -83,9 +83,9 @@ public class RunningTrainingMgr : MonoBehaviour
         PanelGameScreen.SetActive(false);
     }
 
-	
 
-	void DogMovement()
+
+    void DogMovement()
 	{
 		if(gameStart==true)
 
