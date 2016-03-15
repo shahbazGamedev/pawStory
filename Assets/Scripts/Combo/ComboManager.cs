@@ -16,13 +16,17 @@ public class ComboManager : MonoBehaviour
     public GameObject initialPlat1;
     public GameObject initialPlat2;
     public GameObject initialPlat3;
-    public Transform cameraStartPos;
+   // public Transform cameraStartPos;
     public Canvas canvas;
-    public float distance;
+    public static float distance;
+    public static bool LifeCalc;
     float prevTime;
 
-    bool listenForStart;
-    public bool gameRunning;
+    public bool listenForStart;
+    public static bool gameRunning=false;
+    public bool Achive1;
+    public bool Achive2;
+    public bool Achive3;
     bool pause;
     bool hasResumed;
     Touch touch;
@@ -31,7 +35,10 @@ public class ComboManager : MonoBehaviour
     public Text instructText;
     public Text gameOverText;
     public GameObject gameOverPanel;
-
+    public Text ScoreDisp;
+    public Text ComboDisp;
+    
+	public Text screenShareDistanceText;
 
     // Event Dispatcher
     public delegate void ComboEventBroadcast();
@@ -42,15 +49,20 @@ public class ComboManager : MonoBehaviour
     {
         instRef = this;
         //Input.multiTouchEnabled = false;
+        listenForStart = true;
+        gameRunning = false;
     }
 
     void Start()
     {
+        
         listenForStart = true;
+
         //TouchManager.PatternRecognized += HandleSwipeDetection;
         EventMgr.GameRestart += OnReset;
         EventMgr.GamePause += OnGamePause;
         EventMgr.GameResume += OnGameResume;
+		//GooglePlayServiceManager.instance.UnlockAchievement("Initial Run");
     }
 
     public void OnDisable()
@@ -64,18 +76,26 @@ public class ComboManager : MonoBehaviour
 
     void Update()
     {
+        Achive();
+        LifeCalc = true;
         //if (Time.frameCount % 60 == 0)
         //{
         //    System.GC.Collect();
         //}
         if (gameRunning)
         {
-            distance += Time.deltaTime;
-            if (distance - prevTime > 1f) // Memory Leak Fix
-            {
-                instructText.text = ((int) distance).ToString();
-                prevTime = distance;
-            }
+
+
+			//GooglePlayServiceManager.instance.UnlockAchievement("InitialRun");
+			GlobalVariables.distanceCovered += Time.deltaTime;
+			DogRunner.gameOver = false;
+			DogRunner.instRef.dogAnim.SetBool("GameOver",DogRunner.gameOver);
+			//if (GlobalVariables.distanceCovered - prevTime > 1f) // Memory Leak Fix
+           // {
+				instructText.text = ((int) GlobalVariables.distanceCovered).ToString();
+				prevTime = GlobalVariables.distanceCovered;
+                
+          //  }
         }
 #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Fire1") && !EventSystem.current.IsPointerOverGameObject())
@@ -92,29 +112,40 @@ public class ComboManager : MonoBehaviour
         }
 
 #else
-        if (Input.touchCount == 1)
+         if (Input.touchCount == 1)
         {
-            touch = Input.GetTouch(0);
-
-            if (touch.phase == TouchPhase.Ended && touch.tapCount == 1 && !IsPointerOverUIObject(canvas, touch.position))
+            touch = Input.GetTouch(0);  
+        
+            if(touch.phase == TouchPhase.Ended && touch.tapCount == 1)
             {
-                //  TODO: Not working with restart
                 if (listenForStart && !hasResumed)
                 {
                     gameRunning = true;
-                    listenForStart = false;
+                    listenForStart = false; 
                     if (StartGame != null)
                         StartGame();
                 }
-                else if(!pause && !hasResumed)
+                else
+                {
+                    hasResumed=false;
+                }
+            }
+
+                    //line removed : && !IsPointerOverUIObject(canvas, touch.position)
+            if (touch.phase == TouchPhase.Began && touch.tapCount == 1)
+            {
+                //  TODO: Not working with restart
+                
+                 if(!pause && !hasResumed)
                     DogRunner.instRef.HandleDogJump();
                 else
                     hasResumed=false;
+                    
 
             }
         }
 #endif
-    }
+    }//update
 
 
     #region EventHandlers
@@ -122,35 +153,97 @@ public class ComboManager : MonoBehaviour
     public void GameOver()
     {
         gameRunning = false;
+		//SoundManager.instance.PlaySfx(SFXVAL.gameOver);
         gameOverPanel.SetActive(true);
-        gameOverText.text = "Distance Covered: " + (int)distance +" m\n\n"+"Score: " + ScoreSystem.instRef.GetScore()+" Pts.";
+		gameOverText.text = "Distance Covered: " + (int)GlobalVariables.distanceCovered +" m\n\n"+"Score: " + ScoreSystem.score+" Pts.";
+		//screenShareDistanceText.text =  "Distance Covered: " + (int)GlobalVariables.distanceCovered +"m";
+
+
     }
 
+   
     // Game Reset
-    void OnReset()
+    public void OnReset()
     {
-        //DogRunner.instRef.GameOver();
-        //gameOverPanel.SetActive(false);
-        //gameRunning = false;
-        //listenForStart = true;
-        //Pooler.InstRef.HideAll();        
+        listenForStart = true;
+        DogRunner.instRef.GameOver();
+        gameOverPanel.SetActive(false);
+        gameRunning = false;
+      //  Pooler.InstRef.HideAll();        
+		DogRunner.gameOver = false;
+		GlobalVariables.distanceCovered = 0;
+        instructText.text ="";
+        ScoreSystem.score = 0;
+        ScoreSystem.comboCount = 0;
+		ScoreDisp.text = "Score: " + ScoreSystem.score + " Points.";
+        ComboDisp.text = "";
 
-        //distance = 0;
-        //instructText.text ="0";
+        Prime31_PlatformGenerator.prime31_PlatformGen.cleanOldPlatforms();
 
-        SpawnTrigger.twoBeforePrevPlat = 1;
-        SpawnTrigger.beforePrevPlat = 1;
-        SpawnTrigger.prevPlat = 1;
-        //DogRunner.instRef.ResetPos();
+        Prime31_PlatformGenerator.prime31_PlatformGen.createPlatformsAtStart();//Generate the platforms on start
+       
+
+
+
+        //SpawnTrigger.twoBeforePrevPlat = 1;
+        //SpawnTrigger.beforePrevPlat = 1;
+        //SpawnTrigger.prevPlat = 1;
+       // DogRunner.instRef.ResetPos();
         //Camera.main.transform.parent.transform.position = cameraStartPos.position;
 
         //initialPlat1.SetActive(true);
         //initialPlat2.SetActive(true);
-        //initialPlat3.SetActive(true);
+       // initialPlat3.SetActive(true);
 
-        //OnGameResume();
+        OnGameResume();
+        
 
-        Application.LoadLevel(Application.loadedLevel);
+       // Application.LoadLevel(Application.loadedLevel);
+        
+    }
+
+	public void ResetValueAfterContinueAD()
+	{
+		if (DogRunner.Life == 5 || GlobalVariables.distanceCovered<150f)
+		{
+            listenForStart = true;
+            DogRunner.Life = 0;
+            //DogRunner.instRef.BtnVideo.SetActive(false);
+            //GooglePlayServiceManager.instance.UnlockAchievement("WATCHEDAVIDEO");
+			DogRunner.instRef.GameOver();
+			gameOverPanel.SetActive(false);
+			gameRunning = false;
+			listenForStart = true;
+			//Pooler.InstRef.HideAll();
+
+
+
+
+			//SpawnTrigger.twoBeforePrevPlat = 1;
+			//SpawnTrigger.beforePrevPlat = 1;
+			//SpawnTrigger.prevPlat = 1;
+			DogRunner.instRef.ResetPos();
+            //Camera.main.transform.parent.transform.position = cameraStartPos.position;
+
+            Prime31_PlatformGenerator.prime31_PlatformGen.createPlatformsAtStart();//Generate the platforms on start
+
+            //initialPlat1.SetActive(true);
+            //initialPlat2.SetActive(true);
+            //initialPlat3.SetActive(true);
+
+            //UnityADManager.instance.ShowRewardedAd();
+			OnGameResume();
+			
+
+		}
+	}
+
+    public void OnResetBonus()
+    {
+        DogRunner.Life = 0;
+		Debug.Log("Showing Video AD");
+        // Application.LoadLevel(Application.loadedLevel);
+
     }
 
     // game pause
@@ -171,6 +264,7 @@ public class ComboManager : MonoBehaviour
         if (!listenForStart)
         {
             gameRunning = true;
+
         }
     }
 #endregion EventHandlers
@@ -194,4 +288,27 @@ public class ComboManager : MonoBehaviour
         return results.Count > 0;
     }
 
+    public void Achive()
+    {
+   //     if (GlobalVariables.distanceCovered == 5)
+   //     {
+   //         Achive1 = true;
+			//GooglePlayServiceManager.instance.UnlockAchievement("CROSSED5METRE");
+			//Achive1 = false;
+   //     }
+   //     if (GlobalVariables.distanceCovered == 10)
+   //     {
+   //         Achive2 = true;
+			//GooglePlayServiceManager.instance.UnlockAchievement("CROSSED10METRE");
+			//Achive2 = false;
+   //     }
+   //     if (GlobalVariables.distanceCovered == 20)
+   //     {
+   //         Achive3 = true;
+			//GooglePlayServiceManager.instance.UnlockAchievement("CROSSED20METRE");
+			//Achive3 = false;
+   //     }
+
+		 
+    }
 }

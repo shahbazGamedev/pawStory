@@ -211,6 +211,7 @@ public class TouchManager : MonoBehaviour
         var pointData = (PointerEventData)data;
         touchDataCollection[-pointData.pointerId].isActive = true;
         touchDataCollection[-pointData.pointerId].startPoint = pointData.position;
+        
     }
 
     // Event Trigger - Pointer Up

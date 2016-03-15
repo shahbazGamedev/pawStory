@@ -1,11 +1,10 @@
-﻿using System.Collections;
-
-/**
-Script Author : Vaikash
+﻿/**
+Script Author : Vaikash 
 Description   : Combo - Dog Movement Controller
 **/
 
 using UnityEngine;
+using System.Collections;
 
 public class DogRunner : MonoBehaviour
 {
@@ -14,31 +13,32 @@ public class DogRunner : MonoBehaviour
     public static DogRunner instRef;
 
     public bool runStart;
-    public float runSpeed;
+    public static int Life;
     public Vector3 runDirection;
+    string layerName;         
+   // public GameObject BtnVideo;
 
-    public bool updateAnim;
-    private Vector3 startPos;
-    private float dogVelocity;
-    private bool jump;
-    private bool gameOver;
-    private bool isCoroutineON;
-    private float time;
+    public static bool updateAnim;
+    Vector3 startPos;
+    float dogVelocity;
+    bool jump;
+    public static bool gameOver;
+    bool isCoroutineON;
+    float time;
 
-    private CharacterController dogCC;
+    CharacterController dogCC;
     public Animator dogAnim;
 
     public float jumpSpeed;
-    public float camFactor;
-    private float verticalVelocity = 0f;
+  //  public float camFactor;
+    float verticalVelocity = 0f;
 
-    // Camera
-    public float smoothDampTime;
-
-    public Vector3 cameraOffset;
-    private Vector3 smoothDampVelocity = Vector3.zero;
-    private Vector3 dist;
-    private Vector3 pos;
+    // Camera 
+   // public float smoothDampTime;
+   // public Vector3 cameraOffset;
+   // Vector3 smoothDampVelocity = Vector3.zero;
+    Vector3 dist;
+    ///Vector3 pos;
 
     public float springForce;
 
@@ -51,8 +51,9 @@ public class DogRunner : MonoBehaviour
         dogAnim = GetComponent<Animator>();
     }
 
-    private void Start()
+    void Start()
     {
+        // BtnVideo.SetActive(false);
         ComboManager.StartGame += StartGame;
         gameOver = true;
         startPos = transform.position;
@@ -63,9 +64,9 @@ public class DogRunner : MonoBehaviour
         ComboManager.StartGame -= StartGame;
     }
 
-    private void LateUpdate()
+    void LateUpdate()
     {
-        CamUp();
+       // CamUp();
     }
 
     // New method using character controller for smooth movement
@@ -74,10 +75,11 @@ public class DogRunner : MonoBehaviour
         if (runStart)
         {
             // Handle Movement
-            dist = runDirection * runSpeed * Time.deltaTime;
+           // dist = runDirection * Time.deltaTime;
             if (dogCC.isGrounded && verticalVelocity < 0)
             {
                 verticalVelocity = Physics.gravity.y * Time.deltaTime;
+
             }
             else
             {
@@ -93,30 +95,38 @@ public class DogRunner : MonoBehaviour
 
             dist.y = verticalVelocity * Time.deltaTime;
             dogCC.Move(dist);
+
             dogVelocity = 1;
             SyncAnim();
+            if (Life == 5 || GlobalVariables.distanceCovered > 150f)
+            {
+                //BtnVideo.SetActive(true);
+
+            }
         }
+
+
     }
 
     // Camera Movement
-    public void CamUp()
-    {
-        if (runStart)
-        {
-            pos = Camera.main.transform.parent.transform.position;
-            pos.z = transform.position.z;
-            Camera.main.transform.parent.transform.position = Vector3.SmoothDamp(Camera.main.transform.parent.transform.position, pos, ref smoothDampVelocity, smoothDampTime);
-        }
-    }
+    //public void CamUp()
+    //{
+    //    if (runStart)
+    //    {
+    //        pos = Camera.main.transform.parent.transform.position;
+    //        pos.z = transform.position.z;
+    //        Camera.main.transform.parent.transform.position = Vector3.SmoothDamp(Camera.main.transform.parent.transform.position, pos, ref smoothDampVelocity, smoothDampTime);
+    //    }
+    //}
 
     // Reset GameOver Flag
-    private void ResetGameOverFlag()
+    void ResetGameOverFlag()
     {
         gameOver = false;
     }
 
     // Sync Animation
-    private void SyncAnim()
+    public void SyncAnim()
     {
         if (updateAnim)
         {
@@ -128,12 +138,15 @@ public class DogRunner : MonoBehaviour
     // GameOver
     public void GameOver()
     {
+        verticalVelocity = 0;
         gameOver = true;
         ComboManager.instRef.GameOver();
         runStart = false;
         dogVelocity = 0;
         updateAnim = true;
         SyncAnim();
+        dogAnim.SetBool("GameOver", gameOver);
+
     }
 
     // Reset Dog Pos
@@ -147,26 +160,27 @@ public class DogRunner : MonoBehaviour
     // Handle Jump Event
     public void HandleDogJump()
     {
+
         if (dogCC.isGrounded && runStart && !isCoroutineON)
         {
             jump = true;
             dogAnim.SetTrigger("Jump");
+           // SoundManager.instance.PlaySfx(SFXVAL.jump);
         }
     }
 
     // Game start event handler
-    private void StartGame()
+    void StartGame()
     {
         runStart = true;
         updateAnim = true;
         Invoke("ResetGameOverFlag", 2f);
     }
-
     #endregion EventHandlers
 
     #region Coroutines
 
-    private IEnumerator JumpForce(float force)
+    IEnumerator JumpForce(float force)
     {
         isCoroutineON = true;
         while (time < 0.2f)
@@ -181,18 +195,55 @@ public class DogRunner : MonoBehaviour
         yield return null;
     }
 
+
+
     #endregion Coroutines
 
-    private void OnControllerColliderHit(ControllerColliderHit hit)
+
+    void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (hit.gameObject.CompareTag("target") && !isCoroutineON)
+        if (hit.gameObject.layer == LayerMask.NameToLayer("JumpMat") && !isCoroutineON)
         {
             dogAnim.SetTrigger("Fly");
+            //springForce = 100;
+           // SoundManager.instance.PlaySfx(SFXVAL.doubleJump);
             StartCoroutine(JumpForce(springForce));
         }
-        else if (hit.gameObject.CompareTag("LoseLine"))
+        //if (hit.gameObject.CompareTag("target") && !isCoroutineON)
+        //{
+        //    dogAnim.SetTrigger("Fly");
+        //    //SoundManager.instance.PlaySfx(SFXVAL.doubleJump);
+        //    StartCoroutine(JumpForce(springForce));
+        //}
+        //else if (hit.gameObject.CompareTag("LoseLine"))
+        //{
+        //    GameOver();
+        //    if (ComboManager.LifeCalc)
+        //    {
+        //        Life += 1;
+        //        ComboManager.LifeCalc = false;
+        //    }
+        //    Debug.Log(Life);
+
+
+        //}
+    }
+
+    void OnTriggerEnter(Collider hit)
+    {
+        layerName = LayerMask.LayerToName(hit.gameObject.layer);
+
+        switch (layerName)
         {
-            GameOver();
+            case "Obstacle":
+                GameOver();
+                if (ComboManager.LifeCalc)
+                {
+                    Life += 1;
+                    ComboManager.LifeCalc = false;
+                }
+
+                break;
         }
     }
 }

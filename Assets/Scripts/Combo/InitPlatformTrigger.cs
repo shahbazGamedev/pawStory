@@ -19,7 +19,7 @@ public class InitPlatformTrigger : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player") && DogRunner.instRef.runStart)
         {
-            Pooler.InstRef.Sleep(gameObject);
+           // Pooler.InstRef.Sleep(gameObject);
         }
     }
 
