@@ -21,7 +21,7 @@ public class NewFollowTraningMgr : MonoBehaviour
     public GameObject dog;
     public float timer;
     public Vector3 StartPos;
-    public List<GameObject> movingTargetPattern;
+    public GameObject movingTarget;
     private int movingPatternNo;
       
 
@@ -62,15 +62,15 @@ public class NewFollowTraningMgr : MonoBehaviour
         {
             Movement();
         }
-        movingTargetPattern[movingPatternNo].transform.Translate(350 * Time.deltaTime, 0, 0);
+        movingTarget.transform.Translate(350 * Time.deltaTime, 0, 0);
         
-        if (movingTargetPattern[movingPatternNo].transform.position.x-400 > Screen.width)
+        if (movingTarget.transform.position.x-400 > Screen.width)
         {
             //Random choise of movingPattern
             movingPatternNo = Random.Range(0, 3);
-            movingTargetPattern[movingPatternNo].transform.position = new Vector2(-100, 0);
+            movingTarget.transform.position = new Vector2(-100, 0);
         }
-        if (movingTargetPattern[movingPatternNo].transform.position.x > Traget.transform.position.x && movingTargetPattern[movingPatternNo].transform.position.x < Screen.width / 2)
+        if (movingTarget.transform.position.x > Traget.transform.position.x && movingTarget.transform.position.x < Screen.width / 2)
         {
             Debug.Log("yes");
 
@@ -145,8 +145,8 @@ public class NewFollowTraningMgr : MonoBehaviour
         isMoving = false;
         dogAnim.SetFloat("Walk", 0f);
         curNode = -1;
-        movingTargetPattern[movingPatternNo].SetActive(true);
-        movingTargetPattern[movingPatternNo].transform.position = new Vector2(0, 0);
+        movingTarget.SetActive(true);
+        movingTarget.transform.position = new Vector2(0, 0);
         timer = 0f;
         Time.timeScale = 1;
     }
@@ -158,7 +158,7 @@ public class NewFollowTraningMgr : MonoBehaviour
         {
             gameOverPanel.SetActive(true);
             TxtGameOver.text = "Traning Session Failed!!!";
-            movingTargetPattern[movingPatternNo].SetActive(false);
+            movingTarget.SetActive(false);
             Time.timeScale = 0;
 
         }
