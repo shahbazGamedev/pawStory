@@ -160,7 +160,11 @@ public class PuppyManager : MonoBehaviour
 	{
  
 		Debug.Log("Events are registered :- PuppyManager");
-	 
+ 
+		 
+		 
+       
+ 
 		 
 	}
 
@@ -168,6 +172,7 @@ public class PuppyManager : MonoBehaviour
 	void OnSceneEnd()
 	{
 
+ 
  
 	}
  
@@ -178,6 +183,9 @@ public class PuppyManager : MonoBehaviour
 		
 	}
 	 
+  
+
+ 
 	// Use this for initialization
 	void Start () 
 	{
@@ -239,7 +247,7 @@ public class PuppyManager : MonoBehaviour
 			App42Log.Console("Exception : " + e);  
 		}  
 	}
-
+ 
 	public void SaveBeagleDocToStorage()
 	{
 		StorageService storageService = App42API.BuildStorageService ();
@@ -445,4 +453,5 @@ public class PuppyManager : MonoBehaviour
 		//LoadDogDocFromStorage (DogType.Chihuahua);
 	}
 			 
+ 
 }
