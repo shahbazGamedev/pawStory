@@ -22,15 +22,16 @@ namespace Facebook.Unity.Editor
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
     using UnityEditor;
     using UnityEngine;
 
-    public class FacebookBuild
+    internal class FacebookBuild
     {
-        private const string FacebookPath = "Assets/Facebook/";
-        private const string ExamplesPath = "Assets/Examples/";
-        private const string PluginsPath = "Assets/Plugins/";
+        private const string FacebookPath = "Assets/FacebookSDK/SDK/";
+        private const string ExamplesPath = "Assets/FacebookSDK/Examples/";
+        private const string PluginsPath = "Assets/FacebookSDK/Plugins/";
 
         public enum Target
         {
@@ -38,13 +39,35 @@ namespace Facebook.Unity.Editor
             RELEASE
         }
 
+        private static string PackageName
+        {
+            get
+            {
+                return string.Format(
+                    CultureInfo.InvariantCulture,
+                    "facebook-unity-sdk-{0}.unitypackage",
+                    FacebookSdkVersion.Build);
+            }
+        }
+
+        private static string OutputPath
+        {
+            get
+            {
+                DirectoryInfo projectRoot = Directory.GetParent(Directory.GetCurrentDirectory());
+                var outputDirectory = new DirectoryInfo(Path.Combine(projectRoot.FullName, "out"));
+
+                // Create the directory if it doesn't exist
+                outputDirectory.Create();
+                return Path.Combine(outputDirectory.FullName, FacebookBuild.PackageName);
+            }
+        }
+
         // Exporting the *.unityPackage for Asset store
-        public static void ExportPackage()
+        public static string ExportPackage()
         {
             Debug.Log("Exporting Facebook Unity Package...");
-
-            var path = "FacebookSDK.unitypackage";
-
+            string path = OutputPath;
             try
             {
                 if (!File.Exists(Path.Combine(Application.dataPath, "Temp")))
@@ -80,6 +103,8 @@ namespace Facebook.Unity.Editor
             }
 
             Debug.Log("Finished exporting!");
+
+            return path;
         }
     }
 }

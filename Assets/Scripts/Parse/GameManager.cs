@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using com.shephertz.app42.paas.sdk.csharp;    
+ 
 
 public class GameManager : MonoBehaviour 
 {
@@ -52,7 +54,11 @@ public class GameManager : MonoBehaviour
 
 	void OnEnable()
 	{
-		 
+		App42Log.SetDebug(true);
+		App42API.Initialize(GlobalVariables.APIKEY,GlobalVariables.SECRETKEY);
+		Debug.Log ("App42 Init");
+
+		EventManager.OnSceneStart ();
 		 
 	}
 
@@ -67,7 +73,9 @@ public class GameManager : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-	
+		
+		/*if(GlobalVariables.userID!=null)
+		UserManager.instance.CheckForUser ();*/
 	}
 	
 

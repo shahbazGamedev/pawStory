@@ -27,6 +27,7 @@ extern NSString *const FBUnityMessageName_OnLoginComplete;
 extern NSString *const FBUnityMessageName_OnLogoutComplete;
 extern NSString *const FBUnityMessageName_OnShareLinkComplete;
 extern NSString *const FBUnityMessageName_OnFetchDeferredAppLinkComplete;
+extern NSString *const FBUnityMessageName_OnRefreshCurrentAccessTokenComplete;
 
 /*!
  @abstract A helper class that implements various FBSDK delegates in order to send

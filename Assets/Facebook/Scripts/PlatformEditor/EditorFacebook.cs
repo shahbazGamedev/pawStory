@@ -68,14 +68,6 @@ namespace Facebook.Unity.Editor
         }
 
         public override void Init(
-            string appId,
-            bool cookie,
-            bool logging,
-            bool status,
-            bool xfbml,
-            string channelUrl,
-            string authResponse,
-            bool frictionlessRequests,
             HideUnityDelegate hideUnityDelegate,
             InitDelegate onInitComplete)
         {
@@ -83,14 +75,6 @@ namespace Facebook.Unity.Editor
             FacebookLogger.Warn(WarningMessage);
 
             base.Init(
-                appId,
-                cookie,
-                logging,
-                status,
-                xfbml,
-                channelUrl,
-                authResponse,
-                frictionlessRequests,
                 hideUnityDelegate,
                 onInitComplete);
 
@@ -137,7 +121,7 @@ namespace Facebook.Unity.Editor
             Uri photoURL,
             FacebookDelegate<IShareResult> callback)
         {
-            this.ShowEmptyMockDialog(this.OnShareLinkComplete, callback, "Mock Share Link");
+            this.ShowMockShareDialog("ShareLink", callback);
         }
 
         public override void FeedShare(
@@ -150,7 +134,7 @@ namespace Facebook.Unity.Editor
             string mediaSource,
             FacebookDelegate<IShareResult> callback)
         {
-            this.ShowEmptyMockDialog(this.OnShareLinkComplete, callback, "Mock Feed Share");
+            this.ShowMockShareDialog("FeedShare", callback);
         }
 
         public override void GameGroupCreate(
@@ -238,6 +222,34 @@ namespace Facebook.Unity.Editor
             this.ShowEmptyMockDialog(this.OnPayComplete, callback, "Mock Pay Dialog");
         }
 
+        public void RefreshCurrentAccessToken(
+            FacebookDelegate<IAccessTokenRefreshResult> callback)
+        {
+            if (callback == null)
+            {
+                return;
+            }
+
+            var result = new Dictionary<string, object>()
+            {
+                { Constants.CallbackIdKey, this.CallbackManager.AddFacebookDelegate(callback) }
+            };
+
+            if (AccessToken.CurrentAccessToken == null)
+            {
+                result[Constants.ErrorKey] = "No current access token";
+            }
+            else
+            {
+                var accessTokenDic = (IDictionary<string, object>)MiniJSON.Json.Deserialize(
+                    AccessToken.CurrentAccessToken.ToJson());
+
+                result.AddAllKVPFrom(accessTokenDic);
+            }
+
+            this.OnRefreshCurrentAccessTokenComplete(result.ToJson());
+        }
+
         public override void OnAppRequestsComplete(string message)
         {
             var result = new AppRequestResult(message);
@@ -292,6 +304,12 @@ namespace Facebook.Unity.Editor
             CallbackManager.OnFacebookResponse(result);
         }
 
+        public void OnRefreshCurrentAccessTokenComplete(string message)
+        {
+            var result = new AccessTokenRefreshResult(message);
+            CallbackManager.OnFacebookResponse(result);
+        }
+
         #region Canvas Dummy Methods
 
         public void OnFacebookAuthResponseChange(string message)
@@ -315,6 +333,16 @@ namespace Facebook.Unity.Editor
             dialog.Callback = callback;
             dialog.CallbackID = this.CallbackManager.AddFacebookDelegate(userCallback);
             dialog.EmptyDialogTitle = title;
+        }
+
+        private void ShowMockShareDialog(
+            string subTitle,
+            FacebookDelegate<IShareResult> userCallback)
+        {
+            var dialog = ComponentFactory.GetComponent<MockShareDialog>();
+            dialog.SubTitle = subTitle;
+            dialog.Callback = this.EditorGameObject.OnShareLinkComplete;
+            dialog.CallbackID = this.CallbackManager.AddFacebookDelegate(userCallback);
         }
     }
 }

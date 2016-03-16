@@ -45,26 +45,20 @@ namespace UnityEditor.FacebookEditor
         public const string FacebookContentProviderName = "com.facebook.FacebookContentProvider";
         public const string FacebookContentProviderAuthFormat = "com.facebook.app.FacebookContentProvider{0}";
         public const string FacebookActivityName = "com.facebook.FacebookActivity";
+        public const string AndroidManifestPath = "Plugins/Android/AndroidManifest.xml";
+        public const string AndroidManifestName = "AndroidManifest.xml";
+        public const string FacebookDefaultAndroidManifestPath = "FacebookSDK/SDK/Editor/android/DefaultAndroidManifest.xml";
 
         public static void GenerateManifest()
         {
-            var outputFile = Path.Combine(Application.dataPath, "Plugins/Android/AndroidManifest.xml");
+            var outputFile = Path.Combine(Application.dataPath, ManifestMod.AndroidManifestPath);
+            // Create containing directory if it does not exist
+            Directory.CreateDirectory(Path.GetDirectoryName(outputFile));
 
             // only copy over a fresh copy of the AndroidManifest if one does not exist
             if (!File.Exists(outputFile))
             {
-                var inputFile = Path.Combine(
-                    EditorApplication.applicationContentsPath,
-                    "PlaybackEngines/androidplayer/AndroidManifest.xml");
-                if (!File.Exists(inputFile))
-                {
-                    // Unity moved this file. Try to get it at its new location
-                    inputFile = Path.Combine(
-                        EditorApplication.applicationContentsPath,
-                        "PlaybackEngines/AndroidPlayer/Apk/AndroidManifest.xml");
-                }
-
-                File.Copy(inputFile, outputFile);
+                ManifestMod.CreateDefaultAndroidManifest(outputFile);
             }
 
             UpdateManifest(outputFile);
@@ -73,7 +67,7 @@ namespace UnityEditor.FacebookEditor
         public static bool CheckManifest()
         {
             bool result = true;
-            var outputFile = Path.Combine(Application.dataPath, "Plugins/Android/AndroidManifest.xml");
+            var outputFile = Path.Combine(Application.dataPath, ManifestMod.AndroidManifestPath);
             if (!File.Exists(outputFile))
             {
                 Debug.LogError("An android manifest must be generated for the Facebook SDK to work.  Go to Facebook->Edit Settings and press \"Regenerate Android Manifest\"");
@@ -349,6 +343,33 @@ namespace UnityEditor.FacebookEditor
             }
 
             ManifestMod.SetOrReplaceXmlElement(xmlNode, element);
+        }
+
+        private static void CreateDefaultAndroidManifest(string outputFile)
+        {
+            var inputFile = Path.Combine(
+                EditorApplication.applicationContentsPath,
+                "PlaybackEngines/androidplayer/AndroidManifest.xml");
+            if (!File.Exists(inputFile))
+            {
+                // Unity moved this file. Try to get it at its new location
+                inputFile = Path.Combine(
+                    EditorApplication.applicationContentsPath,
+                    "PlaybackEngines/AndroidPlayer/Apk/AndroidManifest.xml");
+
+                if (!File.Exists(inputFile))
+                {
+                    // On Unity 5.3+ we don't have default manifest so use our own
+                    // manifest and warn the user that they may need to modify it manually
+                    inputFile = Path.Combine(Application.dataPath, FacebookDefaultAndroidManifestPath);
+                    Debug.LogWarning(
+                        string.Format(
+                            "No existing android manifest found at '{0}'. Creating a default manifest file",
+                            outputFile));
+                }
+            }
+
+            File.Copy(inputFile, outputFile);
         }
     }
 }

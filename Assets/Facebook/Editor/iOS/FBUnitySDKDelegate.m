@@ -30,6 +30,7 @@ NSString *const FBUnityMessageName_OnLogoutComplete = @"OnLogoutComplete";
 NSString *const FBUnityMessageName_OnShareLinkComplete = @"OnShareLinkComplete";
 NSString *const FBUnityMessageName_OnAppInviteComplete = @"OnAppInviteComplete";
 NSString *const FBUnityMessageName_OnFetchDeferredAppLinkComplete = @"OnFetchDeferredAppLinkComplete";
+NSString *const FBUnityMessageName_OnRefreshCurrentAccessTokenComplete = @"OnRefreshCurrentAccessTokenComplete";
 
 static NSMutableArray *g_instances;
 

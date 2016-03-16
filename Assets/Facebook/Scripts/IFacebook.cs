@@ -32,21 +32,11 @@ namespace Facebook.Unity
 
         string SDKName { get; }
 
-        string SDKVersion { get; } 
+        string SDKVersion { get; }
 
         string SDKUserAgent { get; }
 
-        void Init(
-            string appId,
-            bool cookie,
-            bool logging,
-            bool status,
-            bool xfbml,
-            string channelUrl,
-            string authResponse,
-            bool frictionlessRequests,
-            HideUnityDelegate hideUnityDelegate,
-            InitDelegate onInitComplete);
+        bool Initialized { get; }
 
         void LogInWithPublishPermissions(
             IEnumerable<string> permissions,

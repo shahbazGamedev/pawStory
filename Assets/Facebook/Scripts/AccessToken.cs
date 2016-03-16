@@ -38,11 +38,12 @@ namespace Facebook.Unity
         /// <param name="userId">User identifier.</param>
         /// <param name="expirationTime">Expiration time.</param>
         /// <param name="permissions">Permissions.</param>
-        public AccessToken(
+        internal AccessToken(
             string tokenString,
             string userId,
             DateTime expirationTime,
-            IEnumerable<string> permissions)
+            IEnumerable<string> permissions,
+            DateTime? lastRefresh)
         {
             if (string.IsNullOrEmpty(tokenString))
             {
@@ -68,6 +69,7 @@ namespace Facebook.Unity
             this.ExpirationTime = expirationTime;
             this.Permissions = permissions;
             this.UserId = userId;
+            this.LastRefresh = lastRefresh;
         }
 
         /// <summary>
@@ -80,25 +82,31 @@ namespace Facebook.Unity
         /// Gets or sets the token string.
         /// </summary>
         /// <value>The token string.</value>
-        public string TokenString { get; internal set; }
+        public string TokenString { get; private set; }
 
         /// <summary>
         /// Gets or sets the expiration time.
         /// </summary>
         /// <value>The expiration time.</value>
-        public DateTime ExpirationTime { get; internal set; }
+        public DateTime ExpirationTime { get; private set; }
 
         /// <summary>
         /// Gets or sets the list of permissions.
         /// </summary>
         /// <value>The permissions.</value>
-        public IEnumerable<string> Permissions { get; internal set; }
+        public IEnumerable<string> Permissions { get; private set; }
 
         /// <summary>
         /// Gets or sets the user identifier.
         /// </summary>
         /// <value>The user identifier.</value>
-        public string UserId { get; internal set; }
+        public string UserId { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the last refresh.
+        /// </summary>
+        /// <value>The last refresh.</value>
+        public DateTime? LastRefresh { get; private set; }
 
         internal string ToJson()
         {
@@ -107,6 +115,10 @@ namespace Facebook.Unity
             dictionary[LoginResult.ExpirationTimestampKey] = this.ExpirationTime.TotalSeconds().ToString();
             dictionary[LoginResult.AccessTokenKey] = this.TokenString;
             dictionary[LoginResult.UserIdKey] = this.UserId;
+            if (this.LastRefresh != null)
+            {
+                dictionary[LoginResult.LastRefreshKey] = this.LastRefresh.Value.TotalSeconds().ToString();
+            }
 
             return MiniJSON.Json.Serialize(dictionary);
         }

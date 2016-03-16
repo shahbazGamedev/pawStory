@@ -24,12 +24,14 @@ namespace Facebook.Unity
 
     internal class GroupCreateResult : ResultBase, IGroupCreateResult
     {
-        internal GroupCreateResult(string result) : base(result)
+        public const string IDKey = "id";
+
+        public GroupCreateResult(string result) : base(result)
         {
             if (this.ResultDictionary != null)
             {
                 string groupId;
-                if (this.ResultDictionary.TryGetValue<string>("id", out groupId))
+                if (this.ResultDictionary.TryGetValue<string>(GroupCreateResult.IDKey, out groupId))
                 {
                     this.GroupId = groupId;
                 }

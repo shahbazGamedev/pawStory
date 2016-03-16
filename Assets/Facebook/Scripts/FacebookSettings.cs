@@ -34,7 +34,7 @@ namespace Facebook.Unity
     public class FacebookSettings : ScriptableObject
     {
         private const string FacebookSettingsAssetName = "FacebookSettings";
-        private const string FacebookSettingsPath = "Facebook/Resources";
+        private const string FacebookSettingsPath = "FacebookSDK/SDK/Resources";
         private const string FacebookSettingsAssetExtension = ".asset";
 
         private static FacebookSettings instance;
@@ -304,12 +304,12 @@ namespace Facebook.Unity
                         string properPath = Path.Combine(Application.dataPath, FacebookSettingsPath);
                         if (!Directory.Exists(properPath))
                         {
-                            AssetDatabase.CreateFolder("Assets/Facebook", "Resources");
+                            Directory.CreateDirectory(properPath);
                         }
 
-                        string fullPath = Path.Combine(Path.Combine("Assets", FacebookSettingsPath),
-                            FacebookSettingsAssetName + FacebookSettingsAssetExtension
-                        );
+                        string fullPath = Path.Combine(
+                            Path.Combine("Assets", FacebookSettingsPath),
+                            FacebookSettingsAssetName + FacebookSettingsAssetExtension);
                         AssetDatabase.CreateAsset(instance, fullPath);
                         #endif
                     }

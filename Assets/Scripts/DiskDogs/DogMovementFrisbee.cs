@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class DogMovementFrisbee : MonoBehaviour
 {
-
+    public static DogMovementFrisbee instRef;
     //UI Elements
     public Text score;
     public GameObject EndPanel;
@@ -49,7 +49,7 @@ public class DogMovementFrisbee : MonoBehaviour
     bool isRestart;
     int lastValue;
     int currentValue;
-
+   
 
     //Defaults
     Rigidbody rb;
@@ -74,6 +74,7 @@ public class DogMovementFrisbee : MonoBehaviour
         jumpHeight = new Vector3(0, jumpForce, 0);
         dogAnim = GetComponent<Animator>();
         dogPos = new Vector3(-0.2f, 0.035f, 9.1f);
+        instRef = this;
     }
 
 
@@ -159,7 +160,7 @@ public class DogMovementFrisbee : MonoBehaviour
 
         if (distance < 1f)
         {
-            Debug.Log("Hi");
+
             dogAnim.SetFloat("Walk", 0f);
             transform.LookAt(frisbeedirection);
             isMoving = false;
@@ -248,7 +249,7 @@ public class DogMovementFrisbee : MonoBehaviour
         {
             GameOver();
         }
-        Frisbee.GetComponent<FrisbeeMovement>().dummyFrisbee.SetActive(true);
+        FrisbeeMovement.instRef.dummyFrisbee.SetActive(true);
         Frisbee.transform.position = new Vector3(-0.143f, .156f, -1.96f);
 
 
@@ -274,7 +275,7 @@ public class DogMovementFrisbee : MonoBehaviour
             dogAnim.SetFloat("Walk", 0f);
 
         }
-        Frisbee.GetComponent<FrisbeeMovement>().canCollect = false;
+        FrisbeeMovement.instRef.canCollect = false;
     }
 }
 

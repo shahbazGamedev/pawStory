@@ -1,7 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.Assertions;
+/*
+    TODO:
+    1. Item's vertical distance conflicts with the dog anim.
 
+*/
 public class BubbleGame : MonoBehaviour {
 	float levelTime;
 	float maxBaloons;
@@ -20,7 +25,7 @@ public class BubbleGame : MonoBehaviour {
 	int baloonsAtScene;
 	int playerScore;
 	float speed;
-	float distance;
+	public float xz_distance;
 	Vector3 targetPos;
 	int score;
 	bool isCollect;
@@ -31,71 +36,71 @@ public class BubbleGame : MonoBehaviour {
 	int baloonItemCount = 0;
 	float oneSecTimer = 0;
 
-	int dogState = 0;// 0= watching, 1= collecting
+	public static int dogState = 0;// 0= watching, 1= collecting
+    public static BubbleGame instance;
+    public static Queue<GameObject> ballonItemsToCollectionQueue;
+    public static bool isCollecting=false;
+    public GameObject currentItemToCollect;
+    private float timeElapsed, timeDuration=2f;
+    private int randSpawnPos, randBalloonItem, randBalloon;
+    private string layerName;
 
-
-	void OnEnable()
+    void OnEnable()
 	{
-		EventMgr.SetPos += OnSetPos;
+        instance = this;
+        EventMgr.SetPos += OnSetPos;
 		EventMgr.GameRestart += OnRestartGame;
 	}
-
 
     void OnDisable()
 	{
 		EventMgr.SetPos -= OnSetPos;
 		EventMgr.GameRestart -= OnRestartGame;
 	}
-
 	
 	void Start () 
 	{
-		OnRestartGame ();
+        ballonItemsToCollectionQueue = new Queue<GameObject>();
+        timeElapsed = Time.time;
+        OnRestartGame ();
 	}
-
 
 	void Update()
 	{
-		if(dogState == 1)
-			CollectItem();
-	}
+        
+        //Balloon spawning logic
+        if(Time.time - timeElapsed > timeDuration)
+        {
+            //spawn a balloon
+            spawnBalloon();
+           // Debug.Log("Spawned a balloon");
+            timeElapsed = Time.time;
+        }
 
+        //if there are items to collect in Queue and dog is idle
+        if (ballonItemsToCollectionQueue.Count > 0  && !isCollecting)
+        {
+            //if dog is not collecting
+            isCollecting = true;
+            currentItemToCollect = ballonItemsToCollectionQueue.Dequeue().gameObject;
+            Debug.Log("Going to collect item");
 
-	void FixedUpdate () 
+            dogState = 1;
+        }
+        
+        if(isCollecting)
+        {
+            //set the dog direction
+            transform.LookAt(new Vector3(currentItemToCollect.transform.position.x, 0, currentItemToCollect.transform.position.z), Vector3.up);
+
+            //make the dog to collect the item
+            CollectItem(currentItemToCollect);
+        }
+    }
+
+    public void OnRestartGame()
 	{
-		if (!gameOver && !GameMgr.Inst.IsGamePaused()) 
-		{
-			oneSecTimer += Time.deltaTime;
-
-			if(oneSecTimer >= 1)
-			{
-				OneSecTimer();
-			}
-
-			Spawner ();
-		}
-	}
-
-
-	void OneSecTimer()
-	{
-		nextBaloonTime -= 1;
-		levelTime -= 1;				
-
-		GuiUpdate ();
-
-		if(levelTime <= 0f)
-		{
-			gameOver = true;
-			GameOver();
-		}
-		oneSecTimer = 0;
-	}
-
-
-	public void OnRestartGame()
-	{
-        Debug.Log("OnRestartGame");
+        //Debug.Log("OnRestartGame");
 
 		gameOver=false;
 		rb=GetComponent<Rigidbody>();
@@ -110,32 +115,16 @@ public class BubbleGame : MonoBehaviour {
 		speed = 10;
 		dogState = 0;
 		gameOver = false;
+        isCollecting = false;
 		dog.SetActive(true);
 		gameOverPanel.SetActive(false);
 	}
-
-
-	void Spawner()
-	{
-		if (baloonsAtScene < maxBaloons && nextBaloonTime <= 0) 
-		{
-			GameObject curBaloon = GetBaloon();
-			if(curBaloon!=null)
-			{
-				baloonsAtScene += 1;
-				baloonIndex += 1;
-				nextBaloonTime = 2f;
-			}
-		}
-	}
-
 
 	void GuiUpdate()
 	{
 		timer.text = "Time: "+(int)levelTime;
 		TxtScore.text = "Saved: " + score;
 	}
-
 
 	void GameOver()
 	{
@@ -144,52 +133,58 @@ public class BubbleGame : MonoBehaviour {
 		gameOverPanel.SetActive(true);
 	}
 
-
 	public void OnMainMenu()
 	{
 		GameMgr.Inst.LoadScene(GlobalConst.Scene_MainMenu);
 	}
 
 
-	public void CollectItem()
+	public void CollectItem(GameObject t_currentItem)
 	{
-		distance = Vector3.Distance(targetPos, transform.position);
-		//Debug.Log (distance);
-		dir = new Vector3(targetPos.x, 0, targetPos.z);
-		transform.LookAt(dir);
-		if(distance > 1f)
-		{
-			transform.position += transform.forward * speed * Time.deltaTime;
-			dogAnim.SetFloat("Walk", 1f);
-		}
-	}
+        //distance = Vector3.Distance(t_currentItem.transform.position, transform.position);
+        xz_distance = Vector3.Distance(new Vector3(t_currentItem.transform.position.x, 0, t_currentItem.transform.position.z),
+            new Vector3(transform.position.x, 0, transform.position.z));
 
-	
-	public void ScoreSystem()
+        //Move the dog
+        if (xz_distance >= 0.6f)
+        {
+            transform.position += transform.forward * speed * Time.deltaTime;
+            dogAnim.SetFloat("Walk", 1f);
+        }
+        else
+        {
+            dogAnim.SetFloat("Walk", 0f);
+        }
+
+        ////stop dog animation when xz-distance is reached. 
+        if (xz_distance <= 2.5f)
+        {
+            dogAnim.SetFloat("Walk", 0f);
+        }
+
+    }
+
+    public void ScoreSystem()
 	{
 		score += 1;
-		dogAnim.SetFloat("Walk", 0f);
 	}
 	
 	
 	void OnCollisionEnter(Collision other)
 	{
-		if(other.gameObject.name.Contains("baloonItem"))
+
+        layerName = LayerMask.LayerToName(other.gameObject.layer);
+
+        //if dog collects the balloonItem
+        if (layerName == "Toys")
 		{
-			ScoreSystem();
-			isCollect = false;
-			other.gameObject.SetActive(false);
-			dogState = 0;
-		}
-		/*
-		else
-		{
-			Debug.Log("collected");
-			isCollect=true;
-			target=transform;
-		}
-		*/
-	}
+            isCollecting = false;
+            Debug.Log("Dog collected the item");
+            Destroy(other.gameObject); //Destroy the balloonItem
+            ScoreSystem();
+        }
+
+    }
 
 
 	void OnSetPos(Vector3 pos)
@@ -197,32 +192,52 @@ public class BubbleGame : MonoBehaviour {
 		targetPos = pos;
 		isCollect = true;
 		dogState = 1;
-		Debug.Log (dogState);
+		Debug.Log ("Dog state : "+ dogState);
 	}
 
 
-	GameObject GetBaloon()
-	{
-		GameObject retVal;
-		int randPos = Random.Range (0, SpawnPosList.Count);
-		int randBaloon = Random.Range(0, BallonList.Count);
+	//GameObject GetBaloon()
+	//{
+	//	GameObject t_balloon;
+	//	int randPos = Random.Range (0, SpawnPosList.Count);
+	//	int randBaloon = Random.Range(0, BallonList.Count);
 
-		retVal = (GameObject)Instantiate(BallonList[randBaloon], 
-		                        SpawnPosList[randPos].transform.position, 
-		                        Quaternion.identity);
+	//	t_balloon = (GameObject)Instantiate(BallonList[0], 
+	//	                        SpawnPosList[randPos].transform.position, 
+	//	                        Quaternion.identity);
 
-		retVal.transform.parent = BaloonParent;
-		retVal.name = "Baloon_" + baloonIndex;
+	//	t_balloon.transform.parent = BaloonParent;
+	//	t_balloon.name = "Baloon_" + baloonIndex; //balloon name
 
-		Baloon baloonScr = retVal.GetComponent<Baloon> () as Baloon;
-		int randBaloonItem = Random.Range(0, BallonItemList.Count);
+	//	Balloon baloonScr = t_balloon.GetComponent<Balloon> () as Balloon;
+	//	int randBaloonItem = Random.Range(0, BallonItemList.Count);
 
-		baloonItemCount++;
-		GameObject baloonItem = GameObject.Instantiate(BallonItemList [randBaloonItem]);
-		baloonItem.name = "baloonItem_" + baloonItemCount;
-		baloonScr.SetBaloonData (baloonItem, randBaloon, true);
+	//	baloonItemCount++;
+	//	GameObject baloonItem = GameObject.Instantiate(BallonItemList [0]);
+ //       Debug.Log(" Balloon item name : " + baloonItem.gameObject.name);
+ //       baloonItem.name = "baloonItem_" + baloonItemCount;
+	//	baloonScr.setBalloonItem(baloonItem);
 
-		return retVal;
-	}
+ //       return t_balloon;
+	//}
+
+    public void spawnBalloon()
+    {
+        //Generate random values
+        randSpawnPos = Random.Range (0, SpawnPosList.Count);
+        randBalloon = Random.Range(0, BallonList.Count);
+        randBalloonItem = Random.Range(0, BallonItemList.Count);
+
+
+        //Instantiate the Balloon
+        GameObject t_balloon = (GameObject) Instantiate(BallonList[randBalloon], SpawnPosList[randSpawnPos].transform.position, Quaternion.identity);
+        Balloon balloon = t_balloon.GetComponent<Balloon>() as Balloon;
+
+        //Instantiate the Balloon Item
+        GameObject t_balloonItem = (GameObject) GameObject.Instantiate(BallonItemList[randBalloonItem].gameObject, t_balloon.transform.position, Quaternion.identity);
+
+        t_balloonItem.SetActive(false);
+        balloon.setBalloonItem(t_balloonItem);
+
+    }
 }
-

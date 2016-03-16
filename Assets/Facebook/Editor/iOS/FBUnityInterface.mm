@@ -94,9 +94,6 @@ static FBUnityInterface *_instance = [FBUnityInterface sharedInstance];
 #pragma mark - Implementation
 
 - (void)configureAppId:(const char *)appId
-                cookie:(bool)cookie
-               logging:(bool)logging
-                status:(bool)status
   frictionlessRequests:(bool)frictionlessRequests
              urlSuffix:(const char *)urlSuffix
 {
@@ -409,21 +406,9 @@ isPublishPermLogin:(BOOL)isPublishPermLogin
     // Old v3 sdk tokens don't always contain a UserID. If the user ID is null
     // treat the token as bad and clear it. These values are all required
     // on c# side for initlizing a token.
-    if (token.tokenString &&
-        token.expirationDate &&
-        token.userID &&
-        token.permissions &&
-        token.declinedPermissions) {
-      NSInteger expiration = token.expirationDate.timeIntervalSince1970;
-      return @{
-               @"opened" : @"true",
-               @"access_token" : token.tokenString,
-               @"expiration_timestamp" : [@(expiration) stringValue],
-               @"user_id" : token.userID,
-               @"permissions" : [token.permissions allObjects],
-               @"granted_permissions" : [token.permissions allObjects],
-               @"declined_permissions" : [token.declinedPermissions allObjects]
-               };
+    NSDictionary *userData = [FBUnityUtility getUserDataFromAccessToken:token];
+    if (userData) {
+      return userData;
     } else {
       // The token is missing a required value. Clear the token
       [[[FBSDKLoginManager alloc] init] logOut];
@@ -439,16 +424,13 @@ isPublishPermLogin:(BOOL)isPublishPermLogin
 
 extern "C" {
 
-  void IOSInit(const char *_appId, bool _cookie, bool _logging, bool _status, bool _frictionlessRequests, const char *_urlSuffix, const char *_userAgentSuffix)
+  void IOSInit(const char *_appId, bool _frictionlessRequests, const char *_urlSuffix, const char *_userAgentSuffix)
   {
     // Set the user agent before calling init to ensure that calls made during
     // init use the user agent suffix.
     [FBSDKSettings setUserAgentSuffix:[FBUnityUtility stringFromCString:_userAgentSuffix]];
 
     [[FBUnityInterface sharedInstance] configureAppId:_appId
-                                               cookie:_cookie
-                                              logging:_logging
-                                               status:_status
                                  frictionlessRequests:_frictionlessRequests
                                             urlSuffix:_urlSuffix];
   }
@@ -608,6 +590,20 @@ extern "C" {
 
       [FBUnityUtility sendMessageToUnity:FBUnityMessageName_OnFetchDeferredAppLinkComplete
                                 userData:[FBUnityUtility appLinkDataFromUrl:url]
+                               requestId:requestId];
+    }];
+  }
+
+  void IOSRefreshCurrentAccessToken(int requestId)
+  {
+    [FBSDKAccessToken refreshCurrentAccessToken:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+      if (error) {
+        [FBUnityUtility sendErrorToUnity:FBUnityMessageName_OnRefreshCurrentAccessTokenComplete error:error requestId:requestId];
+        return;
+      }
+
+      [FBUnityUtility sendMessageToUnity:FBUnityMessageName_OnRefreshCurrentAccessTokenComplete
+                                userData:[FBUnityUtility getUserDataFromAccessToken:[FBSDKAccessToken currentAccessToken]]
                                requestId:requestId];
     }];
   }

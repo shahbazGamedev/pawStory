@@ -22,6 +22,8 @@ public class NewFollowTraningMgr : MonoBehaviour
     public float timer;
     public Vector3 StartPos;
     public GameObject movingTarget;
+    private int movingPatternNo;
+      
 
     //Defaults
     Animator dogAnim;
@@ -55,15 +57,18 @@ public class NewFollowTraningMgr : MonoBehaviour
 
     void Update()
     {
+       
         if (isMoving)
         {
             Movement();
         }
         movingTarget.transform.Translate(350 * Time.deltaTime, 0, 0);
         
-        if (movingTarget.transform.position.x > Screen.width)
+        if (movingTarget.transform.position.x-400 > Screen.width)
         {
-            movingTarget.transform.position = new Vector2(0, 0);
+            //Random choise of movingPattern
+            movingPatternNo = Random.Range(0, 3);
+            movingTarget.transform.position = new Vector2(-100, 0);
         }
         if (movingTarget.transform.position.x > Traget.transform.position.x && movingTarget.transform.position.x < Screen.width / 2)
         {
@@ -75,7 +80,6 @@ public class NewFollowTraningMgr : MonoBehaviour
         {
             canTap = false;
         }
-
     }
 
 
@@ -110,6 +114,10 @@ public class NewFollowTraningMgr : MonoBehaviour
             gameOverPanel.SetActive(true);
             TxtGameOver.text = "Follow Traning Sucessful!!";
             Time.timeScale = 0;
+            //if(coll.gameObject.tag == "target")
+            //{
+            //    Debug.Log("UI Collision Sucess");
+            //}
         }
     }
 

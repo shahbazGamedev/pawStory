@@ -172,4 +172,30 @@ static char* FBUnityMakeStringCopy (const char* string)
   return dict;
 }
 
++ (NSDictionary *)getUserDataFromAccessToken:(FBSDKAccessToken *)token
+{
+  if (token) {
+    if (token.tokenString &&
+        token.expirationDate &&
+        token.userID &&
+        token.permissions &&
+        token.declinedPermissions) {
+      NSInteger expiration = token.expirationDate.timeIntervalSince1970;
+      NSInteger lastRefreshDate = token.refreshDate ? token.refreshDate.timeIntervalSince1970 : 0;
+      return @{
+               @"opened" : @"true",
+               @"access_token" : token.tokenString,
+               @"expiration_timestamp" : [@(expiration) stringValue],
+               @"user_id" : token.userID,
+               @"permissions" : [token.permissions allObjects],
+               @"granted_permissions" : [token.permissions allObjects],
+               @"declined_permissions" : [token.declinedPermissions allObjects],
+               @"last_refresh" : [@(lastRefreshDate) stringValue]
+               };
+    }
+  }
+
+  return nil;
+}
+
 @end

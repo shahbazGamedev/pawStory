@@ -29,15 +29,17 @@ namespace Facebook.Unity.Mobile.IOS
     {
         private const string CancelledResponse = "{\"cancelled\":true}";
         private bool limitEventUsage;
+        private IIOSWrapper iosWrapper;
 
         public IOSFacebook()
-            : this(new CallbackManager())
+            : this(new IOSWrapper(), new CallbackManager())
         {
         }
 
-        public IOSFacebook(CallbackManager callbackManager)
+        public IOSFacebook(IIOSWrapper iosWrapper, CallbackManager callbackManager)
             : base(callbackManager)
         {
+            this.iosWrapper = iosWrapper;
         }
 
         public enum FBInsightsFlushBehavior
@@ -56,7 +58,7 @@ namespace Facebook.Unity.Mobile.IOS
             set
             {
                 this.limitEventUsage = value;
-                IOSFacebook.IOSFBAppEventsSetLimitEventUsage(value);
+                this.iosWrapper.FBAppEventsSetLimitEventUsage(value);
             }
         }
 
@@ -72,39 +74,22 @@ namespace Facebook.Unity.Mobile.IOS
         {
             get
             {
-                return IOSFacebook.IOSFBSdkVersion();
+                return this.iosWrapper.FBSdkVersion();
             }
         }
 
-        public override void Init(
+        public void Init(
             string appId,
-            bool cookie,
-            bool logging,
-            bool status,
-            bool xfbml,
-            string channelUrl,
-            string authResponse,
             bool frictionlessRequests,
             HideUnityDelegate hideUnityDelegate,
             InitDelegate onInitComplete)
         {
             base.Init(
-                appId,
-                cookie,
-                logging,
-                status,
-                xfbml,
-                channelUrl,
-                authResponse,
-                frictionlessRequests,
                 hideUnityDelegate,
                 onInitComplete);
 
-            IOSFacebook.IOSInit(
+            this.iosWrapper.Init(
                 appId,
-                cookie,
-                logging,
-                status,
                 frictionlessRequests,
                 FacebookSettings.IosURLSuffix,
                 Constants.UnitySDKUserAgentSuffixLegacy);
@@ -114,20 +99,20 @@ namespace Facebook.Unity.Mobile.IOS
             IEnumerable<string> permissions,
             FacebookDelegate<ILoginResult> callback)
         {
-            IOSFacebook.IOSLogInWithReadPermissions(this.AddCallback(callback), permissions.ToCommaSeparateList());
+            this.iosWrapper.LogInWithReadPermissions(this.AddCallback(callback), permissions.ToCommaSeparateList());
         }
 
         public override void LogInWithPublishPermissions(
             IEnumerable<string> permissions,
             FacebookDelegate<ILoginResult> callback)
         {
-            IOSFacebook.IOSLogInWithPublishPermissions(this.AddCallback(callback), permissions.ToCommaSeparateList());
+            this.iosWrapper.LogInWithPublishPermissions(this.AddCallback(callback), permissions.ToCommaSeparateList());
         }
 
         public override void LogOut()
         {
             base.LogOut();
-            IOSFacebook.IOSLogOut();
+            this.iosWrapper.LogOut();
         }
 
         public override void AppRequest(
@@ -160,7 +145,7 @@ namespace Facebook.Unity.Mobile.IOS
                 mobileFilter = filters.First() as string;
             }
 
-            IOSFacebook.IOSAppRequest(
+            this.iosWrapper.AppRequest(
                 this.AddCallback(callback),
                 message,
                 (actionType != null) ? actionType.ToString() : string.Empty,
@@ -193,7 +178,7 @@ namespace Facebook.Unity.Mobile.IOS
                 previewImageUrlStr = previewImageUrl.AbsoluteUri;
             }
 
-            IOSFacebook.IOSAppInvite(
+            this.iosWrapper.AppInvite(
                 this.AddCallback(callback),
                 appLinkUrlStr,
                 previewImageUrlStr);
@@ -206,7 +191,7 @@ namespace Facebook.Unity.Mobile.IOS
             Uri photoURL,
             FacebookDelegate<IShareResult> callback)
         {
-            IOSFacebook.IOSShareLink(
+            this.iosWrapper.ShareLink(
                 this.AddCallback(callback),
                 contentURL.AbsoluteUrlOrEmptyString(),
                 contentTitle,
@@ -226,7 +211,7 @@ namespace Facebook.Unity.Mobile.IOS
         {
             string linkStr = link != null ? link.ToString() : string.Empty;
             string pictureStr = picture != null ? picture.ToString() : string.Empty;
-            IOSFacebook.IOSFeedShare(
+            this.iosWrapper.FeedShare(
                 this.AddCallback(callback),
                 toId,
                 linkStr,
@@ -243,14 +228,14 @@ namespace Facebook.Unity.Mobile.IOS
             string privacy,
             FacebookDelegate<IGroupCreateResult> callback)
         {
-            IOSFacebook.IOSCreateGameGroup(this.AddCallback(callback), name, description, privacy);
+            this.iosWrapper.CreateGameGroup(this.AddCallback(callback), name, description, privacy);
         }
 
         public override void GameGroupJoin(
             string id,
             FacebookDelegate<IGroupJoinResult> callback)
         {
-            IOSFacebook.IOSJoinGameGroup(System.Convert.ToInt32(CallbackManager.AddFacebookDelegate(callback)), id);
+            this.iosWrapper.JoinGameGroup(System.Convert.ToInt32(CallbackManager.AddFacebookDelegate(callback)), id);
         }
 
         public override void AppEventsLogEvent(
@@ -261,11 +246,11 @@ namespace Facebook.Unity.Mobile.IOS
             NativeDict dict = MarshallDict(parameters);
             if (valueToSum.HasValue)
             {
-                IOSFacebook.IOSFBAppEventsLogEvent(logEvent, valueToSum.Value, dict.NumEntries, dict.Keys, dict.Values);
+                this.iosWrapper.LogAppEvent(logEvent, valueToSum.Value, dict.NumEntries, dict.Keys, dict.Values);
             }
             else
             {
-                IOSFacebook.IOSFBAppEventsLogEvent(logEvent, 0.0, dict.NumEntries, dict.Keys, dict.Values);
+                this.iosWrapper.LogAppEvent(logEvent, 0.0, dict.NumEntries, dict.Keys, dict.Values);
             }
         }
 
@@ -275,270 +260,36 @@ namespace Facebook.Unity.Mobile.IOS
             Dictionary<string, object> parameters)
         {
             NativeDict dict = MarshallDict(parameters);
-            IOSFacebook.IOSFBAppEventsLogPurchase(logPurchase, currency, dict.NumEntries, dict.Keys, dict.Values);
+            this.iosWrapper.LogPurchaseAppEvent(logPurchase, currency, dict.NumEntries, dict.Keys, dict.Values);
         }
 
         public override void ActivateApp(string appId)
         {
-            IOSFacebook.IOSFBSettingsActivateApp(appId);
+            this.iosWrapper.FBSettingsActivateApp(appId);
         }
 
         public override void FetchDeferredAppLink(FacebookDelegate<IAppLinkResult> callback)
         {
-            IOSFacebook.IOSFetchDeferredAppLink(this.AddCallback(callback));
+            this.iosWrapper.FetchDeferredAppLink(this.AddCallback(callback));
         }
 
         public override void GetAppLink(
             FacebookDelegate<IAppLinkResult> callback)
         {
-            IOSFacebook.IOSGetAppLink(System.Convert.ToInt32(CallbackManager.AddFacebookDelegate(callback)));
+            this.iosWrapper.GetAppLink(System.Convert.ToInt32(CallbackManager.AddFacebookDelegate(callback)));
+        }
+
+        public override void RefreshCurrentAccessToken(
+            FacebookDelegate<IAccessTokenRefreshResult> callback)
+        {
+            this.iosWrapper.RefreshCurrentAccessToken(
+                System.Convert.ToInt32(CallbackManager.AddFacebookDelegate(callback)));
         }
 
         protected override void SetShareDialogMode(ShareDialogMode mode)
         {
-            IOSFacebook.IOSSetShareDialogMode((int)mode);
+            this.iosWrapper.SetShareDialogMode((int)mode);
         }
-
-        #if UNITY_IOS
-        [DllImport ("__Internal")]
-        private static extern void IOSInit(
-        string appId,
-        bool cookie,
-        bool logging,
-        bool status,
-        bool frictionlessRequests,
-        string urlSuffix,
-        string unityUserAgentSuffix);
-
-        [DllImport ("__Internal")]
-        private static extern void IOSLogInWithReadPermissions(
-        int requestId,
-        string scope);
-
-        [DllImport ("__Internal")]
-        private static extern void IOSLogInWithPublishPermissions(
-        int requestId,
-        string scope);
-
-        [DllImport ("__Internal")]
-        private static extern void IOSLogOut();
-
-        [DllImport ("__Internal")]
-        private static extern void IOSSetShareDialogMode(int mode);
-
-        [DllImport ("__Internal")]
-        private static extern void IOSShareLink(
-        int requestId,
-        string contentURL,
-        string contentTitle,
-        string contentDescription,
-        string photoURL);
-
-        [DllImport ("__Internal")]
-        public static extern void IOSFeedShare(
-        int requestId,
-        string toId,
-        string link,
-        string linkName,
-        string linkCaption,
-        string linkDescription,
-        string picture,
-        string mediaSource);
-
-        [DllImport ("__Internal")]
-        private static extern void IOSAppRequest(
-        int requestId,
-        string message,
-        string actionType,
-        string objectId,
-        string[] to = null,
-        int toLength = 0,
-        string filters = "",
-        string[] excludeIds = null,
-        int excludeIdsLength = 0,
-        bool hasMaxRecipients = false,
-        int maxRecipients = 0,
-        string data = "",
-        string title = "");
-
-        [DllImport ("__Internal")]
-        private static extern void IOSAppInvite(
-        int requestId,
-        string appLinkUrl,
-        string previewImageUrl);
-
-        [DllImport ("__Internal")]
-        private static extern void IOSCreateGameGroup(
-        int requestId,
-        string name,
-        string description,
-        string privacy);
-
-        [DllImport ("__Internal")]
-        private static extern void IOSJoinGameGroup(int requestId, string groupId);
-
-        [DllImport ("__Internal")]
-        private static extern void IOSFBSettingsActivateApp(string appId);
-
-        [DllImport ("__Internal")]
-        private static extern void IOSFBAppEventsLogEvent(
-        string logEvent,
-        double valueToSum,
-        int numParams,
-        string[] paramKeys,
-        string[] paramVals);
-
-        [DllImport ("__Internal")]
-        private static extern void IOSFBAppEventsLogPurchase(
-        double logPurchase,
-        string currency,
-        int numParams,
-        string[] paramKeys,
-        string[] paramVals);
-
-        [DllImport ("__Internal")]
-        private static extern void IOSFBAppEventsSetLimitEventUsage(bool limitEventUsage);
-
-        [DllImport ("__Internal")]
-        private static extern void IOSGetAppLink(int requestID);
-
-        [DllImport ("__Internal")]
-        private static extern string IOSFBSdkVersion();
-
-        [DllImport ("__Internal")]
-        private static extern void IOSFetchDeferredAppLink(int requestID);
-        #else
-        private static void IOSInit(
-            string appId,
-            bool cookie,
-            bool logging,
-            bool status,
-            bool frictionlessRequests,
-            string urlSuffix,
-            string unityUserAgentSuffix)
-        {
-        }
-
-        private static void IOSLogInWithReadPermissions(
-            int requestId,
-            string scope)
-        {
-        }
-
-        private static void IOSLogInWithPublishPermissions(
-            int requestId,
-            string scope)
-        {
-        }
-
-        private static void IOSLogOut()
-        {
-        }
-
-        private static void IOSSetShareDialogMode(int mode)
-        {
-        }
-
-        private static void IOSShareLink(
-            int requestId,
-            string contentURL,
-            string contentTitle,
-            string contentDescription,
-            string photoURL)
-        {
-        }
-
-        private static void IOSFeedShare(
-            int requestId,
-            string toId,
-            string link,
-            string linkName,
-            string linkCaption,
-            string linkDescription,
-            string picture,
-            string mediaSource)
-        {
-        }
-
-        private static void IOSAppRequest(
-            int requestId,
-            string message,
-            string actionType,
-            string objectId,
-            string[] to = null,
-            int toLength = 0,
-            string filters = "",
-            string[] excludeIds = null,
-            int excludeIdsLength = 0,
-            bool hasMaxRecipients = false,
-            int maxRecipients = 0,
-            string data = "",
-            string title = "")
-        {
-        }
-
-        private static void IOSAppInvite(
-            int requestId,
-            string appLinkUrl,
-            string previewImageUrl)
-        {
-        }
-
-        private static void IOSCreateGameGroup(
-            int requestId,
-            string name,
-            string description,
-            string privacy)
-        {
-        }
-
-        private static void IOSJoinGameGroup(int requestId, string groupId)
-        {
-        }
-
-        private static void IOSFBSettingsPublishInstall(int requestId, string appId)
-        {
-        }
-
-        private static void IOSFBSettingsActivateApp(string appId)
-        {
-        }
-
-        private static void IOSFBAppEventsLogEvent(
-            string logEvent,
-            double valueToSum,
-            int numParams,
-            string[] paramKeys,
-            string[] paramVals)
-        {
-        }
-
-        private static void IOSFBAppEventsLogPurchase(
-            double logPurchase,
-            string currency,
-            int numParams,
-            string[] paramKeys,
-            string[] paramVals)
-        {
-        }
-
-        private static void IOSFBAppEventsSetLimitEventUsage(bool limitEventUsage)
-        {
-        }
-
-        private static void IOSGetAppLink(int requestId)
-        {
-        }
-
-        private static string IOSFBSdkVersion()
-        {
-            return "NONE";
-        }
-
-        private static void IOSFetchDeferredAppLink(int requestId)
-        {
-        }
-        #endif
 
         private static NativeDict MarshallDict(Dictionary<string, object> dict)
         {

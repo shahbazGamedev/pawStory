@@ -35,30 +35,45 @@ namespace Facebook.Unity
     /// </summary>
     public sealed class FB : ScriptableObject
     {
-        private static InitDelegate onInitComplete;
-        private static HideUnityDelegate onHideUnity;
-
-        private static FacebookGameObject facebook;
-        private static string authResponse;
+        private const string DefaultJSSDKLocale = "en_US";
+        private static IFacebook facebook;
         private static bool isInitCalled = false;
-        private static string appId;
-        private static bool cookie;
-        private static bool logging;
-        private static bool status;
-        private static bool xfbml;
-        private static bool frictionlessRequests;
         private static string facebookDomain = "facebook.com";
+        private static string graphApiVersion = Constants.GraphApiVersion;
+
+        private delegate void OnDLLLoaded();
 
         /// <summary>
         /// Gets the app identifier. AppId might be different from FBSettings.AppId
         /// if using the programmatic version of FB.Init()
         /// </summary>
         /// <value>The app identifier.</value>
-        public static string AppId
+        public static string AppId { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the graph API version.
+        ///
+        /// The Unity sdk is by default pegged to the lastest version of the graph api
+        /// at the time of the SDKs release. To override this value to use a different
+        /// version set this value.
+        /// <remarks>
+        /// This value is only valid for direct api calls made through FB.Api and the
+        /// graph api version used by the javscript sdk when running on the web. The
+        /// underlyting Android and iOS SDKs will still be pegged to the graph api
+        /// version of this release.
+        /// </remarks>
+        /// </summary>
+        /// <value>The graph API version.</value>
+        public static string GraphApiVersion
         {
             get
             {
-                return appId;
+                return FB.graphApiVersion;
+            }
+
+            set
+            {
+                FB.graphApiVersion = value;
             }
         }
 
@@ -95,14 +110,14 @@ namespace Facebook.Unity
         {
             get
             {
-                return (facebook != null) && facebook.Facebook.LimitEventUsage;
+                return (facebook != null) && facebook.LimitEventUsage;
             }
 
             set
             {
                 if (facebook != null)
                 {
-                    facebook.Facebook.LimitEventUsage = value;
+                    facebook.LimitEventUsage = value;
                 }
             }
         }
@@ -111,12 +126,17 @@ namespace Facebook.Unity
         {
             get
             {
-                if (facebook == null)
+                if (FB.facebook == null)
                 {
                     throw new NullReferenceException("Facebook object is not yet loaded.  Did you call FB.Init()?");
                 }
 
-                return facebook.Facebook;
+                return FB.facebook;
+            }
+
+            set
+            {
+                FB.facebook = value;
             }
         }
 
@@ -126,11 +146,15 @@ namespace Facebook.Unity
             {
                 return FB.facebookDomain;
             }
+
             set
             {
                 FB.facebookDomain = value;
             }
         }
+
+
+        private static OnDLLLoaded OnDLLLoadedDelegate { get; set; }
 
         /// <summary>
         /// This is the preferred way to call FB.Init(). It will take the facebook app id specified in your "Facebook"
@@ -152,6 +176,7 @@ namespace Facebook.Unity
                 FacebookSettings.Xfbml,
                 FacebookSettings.FrictionlessRequests,
                 authResponse,
+                FB.DefaultJSSDKLocale,
                 onHideUnity,
                 onInitComplete);
         }
@@ -167,6 +192,10 @@ namespace Facebook.Unity
         /// <param name="xfbml">If set to <c>true</c> xfbml.</param>
         /// <param name="frictionlessRequests">If set to <c>true</c> frictionless requests.</param>
         /// <param name="authResponse">Auth response.</param>
+        /// <param name="jsSDKLocale">
+        /// The locale of the js sdk used see
+        /// https://developers.facebook.com/docs/internationalization#plugins.
+        /// </param>
         /// <param name="onHideUnity">
         /// A delegate to invoke when unity is hidden.
         /// </param>
@@ -182,6 +211,7 @@ namespace Facebook.Unity
             bool xfbml = false,
             bool frictionlessRequests = true,
             string authResponse = null,
+            string jsSDKLocale = FB.DefaultJSSDKLocale,
             HideUnityDelegate onHideUnity = null,
             InitDelegate onInitComplete = null)
         {
@@ -190,41 +220,67 @@ namespace Facebook.Unity
                 throw new ArgumentException("appId cannot be null or empty!");
             }
 
-            FB.appId = appId;
-            FB.cookie = cookie;
-            FB.logging = logging;
-            FB.status = status;
-            FB.xfbml = xfbml;
-            FB.frictionlessRequests = frictionlessRequests;
-            FB.authResponse = authResponse;
-            FB.onInitComplete = onInitComplete;
-            FB.onHideUnity = onHideUnity;
+            FB.AppId = appId;
 
             if (!isInitCalled)
             {
-                FB.LogVersion();
-
-                #if UNITY_EDITOR
-                ComponentFactory.GetComponent<EditorFacebookLoader>();
-                #elif UNITY_WEBPLAYER || UNITY_WEBGL
-                ComponentFactory.GetComponent<CanvasFacebookLoader>();
-                #elif UNITY_IOS
-                ComponentFactory.GetComponent<IOSFacebookLoader>();
-                #elif UNITY_ANDROID
-                ComponentFactory.GetComponent<AndroidFacebookLoader>();
-                #else
-                throw new NotImplementedException("Facebook API does not yet support this platform");
-                #endif
                 isInitCalled = true;
-                return;
-            }
 
-            FacebookLogger.Warn("FB.Init() has already been called.  You only need to call this once and only once.");
+                if (Constants.IsEditor)
+                {
+                    FB.OnDLLLoadedDelegate = delegate {
+                        ((EditorFacebook) FB.facebook).Init(onHideUnity, onInitComplete);
+                    };
 
-            // Init again if possible just in case something bad actually happened.
-            if (FacebookImpl != null)
-            {
-                OnDllLoaded();
+                    ComponentFactory.GetComponent<EditorFacebookLoader>();
+                }
+                else
+                {
+                    switch (Constants.CurrentPlatform)
+                    {
+                        case FacebookUnityPlatform.WebGL:
+                        case FacebookUnityPlatform.WebPlayer:
+                            FB.OnDLLLoadedDelegate = delegate {
+                                ((CanvasFacebook) FB.facebook).Init(
+                                    appId,
+                                    cookie,
+                                    logging,
+                                    status,
+                                    xfbml,
+                                    FacebookSettings.ChannelUrl,
+                                    authResponse,
+                                    frictionlessRequests,
+                                    jsSDKLocale,
+                                    onHideUnity,
+                                    onInitComplete);
+                            };
+                            ComponentFactory.GetComponent<CanvasFacebookLoader>();
+                            break;
+                        case FacebookUnityPlatform.IOS:
+                            FB.OnDLLLoadedDelegate = delegate {
+                                ((IOSFacebook) FB.facebook).Init(
+                                    appId,
+                                    frictionlessRequests,
+                                    onHideUnity,
+                                    onInitComplete);
+                            };
+                            ComponentFactory.GetComponent<IOSFacebookLoader>();
+                            break;
+                        case FacebookUnityPlatform.Android:
+                            FB.OnDLLLoadedDelegate = delegate {
+                                ((AndroidFacebook) FB.facebook).Init(
+                                    appId,
+                                    onHideUnity,
+                                    onInitComplete);
+                            };
+                            ComponentFactory.GetComponent<AndroidFacebookLoader>();
+                            break;
+                        default:
+                            throw new NotImplementedException("Facebook API does not yet support this platform");
+                    }
+                }
+            } else {
+                FacebookLogger.Warn("FB.Init() has already been called.  You only need to call this once and only once.");
             }
         }
 
@@ -592,35 +648,19 @@ namespace Facebook.Unity
             FacebookImpl.AppEventsLogPurchase(logPurchase, currency, parameters);
         }
 
-        private static void OnDllLoaded()
-        {
-            FB.LogVersion();
-            FacebookImpl.Init(
-                appId,
-                cookie,
-                logging,
-                status,
-                xfbml,
-                FacebookSettings.ChannelUrl,
-                authResponse,
-                frictionlessRequests,
-                onHideUnity,
-                onInitComplete);
-        }
-
         private static void LogVersion()
         {
             // If we have initlized we can also get the underlying sdk version
             if (facebook != null)
             {
                 FacebookLogger.Info(string.Format(
-                    "Using Unity SDK v{0} with {1}",
+                    "Using Facebook Unity SDK v{0} with {1}",
                     FacebookSdkVersion.Build,
                     FB.FacebookImpl.SDKUserAgent));
             }
             else
             {
-                FacebookLogger.Info(string.Format("Using Unity SDK v{0}", FacebookSdkVersion.Build));
+                FacebookLogger.Info(string.Format("Using Facebook Unity SDK v{0}", FacebookSdkVersion.Build));
             }
         }
 
@@ -766,6 +806,12 @@ namespace Facebook.Unity
 
                 Mobile.MobileFacebookImpl.FetchDeferredAppLink(callback);
             }
+
+            public static void RefreshCurrentAccessToken(
+                FacebookDelegate<IAccessTokenRefreshResult> callback = null)
+            {
+                Mobile.MobileFacebookImpl.RefreshCurrentAccessToken(callback);
+            }
         }
 
         public sealed class Android
@@ -790,8 +836,9 @@ namespace Facebook.Unity
 
             public void Start()
             {
-                FB.facebook = this.FBGameObject;
-                FB.OnDllLoaded();
+                FB.facebook = this.FBGameObject.Facebook;
+                FB.OnDLLLoadedDelegate();
+                FB.LogVersion();
                 MonoBehaviour.Destroy(this);
             }
         }

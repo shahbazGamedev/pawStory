@@ -59,12 +59,14 @@ namespace Facebook.Unity.Example
             }
 
             #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_EDITOR
-            if (Button("Logout"))
+            if (this.Button("Logout"))
             {
                 CallFBLogout();
                 this.Status = "Logout called";
             }
             #endif
+            // Fix GUILayout margin issues
+            GUILayout.Label(GUIContent.none, GUILayout.MinWidth(ConsoleBase.MarginFix));
             GUILayout.EndHorizontal();
 
             GUI.enabled = enabled && FB.IsInitialized;
@@ -114,6 +116,11 @@ namespace Facebook.Unity.Example
                 this.SwitchMenu(typeof(AppInvites));
             }
 
+            if (Constants.IsMobile && this.Button("Access Token"))
+            {
+                this.SwitchMenu(typeof(AccessTokenMenu));
+            }
+
             GUI.enabled = enabled;
         }
 
@@ -139,7 +146,7 @@ namespace Facebook.Unity.Example
 
         private void OnInitComplete()
         {
-            this.Status = "Success - Check logk for details";
+            this.Status = "Success - Check log for details";
             this.LastResponse = "Success Response: OnInitComplete Called\n";
             string logMessage = string.Format(
                 "OnInitCompleteCalled IsLoggedIn='{0}' IsInitialized='{1}'",
@@ -150,7 +157,7 @@ namespace Facebook.Unity.Example
 
         private void OnHideUnity(bool isGameShown)
         {
-            this.Status = "Success - Check logk for details";
+            this.Status = "Success - Check log for details";
             this.LastResponse = string.Format("Success Response: OnHideUnity Called {0}\n", isGameShown);
             LogView.AddLog("Is game shown: " + isGameShown);
         }

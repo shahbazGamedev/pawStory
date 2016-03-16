@@ -62,6 +62,9 @@ namespace Facebook.Unity.Mobile
         public abstract void FetchDeferredAppLink(
             FacebookDelegate<IAppLinkResult> callback);
 
+        public abstract void RefreshCurrentAccessToken(
+            FacebookDelegate<IAccessTokenRefreshResult> callback);
+
         public override void OnLoginComplete(string message)
         {
             var result = new LoginResult(message);
@@ -107,6 +110,17 @@ namespace Facebook.Unity.Mobile
         public override void OnShareLinkComplete(string message)
         {
             var result = new ShareResult(message);
+            CallbackManager.OnFacebookResponse(result);
+        }
+
+        public void OnRefreshCurrentAccessTokenComplete(string message)
+        {
+            var result = new AccessTokenRefreshResult(message);
+            if (result.AccessToken != null)
+            {
+                AccessToken.CurrentAccessToken = result.AccessToken;
+            }
+
             CallbackManager.OnFacebookResponse(result);
         }
 

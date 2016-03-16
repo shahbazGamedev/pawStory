@@ -47,6 +47,9 @@ public class SkippingManager : MonoBehaviour
     public GameObject gameOverPannel;
     public GameObject touchMat;
 
+    //slider vars
+    float sliderTimeElapsed, sliderTimeDuration=0.01f, sliderOffsetValue=0.01f;
+
     #endregion Variables
 
     void Awake()
@@ -74,6 +77,7 @@ public class SkippingManager : MonoBehaviour
     void Update()
     {
         SliderFunction();
+
         Timer();
     }
 
@@ -103,16 +107,51 @@ public class SkippingManager : MonoBehaviour
 
     void SliderFunction()
     {
-        //sliderValue = skipRope.angle;
-        //sliderValue = sliderValue < 0 ? sliderValue + 360 : sliderValue;
+        // //sliderValue = skipRope.angle;
+        // //sliderValue = sliderValue < 0 ? sliderValue + 360 : sliderValue;
+
+        /*
         sliderValue = skipRope.angle * 2 / 360;
-       // Debug.Log(sliderValue);
+
         if (sliderValue > 1)
         {
             sliderValue = 2 - sliderValue;
         }
         slider.value = sliderValue;
+        */
 
+        if(sliderTimeElapsed > sliderTimeDuration)
+        {
+
+            if (sliderValue > 1f)
+                sliderOffsetValue = -sliderOffsetValue;
+            else
+            if (sliderValue < 0f)
+                sliderOffsetValue = -sliderOffsetValue;
+
+
+            sliderValue -= sliderOffsetValue;
+
+
+            slider.value = sliderValue;//move the slider
+
+            if(sliderOffsetValue > 0) //additive
+            {
+                skipRope.angle = sliderValue * 1 * 360f;   //rotate the rope
+                //Debug.Log("Additive");
+            }
+            else
+            if(sliderOffsetValue < 0) //subtractive
+            {
+                skipRope.angle = (1.0f - sliderValue) * 1 * 360f;   //rotate the rope
+                //Debug.Log("Subtractive");
+            }
+
+
+            sliderTimeElapsed = 0f;
+        }
+
+        sliderTimeElapsed += Time.deltaTime;
     }
 
     // Timer function
@@ -230,7 +269,7 @@ public class SkippingManager : MonoBehaviour
             ropeRef.GetComponent<SkippingRope>().ResetPosition();
             scoreText.text = "--Tap to Resume--";
         }
-        skipRope.skipSpeed = ropeSpeeds[Random.Range(0, 8)];
+        //skipRope.skipSpeed = ropeSpeeds[Random.Range(0, 8)];
     }
 
     //Event Handler for PatternRecognized Event
@@ -239,7 +278,7 @@ public class SkippingManager : MonoBehaviour
         // if(pattern==SwipeRecognizer.TouchPattern.singleTap && gameStart)
         if (pattern != SwipeRecognizer.TouchPattern.hold)
         {
-            Debug.Log("Tap");
+            //Debug.Log("Tap");
             if (!gameStart && !gameHold)
             {
                 OnPlayBtn();
@@ -294,6 +333,11 @@ public class SkippingManager : MonoBehaviour
     public void OnHomeBtn()
     {
         GameMgr.Inst.LoadScene(GlobalConst.Scene_MainMenu);
+    }
+
+    public void OnPointerDown()
+    {
+        PlaySkipping();
     }
 
     #endregion BtnCallbacks

@@ -26,6 +26,9 @@ namespace Facebook.Unity.Editor
 
     internal abstract class EditorFacebookMockDialog : MonoBehaviour
     {
+        private Rect modalRect;
+        private GUIStyle modalStyle;
+
         public delegate void OnComplete(string result);
 
         public OnComplete Callback { protected get; set; }
@@ -34,28 +37,31 @@ namespace Facebook.Unity.Editor
 
         protected abstract string DialogTitle { get; }
 
-        public void OnGUI()
+        public void Start()
         {
-            var rect = new Rect(10, 10, Screen.width - 20, Screen.height - 20);
+            this.modalRect = new Rect(10, 10, Screen.width - 20, Screen.height - 20);
             Texture2D texture = new Texture2D(1, 1);
             texture.SetPixel(0, 0, new Color(0.2f, 0.2f, 0.2f, 1.0f));
             texture.Apply();
-            var style = new GUIStyle(GUI.skin.window);
-            style.normal.background = texture;
+            this.modalStyle = new GUIStyle();
+            this.modalStyle.normal.background = texture;
+        }
 
+        public void OnGUI()
+        {
             GUI.ModalWindow(
                 this.GetHashCode(),
-                rect,
+                this.modalRect,
                 this.OnGUIDialog,
                 this.DialogTitle,
-                style);
+                this.modalStyle);
         }
 
         protected abstract void DoGui();
 
         protected abstract void SendSuccessResult();
 
-        protected void SendCancelResult()
+        protected virtual void SendCancelResult()
         {
             var dictionary = new Dictionary<string, object>();
             dictionary[Constants.CancelledKey] = true;
@@ -67,7 +73,7 @@ namespace Facebook.Unity.Editor
             this.Callback(MiniJSON.Json.Serialize(dictionary));
         }
 
-        protected void SendErrorResult(string errorMessage)
+        protected virtual void SendErrorResult(string errorMessage)
         {
             var dictionary = new Dictionary<string, object>();
             dictionary[Constants.ErrorKey] = errorMessage;

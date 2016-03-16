@@ -95,5 +95,98 @@ namespace Facebook.Unity
                 productName,
                 productVersion);
         }
+
+        public static string ToJson(this IDictionary<string, object> dictionary)
+        {
+            return MiniJSON.Json.Serialize(dictionary);
+        }
+
+        public static void AddAllKVPFrom<T1, T2>(this IDictionary<T1, T2> dest, IDictionary<T1, T2> source)
+        {
+            foreach (T1 key in source.Keys)
+            {
+                dest[key] = source[key];
+            }
+        }
+
+        public static AccessToken ParseAccessTokenFromResult(IDictionary<string, object> resultDictionary)
+        {
+            string userID = resultDictionary.GetValueOrDefault<string>(LoginResult.UserIdKey);
+            string accessToken = resultDictionary.GetValueOrDefault<string>(LoginResult.AccessTokenKey);
+            DateTime expiration = Utilities.ParseExpirationDateFromResult(resultDictionary);
+            ICollection<string> permissions = Utilities.ParsePermissionFromResult(resultDictionary);
+            DateTime? lastRefresh = Utilities.ParseLastRefreshFromResult(resultDictionary);
+
+            return new AccessToken(
+                accessToken,
+                userID,
+                expiration,
+                permissions,
+                lastRefresh);
+        }
+
+        private static DateTime ParseExpirationDateFromResult(IDictionary<string, object> resultDictionary)
+        {
+            DateTime expiration;
+            if (Constants.IsWeb)
+            {
+                // For canvas we get back the time as seconds since now instead of in epoch time.
+                expiration = DateTime.Now.AddSeconds(resultDictionary.GetValueOrDefault<long>(LoginResult.ExpirationTimestampKey));
+            }
+            else
+            {
+                string expirationStr = resultDictionary.GetValueOrDefault<string>(LoginResult.ExpirationTimestampKey);
+                int expiredTimeSeconds;
+                if (int.TryParse(expirationStr, out expiredTimeSeconds) && expiredTimeSeconds > 0)
+                {
+                    expiration = Utilities.FromTimestamp(expiredTimeSeconds);
+                }
+                else
+                {
+                    expiration = DateTime.MaxValue;
+                }
+            }
+
+            return expiration;
+        }
+
+        private static DateTime? ParseLastRefreshFromResult(IDictionary<string, object> resultDictionary)
+        {
+            string expirationStr = resultDictionary.GetValueOrDefault<string>(LoginResult.ExpirationTimestampKey);
+            int expiredTimeSeconds;
+            if (int.TryParse(expirationStr, out expiredTimeSeconds) && expiredTimeSeconds > 0)
+            {
+                return Utilities.FromTimestamp(expiredTimeSeconds);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private static ICollection<string> ParsePermissionFromResult(IDictionary<string, object> resultDictionary)
+        {
+            string permissions;
+            IEnumerable<object> permissionList;
+
+            // For permissions we can get the result back in either a comma separated string or
+            // a list depending on the platform.
+            if (resultDictionary.TryGetValue(LoginResult.PermissionsKey, out permissions))
+            {
+                permissionList = permissions.Split(',');
+            }
+            else if (!resultDictionary.TryGetValue(LoginResult.PermissionsKey, out permissionList))
+            {
+                permissionList = new string[0];
+                FacebookLogger.Warn("Failed to find parameter '{0}' in login result", LoginResult.PermissionsKey);
+            }
+
+            return permissionList.Select(permission => permission.ToString()).ToList();
+        }
+
+        private static DateTime FromTimestamp(int timestamp)
+        {
+            return new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds(timestamp);
+        }
     }
 }
