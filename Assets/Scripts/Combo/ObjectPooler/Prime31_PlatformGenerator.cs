@@ -13,6 +13,7 @@ public class Prime31_PlatformGenerator : MonoBehaviour
     public static Prime31_PlatformGenerator prime31_PlatformGen;
     public GameObject[] platformTypes;
     public GameObject platformSpawnLoc_X,platformSpawnLoc_0, platformSpawnLoc_1, platformSpawnLoc_2, platformSpawnLoc_3, platformSpawnLoc_4;
+    public GameObject previousPlatformSpawned;
 
     private float timeElapsed, spawnInterval=1.35f; //1.38f;
     private bool isAlreadySpawned = false;
@@ -33,7 +34,7 @@ public class Prime31_PlatformGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("ComboManager.gameRunning : " + ComboManager.gameRunning);
+       // Debug.Log("ComboManager.gameRunning : " + ComboManager.gameRunning);
         if (ComboManager.gameRunning && timeElapsed > spawnInterval)
         {
             createPlatform(getRandomPlatform(), platformSpawnLoc_4);
@@ -63,12 +64,24 @@ public class Prime31_PlatformGenerator : MonoBehaviour
         Debug.Log("Created a new platform of Type = "+platformType);
         GameObject temp= TrashMan.spawn(platformType, platformSpawnPoint.transform.position);
         temp.transform.SetParent(GameObject.Find("Runtime_SpawnHolder").transform);
+        previousPlatformSpawned = temp;
         return temp;
     }
 
     private GameObject getRandomPlatform()
     {
-        return platformTypes[Random.Range(0, platformTypes.Length)];
+        GameObject[] t_platformTypes = platformTypes;
+        GameObject nextPlatform = platformTypes[Random.Range(0, platformTypes.Length)];
+
+        if (previousPlatformSpawned != null)
+            if (string.Equals(previousPlatformSpawned.gameObject.name, nextPlatform.gameObject.name))
+            {
+                Debug.Log("Same platform found");
+                nextPlatform = platformTypes[0];
+                return nextPlatform;
+            }
+
+        return nextPlatform;
     }
 
     /// <summary>
