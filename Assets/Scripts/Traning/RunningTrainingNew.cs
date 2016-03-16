@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class RunningTrainigNew : MonoBehaviour 
+public class RunningTrainingNew : MonoBehaviour 
 
 {
 	// Variables
