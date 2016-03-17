@@ -171,6 +171,7 @@ public class ComboManager : MonoBehaviour
         gameRunning = false;
       //  Pooler.InstRef.HideAll();        
 		DogRunner.gameOver = false;
+        DogRunner.instRef.ResetPos();
 		GlobalVariables.distanceCovered = 0;
         instructText.text ="";
         ScoreSystem.score = 0;

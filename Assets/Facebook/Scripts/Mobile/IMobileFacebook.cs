@@ -33,5 +33,8 @@ namespace Facebook.Unity.Mobile
 
         void FetchDeferredAppLink(
             FacebookDelegate<IAppLinkResult> callback);
+
+        void RefreshCurrentAccessToken(
+            FacebookDelegate<IAccessTokenRefreshResult> callback);
     }
 }

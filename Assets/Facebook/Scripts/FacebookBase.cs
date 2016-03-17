@@ -56,17 +56,11 @@ namespace Facebook.Unity
             }
         }
 
+        public bool Initialized { get; private set; }
+
         protected CallbackManager CallbackManager { get; private set; }
 
         public virtual void Init(
-            string appId,
-            bool cookie,
-            bool logging,
-            bool status,
-            bool xfbml,
-            string channelUrl,
-            string authResponse,
-            bool frictionlessRequests,
             HideUnityDelegate hideUnityDelegate,
             InitDelegate onInitComplete)
         {
@@ -202,6 +196,7 @@ namespace Facebook.Unity
 
         public virtual void OnInitComplete(string message)
         {
+            this.Initialized = true;
             this.OnLoginComplete(message);
             if (this.onInitCompleteDelegate != null)
             {

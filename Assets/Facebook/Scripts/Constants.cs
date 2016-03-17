@@ -22,6 +22,7 @@ namespace Facebook.Unity
 {
     using System;
     using System.Globalization;
+    using UnityEngine;
 
     internal static class Constants
     {
@@ -40,10 +41,10 @@ namespace Facebook.Unity
         public const string OnShareCompleteMethodName = "OnShareLinkComplete";
         public const string OnAppRequestsCompleteMethodName = "OnAppRequestsComplete";
         public const string OnGroupCreateCompleteMethodName = "OnGroupCreateComplete";
-        public const string OnJoinGroupCompleteMethodName = "OnJoinGroupComplete";
+        public const string OnGroupJoinCompleteMethodName = "OnJoinGroupComplete";
 
         // Graph API
-        public const string GraphAPIVersion = "v2.5";
+        public const string GraphApiVersion = "v2.5";
         public const string GraphUrlFormat = "https://graph.{0}/{1}/";
 
         // Permission Strings
@@ -51,6 +52,10 @@ namespace Facebook.Unity
         public const string EmailPermission = "email";
         public const string PublishActionsPermission = "publish_actions";
         public const string PublishPagesPermission = "publish_pages";
+
+        // The current platform. We save this in a varriable to allow for
+        // mocking during testing
+        private static FacebookUnityPlatform? currentPlatform;
 
         /// <summary>
         /// Gets the graph URL.
@@ -64,7 +69,7 @@ namespace Facebook.Unity
                     CultureInfo.InvariantCulture,
                     Constants.GraphUrlFormat,
                     FB.FacebookDomain,
-                    Constants.GraphAPIVersion);
+                    FB.GraphApiVersion);
                 return new Uri(urlStr);
             }
         }
@@ -86,11 +91,8 @@ namespace Facebook.Unity
         {
             get
             {
-#if UNITY_ANDROID || UNITY_IOS
-                return true;
-#else
-                return false;
-#endif
+                return Constants.CurrentPlatform == FacebookUnityPlatform.Android ||
+                    Constants.CurrentPlatform == FacebookUnityPlatform.IOS;
             }
         }
 
@@ -110,11 +112,8 @@ namespace Facebook.Unity
         {
             get
             {
-#if UNITY_WEBPLAYER || UNITY_WEBGL
-                return true;
-#else
-                return false;
-#endif
+                return Constants.CurrentPlatform == FacebookUnityPlatform.WebGL ||
+                    Constants.CurrentPlatform == FacebookUnityPlatform.WebPlayer;
             }
         }
 
@@ -142,6 +141,50 @@ namespace Facebook.Unity
             get
             {
                 return Utilities.GetUserAgent("FBUnitySDK", FacebookSdkVersion.Build);
+            }
+        }
+
+        public static bool DebugMode
+        {
+            get
+            {
+                return Debug.isDebugBuild;
+            }
+        }
+
+        public static FacebookUnityPlatform CurrentPlatform
+        {
+            get
+            {
+                if (!Constants.currentPlatform.HasValue)
+                {
+                    Constants.currentPlatform = Constants.GetCurrentPlatform();
+                }
+
+                return Constants.currentPlatform.Value;
+            }
+
+            set
+            {
+                Constants.currentPlatform = value;
+            }
+        }
+
+        private static FacebookUnityPlatform GetCurrentPlatform()
+        {
+            switch (Application.platform)
+            {
+                case RuntimePlatform.Android:
+                    return FacebookUnityPlatform.Android;
+                case RuntimePlatform.IPhonePlayer:
+                    return FacebookUnityPlatform.IOS;
+                case RuntimePlatform.WebGLPlayer:
+                    return FacebookUnityPlatform.WebGL;
+                case RuntimePlatform.WindowsWebPlayer:
+                case RuntimePlatform.OSXWebPlayer:
+                    return FacebookUnityPlatform.WebPlayer;
+                default:
+                    return FacebookUnityPlatform.Unknown;
             }
         }
     }

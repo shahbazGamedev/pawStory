@@ -28,7 +28,7 @@ namespace Facebook.Unity.Mobile.Android
         protected override void OnAwake()
         {
 #if UNITY_ANDROID
-            AndroidJNIHelper.debug = true;
+            AndroidJNIHelper.debug = Debug.isDebugBuild;
 #endif
         }
     }

@@ -41,5 +41,10 @@ namespace Facebook.Unity.Mobile
         {
             this.MobileFacebook.OnFetchDeferredAppLinkComplete(message);
         }
+
+        public void OnRefreshCurrentAccessTokenComplete(string message)
+        {
+            this.MobileFacebook.OnRefreshCurrentAccessTokenComplete(message);
+        }
     }
 }

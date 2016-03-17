@@ -283,14 +283,13 @@ namespace Facebook.Unity.Editor
             {
                 try
                 {
-                    FacebookBuild.ExportPackage();
+                    string outputPath = FacebookBuild.ExportPackage();
+                    EditorUtility.DisplayDialog("Finished Exporting unityPackage", "Exported to: " + outputPath, "Okay");
                 }
                 catch (System.Exception e)
                 {
                     EditorUtility.DisplayDialog("Error Exporting unityPackage", e.Message, "Okay");
                 }
-
-                EditorUtility.DisplayDialog("Finished Exporting unityPackage", "Exported to CUI/SDKPackage", "Okay");
             }
         }
     }

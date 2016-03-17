@@ -110,6 +110,12 @@ namespace Facebook.Unity.Example
             }
 
             this.AddLogButton();
+            if (this.ShowBackButton())
+            {
+                // Fix GUILayout margin issues
+                GUILayout.Label(GUIContent.none, GUILayout.MinWidth(ConsoleBase.MarginFix));
+            }
+
             GUILayout.EndHorizontal();
             if (this.ShowDialogModeSelector())
             {

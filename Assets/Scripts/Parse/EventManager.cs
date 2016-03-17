@@ -17,6 +17,9 @@ public class EventManager : MonoBehaviour
 
     public static event Action FacebookInit , FacebookLogin, FacebookLoginWithPermissions, FacebookUserProfile;
 
+
+	 
+
     //public static event ServerAction 
 
     public static void OnSceneStart()
@@ -32,7 +35,7 @@ public class EventManager : MonoBehaviour
     {
         if (GamePaused != null)
         {
-
+			
             GamePaused();
         }
     }
@@ -105,7 +108,7 @@ public class EventManager : MonoBehaviour
         }
     }
 
-
+	 
     public static void OnFacebookLogin()
     {
         if(FacebookLogin !=null)

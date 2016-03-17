@@ -26,18 +26,21 @@ namespace Facebook.Unity
 
     internal class AppRequestResult : ResultBase, IAppRequestResult
     {
+        public const string RequestIDKey = "request";
+        public const string ToKey = "to";
+
         public AppRequestResult(string result) : base(result)
         {
             if (this.ResultDictionary != null)
             {
                 string requestID;
-                if (this.ResultDictionary.TryGetValue<string>("request", out requestID))
+                if (this.ResultDictionary.TryGetValue(AppRequestResult.RequestIDKey, out requestID))
                 {
                     this.RequestID = requestID;
                 }
 
                 string toStr;
-                if (this.ResultDictionary.TryGetValue<string>("to", out toStr))
+                if (this.ResultDictionary.TryGetValue(AppRequestResult.ToKey, out toStr))
                 {
                     this.To = toStr.Split(',');
                 }
@@ -45,7 +48,7 @@ namespace Facebook.Unity
                 {
                     // On iOS the to field is an array of IDs
                     IEnumerable<object> toArray;
-                    if (this.ResultDictionary.TryGetValue("to", out toArray))
+                    if (this.ResultDictionary.TryGetValue(AppRequestResult.ToKey, out toArray))
                     {
                         var toList = new List<string>();
                         foreach (object toEntry in toArray)

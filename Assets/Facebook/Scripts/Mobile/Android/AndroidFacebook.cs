@@ -26,6 +26,8 @@ namespace Facebook.Unity.Mobile.Android
 
     internal sealed class AndroidFacebook : MobileFacebook
     {
+        public const string LoginPermissionsKey = "scope";
+
         // This class holds all the of the wrapper methods that we call into
         private bool limitEventUsage;
         private IAndroidJavaClass facebookJava;
@@ -74,15 +76,8 @@ namespace Facebook.Unity.Mobile.Android
             }
         }
 
-        public override void Init(
+        public void Init(
             string appId,
-            bool cookie,
-            bool logging,
-            bool status,
-            bool xfbml,
-            string channelUrl,
-            string authResponse,
-            bool frictionlessRequests,
             HideUnityDelegate hideUnityDelegate,
             InitDelegate onInitComplete)
         {
@@ -94,26 +89,11 @@ namespace Facebook.Unity.Mobile.Android
                 string.Format("Unity.{0}", Constants.UnitySDKUserAgentSuffixLegacy));
 
             base.Init(
-                appId,
-                cookie,
-                logging,
-                status,
-                xfbml,
-                channelUrl,
-                authResponse,
-                frictionlessRequests,
                 hideUnityDelegate,
                 onInitComplete);
 
             var args = new MethodArguments();
             args.AddString("appId", appId);
-            args.AddPrimative("cookie", cookie);
-            args.AddPrimative("logging", logging);
-            args.AddPrimative("status", status);
-            args.AddPrimative("xfbml", xfbml);
-            args.AddString("channelUrl", channelUrl);
-            args.AddString("authResponse", authResponse);
-            args.AddPrimative("frictionlessRequests", frictionlessRequests);
             var initCall = new JavaMethodCall<IResult>(this, "Init");
             initCall.Call(args);
         }
@@ -123,7 +103,7 @@ namespace Facebook.Unity.Mobile.Android
             FacebookDelegate<ILoginResult> callback)
         {
             MethodArguments args = new MethodArguments();
-            args.AddCommaSeparatedList("scope", permissions);
+            args.AddCommaSeparatedList(AndroidFacebook.LoginPermissionsKey, permissions);
             var loginCall = new JavaMethodCall<ILoginResult>(this, "LoginWithReadPermissions");
             loginCall.Callback = callback;
             loginCall.Call(args);
@@ -134,7 +114,7 @@ namespace Facebook.Unity.Mobile.Android
             FacebookDelegate<ILoginResult> callback)
         {
             MethodArguments args = new MethodArguments();
-            args.AddCommaSeparatedList("scope", permissions);
+            args.AddCommaSeparatedList(AndroidFacebook.LoginPermissionsKey, permissions);
             var loginCall = new JavaMethodCall<ILoginResult>(this, "LoginWithPublishPermissions");
             loginCall.Callback = callback;
             loginCall.Call(args);
@@ -288,7 +268,7 @@ namespace Facebook.Unity.Mobile.Android
             args.AddString("logEvent", logEvent);
             args.AddNullablePrimitive("valueToSum", valueToSum);
             args.AddDictionary("parameters", parameters);
-            var appEventcall = new JavaMethodCall<IResult>(this, "AppEvents");
+            var appEventcall = new JavaMethodCall<IResult>(this, "LogAppEvent");
             appEventcall.Call(args);
         }
 
@@ -301,7 +281,7 @@ namespace Facebook.Unity.Mobile.Android
             args.AddPrimative("logPurchase", logPurchase);
             args.AddString("currency", currency);
             args.AddDictionary("parameters", parameters);
-            var logPurchaseCall = new JavaMethodCall<IResult>(this, "AppEvents");
+            var logPurchaseCall = new JavaMethodCall<IResult>(this, "LogAppEvent");
             logPurchaseCall.Call(args);
         }
 
@@ -320,6 +300,16 @@ namespace Facebook.Unity.Mobile.Android
             var fetchDeferredAppLinkData = new JavaMethodCall<IAppLinkResult>(this, "FetchDeferredAppLinkData");
             fetchDeferredAppLinkData.Callback = callback;
             fetchDeferredAppLinkData.Call(args);
+        }
+
+        public override void RefreshCurrentAccessToken(
+            FacebookDelegate<IAccessTokenRefreshResult> callback)
+        {
+            var refreshCurrentAccessToken = new JavaMethodCall<IAccessTokenRefreshResult>(
+                this,
+                "RefreshCurrentAccessToken");
+            refreshCurrentAccessToken.Callback = callback;
+            refreshCurrentAccessToken.Call();
         }
 
         protected override void SetShareDialogMode(ShareDialogMode mode)

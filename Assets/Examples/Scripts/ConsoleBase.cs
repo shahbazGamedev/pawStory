@@ -28,16 +28,10 @@ namespace Facebook.Unity.Example
 
     internal class ConsoleBase : MonoBehaviour
     {
-        #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8
-        protected const int ButtonHeight = 60;
-        protected static int MainWindowWidth = Screen.width - 30;
-        protected static int MainWindowFullWidth = Screen.width;
-        #else
-        protected const int ButtonHeight = 24;
-        protected const int MainWindowWidth = 700;
-        protected const int MainWindowFullWidth = 760;
-        #endif
-
+        protected static int ButtonHeight = Constants.IsMobile ? 60 : 24;
+        protected static int MainWindowWidth = Constants.IsMobile ? Screen.width - 30 : 700;
+        protected static int MainWindowFullWidth = Constants.IsMobile ? Screen.width : 760;
+        protected static int MarginFix = Constants.IsMobile ? 0 : 48;
         private const int DpiScalingFactor = 160;
         private static Stack<string> menuStack = new Stack<string>();
         private string status = "Ready";
@@ -217,7 +211,7 @@ namespace Facebook.Unity.Example
 
         protected bool IsHorizontalLayout()
         {
-            #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8
+            #if UNITY_IOS || UNITY_ANDROID
             return Screen.orientation == ScreenOrientation.Landscape;
             #else
             return true;

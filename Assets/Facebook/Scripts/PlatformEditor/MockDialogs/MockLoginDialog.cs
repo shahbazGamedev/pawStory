@@ -107,7 +107,8 @@ namespace Facebook.Unity.Editor.Dialogs
                         this.accessToken,
                         facebookID,
                         DateTime.Now.AddDays(60),
-                        grantedPerms);
+                        grantedPerms,
+                        DateTime.Now);
 
                     var result = (IDictionary<string, object>)MiniJSON.Json.Deserialize(newToken.ToJson());
                     result.Add("granted_permissions", grantedPerms);

@@ -2,9 +2,7 @@
 using System.Collections;
 
 public class PuppyWorld_GlobalVariables : MonoBehaviour 
-{
-
-	
+{	
 	public static PuppyWorld_GlobalVariables instance = null;
 	
 	public string	APIKEY , SECRETKEY;

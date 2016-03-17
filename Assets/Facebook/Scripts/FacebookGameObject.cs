@@ -35,8 +35,6 @@ namespace Facebook.Unity
     {
         public IFacebookImplementation Facebook { get; set; }
 
-        public bool Initialized { get; private set; }
-
         public void Awake()
         {
             MonoBehaviour.DontDestroyOnLoad(this);
@@ -48,7 +46,6 @@ namespace Facebook.Unity
 
         public void OnInitComplete(string message)
         {
-            this.Initialized = true;
             this.Facebook.OnInitComplete(message);
         }
 

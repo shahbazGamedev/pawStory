@@ -1370,7 +1370,7 @@ GameObject:
   - 4: {fileID: 1734946750}
   - 95: {fileID: 1734946753}
   - 114: {fileID: 1734946755}
-  - 114: {fileID: 1734946754}
+  - 114: {fileID: 1734946751}
   m_Layer: 15
   m_Name: Dog
   m_TagString: Untagged
@@ -1391,6 +1391,27 @@ Transform:
   - {fileID: 335356376}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &1734946751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1734946749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 395e31085491fb6498486ce5ae28f2ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panelGameOver: {fileID: 316352042}
+  panelGameScreen: {fileID: 1230821989}
+  textTimer: {fileID: 1789359141}
+  textGameOver: {fileID: 1165351584}
+  runSlider: {fileID: 263949611}
+  threadmill: {fileID: 1820832478}
+  startingValue: 0.3
+  inputValue: 0.025
+  decrementValue: 0.025
+  maxLevelTime: 20
 --- !u!95 &1734946753
 Animator:
   serializedVersion: 3
@@ -1408,27 +1429,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &1734946754
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1734946749}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65bfcf40b3da89c45beafdbbc306e753, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  panelGameOver: {fileID: 316352042}
-  panelGameScreen: {fileID: 1230821989}
-  textTimer: {fileID: 1789359141}
-  textGameOver: {fileID: 1165351584}
-  runSlider: {fileID: 263949611}
-  threadmill: {fileID: 1820832478}
-  startingValue: 0.3
-  inputValue: 0.025
-  decrementValue: 0.025
-  maxLevelTime: 20
 --- !u!114 &1734946755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1969,7 +1969,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1734946754}
+        - m_Target: {fileID: 1734946751}
           m_MethodName: OnPointerDown
           m_Mode: 1
           m_Arguments:

@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using Parse;
+
 using Facebook.Unity;
 using Facebook.MiniJSON;
 using UnityEngine.Purchasing;
+using com.shephertz.app42.paas.sdk.csharp;   
+using com.shephertz.app42.paas.sdk.csharp.user;   
 
 public class FBManager : MonoBehaviour
 {
@@ -12,7 +15,7 @@ public class FBManager : MonoBehaviour
 
 	public static FBManager instance;
 	private string lastResponse = string.Empty;
-	public  Texture2D profilePic;
+	private  Texture2D profilePic;
 	protected string LastResponse
 	{
 		get
@@ -42,36 +45,50 @@ public class FBManager : MonoBehaviour
 		}
 	}
 
+	void OnEnable()
+	{
+		
+		EventManager.SceneStart += OnSceneStart;
+		EventManager.SceneEnd += OnSceneEnd;
+	}
+
+
+	void OnDisable()
+	{
+		EventManager.SceneStart -= OnSceneStart;
+		EventManager.SceneEnd -= OnSceneEnd;
+	}
+
+
+	void OnSceneStart()
+	{
+		
+	}
+
+
+	void OnSceneEnd()
+	{
+
+	}
+
+
 	public void Awake()
 	{
 		instance = this;
+		CallFBInit();
 	}
 
 	// Use this for initialization
 	void Start ()
 	{
-		/*Debug.Log ("init parse");
-		ParseObject testObject = new ParseObject("TestObject");
-		testObject["foo"] = "bar";
-		testObject.SaveAsync();*/
-
-		if(ParseUser.CurrentUser==null)
-		CallFBInit();
-
-		// check for condition and call the login..
-		/*else
-		{
-			Debug.Log("User already exists");
-			Debug.Log(ParseUser.CurrentUser.Username);
-		}*/
-
-		//ParseUserManagement.instance.SaveData();
-		//ParseUserManagement.instance.GetData();
+				 
 	}
+
 
 
 	public void CallFBInit()
 	{
+		Debug.Log ("calling FB init");
 		FB.Init(OnInitComplete, OnHideUnity);
 	}
 
@@ -124,6 +141,7 @@ public class FBManager : MonoBehaviour
 
 	void HandleLoginResult(IResult result)
 	{
+		MenuManager.instance.ShowLoadingScreen ("Logging In...");
 		if (result == null)
 		{
 			LastResponse = "Null Response\n";
@@ -136,6 +154,7 @@ public class FBManager : MonoBehaviour
 		{
 			Status = "Error - Check log for details";
 			LastResponse = "Error Response:\n" + result.Error;
+			MenuManager.instance.ShowLoadingScreen ("Error Connecting In...");
 
 		}
 		else if (result.Cancelled)
@@ -148,20 +167,20 @@ public class FBManager : MonoBehaviour
 		{
 			Status = "Success - Check log for details";
 			LastResponse = "Success Response:\n" + result.RawResult;
+			 
 			var dict = Json.Deserialize(result.RawResult) as Dictionary<string,object>;
-
+			 
 			Debug.Log(dict["access_token"]);
-			Debug.Log(dict["expiration_timestamp"]);
 			Debug.Log(dict["user_id"]);
 
-			PlayerManager.instance.userId = dict["user_id"] as string;
-			PlayerManager.instance.accessToken = dict["access_token"]as string;
-			PlayerManager.instance.expirationTimeStamp = dict["expiration_timestamp"] as string;
-
-			PlayerManager.instance.CreateUpdateParseUser();
-
+			GlobalVariables.userID = dict["user_id"] as string;
+			App42API.SetLoggedInUser (GlobalVariables.userID);
+			GlobalVariables.userAccessToken =  dict["access_token"]as string;
+			 
+			UserManager.instance.CreateUserWithFaceBook ();
 			//CallFBLoginForPublish ();
-			//RetrieveProfilePicAndName ();
+
+			 
 
 		}
 		else
@@ -207,10 +226,7 @@ public class FBManager : MonoBehaviour
 		{
 			Status = "Success - Check log for details";
 			LastResponse = "Success Response:\n" + result.RawResult;
-			 
-
-		//	PlayerManager.instance.StoreAccessToken(result.RawResult);
-			RetrieveName();
+ 
  		}
 		else
 		{
@@ -317,6 +333,6 @@ public class FBManager : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		Debug.Log("Last Response" + LastResponse);
+		//Debug.Log("Last Response" + LastResponse);
 	}
 }
