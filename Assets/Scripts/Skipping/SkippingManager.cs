@@ -120,14 +120,14 @@ public class SkippingManager : MonoBehaviour
         slider.value = sliderValue;
         */
 
-        if(sliderTimeElapsed > sliderTimeDuration)
+        if(gameStart && sliderTimeElapsed > sliderTimeDuration)
         {
 
             if (sliderValue > 1f)
-                sliderOffsetValue = -sliderOffsetValue;
+                sliderOffsetValue = -sliderOffsetValue;//reverses the direction
             else
             if (sliderValue < 0f)
-                sliderOffsetValue = -sliderOffsetValue;
+                sliderOffsetValue = -sliderOffsetValue;//reverses the direction
 
 
             sliderValue -= sliderOffsetValue;
@@ -135,15 +135,15 @@ public class SkippingManager : MonoBehaviour
 
             slider.value = sliderValue;//move the slider
 
-            if(sliderOffsetValue > 0) //additive
+            if(sliderOffsetValue > 0) //If its positive, 
             {
-                skipRope.angle = sliderValue * 1 * 360f;   //rotate the rope
+                skipRope.angle = sliderValue * 360f;   //rotate the rope
                 //Debug.Log("Additive");
             }
             else
-            if(sliderOffsetValue < 0) //subtractive
+            if(sliderOffsetValue < 0) //If its negative, find the diff and multiply
             {
-                skipRope.angle = (1.0f - sliderValue) * 1 * 360f;   //rotate the rope
+                skipRope.angle = (1.0f - sliderValue) * 360f;   //rotate the rope
                 //Debug.Log("Subtractive");
             }
 
@@ -266,7 +266,7 @@ public class SkippingManager : MonoBehaviour
             gameHold = true;
             gameStart = false;
             ropeRef.GetComponent<SkippingRope>().rotateRope = false;
-            ropeRef.GetComponent<SkippingRope>().ResetPosition();
+            //ropeRef.GetComponent<SkippingRope>().ResetPosition();
             scoreText.text = "--Tap to Resume--";
         }
         //skipRope.skipSpeed = ropeSpeeds[Random.Range(0, 8)];
@@ -313,12 +313,13 @@ public class SkippingManager : MonoBehaviour
         scoreText.gameObject.transform.parent.gameObject.SetActive(true);
         comboText.gameObject.SetActive(true);
         slider.gameObject.SetActive(true);
+        sliderValue = 0; //reset the slide values to 0 (leftmost)
+        slider.value = 0;
         comboCount = 1;
         comboChain = false;
         score = 0;
         maxCombo = 0;
         tapCount = 0;
-        slider.value = 0;
         foreach (var gameObj in livesRef)
         {
             gameObj.SetActive(true);
@@ -327,6 +328,8 @@ public class SkippingManager : MonoBehaviour
         touchMat.SetActive(true);
         DisplayInstruction();
         comboText.text = "";
+
+        Debug.Log("Resetted the slider values");
     }
 
     // Home Btn Callback

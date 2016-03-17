@@ -16,6 +16,7 @@ public class SkippingRope : MonoBehaviour {
 
 	//Vector3 startPos;
 	Quaternion startRot;
+    Transform startPos;
 
 	// Use this for initialization
 	void Start () {
@@ -24,7 +25,8 @@ public class SkippingRope : MonoBehaviour {
         Debug.Log("Angle : " + angle);
 
 		startRot = rope.transform.rotation;
-	}
+        startPos = rope.transform;
+    }
 	
 	// Update is called once per frame
 	void Update () 
@@ -54,7 +56,7 @@ public class SkippingRope : MonoBehaviour {
     // Resets gameObject's position
     public void ResetPosition()
 	{
-		rope.transform.rotation = startRot;
-		angle = rope.transform.rotation.eulerAngles.x;
-	}
+        rope.transform.localPosition = startPos.transform.localPosition;
+        angle = rope.transform.rotation.eulerAngles.x;
+    }
 }
