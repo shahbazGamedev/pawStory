@@ -66,7 +66,7 @@ public class ColorTrainingMgr : MonoBehaviour
 			
 		if(distance < 2f) 
 		{
-			dogAnim.SetFloat ("Walk", 0f);
+			
 			targetPos = dogStartPos;
 			transform.LookAt (targetPos);
 			float step = speed * Time.deltaTime;
@@ -76,6 +76,7 @@ public class ColorTrainingMgr : MonoBehaviour
 		if (transform.position == dogStartPos)
 		{
 			transform.LookAt (Dummy);
+			dogAnim.SetFloat ("Walk", 0f);
 		}
 
 		if(score==4)
@@ -150,12 +151,13 @@ public class ColorTrainingMgr : MonoBehaviour
 			txt_gameOver.text = "Session Failed";
 		}
 
-		Time.timeScale = 0f;
+
 	}
 
 	public void RestartGame()
 	{
-		Time.timeScale = 1;
+		isMoving = false;
+
 		score = 0;
 		targetPos = Vector3.zero;
 		transform.position = dogStartPos;
