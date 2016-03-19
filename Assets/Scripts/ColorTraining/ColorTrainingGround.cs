@@ -25,9 +25,6 @@ public class ColorTrainingGround : MonoBehaviour {
 			}
 			else 
 			{
-				ColorTrainingMgr.instRef.isMoving = false;
-				ColorTrainingMgr.instRef.ResetObjectPos ();
-				ColorTrainingMgr.instRef.targetPos = Vector3.zero;
 				ColorTrainingMgr.instRef.GameOver ();
 			}
 			break;
@@ -39,9 +36,6 @@ public class ColorTrainingGround : MonoBehaviour {
 			}
 			else 
 			{
-				ColorTrainingMgr.instRef.isMoving = false;
-				ColorTrainingMgr.instRef.ResetObjectPos ();
-				ColorTrainingMgr.instRef.targetPos = Vector3.zero;
 				ColorTrainingMgr.instRef.GameOver ();
 			}
 			break;
@@ -53,9 +47,6 @@ public class ColorTrainingGround : MonoBehaviour {
 			}
 			else 
 			{
-				ColorTrainingMgr.instRef.isMoving = false;
-				ColorTrainingMgr.instRef.ResetObjectPos ();
-				ColorTrainingMgr.instRef.targetPos = Vector3.zero;
 				ColorTrainingMgr.instRef.GameOver ();
 			}
 			break;
@@ -67,9 +58,6 @@ public class ColorTrainingGround : MonoBehaviour {
 			}
 			else 
 			{
-				ColorTrainingMgr.instRef.isMoving = false;
-				ColorTrainingMgr.instRef.ResetObjectPos ();
-				ColorTrainingMgr.instRef.targetPos = Vector3.zero;
 				ColorTrainingMgr.instRef.GameOver ();
 			}
 			break;	
