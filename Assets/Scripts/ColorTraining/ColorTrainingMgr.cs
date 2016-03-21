@@ -89,7 +89,7 @@ public class ColorTrainingMgr : MonoBehaviour
 		SetColor();
 		txt_chances.text = " Chances " + score + " /4 ";
 
-		if (falseTap) 
+		if (!isMoving && falseTap) 
 		{
 			RestartGame ();
 			falseTap = false;
