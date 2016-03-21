@@ -14,6 +14,7 @@ public class ColorTrainingMgr : MonoBehaviour
 	public Transform Dummy;
 	public Text txt_chances;
 	public GameObject[] toys;
+	public GameObject colorToys;
 
 	public Animator dogAnim;
 	Rigidbody rb;
@@ -27,8 +28,9 @@ public class ColorTrainingMgr : MonoBehaviour
 	string layerName;
 	public float speed;
 	public int score;
-	public bool red, green, blue, yellow;
+	public bool red, green, blue, yellow,falseTap;
 	public bool isMoving;
+
 
 
 	void Awake()
@@ -44,6 +46,7 @@ public class ColorTrainingMgr : MonoBehaviour
 		objStartPos = new Vector3[toys.Length];
 		gameScreenPanel.SetActive (true);
 		isMoving = false;
+
 
 		for(int i = 0; i < toys.Length; i++)
 		{
@@ -83,7 +86,8 @@ public class ColorTrainingMgr : MonoBehaviour
 		{
 			GameOver ();
 		}
-
+			
+		CheckFalseCall ();
 		SetColor();
 		txt_chances.text = " Chances " + score + " /4 ";
 	}
@@ -96,6 +100,57 @@ public class ColorTrainingMgr : MonoBehaviour
 	void OnDisable()
 	{
 		EventMgr.GameRestart -= RestartGame;
+	}
+
+	void CheckFalseCall()
+	{
+		if (isMoving && ThrowingObjects.instRef.transform.position == objStartPos [0] && falseTap) 
+		{
+			//StartCoroutine (FalseCall ());
+			falseTap = false;
+			isMoving = false;
+			colorPanelUI.SetActive (true);
+		}
+		else 
+		{
+			
+			falseTap = false;	
+
+		}
+		if (isMoving && ThrowingObjects.instRef.transform.position == objStartPos [1] && falseTap)
+		{
+			//StartCoroutine (FalseCall ());
+			falseTap = false;
+			isMoving = false;
+			colorPanelUI.SetActive (true);
+		} 
+		else 
+		{
+			falseTap = false;	
+
+		}
+		if (isMoving && ThrowingObjects.instRef.transform.position == objStartPos [2] && falseTap) 
+		{
+			//StartCoroutine (FalseCall ());
+			falseTap = false;
+			isMoving = false;
+			colorPanelUI.SetActive (true);
+		} 
+		else 
+		{
+			falseTap = false;	
+
+		}
+		if (isMoving && ThrowingObjects.instRef.transform.position == objStartPos [3] && falseTap) 
+		{
+			//StartCoroutine (FalseCall ());
+			falseTap = false;
+			isMoving = false;
+			colorPanelUI.SetActive (true);
+		} else 
+		{
+			falseTap = false;
+		}
 	}
 
 	void SetColor()
@@ -117,13 +172,13 @@ public class ColorTrainingMgr : MonoBehaviour
 
 	public void GetRandomColor()
 	{
-		isMoving = false;
+		//isMoving = false;
 		red = false;
 		green = false;
 		blue = false;
 		yellow = false;
 		colorIndex = Random.Range (0, 4);
-		colorPanelUI.SetActive (true);
+
 	}
 
 	public void ResetObjectPos()
@@ -151,13 +206,12 @@ public class ColorTrainingMgr : MonoBehaviour
 			txt_gameOver.text = "Session Failed";
 		}
 
-
 	}
 
 	public void RestartGame()
 	{
 		isMoving = false;
-
+		colorPanelUI.SetActive (true);
 		score = 0;
 		targetPos = Vector3.zero;
 		transform.position = dogStartPos;
@@ -173,26 +227,40 @@ public class ColorTrainingMgr : MonoBehaviour
 
 		switch(layerName)
 		{
-			case "RedObject":
+		case "RedObject":
+			colorToys.SetActive (false);
 			ResetObjectPos ();
 			break;
 
 			case "GreenObject":
+			colorToys.SetActive (false);
 			ResetObjectPos ();
 			break;
 	
 			case "BlueObject":
+			colorToys.SetActive (false);
 			ResetObjectPos ();
 			break;
 
 			case "YellowObject":
+			colorToys.SetActive (false);
 			ResetObjectPos ();
 			break;
 
-			case "CheckPoint":
+		case "CheckPoint":
 			score += 1;
+			colorToys.SetActive (true);
+			isMoving = false;
+			colorPanelUI.SetActive (true);
 			GetRandomColor ();
 			break;
 		}
 	}
+
+//	IEnumerator FalseCall()
+//	{
+//		yield return new WaitForSeconds (2f);
+//		//ResetObjectPos ();
+//		//GetRandomColor ();
+//	}
 }

@@ -12,10 +12,12 @@ public class ThrowingObjects : MonoBehaviour
 	Vector3 startPos;
 	Vector3 direction;
     Rigidbody rb;
+	public bool foul;
 
 	void Awake()
 	{
 		instRef = this;
+
 	}
 
 	void Start ()
@@ -39,6 +41,7 @@ public class ThrowingObjects : MonoBehaviour
 		startPos = Input.mousePosition;
 		startPos.z = transform.position.z - Camera.main.transform.position.z;
 		startPos = Camera.main.ScreenToWorldPoint(startPos);
+
 	}
 
 	void OnReset()
@@ -49,7 +52,7 @@ public class ThrowingObjects : MonoBehaviour
 		
 	void  OnMouseUp ()
 	{
-		if (ColorTrainingMgr.instRef.isMoving == false) 
+		if (ColorTrainingMgr.instRef.isMoving == false ) 
 		{
 			endPos = Input.mousePosition;
 			endPos.z = transform.position.z - Camera.main.transform.position.z;
@@ -63,6 +66,7 @@ public class ThrowingObjects : MonoBehaviour
 		}
 		ColorTrainingMgr.instRef.colorPanelUI.SetActive (false);
 		ColorTrainingMgr.instRef.isMoving = true;
+		ColorTrainingMgr.instRef.falseTap = true;
 	}
 
 	void OnCollisionEnter(Collision col)
