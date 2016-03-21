@@ -25,7 +25,7 @@ public class PetManager : MonoBehaviour
 	public PetState currentState, prevState;
 
 	public bool isIdle, isLicking, isPlaying, isJumping, isStanding, isRolling, isMoving;
-	public float idleRandom;
+	public float idleRandom,jumpRandom;
 	public bool isAnimPlaying;
 	public float animEndTime;
 
@@ -115,7 +115,8 @@ public class PetManager : MonoBehaviour
 
 	void JumpState()
 	{
-		
+		dogAnimator.SetTrigger ("jump");
+		dogAnimator.SetFloat ("jumpRandom",jumpRandom);
 	}
 
 
