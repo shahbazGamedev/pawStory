@@ -14,42 +14,47 @@ public class ThrowingObjects : MonoBehaviour
     Rigidbody rb;
 	public bool foul;
 
+
 	void Awake()
 	{
 		instRef = this;
-
 	}
+
 
 	void Start ()
 	{
 		rb = GetComponent<Rigidbody> ();
 	}
 
+
 	void OnEnable()
 	{
 		EventMgr.GameRestart += OnReset;
 	}
+
 
 	void OnDisable()
 	{
 		EventMgr.GameRestart -= OnReset;
 	}
 		
+
 	void  OnMouseDown ()
 	{
 		rb.isKinematic = false;
 		startPos = Input.mousePosition;
 		startPos.z = transform.position.z - Camera.main.transform.position.z;
 		startPos = Camera.main.ScreenToWorldPoint(startPos);
-
 	}
+
 
 	void OnReset()
 	{
 		transform.position = startPos;
 		rb.isKinematic = true;
 	}
-		
+
+
 	void  OnMouseUp ()
 	{
 		if (ColorTrainingMgr.instRef.isMoving == false ) 
@@ -64,10 +69,19 @@ public class ThrowingObjects : MonoBehaviour
 
 			rb.AddForce (force * power);
 		}
+
+		if (endPos.z > startPos.z)
+		{
+			ColorTrainingMgr.instRef.isMoving = true;
+		}
+		else
+		{
+			ColorTrainingMgr.instRef.falseTap = true;
+		}
+
 		ColorTrainingMgr.instRef.colorPanelUI.SetActive (false);
-		ColorTrainingMgr.instRef.isMoving = true;
-		ColorTrainingMgr.instRef.falseTap = true;
 	}
+
 
 	void OnCollisionEnter(Collision col)
 	{

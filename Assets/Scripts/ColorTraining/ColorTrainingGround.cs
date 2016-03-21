@@ -7,10 +7,12 @@ public class ColorTrainingGround : MonoBehaviour {
 
 	string layerName;
 
+
 	void Awake()
 	{
 		instref = this;
 	}
+
 
 	void OnCollisionEnter(Collision col)
 	{
