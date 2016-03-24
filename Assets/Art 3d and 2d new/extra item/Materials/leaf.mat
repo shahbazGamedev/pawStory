@@ -7,10 +7,10 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: leaf
-  m_Shader: {fileID: 10721, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 10606, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: _ALPHAPREMULTIPLY_ON
   m_LightmapFlags: 5
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: 2000
   stringTagMap:
     RenderType: Transparent
   m_SavedProperties:
@@ -81,14 +81,14 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _TranslucencyMap
+          name: _GlossMap
         second:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _GlossMap
+          name: _TranslucencyMap
         second:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
@@ -112,7 +112,7 @@ Material:
       data:
         first:
           name: _Cutoff
-        second: 0.14
+        second: 0.46
       data:
         first:
           name: _Shininess
@@ -155,16 +155,28 @@ Material:
         second: 0
       data:
         first:
+          name: _Occlusion
+        second: 7.5
+      data:
+        first:
           name: _SquashAmount
         second: 1
       data:
         first:
+          name: _BaseLight
+        second: 0.35
+      data:
+        first:
+          name: _AO
+        second: 2.4
+      data:
+        first:
           name: _TranslucencyViewDependency
-        second: 0.13
+        second: 0.43
       data:
         first:
           name: _ShadowStrength
-        second: 0.17
+        second: 0.47
     m_Colors:
       data:
         first:
@@ -173,7 +185,7 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: 1, g: 1, b: 1, a: 1}
+        second: {r: 0.45327526, g: 0.61764705, b: 0.43144464, a: 1}
       data:
         first:
           name: _TreeInstanceScale
@@ -185,4 +197,4 @@ Material:
       data:
         first:
           name: _TranslucencyColor
-        second: {r: 0.73, g: 0.85, b: 0.41, a: 1}
+        second: {r: 0.15862082, g: 1, b: 0, a: 1}
