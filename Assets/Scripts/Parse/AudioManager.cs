@@ -8,6 +8,8 @@ public enum SFXVAL
 	jump =0,
 	doubleJump,
 	gameOver,
+	gameWin,
+	gameLost,
 	buttonClick
 }
 
@@ -17,9 +19,9 @@ public class AudioManager : MonoBehaviour
 
 	public static AudioManager instance =null;
 
-	public AudioSource audioSrc;
-	public AudioSource audioSrcBg;
-	public AudioClip  jump, doubleJump, gameOver, buttonClick;
+	public AudioSource audioSource;
+	public AudioSource audioSourceBg;
+	public AudioClip  jump, doubleJump, gameOver,gameWin, gameLost, buttonClick;
 
 
 
@@ -41,26 +43,34 @@ public class AudioManager : MonoBehaviour
 		switch(curSfxVal)
 		{
 		case SFXVAL.buttonClick:
-			audioSrc.PlayOneShot(buttonClick);
+			audioSource.PlayOneShot(buttonClick);
 			break;
 
 		case SFXVAL.jump:
-			audioSrc.PlayOneShot(jump);
+			audioSource.PlayOneShot(jump);
 			break;
 
 		case SFXVAL.doubleJump:
-			audioSrc.PlayOneShot(doubleJump);
+			audioSource.PlayOneShot(doubleJump);
+			break;
+
+		case SFXVAL.gameLost:
+			audioSource.PlayOneShot (gameLost);
+			break;
+
+		case SFXVAL.gameWin:
+			audioSource.PlayOneShot (gameWin);
 			break;
 
 		case SFXVAL.gameOver:
-			audioSrc.PlayOneShot(gameOver);
+			audioSource.PlayOneShot(gameOver);
 			break;
 		}
 	}
 
 	public void MusicToggle()
 	{
-		audioSrcBg.mute = GlobalVariables.isMuted;
+		audioSourceBg.mute = GlobalVariables.isMuted;
 	}
 	
 	// Update is called once per frame
