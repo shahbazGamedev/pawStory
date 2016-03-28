@@ -74,15 +74,12 @@ public class BonePullManager : MonoBehaviour {
 
     void OnMouseUp()
     {
-/*         if (isHolding)
-        {
-            animator.SetFloat("win", 1f);//dog wins
-            isHolding = false;
-        } */
+
     }
 	
 	void rotateToRight()
 	{
+
         if (isDogRotating)
         {
             distanceCovered = (Time.time - startTime_Rotation) * rotationSpeed;
