@@ -15,7 +15,9 @@ public class SkippingManager : MonoBehaviour
     public GameObject dogRef;
     public GameObject ropeRef;
     public GameObject[] livesRef;
+	public GameObject touchMat;
 
+	public int touchCounter;
     public int dogLives;
     public int dogMaxLives;
     public int comboMultiplierCap;
@@ -45,7 +47,7 @@ public class SkippingManager : MonoBehaviour
     public Text gameOverText;
     public Image analogTimer;
     public GameObject gameOverPannel;
-    public GameObject touchMat;
+   
 
     //slider vars
     float sliderTimeElapsed, sliderTimeDuration=0.01f, sliderOffsetValue=0.01f;
@@ -64,13 +66,23 @@ public class SkippingManager : MonoBehaviour
         Init();
     }
 
+	//EventMgr
+	void OnEnable()
+	{
+		EventMgr.GameRestart += OnResetBtn;
+		EventMgr.GamePause += OnGamePause;
+		EventMgr.GameResume += OnGameResume;
+	}
+
     // Decouple Event Listeners
     void OnDisable()
     {
         TriggerDetection.DogHitSkipRope -= DogHitSkipRopeEvent;
         TriggerDetection.SkipRopeReset -= SkipRopeResetEvent;
-        TouchManager.PatternRecognized -= PatternRecognizedEvent;
+       // TouchManager.PatternRecognized -= PatternRecognizedEvent;
         EventMgr.GameRestart -= OnResetBtn;
+		EventMgr.GamePause -= OnGamePause;
+		EventMgr.GameResume -= OnGameResume;
     }
 
     // Update is called once per frame
@@ -79,23 +91,29 @@ public class SkippingManager : MonoBehaviour
         SliderFunction();
 
         Timer();
+
+		if (touchCounter > 0) 
+		{
+			onTap ();
+		}
     }
 
     // Initialize game
     void Init()
     {
+		touchCounter = 0;
         instanceRef = this;
         comboCount = 1;
         dogLives = dogMaxLives;
         scoreText.text = "Score: " + score;
-        touchMat.SetActive(true);
+		touchMat.SetActive(true);
         DisplayInstruction();
 
         // Add Event Listener
         TriggerDetection.DogHitSkipRope += DogHitSkipRopeEvent;
         TriggerDetection.SkipRopeReset += SkipRopeResetEvent;
-        TouchManager.PatternRecognized += PatternRecognizedEvent;
-        EventMgr.GameRestart += OnResetBtn;
+       // TouchManager.PatternRecognized += PatternRecognizedEvent;
+       // EventMgr.GameRestart += OnResetBtn;
     }
 
     // Listens for player input
@@ -146,8 +164,7 @@ public class SkippingManager : MonoBehaviour
                 skipRope.angle = (1.0f - sliderValue) * 360f;   //rotate the rope
                 //Debug.Log("Subtractive");
             }
-
-
+					
             sliderTimeElapsed = 0f;
         }
 
@@ -177,15 +194,15 @@ public class SkippingManager : MonoBehaviour
     // gameOver Function
     void GameOver()
     {
-        touchMat.SetActive(false);
         gameStart = false;    
         gameOverPannel.SetActive(true);
         ropeRef.GetComponent<SkippingRope>().rotateRope = false;
         scoreText.gameObject.transform.parent.gameObject.SetActive(false);
         comboText.gameObject.SetActive(false);
         slider.gameObject.SetActive(false);
+		touchMat.SetActive(false);
+		touchCounter = 0;
         //maxCombo = tapCount < 1 ? 0 : maxCombo;
-
         // gameover screen full life - 0 maxCombo bug fix
         if (tapCount < 1)
         {
@@ -194,12 +211,10 @@ public class SkippingManager : MonoBehaviour
         //else if(maxCombo==0)
         //{
             if(comboCount > maxCombo && comboCount != 1)
-            {
+			{
                 maxCombo = comboCount;
             }
         //}
-
-
         gameOverText.text = "Score: " + score + "\n\n" + "Max Combo: "
             + maxCombo + "\n\nTotal Taps: " + tapCount; // Game Play Stats
     }
@@ -273,39 +288,40 @@ public class SkippingManager : MonoBehaviour
     }
 
     //Event Handler for PatternRecognized Event
-    void PatternRecognizedEvent(SwipeRecognizer.TouchPattern pattern)
-    {
-        // if(pattern==SwipeRecognizer.TouchPattern.singleTap && gameStart)
-        if (pattern != SwipeRecognizer.TouchPattern.hold)
-        {
-            //Debug.Log("Tap");
-            if (!gameStart && !gameHold)
-            {
-                OnPlayBtn();
-            }
-            else if (gameHold)
-                onTap();
-            else
-                PlaySkipping();
-        }
-    }
+//    void PatternRecognizedEvent(SwipeRecognizer.TouchPattern pattern)
+//    {
+//        // if(pattern==SwipeRecognizer.TouchPattern.singleTap && gameStart)
+//        if (pattern != SwipeRecognizer.TouchPattern.hold)
+//        {
+//            //Debug.Log("Tap");
+//            if (!gameStart && !gameHold)
+//            {
+//                OnPlayBtn();
+//            }
+//            else if (gameHold)
+//                onTap();
+//            else
+//                PlaySkipping();
+//        }
+//    }
 
     #endregion EventHandlers
 
     #region BtnCallbacks
 
     // Play Btn Callback
-    public void OnPlayBtn()
-    {
-        gameStart = true;
-        timer = 0;
-        ropeRef.GetComponent<SkippingRope>().rotateRope = true;
-        scoreText.text = "Score: 0";
-    }
+//    public void OnPlayBtn()
+//    {
+//			gameStart = true;
+//			timer = 0;
+//			ropeRef.GetComponent<SkippingRope> ().rotateRope = true;
+//			scoreText.text = "Score: 0";
+//    }
 
     // Reset Btn Callback
     public void OnResetBtn()
     {
+		touchCounter = 1;
         dogLives = dogMaxLives;
         timer = 0;
         gameOverPannel.SetActive(false);
@@ -325,7 +341,7 @@ public class SkippingManager : MonoBehaviour
             gameObj.SetActive(true);
         }
         scoreText.text = "";
-        touchMat.SetActive(true);
+		touchMat.SetActive(true);
         DisplayInstruction();
         comboText.text = "";
 
@@ -339,9 +355,29 @@ public class SkippingManager : MonoBehaviour
     }
 
     public void OnPointerDown()
-    {
-        PlaySkipping();
-    }
-
+	{
+		touchCounter += 1;
+		if (touchCounter > 1) 
+		{
+			PlaySkipping ();
+		}
+	}
+		
     #endregion BtnCallbacks
+
+
+	//Events
+	public void OnGamePause()
+	{
+		touchMat.SetActive (false);	
+	}
+
+	public void OnGameResume()
+	{
+		touchMat.SetActive (true);	
+	}
 }
+
+
+
+

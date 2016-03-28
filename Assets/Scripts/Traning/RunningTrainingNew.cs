@@ -15,6 +15,7 @@ public class RunningTrainingNew : MonoBehaviour
 	// Variables
 	public GameObject panelGameOver;
 	public GameObject panelGameScreen;
+	public GameObject touchMat;
 	public Text textTimer;
 	public Text textGameOver;
 
@@ -40,6 +41,7 @@ public class RunningTrainingNew : MonoBehaviour
 		gameStart = true;
 		panelGameOver.SetActive(false);
 		dogAnim = GetComponent<Animator> ();
+		touchMat.SetActive (true);
 	}
 
 	void Update () 
@@ -55,12 +57,14 @@ public class RunningTrainingNew : MonoBehaviour
 	{
 		EventMgr.GameRestart += OnRestartGame;
 		EventMgr.GamePause += OnPauseGame;
+		EventMgr.GameResume += OnGameResume;
 	}
 		
 	void OnDisable() 
 	{
 		EventMgr.GameRestart -= OnRestartGame;
-		EventMgr.GamePause += OnPauseGame;
+		EventMgr.GamePause -= OnPauseGame;
+		EventMgr.GameResume -= OnGameResume;
 	}
 
 	// Even Trigger
@@ -100,6 +104,7 @@ public class RunningTrainingNew : MonoBehaviour
 	public void OnRestartGame()
 	{
 		Time.timeScale = 1;
+		touchMat.SetActive (true);
 		levelTimer = 0f;
 		dogSpeed = startingValue;
 		runSlider.value = startingValue;
@@ -112,7 +117,14 @@ public class RunningTrainingNew : MonoBehaviour
 	public void OnPauseGame()
 	{
 		Time.timeScale = 0;
+		touchMat.SetActive (false);
 	}
+
+	public void OnGameResume()
+	{
+		touchMat.SetActive (true);
+	}
+		
 
 	public void MainMenu()
 	{
