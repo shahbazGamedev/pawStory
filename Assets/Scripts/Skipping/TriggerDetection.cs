@@ -38,6 +38,7 @@ public class TriggerDetection : MonoBehaviour {
 			if(DogHitSkipRope!=null)
 			{
 				DogHitSkipRope ();
+				SkippingManager.instanceRef.touchCounter = 0;
 			}
 		}
 

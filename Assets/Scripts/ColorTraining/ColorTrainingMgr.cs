@@ -216,28 +216,29 @@ public class ColorTrainingMgr : MonoBehaviour
 		switch(layerName)
 		{
 			case "RedObject":
-			colorToys.SetActive (false);
+			//colorToys.SetActive (false);
 			ResetObjectPos ();
 			break;
 
 			case "GreenObject":
-			colorToys.SetActive (false);
+			//colorToys.SetActive (false);
 			ResetObjectPos ();
 			break;
 	
 			case "BlueObject":
-			colorToys.SetActive (false);
+			//colorToys.SetActive (false);
 			ResetObjectPos ();
 			break;
 
 			case "YellowObject":
-			colorToys.SetActive (false);
+			//colorToys.SetActive (false);
 			ResetObjectPos ();
 			break;
 
-			case "CheckPoint":
+		case "CheckPoint":
 			score += 1;
-			colorToys.SetActive (true);
+			//colorToys.SetActive (true);
+			Debug.Log ("");
 			isMoving = false;
 			colorPanelUI.SetActive (true);
 			GetRandomColor ();
