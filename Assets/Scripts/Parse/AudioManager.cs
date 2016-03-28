@@ -4,22 +4,23 @@ using System.Collections;
 
 public enum SFXVAL
 {
-	
+
 	jump =0,
 	doubleJump,
 	gameOver,
 	buttonClick
 }
 
-public class SoundManager : MonoBehaviour 
+public class AudioManager : MonoBehaviour 
 {
 
 
-	public static SoundManager instance = null;
-	 
+	public static AudioManager instance =null;
+
 	public AudioSource audioSrc;
 	public AudioSource audioSrcBg;
 	public AudioClip  jump, doubleJump, gameOver, buttonClick;
+
 
 
 	void Awake()
@@ -50,7 +51,7 @@ public class SoundManager : MonoBehaviour
 		case SFXVAL.doubleJump:
 			audioSrc.PlayOneShot(doubleJump);
 			break;
-			 	 
+
 		case SFXVAL.gameOver:
 			audioSrc.PlayOneShot(gameOver);
 			break;
@@ -59,13 +60,13 @@ public class SoundManager : MonoBehaviour
 
 	public void MusicToggle()
 	{
-		 
 		audioSrcBg.mute = GlobalVariables.isMuted;
 	}
-
+	
 	// Update is called once per frame
 	void Update () 
 	{
-		MusicToggle();
+		MusicToggle (); // else call when doing mute...
+
 	}
 }

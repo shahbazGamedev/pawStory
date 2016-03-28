@@ -160,11 +160,7 @@ public class PuppyManager : MonoBehaviour
 	{
  
 		Debug.Log("Events are registered :- PuppyManager");
- 
-		 
-		 
-       
- 
+  
 		 
 	}
 

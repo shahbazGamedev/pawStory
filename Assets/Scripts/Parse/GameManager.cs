@@ -65,17 +65,14 @@ public class GameManager : MonoBehaviour
 
 	void OnDisable()
 	{
-		 
-	 
+
 	}
 
 
 	// Use this for initialization
 	void Start () 
 	{
-		
-		/*if(GlobalVariables.userID!=null)
-		UserManager.instance.CheckForUser ();*/
+		 
 	}
 	
 
@@ -135,12 +132,5 @@ public class GameManager : MonoBehaviour
 		EventManager.OnSceneEnd();
 	}
 
-
-
-	// Update is called once per frame
-	void Update () 
-	{
-
-	}
-
+	 
 }
