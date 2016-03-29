@@ -59,29 +59,34 @@ public class ComboManager : MonoBehaviour
         listenForStart = true;
 
         //TouchManager.PatternRecognized += HandleSwipeDetection;
-        EventMgr.GameRestart += OnReset;
+		EventManager.GamePaused += OnGamePause;
+		EventManager.GameRestart += OnReset;
+		EventManager.GameResumed += OnGameResume;
+
+		/* EventMgr.GameRestart += OnReset;
         EventMgr.GamePause += OnGamePause;
-        EventMgr.GameResume += OnGameResume;
-		//GooglePlayServiceManager.instance.UnlockAchievement("Initial Run");
+        EventMgr.GameResume += OnGameResume;*/
+		
     }
 
     public void OnDisable()
     {
         //TouchManager.PatternRecognized -= HandleSwipeDetection;
-        EventMgr.GameRestart -= OnReset;
+		EventManager.GamePaused -= OnGamePause;
+		EventManager.GameRestart -= OnReset;
+		EventManager.GameResumed -= OnGameResume;
+
+		/*EventMgr.GameRestart -= OnReset;
         EventMgr.GamePause -= OnGamePause;
-        EventMgr.GameResume -= OnGameResume;
+        EventMgr.GameResume -= OnGameResume;*/
 
     }
 
     void Update()
     {
-        Achive();
+         
         LifeCalc = true;
-        //if (Time.frameCount % 60 == 0)
-        //{
-        //    System.GC.Collect();
-        //}
+        
         if (gameRunning)
         {
 
@@ -182,24 +187,10 @@ public class ComboManager : MonoBehaviour
         Prime31_PlatformGenerator.prime31_PlatformGen.cleanOldPlatforms();
 
         Prime31_PlatformGenerator.prime31_PlatformGen.createPlatformsAtStart();//Generate the platforms on start
-       
-
-
-
-        //SpawnTrigger.twoBeforePrevPlat = 1;
-        //SpawnTrigger.beforePrevPlat = 1;
-        //SpawnTrigger.prevPlat = 1;
-       // DogRunner.instRef.ResetPos();
-        //Camera.main.transform.parent.transform.position = cameraStartPos.position;
-
-        //initialPlat1.SetActive(true);
-        //initialPlat2.SetActive(true);
-       // initialPlat3.SetActive(true);
-
         OnGameResume();
         
 
-       // Application.LoadLevel(Application.loadedLevel);
+       
         
     }
 
@@ -209,30 +200,17 @@ public class ComboManager : MonoBehaviour
 		{
             listenForStart = true;
             DogRunner.Life = 0;
-            //DogRunner.instRef.BtnVideo.SetActive(false);
-            //GooglePlayServiceManager.instance.UnlockAchievement("WATCHEDAVIDEO");
+             
 			DogRunner.instRef.GameOver();
 			gameOverPanel.SetActive(false);
 			gameRunning = false;
 			listenForStart = true;
-			//Pooler.InstRef.HideAll();
-
-
-
-
-			//SpawnTrigger.twoBeforePrevPlat = 1;
-			//SpawnTrigger.beforePrevPlat = 1;
-			//SpawnTrigger.prevPlat = 1;
+			 
 			DogRunner.instRef.ResetPos();
-            //Camera.main.transform.parent.transform.position = cameraStartPos.position;
-
+            
             Prime31_PlatformGenerator.prime31_PlatformGen.createPlatformsAtStart();//Generate the platforms on start
 
-            //initialPlat1.SetActive(true);
-            //initialPlat2.SetActive(true);
-            //initialPlat3.SetActive(true);
-
-            //UnityADManager.instance.ShowRewardedAd();
+            
 			OnGameResume();
 			
 
@@ -289,27 +267,5 @@ public class ComboManager : MonoBehaviour
         return results.Count > 0;
     }
 
-    public void Achive()
-    {
-   //     if (GlobalVariables.distanceCovered == 5)
-   //     {
-   //         Achive1 = true;
-			//GooglePlayServiceManager.instance.UnlockAchievement("CROSSED5METRE");
-			//Achive1 = false;
-   //     }
-   //     if (GlobalVariables.distanceCovered == 10)
-   //     {
-   //         Achive2 = true;
-			//GooglePlayServiceManager.instance.UnlockAchievement("CROSSED10METRE");
-			//Achive2 = false;
-   //     }
-   //     if (GlobalVariables.distanceCovered == 20)
-   //     {
-   //         Achive3 = true;
-			//GooglePlayServiceManager.instance.UnlockAchievement("CROSSED20METRE");
-			//Achive3 = false;
-   //     }
-
-		 
-    }
+    
 }

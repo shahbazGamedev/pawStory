@@ -4,7 +4,8 @@ using System.Collections;
 
 public class HudManager : MonoBehaviour 
 {
-
+	private static HudManager instance = null;
+	 
 
 	void OnEnable()
 	{
@@ -18,6 +19,19 @@ public class HudManager : MonoBehaviour
 
 	}
 
+	public void Awake()
+	{
+		if(instance == null)
+		{
+			instance = this;
+			DontDestroyOnLoad(this);
+		}
+		else
+		{
+			if(this != instance)
+				Destroy(this.gameObject);
+		}
+	}
 	// Use this for initialization
 	void Start () 
 	{

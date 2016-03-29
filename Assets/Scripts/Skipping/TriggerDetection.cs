@@ -6,7 +6,8 @@ Description   : Manages Trigger in Skipping Game
 using UnityEngine;
 using System.Collections;
 
-public class TriggerDetection : MonoBehaviour {
+public class TriggerDetection : MonoBehaviour 
+{
 	
 	public delegate void DogSkipping();
 	public static event DogSkipping DogHitSkipRope;

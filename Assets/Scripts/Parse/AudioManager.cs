@@ -70,6 +70,7 @@ public class AudioManager : MonoBehaviour
 
 	public void MusicToggle()
 	{
+		if(audioSourceBg!=null)
 		audioSourceBg.mute = GlobalVariables.isMuted;
 	}
 	
