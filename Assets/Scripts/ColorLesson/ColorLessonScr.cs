@@ -50,12 +50,14 @@ public class ColorLessonScr : MonoBehaviour
 	private bool waitForTap = true;
 
 	void OnEnable() {
-		EventMgr.GameRestart += OnRestartGame;
+		EventManager.GameRestart += OnRestartGame;
+		//EventMgr.GameRestart += OnRestartGame;
 	}
 	
 	
 	void OnDisable() {
-		EventMgr.GameRestart -= OnRestartGame;
+		EventManager.GameRestart += OnRestartGame;
+		//EventMgr.GameRestart -= OnRestartGame;
 	}
 
 
@@ -309,7 +311,7 @@ public class ColorLessonScr : MonoBehaviour
 		LoadPickups();
 
 		GameOverScreenObj.SetActive(false);
-		GameHudObj.SetActive(true);
+		//GameHudObj.SetActive(true);
 
 		Camera.main.transform.position = StartPosOfCam.position;
 

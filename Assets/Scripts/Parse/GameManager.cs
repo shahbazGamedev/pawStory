@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
 	 
 	public void GamePause()
 	{
-		if(!gamePause)
+		//if(!gamePause)
 		{
 			gamePause = true;
 			Debug.Log("Game is paused");
@@ -100,7 +100,7 @@ public class GameManager : MonoBehaviour
 
 	public void GameResume()
 	{
-		if(gamePause)
+		//if(gamePause)
 		{
 			gamePause =false;
 			Debug.Log("Game resumed");
