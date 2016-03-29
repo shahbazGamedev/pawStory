@@ -79,7 +79,7 @@ public class ThrowingObjects : MonoBehaviour
 			ColorTrainingMgr.instRef.falseTap = true;
 		}
 
-		ColorTrainingMgr.instRef.colorPanelUI.SetActive (false);
+		//ColorTrainingMgr.instRef.colorPanelUI.SetActive (false);
 	}
 
 

@@ -9,7 +9,7 @@ public class ColorTrainingMgr : MonoBehaviour
 	public static ColorTrainingMgr instRef;
 
 	public Image colorImage;
-	public GameObject colorPanelUI, gameOverPanel, gameScreenPanel;
+	public GameObject gameOverPanel, gameScreenPanel; //colorPanelUI removed
 	public Text txt_gameOver;
 	public Transform Dummy;
 	public Text txt_chances;
@@ -198,7 +198,7 @@ public class ColorTrainingMgr : MonoBehaviour
 	public void RestartGame()
 	{
 		isMoving = false;
-		colorPanelUI.SetActive (true);
+		//colorPanelUI.SetActive (true);
 		score = 0;
 		targetPos = Vector3.zero;
 		transform.position = dogStartPos;
@@ -238,9 +238,8 @@ public class ColorTrainingMgr : MonoBehaviour
 		case "CheckPoint":
 			score += 1;
 			//colorToys.SetActive (true);
-			Debug.Log ("");
 			isMoving = false;
-			colorPanelUI.SetActive (true);
+			//colorPanelUI.SetActive (true);
 			GetRandomColor ();
 			break;
 		}
