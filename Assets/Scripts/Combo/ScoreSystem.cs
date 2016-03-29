@@ -44,7 +44,7 @@ public class ScoreSystem : MonoBehaviour
         }
         comboCount += 1;
         comboCount = comboCount > maxComboAllowed ? maxComboAllowed : comboCount;
-        comboDisp.text = "" + comboCount + "X";
+        comboDisp.text = "Combo : " + comboCount + "X";
         UpdateScore();
     }
 

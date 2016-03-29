@@ -39,6 +39,7 @@ public class BonePullManager : MonoBehaviour {
 
         if (!hasCurrentTurnEnded)
         {
+
             //rotateToRight();
             // moveSliderLeft();
             moveSliderRight();

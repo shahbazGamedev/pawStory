@@ -97,7 +97,7 @@ public class ComboManager : MonoBehaviour
 			DogRunner.instRef.dogAnim.SetBool("GameOver",DogRunner.gameOver);
 			//if (GlobalVariables.distanceCovered - prevTime > 1f) // Memory Leak Fix
            // {
-				instructText.text = ((int) GlobalVariables.distanceCovered).ToString();
+				instructText.text = "Distance : "+((int) GlobalVariables.distanceCovered).ToString();
 				prevTime = GlobalVariables.distanceCovered;
                 
           //  }
