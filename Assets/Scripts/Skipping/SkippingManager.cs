@@ -264,7 +264,7 @@ public class SkippingManager : MonoBehaviour
             if (comboChain)
             {
                 comboCount += 1;
-                comboText.text = comboCount + "X";
+                comboText.text = "Combo : " + comboCount + " X ";
             }
             else
             {
