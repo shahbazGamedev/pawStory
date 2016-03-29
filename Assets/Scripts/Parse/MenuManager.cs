@@ -74,7 +74,7 @@ public class MenuManager : MonoBehaviour
 		}
 
 		//menuScreenPanel.SetActive (false);
-		CheckForUser ();
+		//CheckForUser ();
 	}
 
 
@@ -176,6 +176,18 @@ public class MenuManager : MonoBehaviour
 		}
 		 
 	}
+
+	public void OnHomeButtonClicked()
+	{
+		
+	}
+
+	public void OnShopButtonClicked()
+	{
+		
+	}
+
+ 
 
 	// Update is called once per frame
 	void Update () 
