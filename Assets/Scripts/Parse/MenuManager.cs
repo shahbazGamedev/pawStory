@@ -177,11 +177,23 @@ public class MenuManager : MonoBehaviour
 		 
 	}
 
+	public void TrainingSelectionClicked()
+	{
+		SceneManager.LoadScene ("PuppyTraining");
+	}
 	public void OnHomeButtonClicked()
 	{
 		
 	}
 
+
+	public void LoadScene(string sceneName)
+	{
+		SceneManager.LoadScene (sceneName);
+	}
+
+
+	 
 	public void OnShopButtonClicked()
 	{
 		
