@@ -20,7 +20,7 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: 4136c6586072f3a4ba9652f6fa3cb28a, type: 3}
+          m_Texture: {fileID: 2800000, guid: ec742f35d8f9ecb4c89e5aeb37da85ea, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -79,6 +79,27 @@ Material:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _TranslucencyMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _GlossMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _ShadowOffset
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
     m_Floats:
       data:
         first:
@@ -91,7 +112,11 @@ Material:
       data:
         first:
           name: _Cutoff
-        second: 0.5
+        second: 1
+      data:
+        first:
+          name: _Shininess
+        second: 0.078125
       data:
         first:
           name: _Parallax
@@ -130,11 +155,23 @@ Material:
         second: 0
       data:
         first:
+          name: _SquashAmount
+        second: 1
+      data:
+        first:
+          name: _TranslucencyViewDependency
+        second: 0.7
+      data:
+        first:
+          name: _ShadowStrength
+        second: 1
+      data:
+        first:
           name: _Occlusion
         second: 7.5
       data:
         first:
-          name: _SquashAmount
+          name: _InvFade
         second: 1
       data:
         first:
@@ -161,3 +198,11 @@ Material:
         first:
           name: _TreeInstanceColor
         second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _TranslucencyColor
+        second: {r: 0.73, g: 0.85, b: 0.41, a: 1}
+      data:
+        first:
+          name: _TintColor
+        second: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
