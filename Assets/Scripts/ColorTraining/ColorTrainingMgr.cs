@@ -9,7 +9,7 @@ public class ColorTrainingMgr : MonoBehaviour
 	public static ColorTrainingMgr instRef;
 
 	public Image colorImage;
-	public GameObject gameOverPanel, gameScreenPanel; //colorPanelUI removed
+	public GameObject colorPanelUI, gameOverPanel; // gameScreenPanel removed
 	public Text txt_gameOver;
 	public Transform Dummy;
 	public Text txt_chances;
@@ -28,7 +28,7 @@ public class ColorTrainingMgr : MonoBehaviour
 	string layerName;
 	public float speed;
 	public int score;
-	public bool red, green, blue, yellow,falseTap;
+	public bool red, green, blue, yellow,falseTap, canThrow;
 	public bool isMoving;
 
 	void Awake()
@@ -43,9 +43,9 @@ public class ColorTrainingMgr : MonoBehaviour
 		rb = GetComponent<Rigidbody> ();
 		dogStartPos = new Vector3(0,0,0);
 		objStartPos = new Vector3[toys.Length];
-		gameScreenPanel.SetActive (true);
+		//gameScreenPanel.SetActive (true);
 		isMoving = false;
-
+		canThrow = true;
 		for(int i = 0; i < toys.Length; i++)
 		{
 			toys [i] = toys [i];
@@ -80,7 +80,7 @@ public class ColorTrainingMgr : MonoBehaviour
 			dogAnim.SetFloat ("Walk", 0f);
 		}
 
-		if(score==4)
+		if(score == 4)
 		{
 			GameOver ();
 		}
@@ -181,8 +181,9 @@ public class ColorTrainingMgr : MonoBehaviour
 
 	public void GameOver()
 	{
+		canThrow = false;
 		isMoving = false;
-		gameScreenPanel.SetActive (false);
+		//gameScreenPanel.SetActive (false);
 		gameOverPanel.SetActive (true);
 
 		if (score == 4) 
@@ -199,18 +200,18 @@ public class ColorTrainingMgr : MonoBehaviour
 
 	public void RestartGame()
 	{
+		canThrow = true;
 		isMoving = false;
-		//colorPanelUI.SetActive (true);
+		colorPanelUI.SetActive (true);
 		score = 0;
 		targetPos = Vector3.zero;
 		transform.position = dogStartPos;
-		gameScreenPanel.SetActive (true);
+		//gameScreenPanel.SetActive (true);
 		gameOverPanel.SetActive (false);
 		ResetObjectPos ();
 		GetRandomColor ();
 	}
-
-
+		
 	void OnTriggerEnter(Collider col)
 	{
 		layerName = LayerMask.LayerToName (col.gameObject.layer);
@@ -241,7 +242,7 @@ public class ColorTrainingMgr : MonoBehaviour
 			score += 1;
 			//colorToys.SetActive (true);
 			isMoving = false;
-			//colorPanelUI.SetActive (true);
+			colorPanelUI.SetActive (true);
 			GetRandomColor ();
 			break;
 		}

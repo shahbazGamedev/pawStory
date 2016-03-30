@@ -57,7 +57,7 @@ public class ThrowingObjects : MonoBehaviour
 
 	void  OnMouseUp ()
 	{
-		if (ColorTrainingMgr.instRef.isMoving == false ) 
+		if (ColorTrainingMgr.instRef.isMoving == false && ColorTrainingMgr.instRef.canThrow) 
 		{
 			endPos = Input.mousePosition;
 			endPos.z = transform.position.z - Camera.main.transform.position.z;
@@ -74,7 +74,7 @@ public class ThrowingObjects : MonoBehaviour
 		{
 			ColorTrainingMgr.instRef.isMoving = true;
 		}
-		else
+		else if(ColorTrainingMgr.instRef.canThrow == true)
 		{
 			ColorTrainingMgr.instRef.falseTap = true;
 		}
@@ -90,6 +90,7 @@ public class ThrowingObjects : MonoBehaviour
 		{
 		case "Floor":
 			ColorTrainingMgr.instRef.targetPos = this.transform.position; 
+			ColorTrainingMgr.instRef.colorPanelUI.SetActive (false);
 			rb.velocity = Vector3.zero;
 			break;
 		}
