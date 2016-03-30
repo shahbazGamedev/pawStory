@@ -105,7 +105,7 @@ public class HudManager : MonoBehaviour
 	{
 		
 		//gameWonScreen.SetActive (false);
-		//GameManager.Instance.SceneEnd();
+		GameManager.Instance.SceneEnd();
 		Application.LoadLevel ("MainMenu");
 
 		// load main menu

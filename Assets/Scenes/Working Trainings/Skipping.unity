@@ -474,10 +474,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0e7236d3df9fdb74290e532b8e98f06f, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &244287177 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 137598, guid: 258d33083294b4e1dab5f757d96b5b87, type: 2}
-  m_PrefabInternal: {fileID: 1953480685}
 --- !u!1001 &278693054
 Prefab:
   m_ObjectHideFlags: 0
@@ -4609,7 +4605,7 @@ MonoBehaviour:
   comboText: {fileID: 815192679}
   gameOverText: {fileID: 227783708}
   analogTimer: {fileID: 1277391884}
-  gameOverPannel: {fileID: 244287177}
+  gameOverPannel: {fileID: 1988872972}
 --- !u!4 &1813844001
 Transform:
   m_ObjectHideFlags: 0
@@ -4936,7 +4932,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 137598, guid: 258d33083294b4e1dab5f757d96b5b87, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11410458, guid: 258d33083294b4e1dab5f757d96b5b87, type: 2}
       propertyPath: m_Enabled
@@ -4970,6 +4966,14 @@ Prefab:
       propertyPath: m_Text
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 152976, guid: 258d33083294b4e1dab5f757d96b5b87, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 153786, guid: 258d33083294b4e1dab5f757d96b5b87, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 258d33083294b4e1dab5f757d96b5b87, type: 2}
   m_IsPrefabParent: 0
@@ -4977,6 +4981,10 @@ Prefab:
 RectTransform:
   m_PrefabParentObject: {fileID: 22403864, guid: 258d33083294b4e1dab5f757d96b5b87,
     type: 2}
+  m_PrefabInternal: {fileID: 1953480685}
+--- !u!1 &1988872972 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 153786, guid: 258d33083294b4e1dab5f757d96b5b87, type: 2}
   m_PrefabInternal: {fileID: 1953480685}
 --- !u!1 &2005295716
 GameObject:
