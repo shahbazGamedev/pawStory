@@ -99,13 +99,15 @@ public class ColorTrainingMgr : MonoBehaviour
 
 	void OnEnable()
 	{
-		EventMgr.GameRestart += RestartGame;
+		EventManager.GameRestart += RestartGame;
+		//EventMgr.GameRestart += RestartGame;
 	}
 
 
 	void OnDisable()
 	{
-		EventMgr.GameRestart -= RestartGame;
+		EventManager.GameRestart -= RestartGame;
+		//EventMgr.GameRestart -= RestartGame;
 	}
 
 

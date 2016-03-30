@@ -69,9 +69,13 @@ public class SkippingManager : MonoBehaviour
 	//EventMgr
 	void OnEnable()
 	{
-		EventMgr.GameRestart += OnResetBtn;
+		EventManager.GameRestart += OnResetBtn;
+		EventManager.GamePaused += OnGamePause;
+		EventManager.GameResumed += OnGameResume;
+
+		/*EventMgr.GameRestart += OnResetBtn;
 		EventMgr.GamePause += OnGamePause;
-		EventMgr.GameResume += OnGameResume;
+		EventMgr.GameResume += OnGameResume;*/
 	}
 
     // Decouple Event Listeners
@@ -80,9 +84,13 @@ public class SkippingManager : MonoBehaviour
         TriggerDetection.DogHitSkipRope -= DogHitSkipRopeEvent;
         TriggerDetection.SkipRopeReset -= SkipRopeResetEvent;
        // TouchManager.PatternRecognized -= PatternRecognizedEvent;
-        EventMgr.GameRestart -= OnResetBtn;
+		EventManager.GameRestart -= OnResetBtn;
+		EventManager.GamePaused -= OnGamePause;
+		EventManager.GameResumed -= OnGameResume;
+
+		/*EventMgr.GameRestart -= OnResetBtn;
 		EventMgr.GamePause -= OnGamePause;
-		EventMgr.GameResume -= OnGameResume;
+		EventMgr.GameResume -= OnGameResume;*/
     }
 
     // Update is called once per frame
