@@ -30,7 +30,8 @@ public class HudManager : MonoBehaviour
 
 	public void Awake()
 	{
-		if(instance == null)
+		instance = this;
+		/*if(instance == null)
 		{
 			instance = this;
 			DontDestroyOnLoad(this);
@@ -39,7 +40,7 @@ public class HudManager : MonoBehaviour
 		{
 			if(this != instance)
 				Destroy(this.gameObject);
-		}
+		}*/
 	}
 	// Use this for initialization
 	void Start () 
@@ -104,7 +105,8 @@ public class HudManager : MonoBehaviour
 	{
 		
 		//gameWonScreen.SetActive (false);
-		GameManager.Instance.SceneEnd();
+		//GameManager.Instance.SceneEnd();
+		Application.LoadLevel ("MainMenu");
 
 		// load main menu
 	}
