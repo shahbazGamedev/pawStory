@@ -91,7 +91,6 @@ public class ThrowingObjects : MonoBehaviour
 		case "Floor":
 			ColorTrainingMgr.instRef.targetPos = this.transform.position; 
 			ColorTrainingMgr.instRef.colorPanelUI.SetActive (false);
-			ColorTrainingMgr.instRef.currentObjectToPick = col.gameObject;
 			rb.velocity = Vector3.zero;
 			break;
 		}
