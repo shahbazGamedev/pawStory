@@ -148,7 +148,7 @@ public class TrackingManager : MonoBehaviour
         obstacleCollection[Random.Range(0, 5)].SetActive(true);
 
         // Add Event Listeners
-        EventMgr.GameRestart += PlayAgain;
+        EventManager.GameRestart += PlayAgain;
         DogPathMovement.PathEnd += ReachedPathEnd;
         DogPathMovement.TargetReached += ReachedTarget;
         DogPathMovement.DogReturned += DogReturned;
@@ -157,7 +157,7 @@ public class TrackingManager : MonoBehaviour
     // Decouple Event Listeners on disable
     public void OnDisable()
     {
-        EventMgr.GameRestart -= PlayAgain;
+        EventManager.GameRestart -= PlayAgain;
         DogPathMovement.PathEnd -= ReachedPathEnd;
         DogPathMovement.TargetReached -= ReachedTarget;
         DogPathMovement.DogReturned -= DogReturned;

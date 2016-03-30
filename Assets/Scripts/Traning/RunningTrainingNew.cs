@@ -55,17 +55,17 @@ public class RunningTrainingNew : MonoBehaviour
 
 	void OnEnable() 
 	{
-		EventMgr.GameRestart += OnRestartGame;
-		EventMgr.GamePause += OnPauseGame;
-		EventMgr.GameResume += OnGameResume;
+        EventManager.GameRestart += OnRestartGame;
+		EventManager.GamePaused += OnPauseGame;
+	    EventManager.GameResumed += OnGameResume;
 	}
 		
 	void OnDisable() 
 	{
-		EventMgr.GameRestart -= OnRestartGame;
-		EventMgr.GamePause -= OnPauseGame;
-		EventMgr.GameResume -= OnGameResume;
-	}
+        EventManager.GameRestart -= OnRestartGame;
+        EventManager.GamePaused -= OnPauseGame;
+        EventManager.GameResumed -= OnGameResume;
+    }
 
 	// Even Trigger
 	public void OnPointerDown()
@@ -123,6 +123,7 @@ public class RunningTrainingNew : MonoBehaviour
 	public void OnGameResume()
 	{
 		touchMat.SetActive (true);
+        Time.timeScale = 1f;
 	}
 		
 

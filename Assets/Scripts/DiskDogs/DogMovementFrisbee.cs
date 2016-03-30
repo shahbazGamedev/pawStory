@@ -59,13 +59,13 @@ public class DogMovementFrisbee : MonoBehaviour
 
     void OnEnable()
     {
-        EventMgr.GameRestart += OnRestartGame;
+        EventManager.GameRestart += OnRestartGame;
     }
 
 
     void OnDisable()
     {
-        EventMgr.GameRestart -= OnRestartGame;
+        EventManager.GameRestart -= OnRestartGame;
     }
 
 

@@ -144,12 +144,12 @@ public class DockJump : MonoBehaviour
 
     private void OnEnable()
     {
-        EventMgr.GameRestart += OnRestartGame;
+        EventManager.GameRestart += OnRestartGame;
     }
 
     private void OnDisable()
     {
-        EventMgr.GameRestart -= OnRestartGame;
+        EventManager.GameRestart -= OnRestartGame;
     }
 
     private void Start()
