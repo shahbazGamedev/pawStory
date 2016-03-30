@@ -298,39 +298,39 @@ public class PettingManager : MonoBehaviour
 
         if(puppyState == Petting.idle)
         {
-            if (pattern == SwipeRecognizer.TouchPattern.doubleTap)
-            {
-                PuppyHandle = MoveAround;
-                puppyState = Petting.moveAround;
+            //if (pattern == SwipeRecognizer.TouchPattern.doubleTap)
+            //{
+            //    PuppyHandle = MoveAround;
+            //    puppyState = Petting.moveAround;
 
-                var screenPoint = new Vector3(doubleTapPos.x, doubleTapPos.y, 0f);
-                RaycastHit hit;
-                Ray ray = Camera.main.ScreenPointToRay(screenPoint);
-                if (Physics.Raycast(ray, out hit, 300f))
-                {
-                    string layerName = LayerMask.LayerToName(hit.collider.gameObject.layer);
-                    if (layerName == "Toys")
-                    {
-                        var worldPoint = hit.point + (Vector3.up * 0.01f);
+            //    var screenPoint = new Vector3(doubleTapPos.x, doubleTapPos.y, 0f);
+            //    RaycastHit hit;
+            //    Ray ray = Camera.main.ScreenPointToRay(screenPoint);
+            //    if (Physics.Raycast(ray, out hit, 300f))
+            //    {
+            //        string layerName = LayerMask.LayerToName(hit.collider.gameObject.layer);
+            //        if (layerName == "Toys")
+            //        {
+            //            var worldPoint = hit.point + (Vector3.up * 0.01f);
 
-                        // code for move dog to target
-                        StartCoroutine(DogManager.instRef.MoveToPosition(worldPoint, Quaternion.identity));
+            //            // code for move dog to target
+            //           StartCoroutine(DogManager.instRef.MoveToPosition(worldPoint, Quaternion.identity));
 
-                        puppyState = Petting.moveAround;
-                        ResetTimer();
-                        PuppyHandle = MoveAround;
-                    }
-                    else if (layerName == "Dog")
-                    {
-                        puppyAnim.SetInteger("PuppyState", 1);
-                        puppyState = Petting.holdTwoFoot;
-                        ResetTimer();
-                        PuppyHandle = HoldTwoFoot;
-                    }
-                }
-            }
+            //            puppyState = Petting.moveAround;
+            //            ResetTimer();
+            //            PuppyHandle = MoveAround;
+            //        }
+            //        else if (layerName == "Dog")
+            //        {
+            //            puppyAnim.SetInteger("PuppyState", 1);
+            //            puppyState = Petting.holdTwoFoot;
+            //            ResetTimer();
+            //            PuppyHandle = HoldTwoFoot;
+            //        }
+            //    }
+            //}
 
-            else if (pattern == SwipeRecognizer.TouchPattern.hold)
+             if (pattern == SwipeRecognizer.TouchPattern.hold)
             {
 
                 if (playBall)
@@ -372,7 +372,7 @@ public class PettingManager : MonoBehaviour
                 }
             }
 
-            else if (pattern == SwipeRecognizer.TouchPattern.pinchOut)
+             if (pattern == SwipeRecognizer.TouchPattern.pinchOut)
             {
                 puppyAnim.SetTrigger("Stretch");
                 puppyState = Petting.stretch;
@@ -389,7 +389,7 @@ public class PettingManager : MonoBehaviour
             }
         }
 
-        else if(puppyState == Petting.rollOnFloor)
+         if(puppyState == Petting.rollOnFloor)
         {
             if ((pattern == SwipeRecognizer.TouchPattern.swipeLeft || pattern == SwipeRecognizer.TouchPattern.swipeRight))
             {
@@ -405,7 +405,7 @@ public class PettingManager : MonoBehaviour
             }
         }
 
-        else if(puppyState == Petting.holdTwoFoot)
+         if(puppyState == Petting.holdTwoFoot)
         {
             if ( pattern == SwipeRecognizer.TouchPattern.swipeUp)
             {
