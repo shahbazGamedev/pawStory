@@ -18,7 +18,9 @@ public class ColorTrainingGround : MonoBehaviour {
 	{
 		layerName = LayerMask.LayerToName (col.gameObject.layer);
 
-		switch (layerName) 
+		ColorTrainingMgr.instRef.currentObjectToPick = col.gameObject;
+
+		switch (layerName)
 		{
 		case "RedObject":
 			if (ColorTrainingMgr.instRef.red) 

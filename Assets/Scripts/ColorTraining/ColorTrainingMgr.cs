@@ -6,6 +6,8 @@ using System.Collections.Generic;
 public class ColorTrainingMgr : MonoBehaviour
 {
 
+	public GameObject currentObjectToPick;
+
 	public static ColorTrainingMgr instRef;
 
 	public Image colorImage;
@@ -215,30 +217,36 @@ public class ColorTrainingMgr : MonoBehaviour
 	void OnTriggerEnter(Collider col)
 	{
 		layerName = LayerMask.LayerToName (col.gameObject.layer);
+		Debug.Log ("Touched1 :" + col.gameObject.name);
 
-		switch(layerName)
+		if (currentObjectToPick.name == col.gameObject.name) 
 		{
-			case "RedObject":
-			//colorToys.SetActive (false);
 			ResetObjectPos ();
-			break;
+		}
 
-			case "GreenObject":
-			//colorToys.SetActive (false);
-			ResetObjectPos ();
-			break;
-	
-			case "BlueObject":
-			//colorToys.SetActive (false);
-			ResetObjectPos ();
-			break;
+		switch (layerName) {
+		/*
+				case "RedObject":
+				//colorToys.SetActive (false);
+				ResetObjectPos ();
+				break;
 
-			case "YellowObject":
-			//colorToys.SetActive (false);
-			ResetObjectPos ();
-			break;
+				case "GreenObject":
+				//colorToys.SetActive (false);
+				ResetObjectPos ();
+				break;
+		
+				case "BlueObject":
+				//colorToys.SetActive (false);
+				ResetObjectPos ();
+				break;
 
-		case "CheckPoint":
+				case "YellowObject":
+				//colorToys.SetActive (false);
+				ResetObjectPos ();
+				break;
+				*/
+			case "CheckPoint":
 			score += 1;
 			//colorToys.SetActive (true);
 			isMoving = false;
