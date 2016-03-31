@@ -85,7 +85,7 @@ public class HudManager : MonoBehaviour
 	public void OnPauseButtonClicked()
 	{
 		Debug.Log("Hudmanager on game pause");
-
+		AudioManager.instance.PlaySfx (SFXVAL.buttonClick);
 		//gameWonScreen.SetActive (false);
 		GameManager.Instance.GamePause(); 
 		 
@@ -93,21 +93,21 @@ public class HudManager : MonoBehaviour
 
 	public void OnResumeButtonClicked()
 	{
-		
+		AudioManager.instance.PlaySfx (SFXVAL.buttonClick);
 		//gameWonScreen.SetActive (false);
 		GameManager.Instance.GameResume();
 	}
 
 	public void OnRestartButtonClicked()
 	{
-		
+		AudioManager.instance.PlaySfx (SFXVAL.buttonClick);
 		//gameWonScreen.SetActive (false);
 		GameManager.Instance.GameRestart();
 	}
 
 	public void OnMenuButtonClicked()
 	{
-		
+		AudioManager.instance.PlaySfx (SFXVAL.buttonClick);
 		//gameWonScreen.SetActive (false);
 		GameManager.Instance.SceneEnd();
 		Application.LoadLevel ("Petting");
