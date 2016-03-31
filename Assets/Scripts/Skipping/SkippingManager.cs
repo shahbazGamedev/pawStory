@@ -190,13 +190,13 @@ public class SkippingManager : MonoBehaviour
                 Invoke("GameOver", 0.5f);
             }
         }
-        analogTimer.fillAmount = (maxGameTime - timer) / maxGameTime;
+       // analogTimer.fillAmount = (maxGameTime - timer) / maxGameTime;
     }
 
     // Disable life GUI object
     void ReduceLife(int index)
     {
-        livesRef[index].SetActive(false);
+       // livesRef[index].SetActive(false);
     }
 
     // gameOver Function
