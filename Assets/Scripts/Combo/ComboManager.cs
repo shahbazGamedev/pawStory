@@ -116,8 +116,8 @@ public class ComboManager : MonoBehaviour
                     DogRunner.instRef.HandleDogJump();            
         }
 
-#endif
-       /*  if (Input.touchCount == 1)
+#else 
+         if (Input.touchCount == 1)
         {
             touch = Input.GetTouch(0);  
         
@@ -128,7 +128,7 @@ public class ComboManager : MonoBehaviour
                     gameRunning = true;
                     listenForStart = false; 
                     if (StartGame != null)
-                        StartGame();
+                     StartGame();
                 }
                 else
                 {
@@ -136,24 +136,20 @@ public class ComboManager : MonoBehaviour
                 }
             }
 
-                    //line removed : && !IsPointerOverUIObject(canvas, touch.position)
+           //line removed : && !IsPointerOverUIObject(canvas, touch.position)
             if (touch.phase == TouchPhase.Began && touch.tapCount == 1)
             {
                 //  TODO: Not working with restart
-                
                  if(!pause && !hasResumed)
                     DogRunner.instRef.HandleDogJump();
                 else
                     hasResumed=false;
-                    
-
             }
         }
 #endif
 	
 //update*/
 	}
-
 
     #region EventHandlers
 
