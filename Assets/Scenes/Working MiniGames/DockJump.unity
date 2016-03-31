@@ -20,11 +20,11 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 0.61591697, g: 0.62820256, b: 0.6544118, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 3
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
@@ -544,7 +544,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 263654475}
-  - 114: {fileID: 263654474}
   m_Layer: 0
   m_Name: PlatformType_1 (4)
   m_TagString: Untagged
@@ -552,18 +551,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &263654474
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11478210, guid: 0e7236d3df9fdb74290e532b8e98f06f,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 263654473}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b97a15faf70e764f9f2fa28b38a94f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &263654475
 Transform:
   m_ObjectHideFlags: 0
@@ -1612,7 +1599,8 @@ Prefab:
       propertyPath: m_LocalScale.x
       value: 13.927588
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 11478210, guid: 0e7236d3df9fdb74290e532b8e98f06f, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 0e7236d3df9fdb74290e532b8e98f06f, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &749859993
@@ -2108,7 +2096,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 918869979}
-  - 114: {fileID: 918869978}
   m_Layer: 0
   m_Name: PlatformType_1 (8)
   m_TagString: Untagged
@@ -2116,18 +2103,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &918869978
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11478210, guid: 0e7236d3df9fdb74290e532b8e98f06f,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 918869977}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b97a15faf70e764f9f2fa28b38a94f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &918869979
 Transform:
   m_ObjectHideFlags: 0
@@ -2453,7 +2428,8 @@ Prefab:
       propertyPath: m_LocalScale.x
       value: 13.945927
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 11478210, guid: 0e7236d3df9fdb74290e532b8e98f06f, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 0e7236d3df9fdb74290e532b8e98f06f, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1056772683
@@ -3652,7 +3628,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1648445339}
-  - 114: {fileID: 1648445338}
   m_Layer: 0
   m_Name: PlatformType_1 (7)
   m_TagString: Untagged
@@ -3660,18 +3635,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1648445338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11478210, guid: 0e7236d3df9fdb74290e532b8e98f06f,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1648445337}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b97a15faf70e764f9f2fa28b38a94f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1648445339
 Transform:
   m_ObjectHideFlags: 0
@@ -3889,7 +3852,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1852831663}
-  - 114: {fileID: 1852831662}
   m_Layer: 0
   m_Name: PlatformType_1 (5)
   m_TagString: Untagged
@@ -3897,18 +3859,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1852831662
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11478210, guid: 0e7236d3df9fdb74290e532b8e98f06f,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1852831661}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b97a15faf70e764f9f2fa28b38a94f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1852831663
 Transform:
   m_ObjectHideFlags: 0
@@ -4127,6 +4077,10 @@ Prefab:
     - target: {fileID: 22480456, guid: 258d33083294b4e1dab5f757d96b5b87, type: 2}
       propertyPath: m_SizeDelta.y
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 134764, guid: 258d33083294b4e1dab5f757d96b5b87, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 258d33083294b4e1dab5f757d96b5b87, type: 2}
@@ -4371,7 +4325,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1916671937}
-  - 114: {fileID: 1916671936}
   m_Layer: 0
   m_Name: PlatformType_1 (6)
   m_TagString: Untagged
@@ -4379,18 +4332,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1916671936
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11478210, guid: 0e7236d3df9fdb74290e532b8e98f06f,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1916671935}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b97a15faf70e764f9f2fa28b38a94f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1916671937
 Transform:
   m_ObjectHideFlags: 0
@@ -4628,7 +4569,8 @@ Prefab:
       propertyPath: m_LocalScale.x
       value: 13.942529
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 11478210, guid: 0e7236d3df9fdb74290e532b8e98f06f, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 0e7236d3df9fdb74290e532b8e98f06f, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &2037429253
