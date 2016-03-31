@@ -22,7 +22,7 @@ public class RunningTrainingNew : MonoBehaviour
 	Animator dogAnim;
 	public Slider runSlider;
 	public Renderer threadmill;
-
+	public GameObject RunSlider;
 	public float startingValue;
 	public float inputValue;
 	public float decrementValue;
@@ -42,6 +42,7 @@ public class RunningTrainingNew : MonoBehaviour
 		panelGameOver.SetActive(false);
 		dogAnim = GetComponent<Animator> ();
 		touchMat.SetActive (true);
+		RunSlider.SetActive (true);
 	}
 
 	void Update () 
@@ -103,7 +104,7 @@ public class RunningTrainingNew : MonoBehaviour
 
 	public void OnRestartGame()
 	{
-		Time.timeScale = 1;
+		//Time.timeScale = 1;
 		touchMat.SetActive (true);
 		levelTimer = 0f;
 		dogSpeed = startingValue;
@@ -112,18 +113,19 @@ public class RunningTrainingNew : MonoBehaviour
 		dogAnim.SetFloat ("Walk",dogSpeed);
 		panelGameOver.SetActive(false);
 		panelGameScreen.SetActive (true);
+		RunSlider.SetActive (true);
 	}
 
 	public void OnPauseGame()
 	{
-		Time.timeScale = 0;
+		//Time.timeScale = 0;
 		touchMat.SetActive (false);
 	}
 
 	public void OnGameResume()
 	{
 		touchMat.SetActive (true);
-        Time.timeScale = 1f;
+        //Time.timeScale = 1f;
 	}
 		
 
@@ -139,15 +141,18 @@ public class RunningTrainingNew : MonoBehaviour
 			panelGameOver.SetActive(true);
 			textGameOver.text = "Training Sesson Failed!!!";
 			panelGameScreen.SetActive(false);
-			Time.timeScale = 0;
+			//Time.timeScale = 0;
+			RunSlider.SetActive (false);
 		}
 
 		if (dogSpeed >= 1)
 		{
 			panelGameOver.SetActive(true);
 			textGameOver.text = "Training Sesson Sucessful!!!";
-			Time.timeScale = 0;
+			//Time.timeScale = 0;
 			panelGameScreen.SetActive(false);
+			RunSlider.SetActive (false);
+
 		}
 	}	 
 }

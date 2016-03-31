@@ -79,7 +79,7 @@ public class RunningTrainingMgr : MonoBehaviour
         dogAnim.SetFloat("Walk", 0f);
         panelGameOver.SetActive(true);
         TxtGameOver.text = "Traning Session Faild!!!";
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
         PanelGameScreen.SetActive(false);
     }
 
@@ -127,7 +127,7 @@ public class RunningTrainingMgr : MonoBehaviour
 	{
 		gameStart=false;
 		value=0;
-        Time.timeScale = 1;
+        //Time.timeScale = 1;
         timer = 0f;
         dogAnim.SetFloat("Walk", 0f);
 	    panelGameOver.SetActive(false);
@@ -147,7 +147,7 @@ public class RunningTrainingMgr : MonoBehaviour
         {
             panelGameOver.SetActive(true);
             TxtGameOver.text = "Training Sesson Sucessful!!!";
-            Time.timeScale = 0;
+            //Time.timeScale = 0;
             PanelGameScreen.SetActive(false);
 
         }
@@ -156,7 +156,7 @@ public class RunningTrainingMgr : MonoBehaviour
             panelGameOver.SetActive(true);
             TxtGameOver.text = "Training Sesson Failed!!!";
             PanelGameScreen.SetActive(false);
-            Time.timeScale = 0;
+            //Time.timeScale = 0;
         }
     }
 }

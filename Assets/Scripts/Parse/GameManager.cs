@@ -113,8 +113,9 @@ public class GameManager : MonoBehaviour
 	public void GameRestart()
 	{
 		Debug.Log("Game restarted");
-		EventManager.OnGameRestart();
 		Time.timeScale = 1.0f;
+		EventManager.OnGameRestart();
+
 	}
 
 	public void UpdateUI()
@@ -129,6 +130,7 @@ public class GameManager : MonoBehaviour
 
 	public void SceneEnd()
 	{
+		Time.timeScale = 1.0f;
 		EventManager.OnSceneEnd();
 	}
 

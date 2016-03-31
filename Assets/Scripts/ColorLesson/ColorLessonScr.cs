@@ -56,7 +56,7 @@ public class ColorLessonScr : MonoBehaviour
 	
 	
 	void OnDisable() {
-		EventManager.GameRestart += OnRestartGame;
+		EventManager.GameRestart -= OnRestartGame;
 		//EventMgr.GameRestart -= OnRestartGame;
 	}
 

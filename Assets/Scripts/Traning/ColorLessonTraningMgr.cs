@@ -252,7 +252,7 @@ public class ColorLessonTraningMgr : MonoBehaviour
             PanelGameOver.SetActive(true);
             TeachingPnl.SetActive(false);
             TxtGameOver.text = "Puppy Learned Well!!";
-            Time.timeScale = 0;
+           // Time.timeScale = 0;
 
         }
 
@@ -274,7 +274,7 @@ public class ColorLessonTraningMgr : MonoBehaviour
             PanelGameOver.SetActive(true);
             TeachingPnl.SetActive(false);
             TxtGameOver.text = "Traning Session Failed!!";
-            Time.timeScale = 0;
+           // Time.timeScale = 0;
 
         }
     }
@@ -294,7 +294,7 @@ public class ColorLessonTraningMgr : MonoBehaviour
         whiteBtn.SetActive(false);
         transform.rotation = Quaternion.identity;
         refImage.color = Color.green;
-        Time.timeScale = 1;
+       // Time.timeScale = 1;
         collectWhite = false;
     }
 }

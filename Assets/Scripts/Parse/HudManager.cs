@@ -1,4 +1,5 @@
-﻿    using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using System.Collections;
 
@@ -67,6 +68,7 @@ public class HudManager : MonoBehaviour
 
 	void OnGameResumed()
 	{
+		Debug.Log ("game resumed called");
 		pauseScreen.SetActive (false);
 		gameOverScreen.SetActive (false);
 	}
@@ -76,6 +78,8 @@ public class HudManager : MonoBehaviour
 	{
 		pauseScreen.SetActive (false);
 		gameOverScreen.SetActive (false);
+		SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
+
 	}
 
 	public void OnPauseButtonClicked()

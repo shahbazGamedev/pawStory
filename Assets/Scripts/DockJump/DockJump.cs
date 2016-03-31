@@ -161,10 +161,10 @@ public class DockJump : MonoBehaviour
 
     private void Update()
     {
-        if (GameMgr.Inst.IsGamePaused())
+		/* if (GameMgr.Inst.IsGamePaused())
         {
             return;
-        }
+        }*/
 
         // Detect Tap
         if ((Input.GetMouseButtonDown(0) || Input.GetKeyUp(KeyCode.Space))

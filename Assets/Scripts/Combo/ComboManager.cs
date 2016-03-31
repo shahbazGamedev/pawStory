@@ -103,7 +103,7 @@ public class ComboManager : MonoBehaviour
           //  }
         }
 #if UNITY_EDITOR
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Fire1") && !EventSystem.current.IsPointerOverGameObject())
+		if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Fire1") || Input.GetMouseButtonDown (0) && !EventSystem.current.IsPointerOverGameObject())
         {          
                 if (listenForStart)
                 {
@@ -117,7 +117,7 @@ public class ComboManager : MonoBehaviour
         }
 
 #else
-         if (Input.touchCount == 1)
+       /*  if (Input.touchCount == 1)
         {
             touch = Input.GetTouch(0);  
         
@@ -150,7 +150,8 @@ public class ComboManager : MonoBehaviour
             }
         }
 #endif
-    }//update
+	}
+//update*/
 
 
     #region EventHandlers

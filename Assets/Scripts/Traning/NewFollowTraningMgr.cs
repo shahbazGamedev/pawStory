@@ -113,7 +113,7 @@ public class NewFollowTraningMgr : MonoBehaviour
             Debug.Log("collided");
             gameOverPanel.SetActive(true);
             TxtGameOver.text = "Follow Traning Sucessful!!";
-            Time.timeScale = 0;
+           // Time.timeScale = 0;
             //if(coll.gameObject.tag == "target")
             //{
             //    Debug.Log("UI Collision Sucess");
@@ -148,7 +148,7 @@ public class NewFollowTraningMgr : MonoBehaviour
         movingTarget.SetActive(true);
         movingTarget.transform.position = new Vector2(0, 0);
         timer = 0f;
-        Time.timeScale = 1;
+       // Time.timeScale = 1;
     }
     
 
@@ -159,7 +159,7 @@ public class NewFollowTraningMgr : MonoBehaviour
             gameOverPanel.SetActive(true);
             TxtGameOver.text = "Traning Session Failed!!!";
             movingTarget.SetActive(false);
-            Time.timeScale = 0;
+           // Time.timeScale = 0;
 
         }
     }
