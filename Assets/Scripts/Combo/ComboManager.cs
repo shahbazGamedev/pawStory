@@ -116,7 +116,7 @@ public class ComboManager : MonoBehaviour
                     DogRunner.instRef.HandleDogJump();            
         }
 
-#else
+#endif
        /*  if (Input.touchCount == 1)
         {
             touch = Input.GetTouch(0);  
@@ -150,8 +150,9 @@ public class ComboManager : MonoBehaviour
             }
         }
 #endif
-	}
+	
 //update*/
+	}
 
 
     #region EventHandlers
