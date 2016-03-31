@@ -148,6 +148,7 @@ public class MenuManager : MonoBehaviour
 
 	public void DisablePanel(string panelName)
 	{
+		
 		for(int i =0;i<=menuItems.Count-1;i++)
 		{
 			if(panelName == menuItems[i].menuScreenName)
@@ -161,7 +162,7 @@ public class MenuManager : MonoBehaviour
 
 	public void ClickButton(string buttonName)
 	{
-		 
+		AudioManager.instance.PlaySfx (SFXVAL.buttonClick);
 		for(int i =0;i<=menuItems.Count-1;i++)
 		{
 			if(buttonName == menuItems[i].menuScreenName && menuItems [i].menuScreenGameObject.activeSelf==false )
@@ -179,6 +180,7 @@ public class MenuManager : MonoBehaviour
 
 	public void TrainingSelectionClicked()
 	{
+		AudioManager.instance.PlaySfx (SFXVAL.buttonClick);
 		SceneManager.LoadScene ("PuppyTraining");
 	}
 	public void OnHomeButtonClicked()
@@ -189,6 +191,7 @@ public class MenuManager : MonoBehaviour
 
 	public void LoadScene(string sceneName)
 	{
+		AudioManager.instance.PlaySfx (SFXVAL.buttonClick);
 		SceneManager.LoadScene (sceneName);
 	}
 
