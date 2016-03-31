@@ -163,6 +163,7 @@ public class MenuManager : MonoBehaviour
 	public void ClickButton(string buttonName)
 	{
 		AudioManager.instance.PlaySfx (SFXVAL.buttonClick);
+		Debug.Log ("playing audio");
 		for(int i =0;i<=menuItems.Count-1;i++)
 		{
 			if(buttonName == menuItems[i].menuScreenName && menuItems [i].menuScreenGameObject.activeSelf==false )
