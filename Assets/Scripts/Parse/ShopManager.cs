@@ -33,7 +33,7 @@ public class ShopManager : MonoBehaviour
 
 	public void ClickButton(string buttonName)
 	{
-
+		AudioManager.instance.PlaySfx (SFXVAL.buttonClick);
 		for(int i =0;i<=shopItems.Count-1;i++)
 		{
 			if(buttonName == shopItems[i].shopScreenName && shopItems [i].shopScreenGameObject.activeSelf==false )
