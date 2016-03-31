@@ -20,6 +20,7 @@ public class DogMovementFrisbee : MonoBehaviour
     public GameObject flagGreen;
     public GameObject flagYellow;
 
+
     //GamePlay Elements
     public Transform[] spawnPoint;
     public float jumpForce = 200f;
@@ -91,9 +92,7 @@ public class DogMovementFrisbee : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         isGameover = false;
         Movement();
-        //Time.timeScale = 1;
-        
-        
+        //Time.timeScale = 1; 
     }
 
 

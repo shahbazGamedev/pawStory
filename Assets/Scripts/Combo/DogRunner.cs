@@ -16,7 +16,7 @@ public class DogRunner : MonoBehaviour
     public static int Life;
     public Vector3 runDirection;
     string layerName;         
-   // public GameObject BtnVideo;
+    
 
     public static bool updateAnim;
     Vector3 startPos;
@@ -73,7 +73,7 @@ public class DogRunner : MonoBehaviour
     public void Update()
     {
         if (runStart)
-        {
+		{
             // Handle Movement
            // dist = runDirection * Time.deltaTime;
             if (dogCC.isGrounded && verticalVelocity < 0)

@@ -16,6 +16,7 @@ public class ComboManager : MonoBehaviour
     public GameObject initialPlat1;
     public GameObject initialPlat2;
     public GameObject initialPlat3;
+	public GameObject txtTutorial;
    // public Transform cameraStartPos;
     public Canvas canvas;
     public static float distance;
@@ -90,7 +91,7 @@ public class ComboManager : MonoBehaviour
         if (gameRunning)
         {
 
-
+			txtTutorial.SetActive (false);
 			//GooglePlayServiceManager.instance.UnlockAchievement("InitialRun");
 			GlobalVariables.distanceCovered += Time.deltaTime;
 			DogRunner.gameOver = false;
@@ -168,6 +169,7 @@ public class ComboManager : MonoBehaviour
     // Game Reset
     public void OnReset()
     {
+		txtTutorial.SetActive (true);
         listenForStart = true;
         DogRunner.instRef.GameOver();
         gameOverPanel.SetActive(false);
