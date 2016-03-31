@@ -52,7 +52,7 @@ public class DockJump : MonoBehaviour
     public GameObject GameOverPanel;
 
     public GameObject TouchMat;
-    public GameObject gameScreen;
+    //public GameObject gameScreen;
 
     public Text TapToPlayTxt;
     public Text ScoreTxt;
@@ -139,7 +139,7 @@ public class DockJump : MonoBehaviour
         JumpCountTxt.text = "Chances: " + jumpCount + " / " + maxJumpCount;
         ScoreTxt.text = "Distance: ";
         GameOverPanel.SetActive(false);
-        gameScreen.SetActive(true);
+        //gameScreen.SetActive(true);
     }
 
     private void OnEnable()
@@ -239,7 +239,7 @@ public class DockJump : MonoBehaviour
         GameOverPanel.SetActive(true);
 
         TouchMat.SetActive(false);
-        gameScreen.SetActive(false);
+       // gameScreen.SetActive(false);
 
         float longDist = 0;
         for (int i = 0; i < jumpDistList.Count; i++)
