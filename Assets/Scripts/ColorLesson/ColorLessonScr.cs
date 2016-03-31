@@ -367,8 +367,9 @@ public class ColorLessonScr : MonoBehaviour
     void OnGameOver()
     {
         isGameOver = true;
+		dogAnimState = 2;
         GameOverScreenObj.SetActive(true);
-        GameHudObj.SetActive(false);
+        //GameHudObj.SetActive(false);
         GameOverText.text = "Collected " + ScoreVal + " out of " + TotalQuestions;
     }
 
