@@ -4,7 +4,6 @@ using System.Collections;
 public class ThrowingObjects : MonoBehaviour
 {
 	public static ThrowingObjects instRef;
-
 	public float power;
 	string layerName;
 	Vector3 endPos;
@@ -89,7 +88,8 @@ public class ThrowingObjects : MonoBehaviour
 		switch (layerName) 
 		{
 		case "Floor":
-			ColorTrainingMgr.instRef.targetPos = this.transform.position; 
+            ColorTrainingMgr.instRef.currentObjectToCollect = this.gameObject;
+            ColorTrainingMgr.instRef.targetPos = this.transform.position; 
 			ColorTrainingMgr.instRef.colorPanelUI.SetActive (false);
 			rb.velocity = Vector3.zero;
 			break;

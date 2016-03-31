@@ -7,8 +7,9 @@ public class ColorTrainingMgr : MonoBehaviour
 {
 
 	public static ColorTrainingMgr instRef;
+    public GameObject currentObjectToCollect;
 
-	public Image colorImage;
+    public Image colorImage;
 	public GameObject colorPanelUI, gameOverPanel; // gameScreenPanel removed
 	public Text txt_gameOver;
 	public Transform Dummy;
@@ -215,27 +216,30 @@ public class ColorTrainingMgr : MonoBehaviour
 	void OnTriggerEnter(Collider col)
 	{
 		layerName = LayerMask.LayerToName (col.gameObject.layer);
+        Debug.Log("Layername collided : " + layerName);
 
 		switch(layerName)
 		{
 			case "RedObject":
 			//colorToys.SetActive (false);
-			ResetObjectPos ();
+            if(col.gameObject.name == currentObjectToCollect.name)
+    			ResetObjectPos ();
 			break;
 
 			case "GreenObject":
-			//colorToys.SetActive (false);
-			ResetObjectPos ();
+                //colorToys.SetActive (false);
+            if (col.gameObject.name == currentObjectToCollect.name)
+                ResetObjectPos();
 			break;
 	
 			case "BlueObject":
-			//colorToys.SetActive (false);
-			ResetObjectPos ();
+            if (col.gameObject.name == currentObjectToCollect.name)
+                ResetObjectPos();
 			break;
 
 			case "YellowObject":
-			//colorToys.SetActive (false);
-			ResetObjectPos ();
+            if (col.gameObject.name == currentObjectToCollect.name)
+                ResetObjectPos();
 			break;
 
 		case "CheckPoint":
